@@ -1,0 +1,177 @@
+﻿
+@{
+    ViewBag.Title = "Roles";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<div class="block-header py-lg-2 py-2">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-lg-6 col-md-4 col-sm-12">
+                <h4>User Management</h4>
+                <ul class="breadcrumb">
+                    <li class="breadcrumb-item">
+                        <a href="index.html">
+                            <i class="fa fa-dashboard"></i>
+                            Dashboard
+                        </a>
+                    </li>
+
+                    <li class="breadcrumb-item active">Roles Management</li>
+                </ul>
+            </div>
+
+        </div>
+    </div>
+</div>
+<div class="body d-flex profile-page">
+    <div class="container-fluid">
+        <div class="row clearfix">
+            <div class="col-xl-4 col-lg-6 col-md-6">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="d-flex justify-content-between mb-2">
+                            <h6 class="fw-normal">Total 4 users</h6>
+                      
+                        </div>
+                        <div class="d-flex justify-content-between align-items-end">
+                            <div class="role-heading">
+                                <h4 class="mb-1">Administrator</h4>
+                                <a href="javascript:;" data-toggle="modal" data-target="#addRoleModal" class="role-edit-modal"><small>Edit Role</small></a>
+                            </div>
+                            <a href="javascript:void(0);" class="text-muted"><i class="bx bx-copy"></i></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-xl-4 col-lg-6 col-md-6">
+                <div class="card">
+                    <div class="row">
+                      
+                        <div class="col-sm-12">
+                            <div class="card-body text-sm-end text-center ps-sm-0">
+                                <button data-target="#addRoleModal" data-toggle="modal" class="btn btn-primary mb-3 text-nowrap add-new-role">Add New Role</button>
+                                <p class="mb-0">Add role, if it does not exist</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade " id="addRoleModal" tabindex="-1" role="dialog">
+    <div class="modal-dialog  modal-lg">
+        <div class="modal-content p-3 p-md-5">
+         
+            <div class="modal-body">
+                <div class="text-center mb-4">
+                    <h3 class="role-title">Add New Role</h3>
+                    <p>Set role permissions</p>
+                </div>
+                <!-- Add role form -->
+                <form id="addRoleForm" class="row g-3 fv-plugins-bootstrap5 fv-plugins-framework" onsubmit="return false" novalidate="novalidate">
+                    <div class="col-12 mb-4 fv-plugins-icon-container">
+                        <label class="form-label" for="modalRoleName">Role Name</label>
+                        <input type="text" id="modalRoleName" name="modalRoleName" class="form-control" placeholder="Enter a role name" tabindex="-1">
+                        <div class="fv-plugins-message-container invalid-feedback"></div>
+                    </div>
+                    <div class="col-12">
+                        <h5>Role Permissions</h5>
+                        <!-- Permission table -->
+                        <div class="table-responsive">
+                            <table class="table table-flush-spacing">
+                                <tbody>
+                                   
+                                    <tr>
+                                        <td class="text-nowrap">User Management</td>
+                                        <td>
+                                            <div class="d-flex">
+                                                <div class="form-group">
+                                                    <input class="custom-control-input" type="checkbox" id="userManagementRead">
+                                                    <label class="custom-control-label" for="userManagementRead">
+
+                                                        Read
+                                                    </label>
+
+                                                </div>
+                                              
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="text-nowrap">Content Management</td>
+                                        <td>
+                                            <div class="d-flex">
+                                                <div class="form-group">
+                                                    <input class="custom-control-input" type="checkbox" id="contentManagementRead">
+                                                    <label class="custom-control-label" for="contentManagementRead">
+                                                        Read
+                                                    </label>
+                                                </div>
+                                              
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="text-nowrap">Disputes Management</td>
+                                        <td>
+                                            <div class="d-flex">
+                                                <div class="form-group">
+                                                    <input class="custom-control-input" type="checkbox" id="dispManagementRead">
+                                                    <label class="custom-control-label" for="dispManagementRead">
+                                                        Read
+                                                    </label>
+                                                </div>
+                                               
+                                            </div>
+                                        </td>
+                                    </tr>
+                        
+                                    <tr>
+                                        <td class="text-nowrap">Repository Management</td>
+                                        <td>
+                                            <div class="d-flex">
+                                                <div class="form-group">
+                                                    <input class="custom-control-input" type="checkbox" id="repoRead">
+                                                    <label class="custom-control-label" for="repoRead">
+                                                        Read
+                                                    </label>
+                                                </div>
+                                               
+                                            </div>
+                                        </td>
+                                    </tr>
+                                
+                                </tbody>
+                            </table>
+                        </div>
+                        <!-- Permission table -->
+                    </div>
+                    <div class="col-12 text-right">
+                        <button type="submit" class="btn btn-primary me-sm-3 me-1">Submit</button>
+                        <button type="reset" class="btn btn-secondary"  aria-label="Close">Cancel</button>
+                        <button type="button" class="btn btn-danger" data-dismiss="modal" aria-label="Close">Close</button>
+                    </div>
+                    <div></div><input type="hidden">
+                </form>
+                <!--/ Add role form -->
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="~/assets/js/jquery-3.2.1.min.js"></script>
+<script>
+
+    $(document).ready(function () {
+
+        $('#ScrapperList').DataTable({
+            searching: true,
+            "ordering": false
+        });
+
+        $(".nav1 li").removeClass("active");
+        $('#Roles').addClass('active');
+
+    });
+</script>

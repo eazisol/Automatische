@@ -1,0 +1,121 @@
+﻿
+@{
+    ViewBag.Title = "Setting";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<div class="block-header py-lg-2 py-2">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-lg-6 col-md-4 col-sm-12">
+                <h4>Settings</h4>
+                <ul class="breadcrumb">
+                    <li class="breadcrumb-item">
+                        <a href="index.html">
+                            <i class="fa fa-dashboard"></i>
+                            Dashboard
+                        </a>
+                    </li>
+
+                    <li class="breadcrumb-item active">Settings</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="body d-flex ">
+    <div class="container-fluid">
+
+        <div class="row clearfix">
+
+            <div class="card">
+                <div class="row card-body">
+                    
+                    <div class="col-lg-6">
+                        <h3 class="card-title">Paypal Settings</h3>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <label class="form-label">Secret Key</label>
+                                    <input type="text" class="form-control" placeholder="Secret Key" value="AYctY-wZ1hLf2OG33fuEW2CCsPGqa4hcHxK-aI1Gyv4Rcdi0OdGdbJ_5Hmry">
+                                </div>
+                            </div>
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <label class="form-label">ClientID</label>
+                                    <input type="text" class="form-control" placeholder="ClientID" value="EFbTStisJ8DmFy5xYrAeEDcCROw8WLOj0LtiSZ5S1NU2-myO4fZrCLC">
+                                </div>
+                            </div>
+
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <label class="form-label">Mode</label>
+                                    <select class="form-control custom-select">
+                                        <option value="">Sandbox</option>
+                                        <option value="">live</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+
+
+                    <div class="col-lg-6">
+                        <h3 class="card-title">Email Settings</h3>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label class="form-label">Email</label>
+                                    <input type="text" class="form-control" placeholder="Secret Key" value="info@demo.com">
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label class="form-label">Password</label>
+                                    <input type="password" class="form-control" placeholder="ClientID" value="michael23">
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label class="form-label">Port</label>
+                                    <input type="text" class="form-control" placeholder="ClientID" value="587">
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label class="form-label">SMTP</label>
+                                    <input type="text" class="form-control" placeholder="ClientID" value="smtp-relay.com">
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label class="custom-control custom-checkbox custom-control-inline">
+                                        <input type="checkbox" class="custom-control-input" name="checkbox" required="" data-parsley-errors-container="#error-checkbox" data-parsley-multiple="checkbox">
+                                        <span class="custom-control-label">Active</span>
+                                    </label>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+
+                </div>
+                <div class="card-footer text-right">
+                    <button type="submit" class="btn btn-primary">Save Changes</button>
+                </div>
+            </div>
+        </div><!-- row end-->
+    </div>
+</div>
+
+<script src="~/assets/js/jquery-3.2.1.min.js"></script>
+<script>
+
+    $(document).ready(function () {
+
+     
+        $(".nav1 li").removeClass("active");
+        $('#Setting').addClass('active');
+
+    });
+</script>

@@ -1,0 +1,628 @@
+﻿<!doctype html>
+<html lang="en" dir="ltr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="icon" href="favicon.ico" type="image/x-icon" />
+    <title>AUTOMATISCHE</title>
+    <!-- Bootstrap Core and Font Icon -->
+    <link rel="stylesheet" href="~/assets/plugins/bootstrap/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/assets/plugins/animate-css/vivify.min.css" />
+    <link rel="stylesheet" href="~/assets/plugins/font-awesome/css/font-awesome.min.css">
+    <!-- Core css -->
+
+    <link rel="stylesheet" href="~/assets/plugins/multi-select/css/multi-select.css">
+    <link rel="stylesheet" href="~/assets/plugins/dropify/css/dropify.min.css">
+    <link rel="stylesheet" href="~/assets/css/main.css" />
+    <link rel="stylesheet" href="~/assets/css/owl.carousel.min.css" />
+    <link rel="stylesheet" href="~/assets/plugins/datatable/fixedeader/dataTables.fixedcolumns.bootstrap4.min.css">
+    <link rel="stylesheet" href="~/assets/plugins/datatable/fixedeader/dataTables.fixedheader.bootstrap4.min.css">
+    <style>
+        .widget-visible {
+            display: none !important;
+        }
+    </style>
+</head>
+
+<body class="theme-blush" style="--secondary-color: #8dc63f !important;">
+
+
+    <div id="layout-block">
+        <!-- Navigation -->
+        <div class="navigation navbar navbar-light justify-content-center px-3 px-lg-2 py-2 py-md-3  ver-menu">
+            <!-- Brand -->
+            <a href="#" class="mb-2 brand-icon">
+                <svg class="avatar" viewBox="-212 327.6 186.8 139.4">
+                    <rect x="-86.1" y="379" transform="matrix(0.6974 -0.7167 0.7167 0.6974 -294.7533 78.6828)" width="63.8" height="18.8" />
+                    <rect x="-102.1" y="363.4" transform="matrix(-0.6974 0.7167 -0.7167 -0.6974 148.0318 683.0126)" width="63.8" height="18.8" />
+                    <rect x="-95.8" y="325.1" transform="matrix(0.7167 0.6974 -0.6974 0.7167 224.5188 161.3834)" width="18.8" height="63.8" />
+                    <rect x="-214.9" y="349.4" transform="matrix(0.6974 -0.7167 0.7167 0.6974 -312.5134 -22.5826)" width="63.8" height="18.8" />
+                    <rect x="-198.8" y="365" transform="matrix(0.6974 -0.7167 0.7167 0.6974 -318.8627 -6.2894)" width="63.8" height="18.8" />
+                    <rect x="-182.7" y="380.8" transform="matrix(0.6974 -0.7167 0.7167 0.6974 -325.2842 10.0315)" width="63.8" height="18.8" />
+                    <rect x="-165.7" y="428.6" transform="matrix(-0.7167 -0.6974 0.6974 -0.7167 -535.1799 658.6196)" width="63.8" height="18.8" />
+                    <rect x="-150" y="412.5" transform="matrix(-0.7167 -0.6974 0.6974 -0.7167 -496.95 641.8856)" width="63.8" height="18.8" />
+                    <rect x="-134.3" y="396.3" transform="matrix(-0.7167 -0.6974 0.6974 -0.7167 -458.7179 625.1357)" width="63.8" height="18.8" />
+                </svg>
+            </a>
+
+            <!-- Menu: icon -->
+            <ul class="nav navbar-nav flex-row flex-lg-column flex-grow-1 justify-content-start align-items-center py-2 py-lg-0">
+                <!-- Create group -->
+                <li class="nav-item flex-grow-1">
+                    <a class="nav-link p-2 p-lg-2 d-block d-xl-none menu-toggle" href="#">
+                        <i class="fa fa-bars"></i>
+                    </a>
+                </li>
+                @*<li class="nav-item">
+                        <a class="nav-link p-2 p-lg-3" href="#" title="Search" data-toggle="modal"
+                           data-target="#SearchModal"><i class="fa fa-search"></i></a>
+                    </li>
+                    <li class="nav-item flex-grow-1">
+                        <a class="nav-link p-2 p-lg-3" href="#" title="notifications" data-toggle="modal"
+                           data-target="#notificationsModal"><i class="fa fa-bell"></i></a>
+                    </li>*@
+
+                <!-- Menu collapse -->
+                <li class="nav-item">
+                    <a class="nav-link p-2 p-lg-3" href="@Url.Action("Profile","User")" title="Menu collapse">
+                        <i class="fa fa-user"></i>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link p-2 p-lg-3" href="@Url.Action("Login","Account")" title="Menu collapse">
+                        <i class="fa fa-sign-out"></i>
+                    </a>
+                </li>
+            </ul>
+        </div>
+
+        <!-- sidebar -->
+        <div class="sidebar bg-primary px-3 py-2 py-md-3" style="--primary-color: #333333 !important;">
+            <a class="nav-link p-2 p-lg-2 menu-toggle close-btn-nav" href="#"><i class="fa fa-close"></i></a>
+
+            <div class="d-flex flex-column h-100">
+                <img class="" src="~/assets/images/logo.png" alt="user">
+
+                <!-- Menu: main ul -->
+                <ul class="nav1 menu-list flex-grow-1">
+                    <li class="divider mt-4 py-2 border-top"></li>
+                    <li class="m-link active" id="Dashboard">
+                        <a href="@Url.Action("Index","Home")" style="color: white; margin-left: 10%;">
+                            <i class="fa fa-dashboard"></i>
+                            <span>Dashboard</span>
+                        </a>
+                    </li>
+                    <li class="m-link" id="DrawShape">
+                        <a href="@Url.Action("DrawShape","Admin")" style="color: white; margin-left: 10%;">
+                            <i class="fa fa-paint-brush"></i>
+                            <span>Draw Shape</span>
+                        </a>
+                    </li>
+                    <li class="m-link" id="User">
+                        <a href="@Url.Action("UserList","User")" style="color: white; margin-left: 10%;">
+                            <i class="fa fa-user"></i>
+                            <span>User Management</span>
+                        </a>
+                    </li>
+                    <li class="m-link" id="Roles">
+                        <a href="@Url.Action("Roles","User")" style="color: white; margin-left: 10%;">
+                            <i class="fa fa-cog"></i>
+                            <span>Roles Management</span>
+                        </a>
+                    </li>
+                    <li class="m-link" id="customer">
+                        <a href="@Url.Action("CustomerList","Customer")" style="color: white; margin-left: 10%;">
+                            <i class="fa fa-user-circle"></i>
+                            <span>Customer</span>
+                        </a>
+                    </li>
+                    <li class="m-link" id="Transaction">
+                        <a href="@Url.Action("Transaction","Admin")" style="color: white; margin-left: 10%;">
+                            <i class="fa fa-cc-paypal"></i>
+                            <span>Transactions</span>
+                        </a>
+                    </li>
+                    <li class="m-link" id="Setting">
+                        <a href="@Url.Action("Setting","Admin")" style="color: white; margin-left: 10%;">
+                            <i class="fa fa-cog"></i>
+                            <span>Settings</span>
+                        </a>
+                    </li>
+                    <li class="m-link" id="Packages">
+                        <a href="@Url.Action("Packages","Admin")" style="color: white; margin-left: 10%;">
+                            <i class="fa fa-calendar-o"></i>
+                            <span>Packages</span>
+                        </a>
+                    </li>
+                    <li class="m-link" id="Profile">
+                        <a href="@Url.Action("Profile","User")" style="color: white; margin-left: 10%;">
+                            <i class="fa fa-user-o"></i>
+                            <span>Profile Settings</span>
+                        </a>
+                    </li>
+                    <li class="m-link" id="Profile">
+                        <a href="@Url.Action("Login","Account")" style="color: white; margin-left: 10%;">
+                            <i class="fa fa-sign-out"></i>
+                            <span>Logout</span>
+                        </a>
+                    </li>
+                </ul>
+
+               
+            </div>
+        </div>
+
+        <!-- Main Setting menu -->
+        <!-- main body area -->
+        <div class="main">
+            <div class="body-header d-flex  header_top px-3 px-md-3 px-lg-3" id="header_top">
+                <div class="container-fluid p-0">
+                    <div class="col-12 p-0">
+                        <nav class="navbar navbar-expand-md navbar-light">
+
+                            <div class="d-flex align-items-center currently_maintain hidden-xs  ml-auto d-md-none d-xl-none">
+
+                            </div>
+                            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+
+                                <div class="d-flex align-items-center currently_maintain hidden-xs mr-auto">
+
+                                </div>
+                                <div class="dropdown">
+                                    <a href="#" class="nav-link leading-none" data-toggle="dropdown"
+                                       aria-expanded="false">
+                                        <img class="avatar" src="~/assets/images/user.png" alt="user">
+                                        <span class="ml-2 d-none d-lg-block">
+                                            <span class="user_name">Katie Clark</span>
+                                            <small class="d-block mt-1">Administrator</small>
+                                        </span>
+                                    </a>
+                                    <div class="dropdown-menu dropdown-menu-right dropdown-menu-arrow vivify flipInY"
+                                         style="will-change: transform;">
+
+                                        <a class="dropdown-item" href="@Url.Action("Profile","User")">
+                                            <i class="dropdown-icon fe fe-user"></i> Profile
+                                        </a>
+                                        <a class="dropdown-item" href="@Url.Action("Login","Account")">
+                                            <i class="dropdown-icon fe fe-log-out"></i>
+                                            Sign out
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </nav>
+                    </div>
+                </div>
+            </div>
+            @RenderBody()
+
+            <!-- Body: Footer -->
+            <div class="body-footer d-flex ">
+                <div class="container-fluid">
+                    <div class="row clearfix">
+                        <div class="col-12">
+                            <div class="card mb-3 border-0">
+                                <div class="card-body">
+                                    <div class="row justify-content-between align-items-center">
+                                        <div class="col">
+                                            <p class="font-size-sm mb-0">
+                                                ©eazisols. <span class="d-none d-sm-inline-block">2022 eazisols.</span>
+                                            </p>
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+
+    </div>
+
+    <div class="modal fade" id="SearchModal" tabindex="-1">
+        <div class="modal-dialog modal-dialog-vertical modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header border-bottom-0 ">
+                    <h5 class="modal-title">Search</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="card-body-height ">
+                        <div class="input-group mb-3">
+                            <input type="text" class="form-control" placeholder="Search here..."
+                                   value="Cricket">
+                            <div class="input-group-append">
+                                <button class="btn btn-outline-secondary" type="button">Search</button>
+                            </div>
+                        </div>
+                        <h2 class="card-title">Recent searches</h2>
+                        <div class="bg-transparent text-wrap my-2">
+                            <span class="h4 mr-1">
+                                <a class="btn btn-sm btn-secondary color-white" href="#">Politics <i class="fa fa-search ml-1"></i></a>
+                            </span>
+                            <span class="h4">
+                                <a class="btn btn-sm btn-secondary color-white" href="#">Movie <i class="fa fa-search ml-1"></i></a>
+                            </span>
+                            <span class="h4">
+                                <a class="btn btn-sm btn-secondary color-white" href="#">Shopping <i class="fa fa-search ml-1"></i></a>
+                            </span>
+                        </div>
+                        <div class="dropdown-divider my-3"></div>
+                        <div class="search-result ul-list">
+                            <ul class="list-unstyled list mb-0">
+                                <li class="border-bottom bg-yellow position-relative">
+                                    <a href="javascript:void(0);" class="d-flex light-warning-bg">
+                                        <div class="flex-fill">
+                                            <p class="mb-1 text-muted">Emirates Cricket Board to launch six-team T20 league | Cricbuzz.com - Cricbuzz</p>
+                                            <small class="text-muted">10:00 AM Today</small>
+                                        </div>
+                                    </a>
+                                    <div class="position-absolute new-btn">
+                                        <button type="button" class="btn btn-primary btn-sm float-md-right">
+                                            <i class="fa fa-bookmark" aria-hidden="true"></i>
+                                        </button>
+                                        <button type="button" class="btn btn-secondary btn-sm float-md-right mr-1"><i class="fa fa-share" aria-hidden="true"></i></button>
+                                    </div>
+                                </li>
+                                <li class="border-bottom bg-indigo position-relative">
+                                    <a href="javascript:void(0);" class="d-flex light-primary-bg">
+                                        <div class="flex-fill">
+                                            <p class="mb-0 text-muted">IPL 2021: 5 Overseas players Mumbai Indians might target in the auction today and tommorow</p>
+                                            <small class="text-muted">11:30 AM Today</small>
+                                        </div>
+                                    </a>
+                                    <div class="position-absolute new-btn">
+                                        <button type="button" class="btn btn-primary btn-sm float-md-right">
+                                            <i class="fa fa-bookmark" aria-hidden="true"></i>
+                                        </button>
+                                        <button type="button" class="btn btn-secondary btn-sm float-md-right mr-1"><i class="fa fa-share" aria-hidden="true"></i></button>
+                                    </div>
+                                </li>
+                                <li class="border-bottom bg-cyan position-relative">
+                                    <a href="javascript:void(0);" class="d-flex light-success-bg">
+                                        <div class="flex-fill">
+                                            <p class="mb-0 text-muted">Ajinkya Rahane needs to quickly address his consistency issue: Harsha Bhogle</p>
+                                            <small class="text-muted">04:00 PM Today</small>
+                                        </div>
+                                    </a>
+                                    <div class="position-absolute new-btn">
+                                        <button type="button" class="btn btn-primary btn-sm float-md-right">
+                                            <i class="fa fa-bookmark" aria-hidden="true"></i>
+                                        </button>
+                                        <button type="button" class="btn btn-secondary btn-sm float-md-right mr-1"><i class="fa fa-share" aria-hidden="true"></i></button>
+                                    </div>
+                                </li>
+                                <li class="border-bottom bg-red position-relative">
+                                    <a href="javascript:void(0);" class="d-flex light-danger-bg">
+                                        <div class="flex-fill">
+                                            <p class="mb-0 text-muted">Age is just a number for Anderson, he desires to keep getting better: Michael Vaughan</p>
+                                            <small class="text-muted">Yesterday</small>
+                                        </div>
+                                    </a>
+                                    <div class="position-absolute new-btn">
+                                        <button type="button" class="btn btn-primary btn-sm float-md-right">
+                                            <i class="fa fa-bookmark" aria-hidden="true"></i>
+                                        </button>
+                                        <button type="button" class="btn btn-secondary btn-sm float-md-right mr-1"><i class="fa fa-share" aria-hidden="true"></i></button>
+                                    </div>
+                                </li>
+                                <li class="bg-purple position-relative">
+                                    <a href="javascript:void(0);" class="d-flex light-info-bg">
+                                        <div class="flex-fill">
+                                            <p class="mb-0 text-muted">Buck stops with Boucher to stop South Africa's decline | Cricbuzz.com - Cricbuzz</p>
+                                            <small class="text-muted">11:30 AM Today</small>
+                                        </div>
+                                    </a>
+                                    <div class="position-absolute new-btn">
+                                        <button type="button" class="btn btn-primary btn-sm float-md-right">
+                                            <i class="fa fa-bookmark" aria-hidden="true"></i>
+                                        </button>
+                                        <button type="button" class="btn btn-secondary btn-sm float-md-right mr-1"><i class="fa fa-share" aria-hidden="true"></i></button>
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal fade" id="notificationsModal" tabindex="-1">
+        <div class="modal-dialog modal-dialog-vertical modal-dialog-scrollable">
+            <div class="modal-content">
+                <div class="modal-header ">
+                    <h5 class="modal-title">Notifications <span class="badge bg-danger ml-2">14</span></h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="bg-light border-bottom px-2  py-3">
+                    <ul class="nav nav-pills nav-fill" role="tablist">
+                        <li class="nav-item">
+                            <a class="nav-link active" data-toggle="tab" href="#Noti-tab-Events" role="tab"
+                               aria-selected="false">Events</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" data-toggle="tab" href="#Noti-tab-Message" role="tab"
+                               aria-selected="true">Message</a>
+                        </li>
+
+                        <li class="nav-item">
+                            <a class="nav-link" data-toggle="tab" href="#Noti-tab-Logs" role="tab">Logs</a>
+                        </li>
+                    </ul>
+                </div>
+                <div class="modal-body ">
+                    <div class="tab-content p-0">
+                        <div class="tab-pane fade active show ul-list" id="Noti-tab-Events" role="tabpanel">
+                            <ul class="list-unstyled list mb-0">
+                                <li class="border-bottom bg-yellow">
+                                    <a href="javascript:void(0);" class="d-flex light-warning-bg">
+                                        <div class="avatar bg-yellow rounded no-thumbnail">
+                                            <i class="fa fa-info-circle fa-lg"></i>
+                                        </div>
+                                        <div class="flex-fill ml-3">
+                                            <p class="mb-0 text-muted">
+                                                Campaign <strong class="text-primary">
+                                                    Holiday
+                                                    Sale
+                                                </strong> is nearly reach budget limit.
+                                            </p>
+                                            <small class="text-muted">10:00 AM Today</small>
+                                        </div>
+                                    </a>
+                                </li>
+                                <li class="border-bottom bg-indigo">
+                                    <a href="javascript:void(0);" class="d-flex light-primary-bg">
+                                        <div class="avatar bg-indigo  rounded no-thumbnail">
+                                            <i class="fa fa-thumbs-up fa-lg"></i>
+                                        </div>
+                                        <div class="flex-fill ml-3">
+                                            <p class="mb-0 text-muted">
+                                                Your New Campaign <strong class="text-primary">Holiday Sale</strong> is orderplaced.
+                                            </p>
+                                            <small class="text-muted">11:30 AM Today</small>
+                                        </div>
+                                    </a>
+                                </li>
+                                <li class="border-bottom bg-cyan">
+                                    <a href="javascript:void(0);" class="d-flex light-success-bg">
+                                        <div class="avatar bg-cyan rounded no-thumbnail">
+                                            <i class="fa fa-pie-chart fa-lg"></i>
+                                        </div>
+                                        <div class="flex-fill ml-3">
+                                            <p class="mb-0 text-muted">
+                                                Website visits from Twitter is <strong class="text-danger">27% higher</strong> than last week.
+                                            </p>
+                                            <small class="text-muted">04:00 PM Today</small>
+                                        </div>
+                                    </a>
+                                </li>
+                                <li class="border-bottom bg-red">
+                                    <a href="javascript:void(0);" class="d-flex light-danger-bg">
+                                        <div class="avatar bg-red rounded no-thumbnail">
+                                            <i class="fa fa-warning fa-lg"></i>
+                                        </div>
+                                        <div class="flex-fill ml-3">
+                                            <p class="mb-0 text-muted">
+                                                <strong class="text-warning">Error</strong>
+                                                on website analytics configurations
+                                            </p>
+                                            <small class="text-muted">Yesterday</small>
+                                        </div>
+                                    </a>
+                                </li>
+                                <li class="bg-purple">
+                                    <a href="javascript:void(0);" class="d-flex light-info-bg">
+                                        <div class="avatar bg-purple rounded no-thumbnail">
+                                            <i class="fa fa-thumbs-up fa-lg"></i>
+                                        </div>
+                                        <div class="flex-fill ml-3">
+                                            <p class="mb-0 text-muted">
+                                                Your New Campaign <strong class="text-primary">Holiday Sale</strong> is orderplaced.
+                                            </p>
+                                            <small class="text-muted">11:30 AM Today</small>
+                                        </div>
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="tab-pane fade ul-list" id="Noti-tab-Message" role="tabpanel">
+                            <ul class="list-unstyled list mb-0">
+                                <li class="bg-indigo border-bottom">
+                                    <a href="javascript:void(0);" class="d-flex light-primary-bg">
+                                        <img class="avatar rounded-circle" src="~/assets/images/xs/avatar1.jpg"
+                                             alt="avatar1">
+                                        <div class="flex-fill ml-3">
+                                            <p class="d-flex justify-content-between mb-0 text-muted">
+                                                <span class="font-weight-bold">Megan Young</span> <small>2MIN</small>
+                                            </p>
+                                            <span class="text-muted">
+                                                changed an issue from "In Progress" to <span class="badge bg-success">Review</span>
+                                            </span>
+                                        </div>
+                                    </a>
+                                </li>
+                                <li class="bg-orange border-bottom">
+                                    <a href="javascript:void(0);" class="d-flex light-orange-bg">
+                                        <div class="avatar rounded-circle no-thumbnail bg-orange">RH</div>
+                                        <div class="flex-fill ml-3">
+                                            <p class="d-flex justify-content-between mb-0 text-muted">
+                                                <span class="font-weight-bold">Sarah Piers</span>
+                                                <small>13MIN</small>
+                                            </p>
+                                            <span class="text-muted">
+                                                It is a long established fact that a reader
+                                                will be distracted
+                                            </span>
+                                        </div>
+                                    </a>
+                                </li>
+                                <li class="bg-yellow border-bottom">
+                                    <a href="javascript:void(0);" class="d-flex light-warning-bg">
+                                        <img class="avatar rounded-circle" src="~/assets/images/xs/avatar3.jpg"
+                                             alt="avatar3">
+                                        <div class="flex-fill ml-3">
+                                            <p class="d-flex justify-content-between mb-0 text-muted">
+                                                <span class="font-weight-bold">Trevor Scott</span> <small>1HR</small>
+                                            </p>
+                                            <span class="text-muted">There are many variations of passages</span>
+                                        </div>
+                                    </a>
+                                </li>
+                                <li class="bg-red border-bottom">
+                                    <a href="javascript:void(0);" class="d-flex light-danger-bg">
+                                        <img class="avatar rounded-circle" src="~/assets/images/xs/avatar4.jpg"
+                                             alt="avatar4">
+                                        <div class="flex-fill ml-3">
+                                            <p class="d-flex justify-content-between mb-0 text-muted">
+                                                <span class="font-weight-bold">Jennifer Paige</span>
+                                                <small>1DAY</small>
+                                            </p>
+                                            <span class="text-muted">
+                                                Contrary to popular belief <span class="badge bg-danger">Code</span>
+                                            </span>
+                                        </div>
+                                    </a>
+                                </li>
+                                <li class="bg-pink border-bottom">
+                                    <a href="javascript:void(0);" class="d-flex light-pink-bg">
+                                        <img class="avatar rounded-circle" src="~/assets/images/xs/avatar5.jpg"
+                                             alt="avatar5">
+                                        <div class="flex-fill ml-3">
+                                            <p class="d-flex justify-content-between mb-0 text-muted">
+                                                <span class="font-weight-bold">Sarah Piers</span>
+                                                <small>13MIN</small>
+                                            </p>
+                                            <span class="text-muted">making it over 2000 years old</span>
+                                        </div>
+                                    </a>
+                                </li>
+                                <li class="bg-green border-bottom">
+                                    <a href="javascript:void(0);" class="d-flex light-green-bg">
+                                        <img class="avatar rounded-circle" src="~/assets/images/xs/avatar6.jpg"
+                                             alt="avatar6">
+                                        <div class="flex-fill ml-3">
+                                            <p class="d-flex justify-content-between mb-0 text-muted">
+                                                <span class="font-weight-bold">Trevor Scott</span> <small>1HR</small>
+                                            </p>
+                                            <span class="text-muted">There are many variations of passages</span>
+                                        </div>
+                                    </a>
+                                </li>
+                                <li class="bg-cyan">
+                                    <a href="javascript:void(0);" class="d-flex light-success-bg">
+                                        <img class="avatar rounded-circle" src="~/assets/images/xs/avatar7.jpg"
+                                             alt="avatar7">
+                                        <div class="flex-fill ml-3">
+                                            <p class="d-flex justify-content-between mb-0 text-muted">
+                                                <span class="font-weight-bold">Megan vegan</span> <small class="">1DAY</small>
+                                            </p>
+                                            <span class="text-muted">The generated Lorem Ipsum</span>
+                                        </div>
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="tab-pane fade ul-list" id="Noti-tab-Logs" role="tabpanel">
+                            <div class="sidebar-scroll">
+                                <ul class="list-unstyled list mb-0">
+                                    <li class="bg-indigo border-bottom">
+                                        <a href="javascript:void(0);" class="d-flex light-primary-bg">
+                                            <img class="avatar rounded-circle" src="~/assets/images/xs/avatar6.jpg"
+                                                 alt="avatar6">
+                                            <div class="flex-fill ml-3">
+                                                <p class="d-flex justify-content-between mb-0 text-muted">
+                                                    <span class="font-weight-bold">Bowen</span> <small>2MIN</small>
+                                                </p>
+                                                <span class="text-muted">
+                                                    Meeting with Shawn at Stark Tower by 8
+                                                    o'clock.
+                                                </span>
+                                            </div>
+                                        </a>
+                                    </li>
+                                    <li class="bg-yellow border-bottom">
+                                        <a href="javascript:void(0);" class="d-flex light-warning-bg">
+                                            <img class="avatar rounded-circle" src="~/assets/images/xs/avatar7.jpg"
+                                                 alt="avatar7">
+                                            <div class="flex-fill ml-3">
+                                                <p class="d-flex justify-content-between mb-0 text-muted">
+                                                    <span class="font-weight-bold">Caleb </span> <small>1HR</small>
+                                                </p>
+                                                <span class="text-muted">You have 5 unread emails in your inbox.</span>
+                                            </div>
+                                        </a>
+                                    </li>
+                                    <li class="bg-red border-bottom">
+                                        <a href="javascript:void(0);" class="d-flex light-danger-bg">
+                                            <img class="avatar rounded-circle" src="~/assets/images/xs/avatar11.jpg"
+                                                 alt="avatar11">
+                                            <div class="flex-fill ml-3">
+                                                <p class="d-flex justify-content-between mb-0 text-muted">
+                                                    <span class="font-weight-bold">Calvin</span><small>1DAY</small>
+                                                </p>
+                                                <span class="text-muted">OrderPlaced: You received a new oder from Tina.</span>
+                                            </div>
+                                        </a>
+                                    </li>
+                                    <li class="bg-green border-bottom">
+                                        <a href="javascript:void(0);" class="d-flex light-green-bg">
+                                            <img class="avatar rounded-circle" src="~/assets/images/xs/avatar4.jpg"
+                                                 alt="avatar4">
+                                            <div class="flex-fill ml-3">
+                                                <p class="d-flex justify-content-between mb-0 text-muted">
+                                                    <span class="font-weight-bold">Josiah </span> <small>1HR</small>
+                                                </p>
+                                                <span class="text-muted">Lara added a comment in Blazing Saddles.</span>
+                                            </div>
+                                        </a>
+                                    </li>
+                                    <li class="bg-cyan">
+                                        <a href="javascript:void(0);" class="d-flex light-success-bg">
+                                            <img class="avatar rounded-circle" src="~/assets/images/xs/avatar10.jpg"
+                                                 alt="avatar10">
+                                            <div class="flex-fill ml-3">
+                                                <p class="d-flex justify-content-between mb-0 text-muted">
+                                                    <span class="font-weight-bold">Hill</span> <small class="">1DAY</small>
+                                                </p>
+                                                <span class="text-muted">Facebook: You received Massage Tina.</span>
+                                            </div>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Javascript -->
+    <script src="~/assets/bundles/libscripts.bundle.js"></script>
+    <script src="~/assets/bundles/vendorscripts.bundle.js"></script>
+    <script src="~/assets/plugins/bootstrap-colorpicker/js/bootstrap-colorpicker.js"></script>
+    <script src="~/assets/plugins/bootstrap-datepicker/js/bootstrap-datepicker.min.js"></script>
+    <script src="~/assets/plugins/bootstrap-multiselect/bootstrap-multiselect.js"></script>
+    <!-- page vendor js file -->
+    <script src="~/assets/bundles/apexcharts.bundle.js"></script>
+
+
+
+    <!-- page js file -->
+    @*<script src="~/assets/bundles/mainscripts.bundle.js"></script>*@
+    <script src="~/assets/js/page/ecommerce.js"></script>
+    <script src="~/assets/js/page/ecommercechart.js"></script>
+    <script src="~/assets/bundles/dataTables.bundle.js"></script>
+    <script src="~/assets/js/table/datatable.js"></script>
+
+</body>
+
+</html>
