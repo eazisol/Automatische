@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="553b9a1785094fe8a6b945e95fc1c6f4" Name="Diagram1">
+        <EntityTypeShape EntityType="AutomatischeModel.tblAccessLevel" Width="1.5" PointX="3" PointY="3.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="AutomatischeModel.tblLog" Width="1.5" PointX="5.25" PointY="9.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="AutomatischeModel.tblMenu" Width="1.5" PointX="0.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="AutomatischeModel.tblRole" Width="1.5" PointX="0.75" PointY="5.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="AutomatischeModel.tblUser" Width="1.5" PointX="3" PointY="8.5" IsExpanded="true" />
+        <AssociationConnector Association="AutomatischeModel.FK_AccessManu" ManuallyRouted="false" />
+        <AssociationConnector Association="AutomatischeModel.FK_AccessRole" ManuallyRouted="false" />
+        <AssociationConnector Association="AutomatischeModel.FK_tblLog_tblUser" ManuallyRouted="false" />
+        <AssociationConnector Association="AutomatischeModel.FK_tblUser_tblRole" ManuallyRouted="false" />
+        <AssociationConnector Association="AutomatischeModel.FK_CreatedByUserUser" ManuallyRouted="false" />
+        <AssociationConnector Association="AutomatischeModel.FK_EditByUserUser" ManuallyRouted="false" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

@@ -1,6 +1,7 @@
 ﻿
 @{
     Layout = null;
+    string Delete = @ViewBag.Error;
 }
 
 <!doctype html>
@@ -26,39 +27,51 @@
     <!-- main content-->
     <div class="auth">
         <div class="container">
+            
             <div class="forms-container">
+                
                 <div class="signin-signup">
-                    <form action="#" class="sign-in-form">
+                    
+                    @*<form action="#" class="sign-in-form">*@
+                        @using (Html.BeginForm("Login", "Account", FormMethod.Post, new { enctype = "multipart/form-data" }))
+                        {@Html.AntiForgeryToken()
+                             
+                        <div style="display:none;" class="alert alert-danger alert-dismissible fade show" id="error" role="alert">
+                            @ViewBag.Error
+                        </div>
                         <h2 class="title">Sign in</h2>
                         <div class="input-field">
                             <i class="fa fa-user"></i>
-                            <input type="text" placeholder="Username" />
+                            <input type="text" id="" name="Email" placeholder="Email" />
                         </div>
                         <div class="input-field">
                             <i class="fa fa-lock"></i>
-                            <input type="password" placeholder="Password" />
+                            <input type="password" id="" name="Password" placeholder="Password" />
                         </div>
-                      
-                            <a style="width:60%" href="@Url.Action("Index","Home")" class="btn solid">LOGIN</a>
-                            
-                            <a href="@Url.Action("Forgetpassword","Account")" class="text-right">Forgot Password?</a>
-                            <p class="social-text">Or Sign in with social platforms</p>
-                            <div class="social-media">
-                                <a href="#" class="social-icon">
-                                    <i class="fa fa-facebook-f"></i>
-                                </a>
-                                <a href="#" class="social-icon">
-                                    <i class="fa fa-twitter"></i>
-                                </a>
-                                <a href="#" class="social-icon">
-                                    <i class="fa fa-google"></i>
-                                </a>
-                                <a href="#" class="social-icon">
-                                    <i class="fa fa-linkedin"></i>
-                                </a>
-                            </div>
-                    </form>
-                    <form action="@Url.Action("Index","Home")" class="sign-up-form">
+
+                        <button type="submit" style="width:60%" class="btn solid">LOGIN</button>
+                        @*<a style="width:60%" href="@Url.Action("Index", "Home")" class="btn solid">LOGIN</a>*@
+
+                        <a href="@Url.Action("Forgetpassword", "Account")" class="text-right">Forgot Password?</a>
+                        @*<p class="social-text">Or Sign in with social platforms</p>
+        <div class="social-media">
+            <a href="#" class="social-icon">
+                <i class="fa fa-facebook-f"></i>
+            </a>
+            <a href="#" class="social-icon">
+                <i class="fa fa-twitter"></i>
+            </a>
+            <a href="#" class="social-icon">
+                <i class="fa fa-google"></i>
+            </a>
+            <a href="#" class="social-icon">
+                <i class="fa fa-linkedin"></i>
+            </a>
+        </div>*@
+                        }
+                    @*</form>*@
+                
+                    <form action="@Url.Action("Index", "Home")" class="sign-up-form">
                         <h2 class="title">Sign up</h2>
                         <div class="input-field">
                             <i class="fa fa-user"></i>
@@ -90,6 +103,7 @@
                         </div>
                     </form>
                 </div>
+                }
             </div>
 
             <div class="panels-container">
@@ -123,6 +137,23 @@
 
     <script src="~/assets/bundles/libscripts.bundle.js"></script>
     <script src="~/assets/js/page/auth.js"></script>
+
+
+
+    <script>
+
+        $(document).ready(function () {
+
+            if ("@Delete" != "") {
+                $('#error').fadeIn();
+                $('#error').fadeOut(10000);
+            }
+            else {
+                $('#error').fadeOut();
+            }
+
+        });
+    </script>
 </body>
 
 <!-- Mirrored from www.pixelwibes.com/template/vsparks/html/dist/login.html by HTTrack Website Copier/3.x [XR&CO'2014], Wed, 21 Dec 2022 08:00:02 GMT -->
