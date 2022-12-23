@@ -16,6 +16,11 @@
         <AssociationConnector Association="AutomatischeModel.FK_tblUser_tblRole" ManuallyRouted="false" />
         <AssociationConnector Association="AutomatischeModel.FK_CreatedByUserUser" ManuallyRouted="false" />
         <AssociationConnector Association="AutomatischeModel.FK_EditByUserUser" ManuallyRouted="false" />
+        <EntityTypeShape EntityType="AutomatischeModel.tblSetting" Width="1.5" PointX="5.25" PointY="12.625" />
+        <AssociationConnector Association="AutomatischeModel.FK_tblSetting_tblUser" />
+        <EntityTypeShape EntityType="AutomatischeModel.tblComponent" Width="1.5" PointX="5.25" PointY="5.875" />
+        <AssociationConnector Association="AutomatischeModel.FK_tblComponent_tblUser" />
+        <AssociationConnector Association="AutomatischeModel.FK_tblComponent_tblUser1" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

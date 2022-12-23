@@ -1,10 +1,10 @@
-﻿@model IEnumerable<DrawingTheme.Models.tblUser>
+﻿@model IEnumerable<DrawingTheme.Models.tblComponent>
 
 @{
     ViewBag.Title = "UserList";
     Layout = "~/Views/Shared/_Layout.cshtml";
 
-    
+
     string Succ = @ViewBag.Success;
     string Update = @ViewBag.Update;
     string Delete = @ViewBag.Delete;
@@ -14,7 +14,7 @@
     <div class="container-fluid">
         <div class="row">
             <div class="col-lg-6 col-md-4 col-sm-12">
-                
+
                 <h4>User Management</h4>
                 <ul class="breadcrumb">
                     <li class="breadcrumb-item">
@@ -70,35 +70,25 @@
 
                                         <th hidden>User Id</th>
                                         <th>Name</th>
-                                        <th>Email</th>
-                                        <th>Phone</th>
-                                        <th>Address</th>
-                                        <th hidden>Role</th>
+                                        <th>Code</th>
+                                        <th>Price</th>
                                         <th hidden>Status</th>
                                         <th>Action</th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    @foreach (DrawingTheme.Models.tblUser User in Model)
+                                    @foreach (DrawingTheme.Models.tblComponent User in Model)
                                     {
                                         <tr>
-                                            <td hidden> @User.UserId</td>
+                                            <td hidden> @User.ComponentId</td>
 
                                             <td>
-                                                <img src="@User.ImagePath" class="rounded" alt="">
-                                                <span class="c_name">@User.FirstName</span>
-                                                <span class="c_name" hidden>@User.LastName</span>
+                                                <span class="c_name">@User.Name</span>
                                             </td>
 
-                                            <td>@User.Email</td>
+                                            <td>@User.Code</td>
                                             <td>
-                                                <span class="phone"><i class="fa fa-phone mr-2"></i>@User.Phone</span>
-                                            </td>
-                                            <td>
-                                                <span><i class="fa fa-map-marker"></i>@User.Address</span>
-                                            </td>
-                                            <td hidden>
-                                                <span>@User.RoleId</span>
+                                                <span class="Price">@User.Price</span>
                                             </td>
                                             <td hidden>
                                                 <span>@User.isActive</span>
@@ -110,29 +100,7 @@
                                         </tr>
 
                                     }
-                                    @*<tr>
-
-                                <td>
-                                    <img src="~/assets/images/xs/avatar1.jpg" class="rounded" alt="">
-                                    <span class="c_name">Olivia Wilson</span>
-                                </td>
-                                <td>
-                                    <span class="phone"><i class="fa fa-phone mr-2"></i>664-625-2583</span>
-                                </td>
-                                <td>
-                                    <span>
-                                        <i class="fa fa-map-marker"></i> Mary Roe
-                                        Megasystems Inc
-                                        799 E Dragram Suite 5a
-                                        Tucson Az 85705
-                                        Usa
-                                    </span>
-                                </td>
-                                <td>
-                                    <button type="button" class="btn btn-primary btn-sm" title="Edit"><i class="fa fa-edit"></i></button>
-                                    <button type="button" class="btn btn-danger btn-sm" title="Delete"><i class="fa fa-trash-o"></i></button>
-                                </td>
-                            </tr>*@
+                                    
                                 </tbody>
                             </table>
                         </div>
@@ -156,65 +124,24 @@
                 <div class="row clearfix">
                     <div class="col-6">
                         <div class="form-group">
-                            <input type="text" hidden class="form-control" id="UserId" name="UserId" placeholder="First Name" >
-                            <input type="text" class="form-control" id="FirstName" name="FirstName" placeholder="First Name" required>
+                            <input type="text" hidden class="form-control" id="ComponentId" name="ComponentId" placeholder="First Name">
+                            <input type="text" class="form-control" id="Name" name="Name" placeholder="Name" required>
                         </div>
                     </div>
                     <div class="col-6">
                         <div class="form-group">
-                            <input type="text" class="form-control" id="LastName" name="LastName" placeholder="Last Name" required>
+                            <input type="text" class="form-control" id="Code" name="Code" placeholder="Code" required>
                         </div>
                     </div>
                     <div class="col-6">
                         <div class="form-group">
-                            <input type="text" class="form-control" id="Phone" name="Phone" placeholder="Phone Number" required>
+                            <input type="text" class="form-control" id="Price" name="Price" placeholder="Price" required>
                         </div>
-                    </div>
-                    <div class="col-6">
-                        <div class="form-group">
-                            <input type="text" class="form-control" id="Email" name="Email" placeholder="Enter Email" required>
-                        </div>
-                    </div>
-                    <div class="col-6">
-                        <div class="form-group">
-                            <input type="password" class="form-control" id="Password" name="Password" placeholder="Password" required>
-                        </div>
-                    </div>
-                    <div class="col-6">
-                        <div class="form-group">
-                            <input type="text" class="form-control" id="Address" name="Address" placeholder="Address" required>
-                        </div>
-                    </div>
-                    <div class="col-6">
-                        <label>Role</label>
-                        <div class="form-group multiselect_div">
-                            <select id="Role" name="RoleId" class="form-control" >
-                                @foreach (DrawingTheme.Models.tblRole Role in ViewBag.RoleList)
-                                {
-                                    <option value="@Role.RoleId">@Role.Role</option>
-                                    @*<option value="cheese">Admin</option>
-                                    <option value="tomatoes">Sub Admin</option>
-                                    <option value="mozarella">Operator</option>*@
-                                }
-                            </select>
-                        </div>
-                    </div>
-                    <div class="col-12">
-                        <div class="form-group">
-                            <input type="file" class="form-control-file" id="Image"
-                                   aria-describedby="fileHelp"  name="Image" >
-                            <small id="fileHelp" class="form-text text-muted">
-                                This is some placeholder block-level
-                                help text for the above input. It's a bit lighter and easily wraps to a new
-                                line.
-                            </small>
-                        </div>
-
                     </div>
                     <div class="col-12 form-group">
 
                         <label class="custom-control custom-checkbox custom-control-inline">
-                            <input type="checkbox" class="custom-control-input" id="isActive" name="isActive" value="True" >
+                            <input type="checkbox" class="custom-control-input" id="isActive" name="isActive" value="True">
                             <span class="custom-control-label">Active</span>
                         </label>
 
@@ -222,14 +149,14 @@
                     </div>
 
                 </div>
-                
+
             </div>
             <div class="modal-footer">
                 <button type="submit" class="btn btn-primary">Save Changes</button>
                 <button type="button" class="btn btn-default" data-dismiss="modal">CLOSE</button>
             </div>
         </div>
-        }
+    }
     </div>
 </div>
 
@@ -245,7 +172,7 @@
             </div>
             <div class="modal-body text-center">
                 <img src="~/assets/images/sent.png" alt="" width="50" height="46">
-                <input class="form-control" type="text" name="UserId" id="DeleteUserID" hidden>
+                <input class="form-control" type="text" name="ComponentId" id="DeleteComponentId" hidden>
                 <h5>Are you sure want to delete this user information?</h5>
 
             </div>
@@ -261,20 +188,20 @@
 
 
 @*<div class="modal fade" id="DeleteUserModal" tabindex="-1" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered modal-simple">
-        <div class="modal-content p-3 p-md-5">
-            <div class="modal-header">
-                <h4 class="title" id="">Delete User</h4>
-            </div>
-            <div class="modal-body text-center">
-                <button type="button" class="btn-close btn-pinned" data-bs-dismiss="modal" aria-label="Close"></button>
-                <div class="text-center mb-4">
+        <div class="modal-dialog modal-dialog-centered modal-simple">
+            <div class="modal-content p-3 p-md-5">
+                <div class="modal-header">
+                    <h4 class="title" id="">Delete User</h4>
                 </div>
-                
+                <div class="modal-body text-center">
+                    <button type="button" class="btn-close btn-pinned" data-bs-dismiss="modal" aria-label="Close"></button>
+                    <div class="text-center mb-4">
+                    </div>
+
+                </div>
             </div>
         </div>
-    </div>
-</div>*@
+    </div>*@
 
 <script src="~/assets/js/jquery-3.2.1.min.js"></script>
 <script>
@@ -282,23 +209,19 @@
     $(document).on("click", "#DeleteUser", function () {
         //alert();
         var currentRow = $(this).closest("tr");
-        $("#DeleteUserID").val(currentRow.find("td:eq(0)").text());
+        $("#DeleteComponentId").val(currentRow.find("td:eq(0)").text());
        /* $("#DeleteUserModal").toggle();*/
 
     });
 
 
     $(document).on("click", "#AddUser", function () {
-        $("#defaultModalLabel").text("Add User");
-        $("#UserId").val('');
-        $("#FirstName").val('');
-        $("#LastName").val('');
-        $("#Phone").val('');
-        $("#Email").val('');
-        $("#Password").val('');
-        $("#Address").val('');
-        $("#Role").val(1);
-        $("#Image").val('');
+        $("#defaultModalLabel").text("Add Component");
+        $("#ComponentId").val('');
+        $("#Name").val('');
+        $("#Code").val('');
+        $("#Price").val('');
+       
         $('#isActive').prop('checked', false);
         //var myModal = $('#offcanvasAddUser');
         //$('#offcanvasAddUser').css("visibility", "visible");
@@ -315,36 +238,20 @@
 
         //alert(currentRow.find("td:eq(2)").text());
 
-        $("#defaultModalLabel").text("Edit User");
-        var UserId = currentRow.find("td:eq(0)").text();
-        $("#UserId").val(UserId);
-        $("#FirstName").val(currentRow.find("span:eq(0)").text());
-        $("#LastName").val(currentRow.find("span:eq(1)").text());
-        $("#Phone").val(currentRow.find("span:eq(2)").text());
-        $("#Email").val(currentRow.find("td:eq(2)").text());
-        //$("#Password").val(currentRow.find("span:eq(1)").text());
-        $("#Address").val(currentRow.find("span:eq(3)").text());
-        $("#Role").val(currentRow.find("span:eq(4)").text());
-        //alert(currentRow.find("span:eq(4)").text());
-        //$("#Image").val(currentRow.find("span:eq(1)").text());
-        if (currentRow.find("span:eq(5)").text()=="True") {
+        $("#defaultModalLabel").text("Edit Component");
+        var ComponentId = currentRow.find("td:eq(0)").text();
+        $("#ComponentId").val(ComponentId);
+        $("#Name").val(currentRow.find("span:eq(0)").text());
+        $("#Code").val(currentRow.find("td:eq(2)").text());
+        $("#Price").val(currentRow.find("span:eq(1)").text());
+       
+        if (currentRow.find("span:eq(2)").text()=="True") {
             $('#isActive').prop('checked', true);
         }
         else {
             $('#isActive').prop('checked', false);
         }
-        
 
-        $('#Password').removeAttr('required');
-
-        //var model = {
-        //    UserId: UserId,
-        //};
-
-        //var myModal = $('#offcanvasAddUser');
-        //$('#offcanvasAddUser').css("visibility", "visible");
-        //$('#offcanvasAddUser').addClass("show");
-        //$('#AddUSerBody').css("visibility", "visible");
     });
 
     $(document).ready(function () {
@@ -386,7 +293,7 @@
         });
 
         $(".nav1 li").removeClass("active");
-        $('#User').addClass('active');
+        $('#Component').addClass('active');
 
     });
 </script>

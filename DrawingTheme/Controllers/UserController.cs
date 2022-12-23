@@ -13,14 +13,30 @@ namespace DrawingTheme.Controllers
     {
         AutomatischeEntities DB = new AutomatischeEntities();
         // GET: User
-        public ActionResult Profile()
+        public ActionResult Profile(string Success,string Error, int id=0)
         {
-            return View();
+            HttpCookie cookieObj = Request.Cookies["User"];
+            int UserId = Int32.Parse(cookieObj["UserId"]);
+            tblUser Data = new tblUser();
+            ViewBag.Success = Success;
+            ViewBag.Error = Error;
+
+            if (id==0)
+            {
+                Data = DB.tblUsers.Where(x => x.UserId == UserId).FirstOrDefault();
+            }
+            else
+            {
+                Data = DB.tblUsers.Where(x => x.UserId == id).FirstOrDefault();
+            }
+
+
+            return View(Data);
         }
 
         public ActionResult UserList(string Success, string Update, string Delete, string Error)
         {
-            List<tblUser> UserList = DB.tblUsers.ToList();
+            List<tblUser> UserList = DB.tblUsers.Where(x=>x.RoleId!=2).ToList();
             ViewBag.RoleList = DB.tblRoles.ToList();
            
             ViewBag.Success = Success;
@@ -37,9 +53,10 @@ namespace DrawingTheme.Controllers
             tblUser Data = new tblUser();
             try
             {
-                //HttpCookie cookieObj = Request.Cookies["User"];
-                //int UserId = Int32.Parse(cookieObj["UserId"]);
-                int UserId = 1;
+                HttpCookie cookieObj = Request.Cookies["User"];
+                int UserId = Int32.Parse(cookieObj["UserId"]);
+                int RoleId = Int32.Parse(cookieObj["RoleId"]);
+                //int UserId = 1;
                 if (User.UserId == 0)
                 {
                     if (DB.tblUsers.Select(r => r).Where(x => x.Email == User.Email).FirstOrDefault() == null)
@@ -84,13 +101,29 @@ namespace DrawingTheme.Controllers
                         LogData.CreatedDate = DateTime.Now;
                         DB.tblLogs.Add(LogData);
                         DB.SaveChanges();
+                        if (Data.RoleId == 2)
+                        {
+                            return RedirectToAction("CustomerList", "Customer", new { Update = "Customer has been add successfully." });
+                        }
+                        else
+                        {
+                            return RedirectToAction("UserList", new { Success = "User has been add successfully." });
+                        }
 
-                        return RedirectToAction("UserList", new { Success = "User has been add successfully." });
+                        //return RedirectToAction("UserList", new { Success = "User has been add successfully." });
                     }
                     else
                     {
                         //ViewBag.Error = "User Already Exsist!!!";
-                        return RedirectToAction("UserList", new { Error = "User Already Exsist!!!" });
+                        if (Data.RoleId == 2)
+                        {
+                            return RedirectToAction("CustomerList", "Customer", new { Update = "Customer Already Exsist!!!" });
+                        }
+                        else
+                        {
+                            return RedirectToAction("UserList", new { Success = "User Already Exsist!!!" });
+                        }
+                        //return RedirectToAction("UserList", new { Error = "User Already Exsist!!!" });
                     }
                 }
                 else
@@ -150,12 +183,44 @@ namespace DrawingTheme.Controllers
                         DB.tblLogs.Add(LogData);
                         DB.SaveChanges();
 
-                        return RedirectToAction("UserList", new { Update = "User has been Update successfully." });
+                        if (Data.RoleId == 2)
+                        {
+                            if (RoleId != 2)
+                            {
+                                return RedirectToAction("CustomerList", "Customer", new { Update = "Customer has been Update successfully." });
+                            }
+                            else
+                            {
+                                return RedirectToAction("Profile", "User", new {id= Data.UserId, Success = "Customer has been Update successfully." });
+                            }
+                        }
+                        else
+                        {
+                            return RedirectToAction("UserList", new { Update = "User has been Update successfully." });
+                        }
+
+                        //return RedirectToAction("UserList", new { Update = "User has been Update successfully." });
                     }
                     else
                     {
                         ViewBag.Error = "User Already Exsist!!!";
-                        return RedirectToAction("UserList", new { Error = "User Already Exsist!!!" });
+                        if (Data.RoleId == 2)
+                        {
+                            if (RoleId != 2)
+                            {
+                                return RedirectToAction("CustomerList", "Customer", new { Delete = "Customer Already Exsist!!!" });
+                            }
+                            else
+                            {
+                                return RedirectToAction("Profile", "User", new { id = Data.UserId, Error = "Customer Already Exsist!!!" });
+                            }
+                            
+                        }
+                        else
+                        {
+                            return RedirectToAction("UserList", new { Delete = "User Already Exsist!!!" });
+                        }
+                        //return RedirectToAction("UserList", new { Error = "User Already Exsist!!!" });
                     }
 
                 }
@@ -177,12 +242,14 @@ namespace DrawingTheme.Controllers
         public ActionResult DeleteUser(int UserId)
         {
             tblUser Data = new tblUser();
-            //HttpCookie cookieObj = Request.Cookies["User"];
-            //int CUserId = Int32.Parse(cookieObj["UserId"]);
-            int CUserId = 1;
+            HttpCookie cookieObj = Request.Cookies["User"];
+            int CUserId = Int32.Parse(cookieObj["UserId"]);
+            //int CUserId = 1;
+            int? RoleID = 0;
             try
             {
                 Data = DB.tblUsers.Select(r => r).Where(x => x.UserId == UserId).FirstOrDefault();
+                RoleID = Data.RoleId;
                 DB.Entry(Data).State = EntityState.Deleted;
                 DB.SaveChanges();
 
@@ -192,8 +259,14 @@ namespace DrawingTheme.Controllers
                 LogData.CreatedDate = DateTime.Now;
                 DB.tblLogs.Add(LogData);
                 DB.SaveChanges();
-
-                return RedirectToAction("UserList", new { Delete = "User has been delete successfully." });
+                if(RoleID==2)
+                {
+                    return RedirectToAction("CustomerList", "Customer", new { Delete = "Customer has been delete successfully." });
+                }
+                else
+                {
+                    return RedirectToAction("UserList", new { Delete = "User has been delete successfully." });
+                }
             }
             catch (Exception ex)
             {
@@ -423,6 +496,32 @@ namespace DrawingTheme.Controllers
             }
 
             return Json(MenuAccess, JsonRequestBehavior.AllowGet);
+        }
+
+
+        public ActionResult CheckEmail(string Email )
+        {
+            
+            DB.Configuration.ProxyCreationEnabled = false;
+            try
+            {
+                if(DB.tblUsers.Select(r => r).Where(x => x.Email == Email).FirstOrDefault() == null)
+                {
+                    return Json(0);
+                }
+                else
+                {
+                    return Json(1);
+                }
+            }
+            catch (Exception ex)
+            {
+
+                ViewBag.ex = ex.Message;
+                Console.WriteLine("Error" + ex.Message);
+            }
+
+            return Json(0);
         }
 
     }

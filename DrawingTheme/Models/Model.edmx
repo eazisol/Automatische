@@ -21,6 +21,20 @@
           <Property Name="EditDate" Type="datetime" />
           <Property Name="isActive" Type="bit" />
         </EntityType>
+        <EntityType Name="tblComponent">
+          <Key>
+            <PropertyRef Name="ComponentId" />
+          </Key>
+          <Property Name="ComponentId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="nvarchar(max)" />
+          <Property Name="Code" Type="nvarchar(max)" />
+          <Property Name="Price" Type="nvarchar(max)" />
+          <Property Name="CreatedBy" Type="int" />
+          <Property Name="CreatedDate" Type="datetime" />
+          <Property Name="EditBy" Type="int" />
+          <Property Name="EditDate" Type="datetime" />
+          <Property Name="isActive" Type="bit" />
+        </EntityType>
         <EntityType Name="tblLog">
           <Key>
             <PropertyRef Name="LogId" />
@@ -57,6 +71,22 @@
           <Property Name="CreatedBy" Type="int" />
           <Property Name="CreatedDate" Type="datetime" />
           <Property Name="EditBy" Type="int" />
+          <Property Name="EditDate" Type="datetime" />
+          <Property Name="isActive" Type="bit" />
+        </EntityType>
+        <EntityType Name="tblSetting">
+          <Key>
+            <PropertyRef Name="SettingId" />
+          </Key>
+          <Property Name="SettingId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="SecretKey" Type="nvarchar(max)" />
+          <Property Name="Email" Type="nvarchar(max)" />
+          <Property Name="Password" Type="nvarchar(max)" />
+          <Property Name="ClientID" Type="nvarchar(max)" />
+          <Property Name="Port" Type="int" />
+          <Property Name="SMTP" Type="nvarchar(max)" />
+          <Property Name="Mode" Type="nvarchar(max)" />
+          <Property Name="Editby" Type="int" />
           <Property Name="EditDate" Type="datetime" />
           <Property Name="isActive" Type="bit" />
         </EntityType>
@@ -129,6 +159,30 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_tblComponent_tblUser">
+          <End Role="tblUser" Type="Self.tblUser" Multiplicity="0..1" />
+          <End Role="tblComponent" Type="Self.tblComponent" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tblUser">
+              <PropertyRef Name="UserId" />
+            </Principal>
+            <Dependent Role="tblComponent">
+              <PropertyRef Name="CreatedBy" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tblComponent_tblUser1">
+          <End Role="tblUser" Type="Self.tblUser" Multiplicity="0..1" />
+          <End Role="tblComponent" Type="Self.tblComponent" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tblUser">
+              <PropertyRef Name="UserId" />
+            </Principal>
+            <Dependent Role="tblComponent">
+              <PropertyRef Name="EditBy" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_tblLog_tblUser">
           <End Role="tblUser" Type="Self.tblUser" Multiplicity="0..1" />
           <End Role="tblLog" Type="Self.tblLog" Multiplicity="*" />
@@ -138,6 +192,18 @@
             </Principal>
             <Dependent Role="tblLog">
               <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tblSetting_tblUser">
+          <End Role="tblUser" Type="Self.tblUser" Multiplicity="0..1" />
+          <End Role="tblSetting" Type="Self.tblSetting" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tblUser">
+              <PropertyRef Name="UserId" />
+            </Principal>
+            <Dependent Role="tblSetting">
+              <PropertyRef Name="Editby" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -155,9 +221,11 @@
         </Association>
         <EntityContainer Name="AutomatischeModelStoreContainer">
           <EntitySet Name="tblAccessLevel" EntityType="Self.tblAccessLevel" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tblComponent" EntityType="Self.tblComponent" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tblLog" EntityType="Self.tblLog" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tblMenu" EntityType="Self.tblMenu" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tblRole" EntityType="Self.tblRole" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tblSetting" EntityType="Self.tblSetting" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tblUser" EntityType="Self.tblUser" Schema="dbo" store:Type="Tables" />
           <AssociationSet Name="FK_AccessManu" Association="Self.FK_AccessManu">
             <End Role="tblMenu" EntitySet="tblMenu" />
@@ -175,9 +243,21 @@
             <End Role="tblUser" EntitySet="tblUser" />
             <End Role="tblUser1" EntitySet="tblUser" />
           </AssociationSet>
+          <AssociationSet Name="FK_tblComponent_tblUser" Association="Self.FK_tblComponent_tblUser">
+            <End Role="tblUser" EntitySet="tblUser" />
+            <End Role="tblComponent" EntitySet="tblComponent" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tblComponent_tblUser1" Association="Self.FK_tblComponent_tblUser1">
+            <End Role="tblUser" EntitySet="tblUser" />
+            <End Role="tblComponent" EntitySet="tblComponent" />
+          </AssociationSet>
           <AssociationSet Name="FK_tblLog_tblUser" Association="Self.FK_tblLog_tblUser">
             <End Role="tblUser" EntitySet="tblUser" />
             <End Role="tblLog" EntitySet="tblLog" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tblSetting_tblUser" Association="Self.FK_tblSetting_tblUser">
+            <End Role="tblUser" EntitySet="tblUser" />
+            <End Role="tblSetting" EntitySet="tblSetting" />
           </AssociationSet>
           <AssociationSet Name="FK_tblUser_tblRole" Association="Self.FK_tblUser_tblRole">
             <End Role="tblRole" EntitySet="tblRole" />
@@ -275,6 +355,9 @@
           <Property Name="Address" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="Phone" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="ImagePath" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="tblSettings" Relationship="AutomatischeModel.FK_tblSetting_tblUser" FromRole="tblUser" ToRole="tblSetting" />
+          <NavigationProperty Name="tblComponents" Relationship="AutomatischeModel.FK_tblComponent_tblUser" FromRole="tblUser" ToRole="tblComponent" />
+          <NavigationProperty Name="tblComponents1" Relationship="AutomatischeModel.FK_tblComponent_tblUser1" FromRole="tblUser" ToRole="tblComponent" />
         </EntityType>
         <Association Name="FK_AccessManu">
           <End Role="tblMenu" Type="Self.tblMenu" Multiplicity="0..1" />
@@ -378,7 +461,90 @@
             <End Role="tblUser" EntitySet="tblUsers" />
             <End Role="tblUser1" EntitySet="tblUsers" />
           </AssociationSet>
+          <EntitySet Name="tblSettings" EntityType="AutomatischeModel.tblSetting" />
+          <AssociationSet Name="FK_tblSetting_tblUser" Association="AutomatischeModel.FK_tblSetting_tblUser">
+            <End Role="tblUser" EntitySet="tblUsers" />
+            <End Role="tblSetting" EntitySet="tblSettings" />
+          </AssociationSet>
+          <EntitySet Name="tblComponents" EntityType="AutomatischeModel.tblComponent" />
+          <AssociationSet Name="FK_tblComponent_tblUser" Association="AutomatischeModel.FK_tblComponent_tblUser">
+            <End Role="tblUser" EntitySet="tblUsers" />
+            <End Role="tblComponent" EntitySet="tblComponents" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tblComponent_tblUser1" Association="AutomatischeModel.FK_tblComponent_tblUser1">
+            <End Role="tblUser" EntitySet="tblUsers" />
+            <End Role="tblComponent" EntitySet="tblComponents" />
+          </AssociationSet>
         </EntityContainer>
+        <EntityType Name="tblSetting">
+          <Key>
+            <PropertyRef Name="SettingId" />
+          </Key>
+          <Property Name="SettingId" Type="Int32" Nullable="false" />
+          <Property Name="SecretKey" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Email" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Password" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="ClientID" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Port" Type="Int32" />
+          <Property Name="SMTP" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Mode" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Editby" Type="Int32" />
+          <Property Name="EditDate" Type="DateTime" Precision="3" />
+          <NavigationProperty Name="tblUser" Relationship="AutomatischeModel.FK_tblSetting_tblUser" FromRole="tblSetting" ToRole="tblUser" />
+          <Property Name="isActive" Type="Boolean" />
+        </EntityType>
+        <Association Name="FK_tblSetting_tblUser">
+          <End Type="AutomatischeModel.tblUser" Role="tblUser" Multiplicity="0..1" />
+          <End Type="AutomatischeModel.tblSetting" Role="tblSetting" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tblUser">
+              <PropertyRef Name="UserId" />
+            </Principal>
+            <Dependent Role="tblSetting">
+              <PropertyRef Name="Editby" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="tblComponent">
+          <Key>
+            <PropertyRef Name="ComponentId" />
+          </Key>
+          <Property Name="ComponentId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Code" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Price" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="CreatedBy" Type="Int32" />
+          <Property Name="CreatedDate" Type="DateTime" Precision="3" />
+          <Property Name="EditBy" Type="Int32" />
+          <Property Name="EditDate" Type="DateTime" Precision="3" />
+          <Property Name="isActive" Type="Boolean" />
+          <NavigationProperty Name="tblUser" Relationship="AutomatischeModel.FK_tblComponent_tblUser" FromRole="tblComponent" ToRole="tblUser" />
+          <NavigationProperty Name="tblUser1" Relationship="AutomatischeModel.FK_tblComponent_tblUser1" FromRole="tblComponent" ToRole="tblUser" />
+        </EntityType>
+        <Association Name="FK_tblComponent_tblUser">
+          <End Type="AutomatischeModel.tblUser" Role="tblUser" Multiplicity="0..1" />
+          <End Type="AutomatischeModel.tblComponent" Role="tblComponent" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tblUser">
+              <PropertyRef Name="UserId" />
+            </Principal>
+            <Dependent Role="tblComponent">
+              <PropertyRef Name="CreatedBy" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tblComponent_tblUser1">
+          <End Type="AutomatischeModel.tblUser" Role="tblUser" Multiplicity="0..1" />
+          <End Type="AutomatischeModel.tblComponent" Role="tblComponent" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tblUser">
+              <PropertyRef Name="UserId" />
+            </Principal>
+            <Dependent Role="tblComponent">
+              <PropertyRef Name="EditBy" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -463,6 +629,38 @@
                 <ScalarProperty Name="EditBy" ColumnName="EditBy" />
                 <ScalarProperty Name="EditDate" ColumnName="EditDate" />
                 <ScalarProperty Name="isActive" ColumnName="isActive" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tblSettings">
+            <EntityTypeMapping TypeName="AutomatischeModel.tblSetting">
+              <MappingFragment StoreEntitySet="tblSetting">
+                <ScalarProperty Name="isActive" ColumnName="isActive" />
+                <ScalarProperty Name="EditDate" ColumnName="EditDate" />
+                <ScalarProperty Name="Editby" ColumnName="Editby" />
+                <ScalarProperty Name="Mode" ColumnName="Mode" />
+                <ScalarProperty Name="SMTP" ColumnName="SMTP" />
+                <ScalarProperty Name="Port" ColumnName="Port" />
+                <ScalarProperty Name="ClientID" ColumnName="ClientID" />
+                <ScalarProperty Name="Password" ColumnName="Password" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="SecretKey" ColumnName="SecretKey" />
+                <ScalarProperty Name="SettingId" ColumnName="SettingId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tblComponents">
+            <EntityTypeMapping TypeName="AutomatischeModel.tblComponent">
+              <MappingFragment StoreEntitySet="tblComponent">
+                <ScalarProperty Name="isActive" ColumnName="isActive" />
+                <ScalarProperty Name="EditDate" ColumnName="EditDate" />
+                <ScalarProperty Name="EditBy" ColumnName="EditBy" />
+                <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+                <ScalarProperty Name="Price" ColumnName="Price" />
+                <ScalarProperty Name="Code" ColumnName="Code" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="ComponentId" ColumnName="ComponentId" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

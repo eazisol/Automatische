@@ -130,6 +130,7 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\AdminController.cs" />
+    <Compile Include="Controllers\ComponentController.cs" />
     <Compile Include="Controllers\CustomerController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\TransactionsController.cs" />
@@ -156,6 +157,9 @@
     <Compile Include="Models\tblAccessLevel.cs">
       <DependentUpon>Model.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\tblComponent.cs">
+      <DependentUpon>Model.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\tblLog.cs">
       <DependentUpon>Model.tt</DependentUpon>
     </Compile>
@@ -163,6 +167,9 @@
       <DependentUpon>Model.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\tblRole.cs">
+      <DependentUpon>Model.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\tblSetting.cs">
       <DependentUpon>Model.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\tblUser.cs">
@@ -1485,6 +1492,8 @@
     <Content Include="Views\Admin\Transaction.cshtml" />
     <Content Include="Views\Admin\Packages.cshtml" />
     <Content Include="Views\Admin\DrawShape.cshtml" />
+    <Content Include="Views\Account\ChangeForgetPassword.cshtml" />
+    <Content Include="Views\Component\Components.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

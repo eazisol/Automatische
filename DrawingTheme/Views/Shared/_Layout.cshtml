@@ -1,4 +1,9 @@
 ﻿<!doctype html>
+
+@{ ViewBag.Access = Session["Access"];
+                int PID = 0;
+    }
+
 <html lang="en" dir="ltr">
 <head>
     <meta charset="UTF-8">
@@ -87,7 +92,73 @@
                 <!-- Menu: main ul -->
                 <ul class="nav1 menu-list flex-grow-1">
                     <li class="divider mt-4 py-2 border-top"></li>
-                    <li class="m-link active" id="Dashboard">
+
+                    @foreach (var AccessLevel in @ViewBag.Access)
+                                    {
+
+
+                                        if (@AccessLevel.tblMenu.isParent == true)
+                                        {
+                                            {
+
+                                                PID = @AccessLevel.tblMenu.MenuId;
+
+
+                                            }
+
+                                            <li class="m-link" id="@AccessLevel.tblMenu.ElementId">
+                                                <a href="javascript:void(0);"  style="color: white; margin-left: 10%;">
+                                                    <i class="@AccessLevel.tblMenu.FontAwesome"></i>
+                                                    <span>@AccessLevel.tblMenu.Name</span>
+                                                </a>
+
+                                                 
+
+                                                <ul class="menu-sub">
+
+
+                                                    @foreach (var AccessLevel1 in @ViewBag.Access)
+                                                    {
+                                                        if (@AccessLevel1.tblMenu.ParentId == @PID)
+                                                        {
+
+                                                                            <li class="m-link" id="@AccessLevel1.tblMenu.ElementId">
+                                                                                <a href="@Url.Action(AccessLevel1.tblMenu.ActionName,AccessLevel1.tblMenu.ControllerName)" style="color: white; margin-left: 10%;">
+                                                                                    <i class="@AccessLevel1.tblMenu.FontAwesome"></i>
+                                                                                    <span>@AccessLevel1.tblMenu.Name</span>
+                                                                                </a>
+                                                                            </li>
+                                                        }
+                                                     }
+                                                </ul>
+                                             </li>
+                                        }
+                                        else
+                                        {
+                                            if (@AccessLevel.tblMenu.ParentId == 0)
+                                            {
+
+
+                                                <li class="m-link" id="@AccessLevel.tblMenu.ElementId">
+                                                    <a href="@Url.Action(AccessLevel.tblMenu.ActionName,AccessLevel.tblMenu.ControllerName)" style="color: white; margin-left: 10%;">
+                                                        <i class="@AccessLevel.tblMenu.FontAwesome"></i>
+                                                        <span>@AccessLevel.tblMenu.Name</span>
+                                                    </a>
+                                                </li>
+                                            }
+
+                                        }
+
+                                     }
+
+                     <li class="m-link" id="">
+                        <a href="@Url.Action("Login","Account")" style="color: white; margin-left: 10%;">
+                            <i class="fa fa-sign-out"></i>
+                            <span>Logout</span>
+                        </a>
+                    </li>
+
+                    @*<li class="m-link active" id="Dashboard">
                         <a href="@Url.Action("Index","Home")" style="color: white; margin-left: 10%;">
                             <i class="fa fa-dashboard"></i>
                             <span>Dashboard</span>
@@ -146,10 +217,10 @@
                             <i class="fa fa-sign-out"></i>
                             <span>Logout</span>
                         </a>
-                    </li>
+                    </li>*@
                 </ul>
 
-               
+
             </div>
         </div>
 
