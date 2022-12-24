@@ -23,6 +23,8 @@ namespace DrawingTheme.Models
             this.tblSettings = new HashSet<tblSetting>();
             this.tblComponents = new HashSet<tblComponent>();
             this.tblComponents1 = new HashSet<tblComponent>();
+            this.tblOrders = new HashSet<tblOrder>();
+            this.tblOrders1 = new HashSet<tblOrder>();
         }
     
         public int UserId { get; set; }
@@ -57,5 +59,9 @@ namespace DrawingTheme.Models
         public virtual ICollection<tblComponent> tblComponents { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<tblComponent> tblComponents1 { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<tblOrder> tblOrders { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<tblOrder> tblOrders1 { get; set; }
     }
 }

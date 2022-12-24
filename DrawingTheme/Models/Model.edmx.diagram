@@ -21,6 +21,10 @@
         <EntityTypeShape EntityType="AutomatischeModel.tblComponent" Width="1.5" PointX="5.25" PointY="5.875" />
         <AssociationConnector Association="AutomatischeModel.FK_tblComponent_tblUser" />
         <AssociationConnector Association="AutomatischeModel.FK_tblComponent_tblUser1" />
+        <EntityTypeShape EntityType="AutomatischeModel.tblOrder" Width="1.5" PointX="5.25" PointY="17" />
+        <EntityTypeShape EntityType="AutomatischeModel.tblOrderDetail" Width="1.5" PointX="3.375" PointY="0.75" />
+        <AssociationConnector Association="AutomatischeModel.FK_tblOrder_tblUser" />
+        <AssociationConnector Association="AutomatischeModel.FK_tblOrder_tblUser1" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

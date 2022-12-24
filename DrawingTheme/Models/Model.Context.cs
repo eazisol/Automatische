@@ -32,5 +32,7 @@ namespace DrawingTheme.Models
         public virtual DbSet<tblUser> tblUsers { get; set; }
         public virtual DbSet<tblSetting> tblSettings { get; set; }
         public virtual DbSet<tblComponent> tblComponents { get; set; }
+        public virtual DbSet<tblOrder> tblOrders { get; set; }
+        public virtual DbSet<tblOrderDetail> tblOrderDetails { get; set; }
     }
 }

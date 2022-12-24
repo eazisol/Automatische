@@ -1,7 +1,7 @@
-﻿@model IEnumerable<DrawingTheme.Models.tblComponent>
+﻿@model IEnumerable<DrawingTheme.Models.tblOrder>
 
 @{
-    ViewBag.Title = "ComponentList";
+    ViewBag.Title = "OrderList";
     Layout = "~/Views/Shared/_Layout.cshtml";
 
 
@@ -15,7 +15,7 @@
         <div class="row">
             <div class="col-lg-6 col-md-4 col-sm-12">
 
-                <h4>Component </h4>
+                <h4>Order </h4>
                 <ul class="breadcrumb">
                     <li class="breadcrumb-item">
                         <a href="index.html">
@@ -24,16 +24,16 @@
                         </a>
                     </li>
 
-                    <li class="breadcrumb-item active">Component </li>
+                    <li class="breadcrumb-item active">Order </li>
                 </ul>
             </div>
             <div class="col-lg-6 col-md-8 col-sm-12">
                 <ul class="nav nav-tabs tab-body-header rounded justify-content-end" role="tablist">
 
                     <div class="page_action">
-                        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#addcontact" id="AddComponent">
+                        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#addcontact" id="AddOrder">
                             <i class="fa fa-address-card mr-1" aria-hidden="true"></i>
-                            Add New Component
+                            Add New Order
                         </button>
 
                     </div>
@@ -60,7 +60,7 @@
                 </div>
                 <div class="card">
                     <div class="card-header">
-                        <h3 class="card-title">Component List</h3>
+                        <h3 class="card-title">Order List</h3>
                     </div>
                     <div class="card-body pt-0">
                         <div class="table-responsive table_e2">
@@ -68,40 +68,40 @@
                                 <thead>
                                     <tr>
 
-                                        <th hidden>Component Id</th>
+                                        <th hidden>Order Id</th>
+                                        <th>Order Number</th>
                                         <th>Name</th>
-                                        <th>Code</th>
-                                        <th>Price</th>
+                                        <th>Total Price</th>
+                                        <th>Payment Status</th>
                                         <th hidden>Status</th>
                                         <th>Action</th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    @foreach (DrawingTheme.Models.tblComponent Component in Model)
+                                    @foreach (DrawingTheme.Models.tblOrder Order in Model)
                                     {
-                                    <tr>
-                                        EditComponent
-                                        <td hidden> @Component.ComponentId</td>
+                                        <tr>
+                                            <td hidden>@Order.OrderId</td>
+                                             <td>@Order.OrderNumber</td>
+                                            <td>
+                                                <span class="c_name">@Order.Name</span>
+                                            </td>
 
-                                        <td>
-                                            <span class="c_name">@Component.Name</span>
-                                        </td>
-
-                                        <td>@Component.Code</td>
-                                        <td>
-                                            <span class="Price">@Component.Price</span>
-                                        </td>
-                                        <td hidden>
-                                            <span>@Component.isActive</span>
-                                        </td>
-                                        <td>
-                                            <button type="button" class="btn btn-primary btn-sm" title="Edit" data-toggle="modal" data-target="#addcontact" id="EditComponent"><i class="fa fa-edit"></i></button>
-                                            <button type="button" class="btn btn-danger btn-sm" title="Delete" data-toggle="modal" data-target="#DeleteComponentModal" id="DeleteComponent"><i class="fa fa-trash-o"></i></button>
-                                        </td>
-                                    </tr>
+                                            <td>@Order.TotalPrice</td>
+                                            <td>
+                                                <span class="Price">@Order.Status</span>
+                                            </td>
+                                            <td hidden>
+                                                <span>@Order.isActive</span>
+                                            </td>
+                                            <td>
+                                                <button type="button" class="btn btn-primary btn-sm" title="Edit" data-toggle="modal" data-target="#addcontact" id="EditOrder"><i class="fa fa-edit"></i></button>
+                                                <button type="button" class="btn btn-danger btn-sm" title="Delete" data-toggle="modal" data-target="#DeleteOrderModal" id="DeleteOrder"><i class="fa fa-trash-o"></i></button>
+                                            </td>
+                                        </tr>
 
                                     }
-                                    
+
                                 </tbody>
                             </table>
                         </div>
@@ -114,29 +114,34 @@
 </div>
 <div class="modal fade" id="addcontact" tabindex="-1" role="dialog">
     <div class="modal-dialog  modal-lg" role="document">
-        @using (Html.BeginForm("AddComponent", "Component", FormMethod.Post, new { enctype = "multipart/form-data" }))
+        @using (Html.BeginForm("AddOrder", "Order", FormMethod.Post, new { enctype = "multipart/form-data" }))
         {@Html.AntiForgeryToken()
         <div class="modal-content">
             <div class="modal-header">
-                <h4 class="title" id="defaultModalLabel">Add Component</h4>
+                <h4 class="title" id="defaultModalLabel">Add Order</h4>
             </div>
             <div class="modal-body">
 
                 <div class="row clearfix">
                     <div class="col-6">
                         <div class="form-group">
-                            <input type="text" hidden class="form-control" id="ComponentId" name="ComponentId" placeholder="First Name">
+                            <input type="text" class="form-control" id="OrderNumber" name="OrderNumber" placeholder="Order Number" required>
+                        </div>
+                    </div>
+                    <div class="col-6">
+                        <div class="form-group">
+                            <input type="text" hidden class="form-control" id="OrderId" name="OrderId" placeholder="First Name">
                             <input type="text" class="form-control" id="Name" name="Name" placeholder="Name" required>
                         </div>
                     </div>
                     <div class="col-6">
                         <div class="form-group">
-                            <input type="text" class="form-control" id="Code" name="Code" placeholder="Code" required>
+                            <input type="text" class="form-control" id="TotalPrice" name="TotalPrice" placeholder="Total Price" required>
                         </div>
                     </div>
                     <div class="col-6">
                         <div class="form-group">
-                            <input type="number" class="form-control" id="Price" name="Price" placeholder="Price" required>
+                            <input type="text" class="form-control" id="Status" name="Status" placeholder="Status" required>
                         </div>
                     </div>
                     <div class="col-12 form-group">
@@ -163,18 +168,18 @@
 
 
 
-<div class="modal fade" id="DeleteComponentModal" tabindex="-1" role="dialog">
+<div class="modal fade" id="DeleteOrderModal" tabindex="-1" role="dialog">
     <div class="modal-dialog  modal-lg" role="document">
-        @using (Html.BeginForm("DeleteComponent", "Component", FormMethod.Post, new { enctype = "multipart/form-data" }))
+        @using (Html.BeginForm("DeleteOrder", "Order", FormMethod.Post, new { enctype = "multipart/form-data" }))
         {@Html.AntiForgeryToken()
         <div class="modal-content">
             <div class="modal-header">
-                <h4 class="title" id="defaultModalLabel">Delete Component</h4>
+                <h4 class="title" id="defaultModalLabel">Delete Order</h4>
             </div>
             <div class="modal-body text-center">
                 <img src="~/assets/images/sent.png" alt="" width="50" height="46">
-                <input class="form-control" type="text" name="ComponentId" id="DeleteComponentId" hidden>
-                <h5>Are you sure want to delete this component information?</h5>
+                <input class="form-control" type="text" name="OrderId" id="DeleteOrderId" hidden>
+                <h5>Are you sure want to delete this Order information?</h5>
 
             </div>
             <div class="modal-footer">
@@ -191,31 +196,31 @@
 <script src="~/assets/js/jquery-3.2.1.min.js"></script>
 <script>
 
-    $(document).on("click", "#DeleteComponent", function () {
+    $(document).on("click", "#DeleteOrder", function () {
         //alert();
         var currentRow = $(this).closest("tr");
-        $("#DeleteComponentId").val(currentRow.find("td:eq(0)").text());
-       /* $("#DeleteComponentModal").toggle();*/
+        $("#DeleteOrderId").val(currentRow.find("td:eq(0)").text());
+       /* $("#DeleteOrderModal").toggle();*/
 
     });
 
 
-    $(document).on("click", "#AddComponent", function () {
-        $("#defaultModalLabel").text("Add Component");
-        $("#ComponentId").val('');
+    $(document).on("click", "#AddOrder", function () {
+        $("#defaultModalLabel").text("Add Order");
+        $("#OrderId").val('');
         $("#Name").val('');
-        $("#Code").val('');
-        $("#Price").val('');
-       
+        $("#TotalPrice").val('');
+        $("#Status").val('');
+
         $('#isActive').prop('checked', false);
-        //var myModal = $('#offcanvasAddComponent');
-        //$('#offcanvasAddComponent').css("visibility", "visible");
-        //$('#offcanvasAddComponent').addClass("show");
-        //$('#AddComponentBody').css("visibility", "visible");
+        //var myModal = $('#offcanvasAddOrder');
+        //$('#offcanvasAddOrder').css("visibility", "visible");
+        //$('#offcanvasAddOrder').addClass("show");
+        //$('#AddOrderBody').css("visibility", "visible");
     });
 
 
-    $(document).on("click", "#EditComponent", function () {
+    $(document).on("click", "#EditOrder", function () {
         @*var model1 = '@Html.Raw(Json.Encode(ViewBag.CategoryList))';
         var data = JSON.parse(model1);*@
         var currentRow = $(this).closest("tr");
@@ -223,13 +228,14 @@
 
         //alert(currentRow.find("td:eq(2)").text());
 
-        $("#defaultModalLabel").text("Edit Component");
-        var ComponentId = currentRow.find("td:eq(0)").text();
-        $("#ComponentId").val(ComponentId);
+        $("#defaultModalLabel").text("Edit Order");
+        var OrderId = currentRow.find("td:eq(0)").text();
+        $("#OrderId").val(OrderId);
+        $("#OrderNumber").val(currentRow.find("td:eq(1)").text());
         $("#Name").val(currentRow.find("span:eq(0)").text());
-        $("#Code").val(currentRow.find("td:eq(2)").text());
-        $("#Price").val(currentRow.find("span:eq(1)").text());
-       
+        $("#TotalPrice").val(currentRow.find("td:eq(3)").text());
+        $("#Status").val(currentRow.find("span:eq(1)").text());
+
         if (currentRow.find("span:eq(2)").text()=="True") {
             $('#isActive').prop('checked', true);
         }
@@ -278,7 +284,7 @@
         });
 
         $(".nav1 li").removeClass("active");
-        $('#Component').addClass('active');
+        $('#Order').addClass('active');
 
     });
 </script>

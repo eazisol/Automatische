@@ -166,6 +166,12 @@
     <Compile Include="Models\tblMenu.cs">
       <DependentUpon>Model.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\tblOrder.cs">
+      <DependentUpon>Model.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\tblOrderDetail.cs">
+      <DependentUpon>Model.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\tblRole.cs">
       <DependentUpon>Model.tt</DependentUpon>
     </Compile>
@@ -1494,6 +1500,7 @@
     <Content Include="Views\Admin\DrawShape.cshtml" />
     <Content Include="Views\Account\ChangeForgetPassword.cshtml" />
     <Content Include="Views\Component\Components.cshtml" />
+    <Content Include="Views\Customer\Orders.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

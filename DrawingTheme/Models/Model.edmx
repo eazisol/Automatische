@@ -62,6 +62,32 @@
           <Property Name="isActive" Type="bit" />
           <Property Name="ElementId" Type="nvarchar(max)" />
         </EntityType>
+        <EntityType Name="tblOrder">
+          <Key>
+            <PropertyRef Name="OrderId" />
+          </Key>
+          <Property Name="OrderId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="OrderNumber" Type="nvarchar(max)" />
+          <Property Name="Name" Type="nvarchar(max)" />
+          <Property Name="TotalPrice" Type="float" />
+          <Property Name="Status" Type="int" />
+          <Property Name="CreatedDate" Type="datetime" />
+          <Property Name="CratedBy" Type="int" />
+          <Property Name="EditDate" Type="datetime" />
+          <Property Name="EditBy" Type="int" />
+          <Property Name="isActive" Type="bit" />
+        </EntityType>
+        <EntityType Name="tblOrderDetail">
+          <Key>
+            <PropertyRef Name="OrderDetailId" />
+          </Key>
+          <Property Name="OrderDetailId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="OrderId" Type="int" />
+          <Property Name="CompumentId" Type="int" />
+          <Property Name="CompumentName" Type="nvarchar(max)" />
+          <Property Name="CompumentCode" Type="nvarchar(max)" />
+          <Property Name="CompumentPrice" Type="float" />
+        </EntityType>
         <EntityType Name="tblRole">
           <Key>
             <PropertyRef Name="RoleId" />
@@ -195,6 +221,30 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_tblOrder_tblUser">
+          <End Role="tblUser" Type="Self.tblUser" Multiplicity="0..1" />
+          <End Role="tblOrder" Type="Self.tblOrder" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tblUser">
+              <PropertyRef Name="UserId" />
+            </Principal>
+            <Dependent Role="tblOrder">
+              <PropertyRef Name="CratedBy" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tblOrder_tblUser1">
+          <End Role="tblUser" Type="Self.tblUser" Multiplicity="0..1" />
+          <End Role="tblOrder" Type="Self.tblOrder" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tblUser">
+              <PropertyRef Name="UserId" />
+            </Principal>
+            <Dependent Role="tblOrder">
+              <PropertyRef Name="EditBy" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_tblSetting_tblUser">
           <End Role="tblUser" Type="Self.tblUser" Multiplicity="0..1" />
           <End Role="tblSetting" Type="Self.tblSetting" Multiplicity="*" />
@@ -224,6 +274,8 @@
           <EntitySet Name="tblComponent" EntityType="Self.tblComponent" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tblLog" EntityType="Self.tblLog" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tblMenu" EntityType="Self.tblMenu" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tblOrder" EntityType="Self.tblOrder" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tblOrderDetail" EntityType="Self.tblOrderDetail" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tblRole" EntityType="Self.tblRole" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tblSetting" EntityType="Self.tblSetting" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tblUser" EntityType="Self.tblUser" Schema="dbo" store:Type="Tables" />
@@ -254,6 +306,14 @@
           <AssociationSet Name="FK_tblLog_tblUser" Association="Self.FK_tblLog_tblUser">
             <End Role="tblUser" EntitySet="tblUser" />
             <End Role="tblLog" EntitySet="tblLog" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tblOrder_tblUser" Association="Self.FK_tblOrder_tblUser">
+            <End Role="tblUser" EntitySet="tblUser" />
+            <End Role="tblOrder" EntitySet="tblOrder" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tblOrder_tblUser1" Association="Self.FK_tblOrder_tblUser1">
+            <End Role="tblUser" EntitySet="tblUser" />
+            <End Role="tblOrder" EntitySet="tblOrder" />
           </AssociationSet>
           <AssociationSet Name="FK_tblSetting_tblUser" Association="Self.FK_tblSetting_tblUser">
             <End Role="tblUser" EntitySet="tblUser" />
@@ -358,6 +418,8 @@
           <NavigationProperty Name="tblSettings" Relationship="AutomatischeModel.FK_tblSetting_tblUser" FromRole="tblUser" ToRole="tblSetting" />
           <NavigationProperty Name="tblComponents" Relationship="AutomatischeModel.FK_tblComponent_tblUser" FromRole="tblUser" ToRole="tblComponent" />
           <NavigationProperty Name="tblComponents1" Relationship="AutomatischeModel.FK_tblComponent_tblUser1" FromRole="tblUser" ToRole="tblComponent" />
+          <NavigationProperty Name="tblOrders" Relationship="AutomatischeModel.FK_tblOrder_tblUser" FromRole="tblUser" ToRole="tblOrder" />
+          <NavigationProperty Name="tblOrders1" Relationship="AutomatischeModel.FK_tblOrder_tblUser1" FromRole="tblUser" ToRole="tblOrder" />
         </EntityType>
         <Association Name="FK_AccessManu">
           <End Role="tblMenu" Type="Self.tblMenu" Multiplicity="0..1" />
@@ -475,6 +537,16 @@
             <End Role="tblUser" EntitySet="tblUsers" />
             <End Role="tblComponent" EntitySet="tblComponents" />
           </AssociationSet>
+          <EntitySet Name="tblOrders" EntityType="AutomatischeModel.tblOrder" />
+          <EntitySet Name="tblOrderDetails" EntityType="AutomatischeModel.tblOrderDetail" />
+          <AssociationSet Name="FK_tblOrder_tblUser" Association="AutomatischeModel.FK_tblOrder_tblUser">
+            <End Role="tblUser" EntitySet="tblUsers" />
+            <End Role="tblOrder" EntitySet="tblOrders" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tblOrder_tblUser1" Association="AutomatischeModel.FK_tblOrder_tblUser1">
+            <End Role="tblUser" EntitySet="tblUsers" />
+            <End Role="tblOrder" EntitySet="tblOrders" />
+          </AssociationSet>
         </EntityContainer>
         <EntityType Name="tblSetting">
           <Key>
@@ -541,6 +613,58 @@
               <PropertyRef Name="UserId" />
             </Principal>
             <Dependent Role="tblComponent">
+              <PropertyRef Name="EditBy" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="tblOrder">
+          <Key>
+            <PropertyRef Name="OrderId" />
+          </Key>
+          <Property Name="OrderId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="OrderNumber" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Name" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="TotalPrice" Type="Double" />
+          <Property Name="Status" Type="Int32" />
+          <Property Name="CreatedDate" Type="DateTime" Precision="3" />
+          <Property Name="CratedBy" Type="Int32" />
+          <Property Name="EditDate" Type="DateTime" Precision="3" />
+          <Property Name="EditBy" Type="Int32" />
+          <Property Name="isActive" Type="Boolean" />
+          <NavigationProperty Name="tblUser" Relationship="AutomatischeModel.FK_tblOrder_tblUser" FromRole="tblOrder" ToRole="tblUser" />
+          <NavigationProperty Name="tblUser1" Relationship="AutomatischeModel.FK_tblOrder_tblUser1" FromRole="tblOrder" ToRole="tblUser" />
+        </EntityType>
+        <EntityType Name="tblOrderDetail">
+          <Key>
+            <PropertyRef Name="OrderDetailId" />
+          </Key>
+          <Property Name="OrderDetailId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="OrderId" Type="Int32" />
+          <Property Name="CompumentId" Type="Int32" />
+          <Property Name="CompumentName" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="CompumentCode" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="CompumentPrice" Type="Double" />
+        </EntityType>
+        <Association Name="FK_tblOrder_tblUser">
+          <End Type="AutomatischeModel.tblUser" Role="tblUser" Multiplicity="0..1" />
+          <End Type="AutomatischeModel.tblOrder" Role="tblOrder" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tblUser">
+              <PropertyRef Name="UserId" />
+            </Principal>
+            <Dependent Role="tblOrder">
+              <PropertyRef Name="CratedBy" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tblOrder_tblUser1">
+          <End Type="AutomatischeModel.tblUser" Role="tblUser" Multiplicity="0..1" />
+          <End Type="AutomatischeModel.tblOrder" Role="tblOrder" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tblUser">
+              <PropertyRef Name="UserId" />
+            </Principal>
+            <Dependent Role="tblOrder">
               <PropertyRef Name="EditBy" />
             </Dependent>
           </ReferentialConstraint>
@@ -661,6 +785,34 @@
                 <ScalarProperty Name="Code" ColumnName="Code" />
                 <ScalarProperty Name="Name" ColumnName="Name" />
                 <ScalarProperty Name="ComponentId" ColumnName="ComponentId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tblOrders">
+            <EntityTypeMapping TypeName="AutomatischeModel.tblOrder">
+              <MappingFragment StoreEntitySet="tblOrder">
+                <ScalarProperty Name="isActive" ColumnName="isActive" />
+                <ScalarProperty Name="EditBy" ColumnName="EditBy" />
+                <ScalarProperty Name="EditDate" ColumnName="EditDate" />
+                <ScalarProperty Name="CratedBy" ColumnName="CratedBy" />
+                <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+                <ScalarProperty Name="TotalPrice" ColumnName="TotalPrice" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="OrderNumber" ColumnName="OrderNumber" />
+                <ScalarProperty Name="OrderId" ColumnName="OrderId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tblOrderDetails">
+            <EntityTypeMapping TypeName="AutomatischeModel.tblOrderDetail">
+              <MappingFragment StoreEntitySet="tblOrderDetail">
+                <ScalarProperty Name="CompumentPrice" ColumnName="CompumentPrice" />
+                <ScalarProperty Name="CompumentCode" ColumnName="CompumentCode" />
+                <ScalarProperty Name="CompumentName" ColumnName="CompumentName" />
+                <ScalarProperty Name="CompumentId" ColumnName="CompumentId" />
+                <ScalarProperty Name="OrderId" ColumnName="OrderId" />
+                <ScalarProperty Name="OrderDetailId" ColumnName="OrderDetailId" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
