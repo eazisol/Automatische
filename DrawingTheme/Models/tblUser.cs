@@ -17,14 +17,12 @@ namespace DrawingTheme.Models
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public tblUser()
         {
-            this.tblLogs = new HashSet<tblLog>();
-            this.tblUser1 = new HashSet<tblUser>();
-            this.tblUser11 = new HashSet<tblUser>();
-            this.tblSettings = new HashSet<tblSetting>();
             this.tblComponents = new HashSet<tblComponent>();
             this.tblComponents1 = new HashSet<tblComponent>();
             this.tblOrders = new HashSet<tblOrder>();
             this.tblOrders1 = new HashSet<tblOrder>();
+            this.tblSettings = new HashSet<tblSetting>();
+            this.tblTransactions = new HashSet<tblTransaction>();
         }
     
         public int UserId { get; set; }
@@ -33,6 +31,9 @@ namespace DrawingTheme.Models
         public string FirstName { get; set; }
         public string Email { get; set; }
         public string Password { get; set; }
+        public string Address { get; set; }
+        public string Phone { get; set; }
+        public string ImagePath { get; set; }
         public Nullable<int> RoleId { get; set; }
         public Nullable<System.DateTime> LastLogin { get; set; }
         public Nullable<int> CreatedBy { get; set; }
@@ -40,21 +41,7 @@ namespace DrawingTheme.Models
         public Nullable<int> EditBy { get; set; }
         public Nullable<System.DateTime> EditDate { get; set; }
         public Nullable<bool> isActive { get; set; }
-        public string Address { get; set; }
-        public string Phone { get; set; }
-        public string ImagePath { get; set; }
     
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<tblLog> tblLogs { get; set; }
-        public virtual tblRole tblRole { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<tblUser> tblUser1 { get; set; }
-        public virtual tblUser tblUser2 { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<tblUser> tblUser11 { get; set; }
-        public virtual tblUser tblUser3 { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<tblSetting> tblSettings { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<tblComponent> tblComponents { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
@@ -63,5 +50,10 @@ namespace DrawingTheme.Models
         public virtual ICollection<tblOrder> tblOrders { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<tblOrder> tblOrders1 { get; set; }
+        public virtual tblRole tblRole { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<tblSetting> tblSettings { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<tblTransaction> tblTransactions { get; set; }
     }
 }

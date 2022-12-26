@@ -18,7 +18,5 @@ namespace DrawingTheme.Models
         public Nullable<int> UserId { get; set; }
         public string Action { get; set; }
         public Nullable<System.DateTime> CreatedDate { get; set; }
-    
-        public virtual tblUser tblUser { get; set; }
     }
 }
