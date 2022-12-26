@@ -16666,7 +16666,7 @@ ul.list-connected-app > li:last-child .connected-app {
 .theme-blush {
     --primary-color: #8dc63f;
     --secondary-color: #ffdd95;
-    --primary-gradient: linear-gradient(45deg, #8dc63f, #8dc63f);
+    --primary-gradient: linear-gradient(45deg, #333333, #333333);
 }
 
 .theme-yellow {
