@@ -16,9 +16,12 @@ namespace DrawingTheme.Models
     {
         public int OrderDetailId { get; set; }
         public Nullable<int> OrderId { get; set; }
-        public Nullable<int> CompumentId { get; set; }
-        public string CompumentName { get; set; }
-        public string CompumentCode { get; set; }
-        public Nullable<double> CompumentPrice { get; set; }
+        public Nullable<int> ComponentId { get; set; }
+        public string ComponentName { get; set; }
+        public string ComponentCode { get; set; }
+        public Nullable<double> ComponentPrice { get; set; }
+    
+        public virtual tblOrder tblOrder { get; set; }
+        public virtual tblComponent tblComponent { get; set; }
     }
 }

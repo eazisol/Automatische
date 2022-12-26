@@ -1,4 +1,4 @@
-﻿
+﻿@model IEnumerable<DrawingTheme.Models.tblComponent>
 @{
     ViewBag.Title = "DrawShape";
     Layout = "~/Views/Shared/_Layout.cshtml";
@@ -19,21 +19,121 @@
                     <li class="breadcrumb-item active">DrawShape</li>
                 </ul>
             </div>
-    
+
         </div>
     </div>
 </div>
 <div class="body d-flex profile-page">
     <div class="container-fluid">
         <div>
-            <button id="Area" style="margin-left:2%;">Lawn</button>
-            <button id="DryArea" style="margin-left:2%;">Dry Area</button>
+            <input type="text" name="OrderId" id="OrderId" value="" />
+            @foreach (DrawingTheme.Models.tblComponent Component in Model)
+            {
+                <button id="Area" onclick="SaveData(@Component.ComponentId)">@Component.Name</button>
+            }
+            @*<button id="Area" style="margin-left:2%;">Lawn</button>
+            <button id="DryArea" style="margin-left:2%;">Dry Area</button>*@
         </div>
         <div id="container"></div>
+        <form role="form" id="payment-form" method="POST" action="@Url.Action("PaymentWithPaypal","PayPal")">
+            <div id="">Total Amount: <lebel id="TotalAmount"> 0</lebel></div>
+            <input type="text" id="TotalAmountInput" name="amount" value="" />
+            <button> Save Diagram</button>
+            </form>
     </div>
 </div>
+
+
+
+<div class="modal fade" id="addcontact" tabindex="-1" role="dialog">
+    <div class="modal-dialog  modal-lg" role="document">
+
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="title" id="defaultModalLabel">Please enter order name</h4>
+            </div>
+            <div class="modal-body">
+
+                <div class="row clearfix">
+                    <div class="col-6">
+                        <div class="form-group">
+                            @*<input type="text" hidden class="form-control" id="OrderId" name="OrderId" placeholder="First Name">*@
+                            <input type="text" class="form-control" id="Name" name="Name" placeholder="Order Name" required>
+                        </div>
+                    </div>
+
+
+                </div>
+
+            </div>
+            <div class="modal-footer">
+                <button type="submit" class="btn btn-primary" id="SaveOrder">Save Changes</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal">CLOSE</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<script src="https://unpkg.com/konva@8.3.14/konva.min.js"></script>
+
 <script src="~/assets/js/jquery-3.2.1.min.js"></script>
 <script>
+
+    function SaveData(id) {
+        ComponentId = id;
+        OrderId = $("#OrderId").val();
+
+        var model = {
+            ComponentId: ComponentId,
+            OrderId: OrderId,
+        };
+
+        $.ajax({
+            type: "POST",
+            url: "@Url.Action("AddOrderDetails", "Customer")",
+            data: JSON.stringify(model),
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            success: function (r) {
+                $("#TotalAmount").text(r);
+                $("#TotalAmountInput").val(r);
+            }
+        });
+
+    }
+
+
+    $(document).on("click", "#SaveOrder", function () {
+
+        Name = $("#Name").val();
+
+        var model = {
+            Name: Name,
+        };
+
+
+        $.ajax({
+            type: "POST",
+            url: "@Url.Action("AjaxAddOrder", "Customer")",
+            data: JSON.stringify(model),
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            success: function (r) {
+                $("#OrderId").val(r);
+                $("#addcontact").modal('toggle');
+            }
+        });
+
+
+    });
+
+
+    $(document).ready(function () {
+
+        $("#addcontact").modal('toggle');
+
+    });
 
         var width = window.innerWidth;
         var height = window.innerHeight;
@@ -788,7 +888,6 @@
 
 
     $(document).ready(function () {
-
 
         $(".nav1 li").removeClass("active");
         $('#DrawShape').addClass('active');
