@@ -1,7 +1,10 @@
-﻿
+﻿@model  DrawingTheme.Models.tblUser
 @{
     ViewBag.Title = "Profile";
     Layout = "~/Views/Shared/_Layout.cshtml";
+
+    HttpCookie cookieObj = Request.Cookies["User"];
+    int RoleId = Int32.Parse(cookieObj["RoleId"]);
 }
 
 
@@ -37,9 +40,17 @@
 
 <!-- Body: Body -->
 <div class="body d-flex profile-page">
+    <div style="display:none;" class="alert alert-success alert-dismissible fade show" id="SuccessAlert" role="alert">
+        @ViewBag.Success
+    </div>
+    <div style="display:none;" class="alert alert-danger alert-dismissible fade show" role="alert" id="OldPasserror">
+        <strong>Error!</strong> @ViewBag.Error
+    </div>
     <div class="container-fluid">
         <div class="row clearfix">
             <div class="col-lg-12 col-md-12">
+                @using (Html.BeginForm("AddUser", "User", FormMethod.Post, new { enctype = "multipart/form-data" }))
+                {@Html.AntiForgeryToken()
                 <div class="card active-bg overflowvisible profile-main">
                     <div class="card-body profile-header p-0">
                         <div class="back-profile" style="height:150px !important">
@@ -47,16 +58,16 @@
                         </div>
                         <div class="detail">
                             <div class="u-profile-img m-r-20">
-                                <img src="~/assets/images/user.png" class="rounded img-raised"
+                                <img src="@Model.ImagePath" class="rounded img-raised"
                                      alt="User">
                             </div>
                             <div class="u_name" style="color:black !important">
-                                <h4 class="mb-0"><strong>Katie </strong>Clark</h4>
-                                <span>Administrator</span>
-                                <input type="file" class="form-control-file" id="exampleInputFile"
+                                <h4 class="mb-0"><strong>@Model.FirstName </strong>@Model.LastName</h4>
+                                <span>@Model.tblRole.Role</span>
+                                <input type="file" class="form-control-file" name="Image" id="exampleInputFile"
                                        aria-describedby="fileHelp">
                             </div>
-                         
+
                         </div>
                     </div>
                 </div>
@@ -73,49 +84,52 @@
                                 <div class="row clearfix">
                                     <div class="col-lg-4 col-md-12">
                                         <div class="form-group">
-                                            <input type="text" class="form-control"
-                                                   placeholder="Katie">
+                                            <input type="text" class="form-control" placeholder="Katie" hidden name="UserId" value="@Model.UserId">
+                                            <input type="text" class="form-control" placeholder="Katie" hidden name="RoleId" value="@Model.RoleId">
+                                            <input type="text" class="form-control" placeholder="Katie" name="FirstName" value="@Model.FirstName">
                                         </div>
                                     </div>
                                     <div class="col-lg-4 col-md-12">
                                         <div class="form-group">
-                                            <input type="text" class="form-control" placeholder="Clark">
+                                            <input type="text" class="form-control" placeholder="Clark" name="LastName" value="@Model.LastName">
                                         </div>
                                     </div>
                                     <div class="col-lg-4 col-md-12">
                                         <div class="form-group">
-                                            <input type="text" class="form-control" placeholder="E-mail">
+                                            <input type="text" class="form-control" placeholder="E-mail" name="Email" value="@Model.Email">
                                         </div>
                                     </div>
                                     <div class="col-lg-4 col-md-12">
                                         <div class="form-group">
-                                            <input type="text" class="form-control" placeholder="Phone">
-                                        </div>
-                                    </div>
-                                    <div class="col-lg-4 col-md-12">
-                                        <div class="form-group">
-                                            <input type="text" class="form-control" placeholder="City">
+                                            <input type="text" class="form-control" placeholder="Phone" name="Phone" value="@Model.Phone">
                                         </div>
                                     </div>
 
-                                    <div class="col-lg-4 col-md-12">
-                                        <div class="form-group">
-                                            <input type="text" class="form-control" placeholder="Country">
-                                        </div>
-                                    </div>
                                     <div class="col-md-12">
                                         <div class="form-group">
                                             <textarea rows="4" class="form-control no-resize"
-                                                      placeholder="Address Line 1"></textarea>
+                                                      placeholder="Address" name="Address" value="@Model.Address">@Model.Address</textarea>
                                         </div>
                                     </div>
-                                    <div class="col-md-12">
-                                        <div class="checkbox">
-                                            <input id="procheck1" type="checkbox">
-                                            <label for="procheck1">Profile Visibility For Everyone</label>
-                                        </div>
+                                    @if (RoleId == 1)
+                                    {
+                                        <div class="col-md-12">
+                                            <div class="checkbox">
+                                                @if (@Model.isActive == true)
+                                                {
+                                                    <input id="procheck1" type="checkbox" name="isActive" value="True" checked>
+                                                }
+                                                else
+                                                {
+                                                    <input id="procheck1" type="checkbox" name="isActive" value="True">
+                                                }
 
-                                    </div>
+                                                <label for="procheck1">Active</label>
+                                            </div>
+
+                                        </div>
+                                    }
+
                                     <div class="col-md-12">
                                         <button class="btn btn-primary btn-round">Save Changes</button>
                                     </div>
@@ -123,26 +137,76 @@
                             </div>
                         </div>
 
-                        <div class="card">
-                            <div class="card-header">
-                                <h3 class="card-title"><strong>Security</strong> Settings</h3>
-                            </div>
-                            <div class="card-body pt-0">
-                                <div class="form-group">
-                                    <input type="text" class="form-control" placeholder="Username">
-                                </div>
-                                <div class="form-group">
-                                    <input type="password" class="form-control"
-                                           placeholder="Current Password">
-                                </div>
-                                <div class="form-group">
-                                    <input type="password" class="form-control" placeholder="New Password">
-                                </div>
-                                <button class="btn btn-info btn-round">Save Changes</button>
-                            </div>
-                        </div>
+
                     </div>
                 </div>
+            }
+                @if (RoleId == 2)
+                {
+                    using (Html.BeginForm("ChangePassword", "Customer", FormMethod.Post, new { enctype = "multipart/form-data" }))
+                    {@Html.AntiForgeryToken()
+                    <div class="card">
+                        <div style="display:none;" class="alert alert-danger alert-dismissible fade show" role="alert" id="ChangePasserror">
+                            <strong>Error!</strong>New Password and Confirm Password not Matched.
+                        </div>
+                        <div class="card-header">
+                            <h3 class="card-title"><strong>Security</strong> Settings</h3>
+                        </div>
+                        <div class="card-body pt-0">
+                            @*<div class="form-group">
+                        <input type="text" class="form-control" placeholder="Username">
+                    </div>*@
+                            <div class="form-group">
+                                <input type="password" class="form-control" placeholder="Current Password" hidden name="id" value="@Model.UserId">
+                                <input type="password" class="form-control" placeholder="Current Password" hidden name="Email" value="@Model.Email">
+                                <input type="password" class="form-control" placeholder="Current Password" id="OldPassword" name="OldPassword">
+                            </div>
+                            <div class="form-group">
+                                <input type="password" class="form-control" placeholder="New Password" id="NewPassword" name="NewPassword">
+                            </div>
+                            <div class="form-group">
+                                <input type="password" class="form-control" placeholder="New Password" id="ConfirmPassword" name="ConfirmPassword">
+                            </div>
+                            <button class="btn btn-info btn-round" id="SaveChanges">Save Changes</button>
+                        </div>
+                    </div>
+                }
+                }
+                else
+                {
+                    using (Html.BeginForm("AdminChangePassword", "Customer", FormMethod.Post, new { enctype = "multipart/form-data" }))
+                    {@Html.AntiForgeryToken()
+                    <div class="card">
+                        <div style="display:none;" class="alert alert-danger alert-dismissible fade show" role="alert" id="ChangePasserror">
+                            <strong>Error!</strong>New Password and Confirm Password not Matched.
+                        </div>
+                        <div class="card-header">
+                            <h3 class="card-title"><strong>Security</strong> Settings</h3>
+                        </div>
+                        <div class="card-body pt-0">
+                            @*<div class="form-group">
+                        <input type="text" class="form-control" placeholder="Username">
+                    </div>*@
+                            <div class="form-group">
+                                <input type="password" class="form-control" placeholder="Current Password" hidden name="id" value="@Model.UserId">
+                                <input type="password" class="form-control" placeholder="Current Password" hidden name="Email" value="@Model.Email">
+                                @*<input type="password" class="form-control" placeholder="Current Password" id="OldPassword" name="OldPassword">*@
+                            </div>
+                            <div class="form-group">
+                                <input type="password" class="form-control" placeholder="New Password" name="NewPassword">
+                            </div>
+                            @*<div class="form-group">
+                        <input type="password" class="form-control" placeholder="New Password" id="ConfirmPassword" name="ConfirmPassword">
+                    </div>*@
+                            <button class="btn btn-info btn-round">Save Changes</button>
+                        </div>
+                    </div>
+                }
+                }
+
+
+
+
             </div>
         </div><!-- .row End -->
     </div>
@@ -150,8 +214,55 @@
 <script src="~/assets/js/jquery-3.2.1.min.js"></script>
 <script>
 
+    $("#ConfirmPassword").change(function () {
+        var New = $("#NewPassword").val();
+        if (New) {
+            if ($("#NewPassword").val() != $("#ConfirmPassword").val()) {
+                $("#ChangePasserror").fadeIn();
+
+                $("#SaveChanges").attr("disabled", true);
+            } else {
+                $("#SaveChanges").attr("disabled", false);
+                $("#ChangePasserror").fadeOut();
+            }
+        }
+    });
+
+    $("#NewPassword").change(function () {
+        var New = $("#ConfirmPassword").val();
+        if (New) {
+            if ($("#NewPassword").val() != $("#ConfirmPassword").val()) {
+                $("#ChangePasserror").fadeIn();
+
+                $("#SaveChanges").attr("disabled", true);
+            } else {
+                $("#SaveChanges").attr("disabled", false);
+                $("#ChangePasserror").fadeOut();
+            }
+        }
+
+    });
+
+
     $(document).ready(function () {
 
+
+
+        if ("@ViewBag.Success"!="") {
+            $('#SuccessAlert').fadeIn();
+            $('#SuccessAlert').fadeOut(10000);
+        }
+        else {
+                $('#SuccessAlert').fadeOut();
+        }
+        if ("@ViewBag.Error" != "") {
+            $('#OldPasserror').fadeIn();
+            $('#OldPasserror').fadeOut(10000);
+
+        }
+        else {
+                    $('#OldPasserror').fadeOut();
+        }
         $('#ScrapperList').DataTable({
             searching: true,
             "ordering": false

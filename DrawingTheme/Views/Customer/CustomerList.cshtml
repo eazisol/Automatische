@@ -1,12 +1,18 @@
-﻿
+﻿@model IEnumerable<DrawingTheme.Models.tblUser>
 @{
     ViewBag.Title = "UserList";
     Layout = "~/Views/Shared/_Layout.cshtml";
+
+    string Succ = @ViewBag.Success;
+    string Update = @ViewBag.Update;
+    string Delete = @ViewBag.Delete;
+    string Error = @ViewBag.Error;
 }
 <div class="block-header py-lg-2 py-2">
     <div class="container-fluid">
         <div class="row">
             <div class="col-lg-6 col-md-4 col-sm-12">
+                
                 <h4>Customer</h4>
                 <ul class="breadcrumb">
                     <li class="breadcrumb-item">
@@ -19,14 +25,27 @@
                     <li class="breadcrumb-item active">Customer</li>
                 </ul>
             </div>
-            
+
         </div>
     </div>
 </div>
 <div class="body d-flex profile-page">
     <div class="container-fluid">
+
         <div class="row clearfix">
             <div class="col-lg-12">
+                <div style="display:none;" class="alert alert-success alert-dismissible fade show" id="SuccessAlert" role="alert">
+                    <strong>Success!</strong> @ViewBag.Success
+                </div>
+                <div style="display:none;" class="alert alert-info alert-dismissible fade show" id="UpdateAlert" role="alert">
+                    <strong>Success!</strong> @ViewBag.Update
+                </div>
+                <div style="display:none;" class="alert alert-warning alert-dismissible fade show" id="DeleteAlert" role="alert">
+                    <strong>Success!</strong> @ViewBag.Delete
+                </div>
+                <div style="display:none;" class="alert alert-danger alert-dismissible fade show" id="error" role="alert">
+                    @ViewBag.Error
+                </div>
                 <div class="card">
                     <div class="card-header">
                         <h3 class="card-title">Customer List</h3>
@@ -37,149 +56,153 @@
                                 <thead>
                                     <tr>
 
+                                        <th hidden>User Id</th>
                                         <th>Name</th>
+                                        <th>Email</th>
                                         <th>Phone</th>
                                         <th>Address</th>
                                         <th>Action</th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr>
+                                    @foreach (DrawingTheme.Models.tblUser User in Model)
+                                    {
+                                        <tr>
+                                            <td hidden>@User.UserId</td>
+                                            <td>
+                                                <img src="@User.ImagePath" class="rounded" alt="">
+                                                <span class="c_name">@User.FirstName @User.LastName</span>
+                                            </td>
+                                            <td>
+                                                @User.Email
+                                            </td>
+                                            <td>
+                                                <span class="phone"><i class="fa fa-phone mr-2"></i>@User.Phone</span>
+                                            </td>
+                                            <td>
+                                                <span>
+                                                    <i class="fa fa-map-marker"></i> @User.Address
+                                                </span>
+                                            </td>
+                                            <td>
+                                                <a href="@Url.Action("Profile","User",new {id=@User.UserId })"><button type="button" class="btn btn-primary btn-sm" title="Edit"><i class="fa fa-edit"></i></button></a>
+                                                <button type="button" class="btn btn-danger btn-sm" title="Delete" data-toggle="modal" data-target="#DeleteUserModal" id="DeleteUser"><i class="fa fa-trash-o"></i></button>
+                                            </td>
+                                        </tr>
+                                    }
+                                    @*<tr>
 
-                                        <td>
-                                            <img src="~/assets/images/xs/avatar1.jpg" class="rounded" alt="">
-                                            <span class="c_name">Olivia Wilson</span>
-                                        </td>
-                                        <td>
-                                            <span class="phone"><i class="fa fa-phone mr-2"></i>664-625-2583</span>
-                                        </td>
-                                        <td>
-                                            <span>
-                                                <i class="fa fa-map-marker"></i> Mary Roe
-                                                Megasystems Inc
-                                                799 E Dragram Suite 5a
-                                                Tucson Az 85705
-                                                Usa
-                                            </span>
-                                        </td>
-                                        <td>
-                                            <button type="button" class="btn btn-primary btn-sm" title="Edit"><i class="fa fa-edit"></i></button>
-                                            <button type="button" class="btn btn-danger btn-sm" title="Delete"><i class="fa fa-trash-o"></i></button>
-                                        </td>
-                                    </tr>
-                                    <tr>
+                                <td>
+                                    <img src="~/assets/images/xs/avatar3.jpg" class="rounded" alt="">
+                                    <span class="c_name">Luke Walsh</span>
+                                </td>
+                                <td>
+                                    <span class="phone"><i class="fa fa-phone mr-2"></i>664-625-2583</span>
+                                </td>
+                                <td>
+                                    <address>
+                                        <i class="fa fa-map-marker"></i>4Jane Roe
+                                        200 E Main St
+                                        Phoenix Az 85123
+                                        Usa
+                                    </address>
+                                </td>
+                                <td>
+                                    <button type="button" class="btn btn-primary btn-sm" title="Edit"><i class="fa fa-edit"></i></button>
+                                    <button type="button" class="btn btn-danger btn-sm" title="Delete"><i class="fa fa-trash-o"></i></button>
+                                </td>
+                            </tr>
+                            <tr>
 
-                                        <td>
-                                            <img src="~/assets/images/xs/avatar3.jpg" class="rounded" alt="">
-                                            <span class="c_name">Luke Walsh</span>
-                                        </td>
-                                        <td>
-                                            <span class="phone"><i class="fa fa-phone mr-2"></i>664-625-2583</span>
-                                        </td>
-                                        <td>
-                                            <address>
-                                                <i class="fa fa-map-marker"></i>4Jane Roe
-                                                200 E Main St
-                                                Phoenix Az 85123
-                                                Usa
-                                            </address>
-                                        </td>
-                                        <td>
-                                            <button type="button" class="btn btn-primary btn-sm" title="Edit"><i class="fa fa-edit"></i></button>
-                                            <button type="button" class="btn btn-danger btn-sm" title="Delete"><i class="fa fa-trash-o"></i></button>
-                                        </td>
-                                    </tr>
-                                    <tr>
+                                <td>
+                                    <img src="~/assets/images/xs/avatar9.jpg" class="rounded" alt="">
+                                    <span class="c_name">Frank Camly</span>
+                                </td>
+                                <td>
+                                    <span class="phone"><i class="fa fa-phone mr-2"></i>554-625-2583</span>
+                                </td>
+                                <td>
+                                    <address>
+                                        <i class="fa fa-map-marker"></i> Mary Roe
+                                        Megasystems Inc
+                                        799 E Dragram Suite 5a
+                                        Tucson Az 85705
+                                        Usa
+                                    </address>
+                                </td>
+                                <td>
+                                    <button type="button" class="btn btn-primary btn-sm" title="Edit"><i class="fa fa-edit"></i></button>
+                                    <button type="button" class="btn btn-danger btn-sm" title="Delete"><i class="fa fa-trash-o"></i></button>
+                                </td>
+                            </tr>
+                            <tr>
 
-                                        <td>
-                                            <img src="~/assets/images/xs/avatar9.jpg" class="rounded" alt="">
-                                            <span class="c_name">Frank Camly</span>
-                                        </td>
-                                        <td>
-                                            <span class="phone"><i class="fa fa-phone mr-2"></i>554-625-2583</span>
-                                        </td>
-                                        <td>
-                                            <address>
-                                                <i class="fa fa-map-marker"></i> Mary Roe
-                                                Megasystems Inc
-                                                799 E Dragram Suite 5a
-                                                Tucson Az 85705
-                                                Usa
-                                            </address>
-                                        </td>
-                                        <td>
-                                            <button type="button" class="btn btn-primary btn-sm" title="Edit"><i class="fa fa-edit"></i></button>
-                                            <button type="button" class="btn btn-danger btn-sm" title="Delete"><i class="fa fa-trash-o"></i></button>
-                                        </td>
-                                    </tr>
-                                    <tr>
+                                <td>
+                                    <img src="~/assets/images/xs/avatar10.jpg" class="rounded" alt="">
+                                    <span class="c_name">Joseph Rees</span>
+                                </td>
+                                <td>
+                                    <span class="phone"><i class="fa fa-phone mr-2"></i>354-625-2583</span>
+                                </td>
+                                <td>
+                                    <address>
+                                        <i class="fa fa-map-marker"></i>Chris Niswandee
+                                        Smallsys Inc
+                                        795 E Dragram
+                                        Tucson Az 85705
+                                        Usa
+                                    </address>
+                                </td>
+                                <td>
+                                    <button type="button" class="btn btn-primary btn-sm" title="Edit"><i class="fa fa-edit"></i></button>
+                                    <button type="button" class="btn btn-danger btn-sm" title="Delete"><i class="fa fa-trash-o"></i></button>
+                                </td>
+                            </tr>
+                            <tr>
 
-                                        <td>
-                                            <img src="~/assets/images/xs/avatar10.jpg" class="rounded" alt="">
-                                            <span class="c_name">Joseph Rees</span>
-                                        </td>
-                                        <td>
-                                            <span class="phone"><i class="fa fa-phone mr-2"></i>354-625-2583</span>
-                                        </td>
-                                        <td>
-                                            <address>
-                                                <i class="fa fa-map-marker"></i>Chris Niswandee
-                                                Smallsys Inc
-                                                795 E Dragram
-                                                Tucson Az 85705
-                                                Usa
-                                            </address>
-                                        </td>
-                                        <td>
-                                            <button type="button" class="btn btn-primary btn-sm" title="Edit"><i class="fa fa-edit"></i></button>
-                                            <button type="button" class="btn btn-danger btn-sm" title="Delete"><i class="fa fa-trash-o"></i></button>
-                                        </td>
-                                    </tr>
-                                    <tr>
+                                <td>
+                                    <img src="~/assets/images/xs/avatar1.jpg" class="rounded" alt="">
+                                    <span class="c_name">Olivia Wilson</span>
+                                </td>
+                                <td>
+                                    <span class="phone"><i class="fa fa-phone mr-2"></i>664-625-2583</span>
+                                </td>
+                                <td>
+                                    <span>
+                                        <i class="fa fa-map-marker"></i> Mary Roe
+                                        Megasystems Inc
+                                        799 E Dragram Suite 5a
+                                        Tucson Az 85705
+                                        Usa
+                                    </span>
+                                </td>
+                                <td>
+                                    <button type="button" class="btn btn-primary btn-sm" title="Edit"><i class="fa fa-edit"></i></button>
+                                    <button type="button" class="btn btn-danger btn-sm" title="Delete"><i class="fa fa-trash-o"></i></button>
+                                </td>
+                            </tr>
+                            <tr>
 
-                                        <td>
-                                            <img src="~/assets/images/xs/avatar1.jpg" class="rounded" alt="">
-                                            <span class="c_name">Olivia Wilson</span>
-                                        </td>
-                                        <td>
-                                            <span class="phone"><i class="fa fa-phone mr-2"></i>664-625-2583</span>
-                                        </td>
-                                        <td>
-                                            <span>
-                                                <i class="fa fa-map-marker"></i> Mary Roe
-                                                Megasystems Inc
-                                                799 E Dragram Suite 5a
-                                                Tucson Az 85705
-                                                Usa
-                                            </span>
-                                        </td>
-                                        <td>
-                                            <button type="button" class="btn btn-primary btn-sm" title="Edit"><i class="fa fa-edit"></i></button>
-                                            <button type="button" class="btn btn-danger btn-sm" title="Delete"><i class="fa fa-trash-o"></i></button>
-                                        </td>
-                                    </tr>
-                                    <tr>
-
-                                        <td>
-                                            <img src="~/assets/images/xs/avatar3.jpg" class="rounded" alt="">
-                                            <span class="c_name">Luke Walsh</span>
-                                        </td>
-                                        <td>
-                                            <span class="phone"><i class="fa fa-phone mr-2"></i>664-625-2583</span>
-                                        </td>
-                                        <td>
-                                            <address>
-                                                <i class="fa fa-map-marker"></i>4Jane Roe
-                                                200 E Main St
-                                                Phoenix Az 85123
-                                                Usa
-                                            </address>
-                                        </td>
-                                        <td>
-                                            <button type="button" class="btn btn-primary btn-sm" title="Edit"><i class="fa fa-edit"></i></button>
-                                            <button type="button" class="btn btn-danger btn-sm" title="Delete"><i class="fa fa-trash-o"></i></button>
-                                        </td>
-                                    </tr>
+                                <td>
+                                    <img src="~/assets/images/xs/avatar3.jpg" class="rounded" alt="">
+                                    <span class="c_name">Luke Walsh</span>
+                                </td>
+                                <td>
+                                    <span class="phone"><i class="fa fa-phone mr-2"></i>664-625-2583</span>
+                                </td>
+                                <td>
+                                    <address>
+                                        <i class="fa fa-map-marker"></i>4Jane Roe
+                                        200 E Main St
+                                        Phoenix Az 85123
+                                        Usa
+                                    </address>
+                                </td>
+                                <td>
+                                    <button type="button" class="btn btn-primary btn-sm" title="Edit"><i class="fa fa-edit"></i></button>
+                                    <button type="button" class="btn btn-danger btn-sm" title="Delete"><i class="fa fa-trash-o"></i></button>
+                                </td>
+                            </tr>*@
 
                                 </tbody>
                             </table>
@@ -261,10 +284,74 @@
         </div>
     </div>
 </div>
+
+
+<div class="modal fade" id="DeleteUserModal" tabindex="-1" role="dialog">
+    <div class="modal-dialog  modal-lg" role="document">
+        @using (Html.BeginForm("DeleteUser", "User", FormMethod.Post, new { enctype = "multipart/form-data" }))
+        {@Html.AntiForgeryToken()
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="title" id="defaultModalLabel">Delete Customer</h4>
+            </div>
+            <div class="modal-body text-center">
+                <img src="~/assets/images/sent.png" alt="" width="50" height="46">
+                <input class="form-control" type="text" name="UserId" id="DeleteUserID" hidden>
+                <h5>Are you sure want to delete this customer information?</h5>
+
+            </div>
+            <div class="modal-footer">
+                <button type="submit" class="btn btn-danger">Delete</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal">CLOSE</button>
+            </div>
+        </div>
+    }
+    </div>
+</div>
 <script src="~/assets/js/jquery-3.2.1.min.js"></script>
 <script>
+    $(document).on("click", "#DeleteUser", function () {
+        //alert();
+        var currentRow = $(this).closest("tr");
+        $("#DeleteUserID").val(currentRow.find("td:eq(0)").text());
+        /* $("#DeleteUserModal").toggle();*/
+
+    });
+
 
     $(document).ready(function () {
+
+
+        if ("@Succ"!="") {
+            $('#SuccessAlert').fadeIn();
+            $('#SuccessAlert').fadeOut(10000);
+        }
+        else {
+            $('#SuccessAlert').fadeOut();
+        }
+        if ("@Update" != "") {
+            $('#UpdateAlert').fadeIn();
+            $('#UpdateAlert').fadeOut(10000);
+        }
+        else {
+            $('#UpdateAlert').fadeOut();
+        }
+        if ("@Delete" != "") {
+            $('#DeleteAlert').fadeIn();
+            $('#DeleteAlert').fadeOut(10000);
+        }
+        else {
+            $('#DeleteAlert').fadeOut();
+        }
+        if ("@Error" != "") {
+            $('#error').fadeIn();
+            $('#error').fadeOut(10000);
+        }
+        else {
+            $('#error').fadeOut();
+        }
+
+
 
         $('#ScrapperList').DataTable({
             searching: true,

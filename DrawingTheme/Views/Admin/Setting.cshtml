@@ -1,7 +1,10 @@
-﻿
+﻿@model  DrawingTheme.Models.tblSetting
 @{
     ViewBag.Title = "Setting";
     Layout = "~/Views/Shared/_Layout.cshtml";
+
+
+    string Update = @ViewBag.Error;
 }
 <div class="block-header py-lg-2 py-2">
     <div class="container-fluid">
@@ -28,35 +31,58 @@
         <div class="row clearfix">
 
             <div class="card">
+                <div style="display:none;" class="alert alert-info alert-dismissible fade show" id="UpdateAlert" role="alert">
+                    <strong>Success!</strong> @ViewBag.Error
+                </div>
+                @using (Html.BeginForm("CreateSetting", "Admin", FormMethod.Post, new { enctype = "multipart/form-data" }))
+                {@Html.AntiForgeryToken()
                 <div class="row card-body">
-                    
+
                     <div class="col-lg-6">
                         <h3 class="card-title">Paypal Settings</h3>
+
+
                         <div class="row">
                             <div class="col-md-12">
                                 <div class="form-group">
+                                    <input type="text" class="form-control" style="display:none;" name="SettingId" value="@Model.SettingId" required>
                                     <label class="form-label">Secret Key</label>
-                                    <input type="text" class="form-control" placeholder="Secret Key" value="AYctY-wZ1hLf2OG33fuEW2CCsPGqa4hcHxK-aI1Gyv4Rcdi0OdGdbJ_5Hmry">
+                                    <input type="text" class="form-control" placeholder="Secret Key" name="SecretKey" value="@Model.SecretKey">
                                 </div>
                             </div>
                             <div class="col-md-12">
                                 <div class="form-group">
                                     <label class="form-label">ClientID</label>
-                                    <input type="text" class="form-control" placeholder="ClientID" value="EFbTStisJ8DmFy5xYrAeEDcCROw8WLOj0LtiSZ5S1NU2-myO4fZrCLC">
+                                    <input type="text" class="form-control" placeholder="ClientID" name="ClientID" value="@Model.ClientID">
                                 </div>
                             </div>
 
                             <div class="col-md-12">
                                 <div class="form-group">
                                     <label class="form-label">Mode</label>
-                                    <select class="form-control custom-select">
-                                        <option value="">Sandbox</option>
-                                        <option value="">live</option>
+                                    <select class="form-control custom-select" name="Mode">
+                                        @if (@Model.Mode == "Sandbox")
+                                        {
+                                            <option value="Sandbox" selected>Sandbox</option>
+                                        }
+                                        else
+                                        {
+                                            <option value="Sandbox">Sandbox</option>
+                                        }
+                                        @if (@Model.Mode == "live")
+                                        {
+                                            <option value="live" selected>live</option>
+                                        }
+                                        else
+                                        {
+                                            <option value="live">live</option>
+                                        }
                                     </select>
                                 </div>
                             </div>
 
                         </div>
+
                     </div>
 
 
@@ -66,31 +92,39 @@
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label class="form-label">Email</label>
-                                    <input type="text" class="form-control" placeholder="Secret Key" value="info@demo.com">
+                                    <input type="text" class="form-control" placeholder="Email" name="Email" value="@Model.Email">
                                 </div>
                             </div>
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label class="form-label">Password</label>
-                                    <input type="password" class="form-control" placeholder="ClientID" value="michael23">
+                                    <input type="password" class="form-control" placeholder="Password" name="Password" value="@Model.Password">
                                 </div>
                             </div>
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label class="form-label">Port</label>
-                                    <input type="text" class="form-control" placeholder="ClientID" value="587">
+                                    <input type="text" class="form-control" placeholder="Port" name="Port" value="@Model.Port">
                                 </div>
                             </div>
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label class="form-label">SMTP</label>
-                                    <input type="text" class="form-control" placeholder="ClientID" value="smtp-relay.com">
+                                    <input type="text" class="form-control" placeholder="SMTP" name="SMTP" value="@Model.SMTP">
                                 </div>
                             </div>
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label class="custom-control custom-checkbox custom-control-inline">
-                                        <input type="checkbox" class="custom-control-input" name="checkbox" required="" data-parsley-errors-container="#error-checkbox" data-parsley-multiple="checkbox">
+                                        @if (Model.isActive == true)
+                                        {
+                                            <input type="checkbox" class="custom-control-input" name="isActive" value="True" checked>
+                                        }
+                                        else
+                                        {
+                                            <input type="checkbox" class="custom-control-input" name="isActive" value="True">
+                                        }
+
                                         <span class="custom-control-label">Active</span>
                                     </label>
                                 </div>
@@ -103,6 +137,7 @@
                 <div class="card-footer text-right">
                     <button type="submit" class="btn btn-primary">Save Changes</button>
                 </div>
+            }
             </div>
         </div><!-- row end-->
     </div>
@@ -112,8 +147,14 @@
 <script>
 
     $(document).ready(function () {
+                if ("@Update" != "") {
+                    $('#UpdateAlert').fadeIn();
+                    $('#UpdateAlert').fadeOut(10000);
+                }
+                else {
+                    $('#UpdateAlert').fadeOut();
+                }
 
-     
         $(".nav1 li").removeClass("active");
         $('#Setting').addClass('active');
 

@@ -1,0 +1,284 @@
+﻿@model IEnumerable<DrawingTheme.Models.tblComponent>
+
+@{
+    ViewBag.Title = "ComponentList";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+
+    string Succ = @ViewBag.Success;
+    string Update = @ViewBag.Update;
+    string Delete = @ViewBag.Delete;
+    string Error = @ViewBag.Error;
+}
+<div class="block-header py-lg-2 py-2">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-lg-6 col-md-4 col-sm-12">
+
+                <h4>Component </h4>
+                <ul class="breadcrumb">
+                    <li class="breadcrumb-item">
+                        <a href="index.html">
+                            <i class="fa fa-dashboard"></i>
+                            Dashboard
+                        </a>
+                    </li>
+
+                    <li class="breadcrumb-item active">Component </li>
+                </ul>
+            </div>
+            <div class="col-lg-6 col-md-8 col-sm-12">
+                <ul class="nav nav-tabs tab-body-header rounded justify-content-end" role="tablist">
+
+                    <div class="page_action">
+                        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#addcontact" id="AddComponent">
+                            <i class="fa fa-address-card mr-1" aria-hidden="true"></i>
+                            Add New Component
+                        </button>
+
+                    </div>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="body d-flex profile-page">
+    <div class="container-fluid">
+        <div class="row clearfix">
+            <div class="col-lg-12">
+                <div style="display:none;" class="alert alert-success alert-dismissible fade show" id="SuccessAlert" role="alert">
+                    <strong>Success!</strong> @ViewBag.Success
+                </div>
+                <div style="display:none;" class="alert alert-info alert-dismissible fade show" id="UpdateAlert" role="alert">
+                    <strong>Success!</strong> @ViewBag.Update
+                </div>
+                <div style="display:none;" class="alert alert-warning alert-dismissible fade show" id="DeleteAlert" role="alert">
+                    <strong>Success!</strong> @ViewBag.Delete
+                </div>
+                <div style="display:none;" class="alert alert-danger alert-dismissible fade show" id="error" role="alert">
+                    @ViewBag.Error
+                </div>
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="card-title">Component List</h3>
+                    </div>
+                    <div class="card-body pt-0">
+                        <div class="table-responsive table_e2">
+                            <table class="table table-hover table-vcenter text-nowrap mb-0" id="ScrapperList">
+                                <thead>
+                                    <tr>
+
+                                        <th hidden>Component Id</th>
+                                        <th>Name</th>
+                                        <th>Code</th>
+                                        <th>Price</th>
+                                        <th hidden>Status</th>
+                                        <th>Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach (DrawingTheme.Models.tblComponent Component in Model)
+                                    {
+                                    <tr>
+                                        EditComponent
+                                        <td hidden> @Component.ComponentId</td>
+
+                                        <td>
+                                            <span class="c_name">@Component.Name</span>
+                                        </td>
+
+                                        <td>@Component.Code</td>
+                                        <td>
+                                            <span class="Price">@Component.Price</span>
+                                        </td>
+                                        <td hidden>
+                                            <span>@Component.isActive</span>
+                                        </td>
+                                        <td>
+                                            <button type="button" class="btn btn-primary btn-sm" title="Edit" data-toggle="modal" data-target="#addcontact" id="EditComponent"><i class="fa fa-edit"></i></button>
+                                            <button type="button" class="btn btn-danger btn-sm" title="Delete" data-toggle="modal" data-target="#DeleteComponentModal" id="DeleteComponent"><i class="fa fa-trash-o"></i></button>
+                                        </td>
+                                    </tr>
+
+                                    }
+                                    
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="addcontact" tabindex="-1" role="dialog">
+    <div class="modal-dialog  modal-lg" role="document">
+        @using (Html.BeginForm("AddComponent", "Component", FormMethod.Post, new { enctype = "multipart/form-data" }))
+        {@Html.AntiForgeryToken()
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="title" id="defaultModalLabel">Add Component</h4>
+            </div>
+            <div class="modal-body">
+
+                <div class="row clearfix">
+                    <div class="col-6">
+                        <div class="form-group">
+                            <input type="text" hidden class="form-control" id="ComponentId" name="ComponentId" placeholder="First Name">
+                            <input type="text" class="form-control" id="Name" name="Name" placeholder="Name" required>
+                        </div>
+                    </div>
+                    <div class="col-6">
+                        <div class="form-group">
+                            <input type="text" class="form-control" id="Code" name="Code" placeholder="Code" required>
+                        </div>
+                    </div>
+                    <div class="col-6">
+                        <div class="form-group">
+                            <input type="number" class="form-control" id="Price" name="Price" placeholder="Price" required>
+                        </div>
+                    </div>
+                    <div class="col-12 form-group">
+
+                        <label class="custom-control custom-checkbox custom-control-inline">
+                            <input type="checkbox" class="custom-control-input" id="isActive" name="isActive" value="True">
+                            <span class="custom-control-label">Active</span>
+                        </label>
+
+                        <p id="error-checkbox"></p>
+                    </div>
+
+                </div>
+
+            </div>
+            <div class="modal-footer">
+                <button type="submit" class="btn btn-primary">Save Changes</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal">CLOSE</button>
+            </div>
+        </div>
+    }
+    </div>
+</div>
+
+
+
+<div class="modal fade" id="DeleteComponentModal" tabindex="-1" role="dialog">
+    <div class="modal-dialog  modal-lg" role="document">
+        @using (Html.BeginForm("DeleteComponent", "Component", FormMethod.Post, new { enctype = "multipart/form-data" }))
+        {@Html.AntiForgeryToken()
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="title" id="defaultModalLabel">Delete Component</h4>
+            </div>
+            <div class="modal-body text-center">
+                <img src="~/assets/images/sent.png" alt="" width="50" height="46">
+                <input class="form-control" type="text" name="ComponentId" id="DeleteComponentId" hidden>
+                <h5>Are you sure want to delete this component information?</h5>
+
+            </div>
+            <div class="modal-footer">
+                <button type="submit" class="btn btn-danger">Delete</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal">CLOSE</button>
+            </div>
+        </div>
+    }
+    </div>
+</div>
+
+
+
+<script src="~/assets/js/jquery-3.2.1.min.js"></script>
+<script>
+
+    $(document).on("click", "#DeleteComponent", function () {
+        //alert();
+        var currentRow = $(this).closest("tr");
+        $("#DeleteComponentId").val(currentRow.find("td:eq(0)").text());
+       /* $("#DeleteComponentModal").toggle();*/
+
+    });
+
+
+    $(document).on("click", "#AddComponent", function () {
+        $("#defaultModalLabel").text("Add Component");
+        $("#ComponentId").val('');
+        $("#Name").val('');
+        $("#Code").val('');
+        $("#Price").val('');
+       
+        $('#isActive').prop('checked', false);
+        //var myModal = $('#offcanvasAddComponent');
+        //$('#offcanvasAddComponent').css("visibility", "visible");
+        //$('#offcanvasAddComponent').addClass("show");
+        //$('#AddComponentBody').css("visibility", "visible");
+    });
+
+
+    $(document).on("click", "#EditComponent", function () {
+        @*var model1 = '@Html.Raw(Json.Encode(ViewBag.CategoryList))';
+        var data = JSON.parse(model1);*@
+        var currentRow = $(this).closest("tr");
+
+
+        //alert(currentRow.find("td:eq(2)").text());
+
+        $("#defaultModalLabel").text("Edit Component");
+        var ComponentId = currentRow.find("td:eq(0)").text();
+        $("#ComponentId").val(ComponentId);
+        $("#Name").val(currentRow.find("span:eq(0)").text());
+        $("#Code").val(currentRow.find("td:eq(2)").text());
+        $("#Price").val(currentRow.find("span:eq(1)").text());
+       
+        if (currentRow.find("span:eq(2)").text()=="True") {
+            $('#isActive').prop('checked', true);
+        }
+        else {
+            $('#isActive').prop('checked', false);
+        }
+
+    });
+
+    $(document).ready(function () {
+
+
+        if ("@Succ"!="") {
+            $('#SuccessAlert').fadeIn();
+            $('#SuccessAlert').fadeOut(10000);
+        }
+        else {
+            $('#SuccessAlert').fadeOut();
+        }
+        if ("@Update" != "") {
+            $('#UpdateAlert').fadeIn();
+            $('#UpdateAlert').fadeOut(10000);
+        }
+        else {
+            $('#UpdateAlert').fadeOut();
+        }
+        if ("@Delete" != "") {
+            $('#DeleteAlert').fadeIn();
+            $('#DeleteAlert').fadeOut(10000);
+        }
+        else {
+            $('#DeleteAlert').fadeOut();
+        }
+        if ("@Error" != "") {
+            $('#error').fadeIn();
+            $('#error').fadeOut(10000);
+        }
+        else {
+            $('#error').fadeOut();
+        }
+
+
+        $('#ScrapperList').DataTable({
+            searching: true,
+            "ordering": false
+        });
+
+        $(".nav1 li").removeClass("active");
+        $('#Component').addClass('active');
+
+    });
+</script>
