@@ -69,32 +69,40 @@
                                     <tr>
 
                                         <th hidden>Component Id</th>
-                                        <th>Name</th>
                                         <th>Code</th>
+                                        <th>Name</th>
                                         <th>Price</th>
-                                        <th hidden>Status</th>
-                                        <th>Action</th>
+                                        <th >Status</th>
+                                        <th class="text-right">Action</th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     @foreach (DrawingTheme.Models.tblComponent Component in Model)
                                     {
                                     <tr>
-                                        EditComponent
-                                        <td hidden> @Component.ComponentId</td>
 
+                                        <td hidden> @Component.ComponentId</td>
+                                        <td>@Component.Code</td>
                                         <td>
                                             <span class="c_name">@Component.Name</span>
                                         </td>
 
-                                        <td>@Component.Code</td>
+
                                         <td>
                                             <span class="Price">@Component.Price</span>
                                         </td>
-                                        <td hidden>
-                                            <span>@Component.isActive</span>
-                                        </td>
                                         <td>
+                                            @if (@Component.isActive == true)
+                                            {
+                                                <span class="badge badge-success">Active</span>
+                                            }
+                                            else
+                                            {
+                                                <span class="badge badge-danger">InActive</span>
+                                            }
+
+                                        </td>
+                                        <td class="text-right">
                                             <button type="button" class="btn btn-primary btn-sm" title="Edit" data-toggle="modal" data-target="#addcontact" id="EditComponent"><i class="fa fa-edit"></i></button>
                                             <button type="button" class="btn btn-danger btn-sm" title="Delete" data-toggle="modal" data-target="#DeleteComponentModal" id="DeleteComponent"><i class="fa fa-trash-o"></i></button>
                                         </td>
@@ -113,36 +121,40 @@
     </div>
 </div>
 <div class="modal fade" id="addcontact" tabindex="-1" role="dialog">
-    <div class="modal-dialog  modal-lg" role="document">
+    <div class="modal-dialog  " role="document">
         @using (Html.BeginForm("AddComponent", "Component", FormMethod.Post, new { enctype = "multipart/form-data" }))
         {@Html.AntiForgeryToken()
         <div class="modal-content">
             <div class="modal-header">
-                <h4 class="title" id="defaultModalLabel">Add Component</h4>
+                <h6 class="title" id="defaultModalLabel">Add Component</h6>
             </div>
             <div class="modal-body">
 
                 <div class="row clearfix">
                     <div class="col-6">
                         <div class="form-group">
-                            <input type="text" hidden class="form-control" id="ComponentId" name="ComponentId" placeholder="First Name">
-                            <input type="text" class="form-control" id="Name" name="Name" placeholder="Name" required>
-                        </div>
-                    </div>
-                    <div class="col-6">
-                        <div class="form-group">
+                            <label>Code</label>
                             <input type="text" class="form-control" id="Code" name="Code" placeholder="Code" required>
                         </div>
                     </div>
                     <div class="col-6">
                         <div class="form-group">
+                            <label>Name</label>
+                            <input type="text" hidden class="form-control" id="ComponentId" name="ComponentId" placeholder="First Name">
+                            <input type="text" class="form-control" id="Name" name="Name" placeholder="Name" required>
+                        </div>
+                    </div>
+
+                    <div class="col-6">
+                        <div class="form-group">
+                            <label>Price</label>
                             <input type="number" class="form-control" id="Price" name="Price" placeholder="Price" required>
                         </div>
                     </div>
-                    <div class="col-12 form-group">
+                    <div class="col-6 form-group">
 
                         <label class="custom-control custom-checkbox custom-control-inline">
-                            <input type="checkbox" class="custom-control-input" id="isActive" name="isActive" value="True">
+                            <input type="checkbox" class="custom-control-input" id="isActive" name="isActive" value="true" checked>
                             <span class="custom-control-label">Active</span>
                         </label>
 
@@ -154,7 +166,7 @@
             </div>
             <div class="modal-footer">
                 <button type="submit" class="btn btn-primary">Save Changes</button>
-                <button type="button" class="btn btn-default" data-dismiss="modal">CLOSE</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
             </div>
         </div>
     }
@@ -164,22 +176,23 @@
 
 
 <div class="modal fade" id="DeleteComponentModal" tabindex="-1" role="dialog">
-    <div class="modal-dialog  modal-lg" role="document">
+    <div class="modal-dialog  " role="document">
         @using (Html.BeginForm("DeleteComponent", "Component", FormMethod.Post, new { enctype = "multipart/form-data" }))
         {@Html.AntiForgeryToken()
         <div class="modal-content">
             <div class="modal-header">
-                <h4 class="title" id="defaultModalLabel">Delete Component</h4>
+                <h6 class="title" id="defaultModalLabel">Delete Component</h6>
             </div>
             <div class="modal-body text-center">
-                <img src="~/assets/images/sent.png" alt="" width="50" height="46">
+                <img src="~/assets/images/sent.png" alt="" width="50" height="46" style="margin-bottom:3%">
+                <br>
                 <input class="form-control" type="text" name="ComponentId" id="DeleteComponentId" hidden>
-                <h5>Are you sure want to delete this component information?</h5>
+                <p>Are you sure want to delete this component information?</p>
 
             </div>
             <div class="modal-footer">
                 <button type="submit" class="btn btn-danger">Delete</button>
-                <button type="button" class="btn btn-default" data-dismiss="modal">CLOSE</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
             </div>
         </div>
     }
@@ -227,10 +240,10 @@
         var ComponentId = currentRow.find("td:eq(0)").text();
         $("#ComponentId").val(ComponentId);
         $("#Name").val(currentRow.find("span:eq(0)").text());
-        $("#Code").val(currentRow.find("td:eq(2)").text());
+        $("#Code").val(currentRow.find("td:eq(1)").text());
         $("#Price").val(currentRow.find("span:eq(1)").text());
        
-        if (currentRow.find("span:eq(2)").text()=="True") {
+        if (currentRow.find("span:eq(2)").text() =="Active") {
             $('#isActive').prop('checked', true);
         }
         else {

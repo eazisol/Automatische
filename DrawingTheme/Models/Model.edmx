@@ -161,30 +161,6 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_CreatedByUserUser">
-          <End Role="tblUser" Type="Self.tblUser" Multiplicity="0..1" />
-          <End Role="tblUser1" Type="Self.tblUser" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="tblUser">
-              <PropertyRef Name="UserId" />
-            </Principal>
-            <Dependent Role="tblUser1">
-              <PropertyRef Name="CreatedBy" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_EditByUserUser">
-          <End Role="tblUser" Type="Self.tblUser" Multiplicity="0..1" />
-          <End Role="tblUser1" Type="Self.tblUser" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="tblUser">
-              <PropertyRef Name="UserId" />
-            </Principal>
-            <Dependent Role="tblUser1">
-              <PropertyRef Name="EditBy" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK_tblComponent_tblUser">
           <End Role="tblUser" Type="Self.tblUser" Multiplicity="0..1" />
           <End Role="tblComponent" Type="Self.tblComponent" Multiplicity="*" />
@@ -206,18 +182,6 @@
             </Principal>
             <Dependent Role="tblComponent">
               <PropertyRef Name="EditBy" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_tblLog_tblUser">
-          <End Role="tblUser" Type="Self.tblUser" Multiplicity="0..1" />
-          <End Role="tblLog" Type="Self.tblLog" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="tblUser">
-              <PropertyRef Name="UserId" />
-            </Principal>
-            <Dependent Role="tblLog">
-              <PropertyRef Name="UserId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -287,14 +251,6 @@
             <End Role="tblRole" EntitySet="tblRole" />
             <End Role="tblAccessLevel" EntitySet="tblAccessLevel" />
           </AssociationSet>
-          <AssociationSet Name="FK_CreatedByUserUser" Association="Self.FK_CreatedByUserUser">
-            <End Role="tblUser" EntitySet="tblUser" />
-            <End Role="tblUser1" EntitySet="tblUser" />
-          </AssociationSet>
-          <AssociationSet Name="FK_EditByUserUser" Association="Self.FK_EditByUserUser">
-            <End Role="tblUser" EntitySet="tblUser" />
-            <End Role="tblUser1" EntitySet="tblUser" />
-          </AssociationSet>
           <AssociationSet Name="FK_tblComponent_tblUser" Association="Self.FK_tblComponent_tblUser">
             <End Role="tblUser" EntitySet="tblUser" />
             <End Role="tblComponent" EntitySet="tblComponent" />
@@ -302,10 +258,6 @@
           <AssociationSet Name="FK_tblComponent_tblUser1" Association="Self.FK_tblComponent_tblUser1">
             <End Role="tblUser" EntitySet="tblUser" />
             <End Role="tblComponent" EntitySet="tblComponent" />
-          </AssociationSet>
-          <AssociationSet Name="FK_tblLog_tblUser" Association="Self.FK_tblLog_tblUser">
-            <End Role="tblUser" EntitySet="tblUser" />
-            <End Role="tblLog" EntitySet="tblLog" />
           </AssociationSet>
           <AssociationSet Name="FK_tblOrder_tblUser" Association="Self.FK_tblOrder_tblUser">
             <End Role="tblUser" EntitySet="tblUser" />
@@ -354,7 +306,6 @@
           <Property Name="UserId" Type="Int32" />
           <Property Name="Action" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
           <Property Name="CreatedDate" Type="DateTime" Precision="3" />
-          <NavigationProperty Name="tblUser" Relationship="Self.FK_tblLog_tblUser" FromRole="tblLog" ToRole="tblUser" />
         </EntityType>
         <EntityType Name="tblMenu">
           <Key>
@@ -406,12 +357,7 @@
           <Property Name="EditBy" Type="Int32" />
           <Property Name="EditDate" Type="DateTime" Precision="3" />
           <Property Name="isActive" Type="Boolean" />
-          <NavigationProperty Name="tblLogs" Relationship="Self.FK_tblLog_tblUser" FromRole="tblUser" ToRole="tblLog" />
           <NavigationProperty Name="tblRole" Relationship="Self.FK_tblUser_tblRole" FromRole="tblUser" ToRole="tblRole" />
-          <NavigationProperty Name="tblUser1" Relationship="Self.FK_CreatedByUserUser" FromRole="tblUser" ToRole="tblUser1" />
-          <NavigationProperty Name="tblUser2" Relationship="Self.FK_CreatedByUserUser" FromRole="tblUser1" ToRole="tblUser" />
-          <NavigationProperty Name="tblUser11" Relationship="Self.FK_EditByUserUser" FromRole="tblUser" ToRole="tblUser1" />
-          <NavigationProperty Name="tblUser3" Relationship="Self.FK_EditByUserUser" FromRole="tblUser1" ToRole="tblUser" />
           <Property Name="Address" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="Phone" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="ImagePath" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
@@ -445,18 +391,6 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_tblLog_tblUser">
-          <End Role="tblUser" Type="Self.tblUser" Multiplicity="0..1" />
-          <End Role="tblLog" Type="Self.tblLog" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="tblUser">
-              <PropertyRef Name="UserId" />
-            </Principal>
-            <Dependent Role="tblLog">
-              <PropertyRef Name="UserId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK_tblUser_tblRole">
           <End Role="tblRole" Type="Self.tblRole" Multiplicity="0..1" />
           <End Role="tblUser" Type="Self.tblUser" Multiplicity="*" />
@@ -466,30 +400,6 @@
             </Principal>
             <Dependent Role="tblUser">
               <PropertyRef Name="RoleId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_CreatedByUserUser">
-          <End Role="tblUser" Type="Self.tblUser" Multiplicity="0..1" />
-          <End Role="tblUser1" Type="Self.tblUser" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="tblUser">
-              <PropertyRef Name="UserId" />
-            </Principal>
-            <Dependent Role="tblUser1">
-              <PropertyRef Name="CreatedBy" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_EditByUserUser">
-          <End Role="tblUser" Type="Self.tblUser" Multiplicity="0..1" />
-          <End Role="tblUser1" Type="Self.tblUser" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="tblUser">
-              <PropertyRef Name="UserId" />
-            </Principal>
-            <Dependent Role="tblUser1">
-              <PropertyRef Name="EditBy" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -507,21 +417,9 @@
             <End Role="tblRole" EntitySet="tblRoles" />
             <End Role="tblAccessLevel" EntitySet="tblAccessLevels" />
           </AssociationSet>
-          <AssociationSet Name="FK_tblLog_tblUser" Association="Self.FK_tblLog_tblUser">
-            <End Role="tblUser" EntitySet="tblUsers" />
-            <End Role="tblLog" EntitySet="tblLogs" />
-          </AssociationSet>
           <AssociationSet Name="FK_tblUser_tblRole" Association="Self.FK_tblUser_tblRole">
             <End Role="tblRole" EntitySet="tblRoles" />
             <End Role="tblUser" EntitySet="tblUsers" />
-          </AssociationSet>
-          <AssociationSet Name="FK_CreatedByUserUser" Association="Self.FK_CreatedByUserUser">
-            <End Role="tblUser" EntitySet="tblUsers" />
-            <End Role="tblUser1" EntitySet="tblUsers" />
-          </AssociationSet>
-          <AssociationSet Name="FK_EditByUserUser" Association="Self.FK_EditByUserUser">
-            <End Role="tblUser" EntitySet="tblUsers" />
-            <End Role="tblUser1" EntitySet="tblUsers" />
           </AssociationSet>
           <EntitySet Name="tblSettings" EntityType="AutomatischeModel.tblSetting" />
           <AssociationSet Name="FK_tblSetting_tblUser" Association="AutomatischeModel.FK_tblSetting_tblUser">

@@ -36,7 +36,7 @@ namespace DrawingTheme.Controllers
                     EncDataBtye = System.Text.Encoding.UTF8.GetBytes(Password);
                     pass = Convert.ToBase64String(EncDataBtye);
                 }
-                var User = DB.tblUsers.Select(r => r).Where(x => x.Email == Email && x.Password == pass && x.isActive != false).FirstOrDefault();
+                var User = DB.tblUsers.Select(r => r).Where(x => x.Email == Email && x.Password == pass && x.isActive == true).FirstOrDefault();
                 if (User != null)
                 {
 
@@ -50,6 +50,7 @@ namespace DrawingTheme.Controllers
                     cookie["UserId"] = User.UserId.ToString();
                     cookie["RoleId"] = User.RoleId.ToString();
                     cookie["Role"] = User.tblRole.Role;
+                    cookie["FirstName"] = User.FirstName;
                     cookie.Expires = DateTime.Now.AddMonths(1);
                     Response.Cookies.Add(cookie);
 
@@ -72,13 +73,13 @@ namespace DrawingTheme.Controllers
                 else
                 {
                     var UserCheck = DB.tblUsers.Select(r => r).Where(x => x.Email == Email && x.Password == pass).FirstOrDefault();
-                    if (UserCheck != null && UserCheck.isActive == false)
+                    if (UserCheck != null && (UserCheck.isActive == false || UserCheck.isActive==null))
                     {
-                        ViewBag.Error = "User is in-active";
+                        ViewBag.Error = "Your account is in-active";
                     }
                     else
                     {
-                        ViewBag.Error = "Invalid Email or Password";
+                        ViewBag.Error = "Invalid email or password";
                     }
 
                     return View();
@@ -135,7 +136,7 @@ namespace DrawingTheme.Controllers
                     string body1 = "";
                     body1 += "Welcome to Automatische!";
                     body1 += "<br />To Change your password, please click on the button below: ";
-                    body1 += "<br /> <button style='padding: 10px 28px 11px 28px;color: #fff;background:rgba(40, 58, 90, 0.9);'><a style='color:white !important' href = '" + link + "?Email=" + encrypted + "&&Expire=" + encryptedTime + "'>Change Account Password</a></button>";
+                    body1 += "<br /> <button style='padding: 10px 28px 11px 28px;color: #fff;background:#333333;'><a style='color:white !important' href = '" + link + "?Email=" + encrypted + "&&Expire=" + encryptedTime + "'>Change Account Password</a></button>";
                     body1 += "<br /><br />Yours,<br />The Automatische Team";
 
                     string body = "";
@@ -161,7 +162,7 @@ namespace DrawingTheme.Controllers
 
                     //Client.Send(mailMessage);
 
-                    ViewBag.Success = "Email has been successfully sent";
+                    ViewBag.Success = "Email has been sent successfully.";
                     return View();
                 }
                 else
@@ -219,7 +220,7 @@ namespace DrawingTheme.Controllers
                     }
                     else
                     {
-                        ViewBag.PError = "New Password and Confirm Password not Matched!!!";
+                        ViewBag.PError = "New Password and Confirm Password are not matched!!!";
                         return View();
                     }
 
@@ -279,7 +280,7 @@ namespace DrawingTheme.Controllers
                 }
                 else
                 {
-                    ViewBag.Error = "Email is not Correct!!!";
+                    ViewBag.Error = "Email is not correct.";
                     return View();
                 }
 
@@ -319,12 +320,12 @@ namespace DrawingTheme.Controllers
                     DB.SaveChanges();
 
 
-                    return RedirectToAction("Login", new { Success = "User has been add successfully." });
+                    return RedirectToAction("Login", new { Success = "User has been added successfully." });
                 }
                 else
                 {
                     //ViewBag.Error = "User Already Exsist!!!";
-                    return RedirectToAction("Login", new { Error = "User Already Exsist!!!" });
+                    return RedirectToAction("Login", new { Error = "User already exsist." });
                 }
             }
             catch (Exception ex)

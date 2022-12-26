@@ -61,148 +61,49 @@
                                         <th>Email</th>
                                         <th>Phone</th>
                                         <th>Address</th>
+                                        <th>Status</th>
                                         <th>Action</th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     @foreach (DrawingTheme.Models.tblUser User in Model)
                                     {
-                                        <tr>
-                                            <td hidden>@User.UserId</td>
-                                            <td>
-                                                <img src="@User.ImagePath" class="rounded" alt="">
-                                                <span class="c_name">@User.FirstName @User.LastName</span>
-                                            </td>
-                                            <td>
-                                                @User.Email
-                                            </td>
-                                            <td>
-                                                <span class="phone"><i class="fa fa-phone mr-2"></i>@User.Phone</span>
-                                            </td>
-                                            <td>
-                                                <span>
-                                                    <i class="fa fa-map-marker"></i> @User.Address
-                                                </span>
-                                            </td>
-                                            <td>
-                                                <a href="@Url.Action("Profile","User",new {id=@User.UserId })"><button type="button" class="btn btn-primary btn-sm" title="Edit"><i class="fa fa-edit"></i></button></a>
-                                                <button type="button" class="btn btn-danger btn-sm" title="Delete" data-toggle="modal" data-target="#DeleteUserModal" id="DeleteUser"><i class="fa fa-trash-o"></i></button>
-                                            </td>
-                                        </tr>
+                                    <tr>
+                                        <td hidden>@User.UserId</td>
+                                        <td>
+                                            <img src="@User.ImagePath" class="rounded" alt="">
+                                            <span class="c_name">@User.FirstName @User.LastName</span>
+                                        </td>
+                                        <td>
+                                            @User.Email
+                                        </td>
+                                        <td>
+                                            <span class="phone"><i class="fa fa-phone mr-2"></i>@User.Phone</span>
+                                        </td>
+                                        <td>
+                                            <span>
+                                                <i class="fa fa-map-marker"></i> @User.Address
+                                            </span>
+                                        </td>
+                                        
+                                        <td>
+                                           
+                                            @if (User.isActive == true)
+                                            {
+                                                <span class="badge badge-success">Active</span>
+                                            }
+                                            else
+                                            {
+                                                <span class="badge badge-danger">InActive</span>
+                                            }
+                                        </td>
+                                        <td>
+                                            <a href="@Url.Action("Profile","User",new {id=@User.UserId })"><button type="button" class="btn btn-primary btn-sm" title="Edit"><i class="fa fa-edit"></i></button></a>
+                                            <button type="button" class="btn btn-danger btn-sm" title="Delete" data-toggle="modal" data-target="#DeleteUserModal" id="DeleteUser"><i class="fa fa-trash-o"></i></button>
+                                        </td>
+                                    </tr>
                                     }
-                                    @*<tr>
-
-                                <td>
-                                    <img src="~/assets/images/xs/avatar3.jpg" class="rounded" alt="">
-                                    <span class="c_name">Luke Walsh</span>
-                                </td>
-                                <td>
-                                    <span class="phone"><i class="fa fa-phone mr-2"></i>664-625-2583</span>
-                                </td>
-                                <td>
-                                    <address>
-                                        <i class="fa fa-map-marker"></i>4Jane Roe
-                                        200 E Main St
-                                        Phoenix Az 85123
-                                        Usa
-                                    </address>
-                                </td>
-                                <td>
-                                    <button type="button" class="btn btn-primary btn-sm" title="Edit"><i class="fa fa-edit"></i></button>
-                                    <button type="button" class="btn btn-danger btn-sm" title="Delete"><i class="fa fa-trash-o"></i></button>
-                                </td>
-                            </tr>
-                            <tr>
-
-                                <td>
-                                    <img src="~/assets/images/xs/avatar9.jpg" class="rounded" alt="">
-                                    <span class="c_name">Frank Camly</span>
-                                </td>
-                                <td>
-                                    <span class="phone"><i class="fa fa-phone mr-2"></i>554-625-2583</span>
-                                </td>
-                                <td>
-                                    <address>
-                                        <i class="fa fa-map-marker"></i> Mary Roe
-                                        Megasystems Inc
-                                        799 E Dragram Suite 5a
-                                        Tucson Az 85705
-                                        Usa
-                                    </address>
-                                </td>
-                                <td>
-                                    <button type="button" class="btn btn-primary btn-sm" title="Edit"><i class="fa fa-edit"></i></button>
-                                    <button type="button" class="btn btn-danger btn-sm" title="Delete"><i class="fa fa-trash-o"></i></button>
-                                </td>
-                            </tr>
-                            <tr>
-
-                                <td>
-                                    <img src="~/assets/images/xs/avatar10.jpg" class="rounded" alt="">
-                                    <span class="c_name">Joseph Rees</span>
-                                </td>
-                                <td>
-                                    <span class="phone"><i class="fa fa-phone mr-2"></i>354-625-2583</span>
-                                </td>
-                                <td>
-                                    <address>
-                                        <i class="fa fa-map-marker"></i>Chris Niswandee
-                                        Smallsys Inc
-                                        795 E Dragram
-                                        Tucson Az 85705
-                                        Usa
-                                    </address>
-                                </td>
-                                <td>
-                                    <button type="button" class="btn btn-primary btn-sm" title="Edit"><i class="fa fa-edit"></i></button>
-                                    <button type="button" class="btn btn-danger btn-sm" title="Delete"><i class="fa fa-trash-o"></i></button>
-                                </td>
-                            </tr>
-                            <tr>
-
-                                <td>
-                                    <img src="~/assets/images/xs/avatar1.jpg" class="rounded" alt="">
-                                    <span class="c_name">Olivia Wilson</span>
-                                </td>
-                                <td>
-                                    <span class="phone"><i class="fa fa-phone mr-2"></i>664-625-2583</span>
-                                </td>
-                                <td>
-                                    <span>
-                                        <i class="fa fa-map-marker"></i> Mary Roe
-                                        Megasystems Inc
-                                        799 E Dragram Suite 5a
-                                        Tucson Az 85705
-                                        Usa
-                                    </span>
-                                </td>
-                                <td>
-                                    <button type="button" class="btn btn-primary btn-sm" title="Edit"><i class="fa fa-edit"></i></button>
-                                    <button type="button" class="btn btn-danger btn-sm" title="Delete"><i class="fa fa-trash-o"></i></button>
-                                </td>
-                            </tr>
-                            <tr>
-
-                                <td>
-                                    <img src="~/assets/images/xs/avatar3.jpg" class="rounded" alt="">
-                                    <span class="c_name">Luke Walsh</span>
-                                </td>
-                                <td>
-                                    <span class="phone"><i class="fa fa-phone mr-2"></i>664-625-2583</span>
-                                </td>
-                                <td>
-                                    <address>
-                                        <i class="fa fa-map-marker"></i>4Jane Roe
-                                        200 E Main St
-                                        Phoenix Az 85123
-                                        Usa
-                                    </address>
-                                </td>
-                                <td>
-                                    <button type="button" class="btn btn-primary btn-sm" title="Edit"><i class="fa fa-edit"></i></button>
-                                    <button type="button" class="btn btn-danger btn-sm" title="Delete"><i class="fa fa-trash-o"></i></button>
-                                </td>
-                            </tr>*@
+                              
 
                                 </tbody>
                             </table>
@@ -257,11 +158,7 @@
                         <div class="form-group">
                             <input type="file" class="form-control-file" id="exampleInputFile"
                                    aria-describedby="fileHelp">
-                            <small id="fileHelp" class="form-text text-muted">
-                                This is some placeholder block-level
-                                help text for the above input. It's a bit lighter and easily wraps to a new
-                                line.
-                            </small>
+                         
                         </div>
 
                     </div>
@@ -279,7 +176,7 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-primary">Save Changes</button>
-                <button type="button" class="btn btn-default" data-dismiss="modal">CLOSE</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
             </div>
         </div>
     </div>
@@ -287,22 +184,22 @@
 
 
 <div class="modal fade" id="DeleteUserModal" tabindex="-1" role="dialog">
-    <div class="modal-dialog  modal-lg" role="document">
+    <div class="modal-dialog  " role="document">
         @using (Html.BeginForm("DeleteUser", "User", FormMethod.Post, new { enctype = "multipart/form-data" }))
         {@Html.AntiForgeryToken()
         <div class="modal-content">
             <div class="modal-header">
-                <h4 class="title" id="defaultModalLabel">Delete Customer</h4>
+                <h6 class="title" id="defaultModalLabel">Delete Customer</h6>
             </div>
             <div class="modal-body text-center">
-                <img src="~/assets/images/sent.png" alt="" width="50" height="46">
+                <img src="~/assets/images/sent.png" alt="" width="50" height="46" style="margin-bottom:3%">
                 <input class="form-control" type="text" name="UserId" id="DeleteUserID" hidden>
-                <h5>Are you sure want to delete this customer information?</h5>
+                <p>Are you sure want to delete this customer information?</p>
 
             </div>
             <div class="modal-footer">
                 <button type="submit" class="btn btn-danger">Delete</button>
-                <button type="button" class="btn btn-default" data-dismiss="modal">CLOSE</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
             </div>
         </div>
     }
