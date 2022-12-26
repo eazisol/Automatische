@@ -9,6 +9,8 @@ using System.Web.Mvc;
 
 namespace DrawingTheme.Controllers
 {
+    [FilterConfig.NoDirectAccess]
+    [FilterConfig.AuthorizeActionFilter]
     public class UserController : Controller
     {
         AutomatischeEntities DB = new AutomatischeEntities();
@@ -103,18 +105,16 @@ namespace DrawingTheme.Controllers
                         DB.SaveChanges();
                         if (Data.RoleId == 2)
                         {
-                            return RedirectToAction("CustomerList", "Customer", new { Update = "Customer has been add successfully." });
+                            return RedirectToAction("CustomerList", "Customer", new { Update = "Customer has been added successfully." });
                         }
                         else
                         {
-                            return RedirectToAction("UserList", new { Success = "User has been add successfully." });
+                            return RedirectToAction("UserList", new { Success = "User has been added successfully." });
                         }
-
-                        //return RedirectToAction("UserList", new { Success = "User has been add successfully." });
+;
                     }
                     else
                     {
-                        //ViewBag.Error = "User Already Exsist!!!";
                         if (Data.RoleId == 2)
                         {
                             return RedirectToAction("CustomerList", "Customer", new { Update = "Customer Already Exsist!!!" });
@@ -123,7 +123,6 @@ namespace DrawingTheme.Controllers
                         {
                             return RedirectToAction("UserList", new { Success = "User Already Exsist!!!" });
                         }
-                        //return RedirectToAction("UserList", new { Error = "User Already Exsist!!!" });
                     }
                 }
                 else
@@ -132,7 +131,7 @@ namespace DrawingTheme.Controllers
                     if (check == null || check.UserId == User.UserId)
                     {
                         Data = DB.tblUsers.Select(r => r).Where(x => x.UserId == User.UserId).FirstOrDefault();
-                        //Data.username = User.username;
+                   
 
                         string folder = Server.MapPath(string.Format("~/{0}/", "Uploading"));
                         if (!Directory.Exists(folder))
@@ -168,6 +167,10 @@ namespace DrawingTheme.Controllers
                             EncDataBtye = System.Text.Encoding.UTF8.GetBytes(User.Password);
                             Data.Password = Convert.ToBase64String(EncDataBtye);
                         }
+                        else
+                        {
+                            Data.Password = Data.Password;
+                        }
                         Data.EditDate = Convert.ToDateTime(DateTime.Now.ToString("yyyy-MM-dd"));
                         Data.EditBy = UserId;
                         DB.Entry(Data);
@@ -187,11 +190,11 @@ namespace DrawingTheme.Controllers
                         {
                             if (RoleId != 2)
                             {
-                                return RedirectToAction("CustomerList", "Customer", new { Update = "Customer has been Update successfully." });
+                                return RedirectToAction("CustomerList", "Customer", new { Update = "Customer has been updated successfully." });
                             }
                             else
                             {
-                                return RedirectToAction("Profile", "User", new {id= Data.UserId, Success = "Customer has been Update successfully." });
+                                return RedirectToAction("Profile", "User", new {id= Data.UserId, Success = "Customer has been updated successfully." });
                             }
                         }
                         else
@@ -208,17 +211,17 @@ namespace DrawingTheme.Controllers
                         {
                             if (RoleId != 2)
                             {
-                                return RedirectToAction("CustomerList", "Customer", new { Delete = "Customer Already Exsist!!!" });
+                                return RedirectToAction("CustomerList", "Customer", new { Delete = "Customer already exsist!!!" });
                             }
                             else
                             {
-                                return RedirectToAction("Profile", "User", new { id = Data.UserId, Error = "Customer Already Exsist!!!" });
+                                return RedirectToAction("Profile", "User", new { id = Data.UserId, Error = "Customer already exsist!!!" });
                             }
                             
                         }
                         else
                         {
-                            return RedirectToAction("UserList", new { Delete = "User Already Exsist!!!" });
+                            return RedirectToAction("UserList", new { Delete = "User already exsist!!!" });
                         }
                         //return RedirectToAction("UserList", new { Error = "User Already Exsist!!!" });
                     }
@@ -261,11 +264,11 @@ namespace DrawingTheme.Controllers
                 DB.SaveChanges();
                 if(RoleID==2)
                 {
-                    return RedirectToAction("CustomerList", "Customer", new { Delete = "Customer has been delete successfully." });
+                    return RedirectToAction("CustomerList", "Customer", new { Delete = "Customer has been deleted successfully." });
                 }
                 else
                 {
-                    return RedirectToAction("UserList", new { Delete = "User has been delete successfully." });
+                    return RedirectToAction("UserList", new { Delete = "User has been deleted successfully." });
                 }
             }
             catch (Exception ex)

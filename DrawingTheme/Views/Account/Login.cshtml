@@ -6,9 +6,6 @@
 
 <!doctype html>
 <html lang="en" dir="ltr">
-
-
-<!-- Mirrored from www.pixelwibes.com/template/vsparks/html/dist/login.html by HTTrack Website Copier/3.x [XR&CO'2014], Wed, 21 Dec 2022 08:00:01 GMT -->
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -38,20 +35,19 @@
                     <form class="sign-in-form" method="post" action="@Url.Action("Login", "Account")">
 
                         <h2 class="title">Sign in</h2>
-                        <div style="display:none;" class="alert alert-danger alert-dismissible fade show" id="error" role="alert">
+                        <div style="display:none; width:60%" class="alert alert-danger alert-dismissible fade show" id="error" role="alert">
                             @ViewBag.Error
                         </div>
                         <div class="input-field">
                             <i class="fa fa-user"></i>
-                            <input type="text"  name="Email" placeholder="Email" />
+                            <input type="text"  name="Email" placeholder="Email" required / >
                         </div>
                         <div class="input-field">
                             <i class="fa fa-lock"></i>
-                            <input type="password"  name="Password" placeholder="Password" />
+                            <input type="password"  name="Password" placeholder="Password" required />
                         </div>
 
                         <button type="submit" style="width:60%" class="btn solid">LOGIN</button>
-                        @*<a style="width:60%" href="@Url.Action("Index", "Home")" class="btn solid">LOGIN</a>*@
 
                         <a href="@Url.Action("Forgetpassword", "Account")" class="text-right">Forgot Password?</a>
 
@@ -61,7 +57,7 @@
 
                     <form class="sign-up-form" method="post" action="@Url.Action("Register", "Account")">
                         <h2 class="title">Sign up</h2>
-                        <div style="display:none;" class="alert alert-danger alert-dismissible fade show" id="SignUpError" role="alert">
+                        <div style="display:none; width:60%" class="alert alert-danger alert-dismissible fade show" id="SignUpError" role="alert">
                            Email already exist!
                         </div>
                         <div class="input-field">
@@ -85,24 +81,24 @@
             <div class="panels-container">
                 <div class="panel left-panel">
                     <div class="content">
-                        <img src="~/assets/images/logo-icon.svg" width="100" alt="logo-icon" class="image" />
+                        <img class="logo1" src="~/assets/images/logo.png" alt="user"  style="margin-bottom:15%;width:45%">
                         <h3>Build digital designs with</h3>
                         <p>
                             Build, run, and scale your digital designs of gardens - end to end  and more
                         </p>
-                        <button class="btn transparent" id="sign-up-btn">
+                        <button class="btn transparent" id="sign-up-btn" style="background-color:#8dc63f">
                             Sign up
                         </button>
                     </div>
                 </div>
                 <div class="panel right-panel">
                     <div class="content">
-                        <img src="~/assets/images/logo-icon.svg" width="100" alt="logo-icon" class="image" />
+                        <img class="logo1" src="~/assets/images/logo.png" alt="user" style="margin-bottom:15%;width:45%">
                         <h3>Build digital designs with</h3>
                         <p>
                             Build, run, and scale your digital designs of gardens - end to end  and more
                         </p>
-                        <button class="btn transparent" id="sign-in-btn">
+                        <button class="btn transparent" id="sign-in-btn" style="background-color:#8dc63f">
                             Sign in
                         </button>
                     </div>
@@ -168,6 +164,4 @@
         });
     </script>
 </body>
-
-<!-- Mirrored from www.pixelwibes.com/template/vsparks/html/dist/login.html by HTTrack Website Copier/3.x [XR&CO'2014], Wed, 21 Dec 2022 08:00:02 GMT -->
 </html>

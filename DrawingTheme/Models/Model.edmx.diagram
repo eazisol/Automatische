@@ -6,10 +6,12 @@
     <edmx:Diagrams>
       <Diagram DiagramId="553b9a1785094fe8a6b945e95fc1c6f4" Name="Diagram1" ZoomLevel="73">
         <EntityTypeShape EntityType="AutomatischeModel.tblAccessLevel" Width="1.5" PointX="3" PointY="3.875" IsExpanded="true" />
+
         <EntityTypeShape EntityType="AutomatischeModel.tblMenu" Width="1.5" PointX="0.75" PointY="0.75" IsExpanded="true" />
         <EntityTypeShape EntityType="AutomatischeModel.tblRole" Width="1.5" PointX="0.75" PointY="5.25" IsExpanded="true" />
         <AssociationConnector Association="AutomatischeModel.FK_AccessManu" ManuallyRouted="false" />
         <AssociationConnector Association="AutomatischeModel.FK_AccessRole" ManuallyRouted="false" />
+
         <EntityTypeShape EntityType="AutomatischeModel.tblSetting" Width="1.5" PointX="5.25" PointY="12.625" />
         <EntityTypeShape EntityType="AutomatischeModel.tblOrder" Width="1.5" PointX="5.25" PointY="16.875" />
         <EntityTypeShape EntityType="AutomatischeModel.tblOrderDetail" Width="1.5" PointX="7.5" PointY="11.875" />

@@ -8,13 +8,15 @@ using System.Web.Mvc;
 
 namespace DrawingTheme.Controllers
 {
+    [FilterConfig.NoDirectAccess]
+    [FilterConfig.AuthorizeActionFilter]
     public class ComponentController : Controller
     {
         AutomatischeEntities DB = new AutomatischeEntities();
         // GET: Component
         public ActionResult Components(string Success, string Update, string Delete, string Error)
         {
-            List<tblComponent> ComponentList = DB.tblComponents.Where(x => x.isActive == true).ToList();
+            List<tblComponent> ComponentList = DB.tblComponents.ToList();
 
             ViewBag.Success = Success;
             ViewBag.Update = Update;
@@ -26,7 +28,7 @@ namespace DrawingTheme.Controllers
 
 
         [HttpPost]
-        public ActionResult AddComponent(tblComponent Component, HttpPostedFileBase Image)
+        public ActionResult AddComponent(tblComponent Component)
         {
             tblComponent Data = new tblComponent();
             try

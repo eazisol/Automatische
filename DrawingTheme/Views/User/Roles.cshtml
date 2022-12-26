@@ -183,60 +183,14 @@
                                     }
 
 
-
-                                    
-                                    @*<tr>
-                                        <td class="text-nowrap">Content Management</td>
-                                        <td>
-                                            <div class="d-flex">
-                                                <div class="form-group">
-                                                    <input class="custom-control-input" type="checkbox" id="contentManagementRead">
-                                                    <label class="custom-control-label" for="contentManagementRead">
-                                                        Read
-                                                    </label>
-                                                </div>
-
-                                            </div>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td class="text-nowrap">Disputes Management</td>
-                                        <td>
-                                            <div class="d-flex">
-                                                <div class="form-group">
-                                                    <input class="custom-control-input" type="checkbox" id="dispManagementRead">
-                                                    <label class="custom-control-label" for="dispManagementRead">
-                                                        Read
-                                                    </label>
-                                                </div>
-
-                                            </div>
-                                        </td>
-                                    </tr>
-
-                                    <tr>
-                                        <td class="text-nowrap">Repository Management</td>
-                                        <td>
-                                            <div class="d-flex">
-                                                <div class="form-group">
-                                                    <input class="custom-control-input" type="checkbox" id="repoRead">
-                                                    <label class="custom-control-label" for="repoRead">
-                                                        Read
-                                                    </label>
-                                                </div>
-
-                                            </div>
-                                        </td>
-                                    </tr>*@
-
                                 </tbody>
                             </table>
                         </div>
                         <!-- Permission table -->
                     </div>
                     <div class="col-12 text-right">
-                        <div id="loading" style="display:none;margin: 0 auto; text-decoration-color:cornflowerblue;"><div class="spinner-border text-success" id="display_loading" style="margin: 0 auto;"></div><div class="spinner-border text-success" id="display_loading" style="display:none;margin: 0 auto;"></div> Loading...</div>
-                        <button type="submit" class="btn btn-primary me-sm-3 me-1" id="btnSave">Submit</button>
+                        <div id="loading" style="display:none;margin: 0 auto; text-decoration-color:cornflowerblue;"><div class="spinner-border text-success" id="display_loading" style="margin: 0 auto;"></div><div class="spinner-border text-success" id="display_loading" style="display:none;margin: 0 auto;"></div></div>
+                        <button type="submit" class="btn btn-primary me-sm-3 me-1" id="btnSave">      Submit</button>
                         <button type="reset" class="btn btn-secondary" aria-label="Close">Cancel</button>
                         <button type="button" class="btn btn-danger" data-dismiss="modal" aria-label="Close">Close</button>
                     </div>
@@ -325,7 +279,6 @@
         var RoleId = $("#RoleId").val();
         var Role = $("#Role").val();
 
-        //Loop through the Table rows and build a JSON array.
         if ($("#Role").val() != null && $("#Role").val() != "") {
             var Items = new Array();
             $("#MenuAccessTbl TBODY TR").each(function () {
@@ -355,7 +308,7 @@
 
             $.ajax({
                 type: "POST",
-                url: "@Url.Action("CreateAccessLevel", "User")",
+                url: "@Url.Action("CreateAccessLevel", "User" )",
                 data: JSON.stringify(model),
                 contentType: "application/json; charset=utf-8",
                 dataType: "json",
@@ -363,16 +316,18 @@
                     //alert(r + " record(s) inserted.");
                     var url = window.location.origin;
                     if (r == 0) {
-                        url += '/User/Roles?Success=Role has been add successfully.';
+                        url = "@Url.Action("Roles", "User", new { Success = "Role has been added successfully." })"
                     }
                     else if (r == 1) {
-                        url += '/User/Roles?Update=Role has been update successfully.';
+                        url = "@Url.Action("Roles", "User", new { Update = "Role has been updated successfully." })"
+                        //url += '/User/Roles?Update=Role has been update successfully.';
                     }
                     else if (r == 2) {
-                        url += '/User/Roles?Error=Role already exists.';
+                        url = "@Url.Action("Roles", "User", new { Error = "Role already exists." })"
+                        //url += '/User/Roles?Error=Role already exists.';
                     }
 
-                    window.location.href = url;
+                        window.location.href = url;
                 }
             });
         }

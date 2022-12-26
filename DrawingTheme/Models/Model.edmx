@@ -181,6 +181,7 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_tblComponent_tblUser">
+
           <End Role="tblUser" Type="Self.tblUser" Multiplicity="0..1" />
           <End Role="tblComponent" Type="Self.tblComponent" Multiplicity="*" />
           <ReferentialConstraint>
@@ -205,6 +206,7 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_tblOrder_tblUser">
+
           <End Role="tblUser" Type="Self.tblUser" Multiplicity="0..1" />
           <End Role="tblOrder" Type="Self.tblOrder" Multiplicity="*" />
           <ReferentialConstraint>
@@ -228,6 +230,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+
         <Association Name="FK_tblOrderDetail_tblComponent">
           <End Role="tblComponent" Type="Self.tblComponent" Multiplicity="0..1" />
           <End Role="tblOrderDetail" Type="Self.tblOrderDetail" Multiplicity="*" />
@@ -243,6 +246,7 @@
         <Association Name="FK_tblOrderDetail_tblOrder">
           <End Role="tblOrder" Type="Self.tblOrder" Multiplicity="0..1" />
           <End Role="tblOrderDetail" Type="Self.tblOrderDetail" Multiplicity="*" />
+
           <ReferentialConstraint>
             <Principal Role="tblOrder">
               <PropertyRef Name="OrderId" />
@@ -383,6 +387,7 @@
           <NavigationProperty Name="tblMenu" Relationship="Self.FK_AccessManu" FromRole="tblAccessLevel" ToRole="tblMenu" />
           <NavigationProperty Name="tblRole" Relationship="Self.FK_AccessRole" FromRole="tblAccessLevel" ToRole="tblRole" />
         </EntityType>
+
         <EntityType Name="tblMenu">
           <Key>
             <PropertyRef Name="MenuId" />
@@ -414,7 +419,9 @@
           <Property Name="EditDate" Type="DateTime" Precision="3" />
           <Property Name="isActive" Type="Boolean" />
           <NavigationProperty Name="tblAccessLevels" Relationship="Self.FK_AccessRole" FromRole="tblRole" ToRole="tblAccessLevel" />
+
           <NavigationProperty Name="tblUsers" Relationship="AutomatischeModel.FK_tblUser_tblRole" FromRole="tblRole" ToRole="tblUser" />
+
         </EntityType>
         <Association Name="FK_AccessManu">
           <End Role="tblMenu" Type="Self.tblMenu" Multiplicity="0..1" />
@@ -440,6 +447,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+
         <EntityContainer Name="AutomatischeEntities" annotation:LazyLoadingEnabled="true">
           <EntitySet Name="tblAccessLevels" EntityType="Self.tblAccessLevel" />
           <EntitySet Name="tblMenus" EntityType="Self.tblMenu" />
@@ -452,6 +460,7 @@
             <End Role="tblRole" EntitySet="tblRoles" />
             <End Role="tblAccessLevel" EntitySet="tblAccessLevels" />
           </AssociationSet>
+
           <EntitySet Name="tblSettings" EntityType="AutomatischeModel.tblSetting" />
           <EntitySet Name="tblOrders" EntityType="AutomatischeModel.tblOrder" />
           <EntitySet Name="tblOrderDetails" EntityType="AutomatischeModel.tblOrderDetail" />
