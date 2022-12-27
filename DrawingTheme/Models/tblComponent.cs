@@ -14,16 +14,24 @@ namespace DrawingTheme.Models
     
     public partial class tblComponent
     {
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
+        public tblComponent()
+        {
+            this.tblOrderDetails = new HashSet<tblOrderDetail>();
+        }
+    
         public int ComponentId { get; set; }
         public string Name { get; set; }
         public string Code { get; set; }
-        public string Price { get; set; }
+        public Nullable<double> Price { get; set; }
         public Nullable<int> CreatedBy { get; set; }
         public Nullable<System.DateTime> CreatedDate { get; set; }
         public Nullable<int> EditBy { get; set; }
         public Nullable<System.DateTime> EditDate { get; set; }
         public Nullable<bool> isActive { get; set; }
     
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<tblOrderDetail> tblOrderDetails { get; set; }
         public virtual tblUser tblUser { get; set; }
         public virtual tblUser tblUser1 { get; set; }
     }

@@ -12,6 +12,8 @@ namespace DrawingTheme.Models
     using System;
     using System.Data.Entity;
     using System.Data.Entity.Infrastructure;
+    using System.Data.Entity.Core.Objects;
+    using System.Linq;
     
     public partial class AutomatischeEntities : DbContext
     {
@@ -26,13 +28,19 @@ namespace DrawingTheme.Models
         }
     
         public virtual DbSet<tblAccessLevel> tblAccessLevels { get; set; }
-        public virtual DbSet<tblLog> tblLogs { get; set; }
         public virtual DbSet<tblMenu> tblMenus { get; set; }
         public virtual DbSet<tblRole> tblRoles { get; set; }
-        public virtual DbSet<tblUser> tblUsers { get; set; }
         public virtual DbSet<tblSetting> tblSettings { get; set; }
-        public virtual DbSet<tblComponent> tblComponents { get; set; }
         public virtual DbSet<tblOrder> tblOrders { get; set; }
         public virtual DbSet<tblOrderDetail> tblOrderDetails { get; set; }
+        public virtual DbSet<tblComponent> tblComponents { get; set; }
+        public virtual DbSet<tblUser> tblUsers { get; set; }
+        public virtual DbSet<tblLog> tblLogs { get; set; }
+        public virtual DbSet<tblTransaction> tblTransactions { get; set; }
+    
+        public virtual ObjectResult<string> SpOrderNumber()
+        {
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<string>("SpOrderNumber");
+        }
     }
 }

@@ -1,6 +1,7 @@
 ﻿using DrawingTheme.Models;
 using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
 using System.Net.Mail;
 using System.Web;
@@ -246,7 +247,19 @@ namespace DrawingTheme.Controllers
 
         public ActionResult Orders(string Success, string Update, string Delete, string Error)
         {
-            List<tblOrder> Orders = DB.tblOrders.ToList();
+            HttpCookie cookieObj = Request.Cookies["User"];
+            int UserId = Int32.Parse(cookieObj["UserId"]);
+            int RoleId = Int32.Parse(cookieObj["RoleId"]);
+            List<tblOrder> Orders = null;
+            if (RoleId==1)
+            {
+                Orders = DB.tblOrders.ToList();
+            }
+            else
+            {
+                Orders = DB.tblOrders.Where(x=>x.CreatedBy==UserId).ToList();
+            }
+            
 
             ViewBag.Success = Success;
             ViewBag.Update = Update;
@@ -256,6 +269,274 @@ namespace DrawingTheme.Controllers
         }
 
 
+        [HttpPost]
+        public ActionResult AddOrder(tblOrder Order)
+        {
+            tblOrder Data = new tblOrder();
+            try
+            {
+                HttpCookie cookieObj = Request.Cookies["User"];
+                int UserId = Int32.Parse(cookieObj["UserId"]);
+                int RoleId = Int32.Parse(cookieObj["RoleId"]);
+                //int UserId = 1;
+                if (Order.OrderId == 0)
+                {
+                    Order.OrderNumber = DB.SpOrderNumber().FirstOrDefault();
+                    if (DB.tblOrders.Select(r => r).Where(x => x.OrderNumber == Order.OrderNumber).FirstOrDefault() == null)
+                    {
+                        
+                        Data = Order;
+
+
+                        Data.CreatedDate = Convert.ToDateTime(DateTime.Now.ToString("yyyy-MM-dd"));
+                        Data.CreatedBy = UserId;
+                        Data.EditDate = Convert.ToDateTime(DateTime.Now.ToString("yyyy-MM-dd"));
+                        Data.EditBy = UserId;
+                        DB.tblOrders.Add(Data);
+                        DB.SaveChanges();
+
+
+
+
+                        tblLog LogData = new tblLog();
+                        LogData.UserId = UserId;
+                        LogData.Action = "Add Order";
+                        LogData.CreatedDate = DateTime.Now;
+                        DB.tblLogs.Add(LogData);
+                        DB.SaveChanges();
+
+                        return RedirectToAction("Orders", new { Success = "Order has been add successfully." });
+
+                        //return RedirectToAction("UserList", new { Success = "User has been add successfully." });
+                    }
+                    else
+                    {
+
+                        return RedirectToAction("Orders", new { Error = "Order Already Exsist!!!" });
+                        //return RedirectToAction("UserList", new { Error = "User Already Exsist!!!" });
+                    }
+                }
+                else
+                {
+                    var check = DB.tblOrders.Select(r => r).Where(x => x.OrderNumber == Order.OrderNumber).FirstOrDefault();
+                    if (check == null || check.OrderId == Order.OrderId)
+                    {
+                        Data = DB.tblOrders.Select(r => r).Where(x => x.OrderId == Order.OrderId).FirstOrDefault();
+                        //Data.username = User.username;
+
+                        Data.OrderId = Order.OrderId;
+                        Data.OrderNumber = Order.OrderNumber;
+                        Data.Name = Order.Name;
+                        Data.TotalPrice = Order.TotalPrice;
+                        Data.Status = Order.Status;
+                        Data.EditDate = Convert.ToDateTime(DateTime.Now.ToString("yyyy-MM-dd"));
+                        Data.EditBy = UserId;
+                        Data.isActive = Order.isActive;
+                        DB.Entry(Data);
+                        DB.SaveChanges();
+
+                        tblLog LogData = new tblLog();
+                        LogData.UserId = UserId;
+                        LogData.Action = "Update Order";
+                        LogData.CreatedDate = DateTime.Now;
+                        DB.tblLogs.Add(LogData);
+                        DB.SaveChanges();
+
+
+                        return RedirectToAction("Orders", new { Update = "Order has been Update successfully." });
+
+                        //return RedirectToAction("UserList", new { Update = "User has been Update successfully." });
+                    }
+                    else
+                    {
+
+                        return RedirectToAction("Orders", new { Error = "Order Already Exsist!!!" });
+                        //return RedirectToAction("UserList", new { Error = "User Already Exsist!!!" });
+                    }
+
+                }
+
+
+            }
+            catch (Exception ex)
+            {
+
+                ViewBag.Error = ex.Message;
+                Console.WriteLine("Error" + ex.Message);
+            }
+
+            return RedirectToAction("Orders");
+        }
+
+
+        [HttpPost]
+        public ActionResult DeleteOrder(int OrderId)
+        {
+            tblOrder Data = new tblOrder();
+            HttpCookie cookieObj = Request.Cookies["User"];
+            int CUserId = Int32.Parse(cookieObj["UserId"]);
+            //int CUserId = 1;
+            try
+            {
+                Data = DB.tblOrders.Select(r => r).Where(x => x.OrderId == OrderId).FirstOrDefault();
+                DB.Entry(Data).State = EntityState.Deleted;
+                DB.SaveChanges();
+
+                tblLog LogData = new tblLog();
+                LogData.UserId = CUserId;
+                LogData.Action = "Delete Order";
+                LogData.CreatedDate = DateTime.Now;
+                DB.tblLogs.Add(LogData);
+                DB.SaveChanges();
+                return RedirectToAction("Orders", new { Delete = "Order has been delete successfully." });
+            }
+            catch (Exception ex)
+            {
+
+                ViewBag.Error = ex.Message;
+                Console.WriteLine("Error" + ex.Message);
+            }
+
+            return Json(0);
+        }
+
+
+        [HttpPost]
+        public JsonResult AjaxAddOrder(tblOrder Order)
+        {
+            tblOrder Data = new tblOrder();
+            try
+            {
+                HttpCookie cookieObj = Request.Cookies["User"];
+                int UserId = Int32.Parse(cookieObj["UserId"]);
+                int RoleId = Int32.Parse(cookieObj["RoleId"]);
+                //int UserId = 1;
+                if (Order.OrderId == 0)
+                {
+                    Order.OrderNumber = DB.SpOrderNumber().FirstOrDefault();
+                    if (DB.tblOrders.Select(r => r).Where(x => x.OrderNumber == Order.OrderNumber).FirstOrDefault() == null)
+                    {
+
+                        Data = Order;
+
+
+                        Data.CreatedDate = Convert.ToDateTime(DateTime.Now.ToString("yyyy-MM-dd"));
+                        Data.CreatedBy = UserId;
+                        Data.EditDate = Convert.ToDateTime(DateTime.Now.ToString("yyyy-MM-dd"));
+                        Data.EditBy = UserId;
+                        DB.tblOrders.Add(Data);
+                        DB.SaveChanges();
+
+
+
+
+                        tblLog LogData = new tblLog();
+                        LogData.UserId = UserId;
+                        LogData.Action = "Add Order";
+                        LogData.CreatedDate = DateTime.Now;
+                        DB.tblLogs.Add(LogData);
+                        DB.SaveChanges();
+                        //HttpCookie cookie = new HttpCookie("User");
+                        //cookie["OrderId"] = Data.OrderId.ToString();
+                        //HttpCookie cookieObj = Request.Cookies["User"];
+                        cookieObj.Values["OrderId"] = Data.OrderId.ToString();
+                        cookieObj.Expires = DateTime.Now.AddMonths(1);
+
+                        // Add it to the current web response.
+                        Response.Cookies.Add(cookieObj);
+                        //int OrderId = Int32.Parse(cookieObj["OrderId"]);
+                        return Json(Data.OrderId);
+
+                        //return RedirectToAction("UserList", new { Success = "User has been add successfully." });
+                    }
+                }
+                
+
+
+            }
+            catch (Exception ex)
+            {
+
+                ViewBag.Error = ex.Message;
+                Console.WriteLine("Error" + ex.Message);
+            }
+
+            return Json(0);
+        }
+
+        [HttpPost]
+        public JsonResult AddOrderDetails(tblOrderDetail OrderDetail)
+        {
+            HttpCookie cookieObj = Request.Cookies["User"];
+            int UserId = Int32.Parse(cookieObj["UserId"]);
+            tblOrderDetail Data = new tblOrderDetail();
+            List<tblOrderDetail> OrderDetailData = new List<tblOrderDetail>();
+            tblComponent Component = new tblComponent();
+
+            try
+            {
+                double? TotalPrice = 0;
+
+                Component = DB.tblComponents.Where(x => x.ComponentId == OrderDetail.ComponentId).FirstOrDefault();
+                Data = OrderDetail;
+                Data.ComponentName = Component.Name;
+                Data.ComponentCode= Component.Code;
+                Data.ComponentPrice= Component.Price;
+                DB.tblOrderDetails.Add(Data);
+                DB.SaveChanges();
+
+
+
+
+                tblLog LogData = new tblLog();
+                LogData.UserId = UserId;
+                LogData.Action = "Add Order Details";
+                LogData.CreatedDate = DateTime.Now;
+                DB.tblLogs.Add(LogData);
+                DB.SaveChanges();
+
+                OrderDetailData = DB.tblOrderDetails.Where(x => x.OrderId == OrderDetail.OrderId).ToList();
+
+                TotalPrice=OrderDetailData.Sum(S => S.ComponentPrice);
+
+                return Json(TotalPrice);
+
+
+            }
+            catch (Exception ex)
+            {
+
+                ViewBag.Error = ex.Message;
+                Console.WriteLine("Error" + ex.Message);
+            }
+
+            return Json(0);
+        }
+
+
+
+        public ActionResult Transactions(string Success, string Update, string Delete, string Error)
+        {
+            HttpCookie cookieObj = Request.Cookies["User"];
+            int UserId = Int32.Parse(cookieObj["UserId"]);
+            int RoleId = Int32.Parse(cookieObj["RoleId"]);
+            List<tblTransaction> Transactions = null;
+            if (RoleId == 1)
+            {
+                Transactions = DB.tblTransactions.ToList();
+            }
+            else
+            {
+                Transactions = DB.tblTransactions.Where(x => x.UserId == UserId).ToList();
+            }
+
+
+            ViewBag.Success = Success;
+            ViewBag.Update = Update;
+            ViewBag.Delete = Delete;
+            ViewBag.Error = Error;
+            return View(Transactions);
+        }
 
     }
 }

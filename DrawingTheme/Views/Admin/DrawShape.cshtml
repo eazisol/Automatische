@@ -1,4 +1,4 @@
-﻿
+﻿@model IEnumerable<DrawingTheme.Models.tblComponent>
 @{
     ViewBag.Title = "DrawShape";
     Layout = "~/Views/Shared/_Layout.cshtml";
@@ -24,89 +24,183 @@
     </div>
 </div>
 <div class="body d-flex profile-page">
-    <div class=" container-fluid">
+    <div class="container-fluid">
         <div>
-            <button id="Area" class="btn btn-primary" style="margin-left:2%;">Lawn</button>
-            <button id="DryArea" class="btn btn-warning" style="margin-left:2%;">Dry Area</button>
+            <input type="text" name="OrderId" id="OrderId" value="" />
+            @foreach (DrawingTheme.Models.tblComponent Component in Model)
+            {
+                <button id="Area" onclick="SaveData(@Component.ComponentId)">@Component.Name</button>
+            }
+            @*<button id="Area" style="margin-left:2%;">Lawn</button>
+            <button id="DryArea" style="margin-left:2%;">Dry Area</button>*@
         </div>
-      
-        <div class="card">
-            <div id="container" class="card-body" style="max-height:100vh"></div>
+        <div id="container"></div>
+        <form role="form" id="payment-form" method="POST" action="@Url.Action("PaymentWithPaypal","PayPal")">
+            <div id="">Total Amount: <lebel id="TotalAmount"> 0</lebel></div>
+            <input type="text" id="TotalAmountInput" name="amount" value="" />
+            <button> Save Diagram</button>
+            </form>
+    </div>
+</div>
+
+
+
+<div class="modal fade" id="addcontact" tabindex="-1" role="dialog">
+    <div class="modal-dialog  modal-lg" role="document">
+
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="title" id="defaultModalLabel">Please enter order name</h4>
+            </div>
+            <div class="modal-body">
+
+                <div class="row clearfix">
+                    <div class="col-6">
+                        <div class="form-group">
+                            @*<input type="text" hidden class="form-control" id="OrderId" name="OrderId" placeholder="First Name">*@
+                            <input type="text" class="form-control" id="Name" name="Name" placeholder="Order Name" required>
+                        </div>
+                    </div>
+
+
+                </div>
+
+            </div>
+            <div class="modal-footer">
+                <button type="submit" class="btn btn-primary" id="SaveOrder">Save Changes</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal">CLOSE</button>
+            </div>
         </div>
     </div>
 </div>
 
 
 <script src="https://unpkg.com/konva@8.3.14/konva.min.js"></script>
+
 <script src="~/assets/js/jquery-3.2.1.min.js"></script>
 <script>
 
-    var width = window.innerWidth;
-    var height = window.innerHeight;
+    function SaveData(id) {
+        ComponentId = id;
+        OrderId = $("#OrderId").val();
 
-    var isDraw = false;
-    var isFirst = false;
-    var isFinished = false;
-    var isFirstMouseMove = true;
-    var isStartLine = true;
-    var isOverOnStarting = false;
-    var isInArea = false;
-    var isOutArea = false;
-    var poly = null;
-    var rect = null;
-    const Points = [];
-    const StartRect = [];
-    var Name = 1;
-    var TextId = 1;
-    var Rect1;
-    var PolyName = 1;
-    var id = "Line1";
-    const Group = new Konva.Group();
-    var stage = new Konva.Stage({
-        container: 'container',
-        width: width,
-        height: height,
+        var model = {
+            ComponentId: ComponentId,
+            OrderId: OrderId,
+        };
+
+        $.ajax({
+            type: "POST",
+            url: "@Url.Action("AddOrderDetails", "Customer")",
+            data: JSON.stringify(model),
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            success: function (r) {
+                $("#TotalAmount").text(r);
+                $("#TotalAmountInput").val(r);
+            }
+        });
+
+    }
+
+
+    $(document).on("click", "#SaveOrder", function () {
+
+        Name = $("#Name").val();
+
+        var model = {
+            Name: Name,
+        };
+
+
+        $.ajax({
+            type: "POST",
+            url: "@Url.Action("AjaxAddOrder", "Customer")",
+            data: JSON.stringify(model),
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            success: function (r) {
+                $("#OrderId").val(r);
+                $("#addcontact").modal('toggle');
+            }
+        });
+
+
     });
 
-    var layer = new Konva.Layer();
 
-    stage.on('pointerdown', MouseDownHandler);
-    stage.on('pointermove', MouseMoveHandler);
-    //stage.on('pointerover', handleMouseOverStartPoint);
-    stage.add(layer);
+    $(document).ready(function () {
+
+        $("#addcontact").modal('toggle');
+
+    });
+
+        var width = window.innerWidth;
+        var height = window.innerHeight;
+
+        var isDraw = false;
+        var isFirst = false;
+        var isFinished = false;
+        var isFirstMouseMove = true;
+        var isStartLine = true;
+        var isOverOnStarting = false;
+        var isInArea = false;
+        var isOutArea = false;
+        var poly = null;
+        var rect =  null;
+        const Points = [];
+        const StartRect = [];
+        var Name = 1;
+        var TextId = 1;
+        var Rect1;
+        var PolyName=1;
+        var id = "Line1";
+        const Group = new Konva.Group();
+        var stage = new Konva.Stage({
+            container: 'container',
+        width: width,
+        height: height,
+      });
+
+        var layer = new Konva.Layer();
+
+        stage.on('pointerdown', MouseDownHandler);
+        stage.on('pointermove', MouseMoveHandler);
+        //stage.on('pointerover', handleMouseOverStartPoint);
+        stage.add(layer);
 
 
-    $("body").on("click", "#Area", function () {
-        //alert(this.id);
-        poly = new Konva.Line({
-            points: [0, 0],
-            stroke: 'black',
-            strokeWidth: 3,
-            lineCap: 'round',
-            lineJoin: 'round',
-            id: "Line" + PolyName + "",
-            listening: false,
-            name: "Area",
-        });
+        $("body").on("click", "#Area", function () {
+            //alert(this.id);
+            poly = new Konva.Line({
+                points: [0, 0],
+                stroke: 'black',
+                strokeWidth: 3,
+                lineCap: 'round',
+                lineJoin: 'round',
+                id: "Line" + PolyName + "",
+                listening: false,
+                name: "Area",
+            });
 
         poly.on('pointerdown', function () {
-            //alert(this.id()); //Should show 'IDofImg'
-            if (this.id() == "Line1") {
-                isInArea = true;
-            }
+                //alert(this.id()); //Should show 'IDofImg'
+                if (this.id()=="Line1") {
+            isInArea = true;
+                }
 
-        });
+            });
 
         poly.on('pointerout', function () {
             isOutArea = true;
-            console.log(isOutArea);
+        console.log(isOutArea);
 
-        });
+            });
 
         poly.on('pointerenter', function () {
             isOutArea = false;
-            console.log(isOutArea);
-        });
+        console.log(isOutArea);
+            });
 
 
         PolyName += 1;
@@ -119,44 +213,44 @@
         //alert(poly.name());
         if (this.id == "Area") {
             id = "Line1";
-        }
+            }
         else if (this.id == "DryArea") {
             id = "Line2";
-        }
+            }
         $("#Area").prop('disabled', true);
-    });
-
-
-    $("body").on("click", "#DryArea", function () {
-        //alert(this.id);
-        poly = new Konva.Line({
-            points: [0, 0],
-            stroke: 'black',
-            strokeWidth: 3,
-            lineCap: 'round',
-            lineJoin: 'round',
-            id: "Line" + PolyName + "",
-            listening: false,
-            name: "DryArea",
         });
+
+
+        $("body").on("click", "#DryArea", function () {
+            //alert(this.id);
+            poly = new Konva.Line({
+                points: [0, 0],
+                stroke: 'black',
+                strokeWidth: 3,
+                lineCap: 'round',
+                lineJoin: 'round',
+                id: "Line" + PolyName + "",
+                listening: false,
+                name: "DryArea",
+            });
 
         poly.on('pointerdown', function () {
-            //alert(this.id()); //Should show 'IDofImg'
-            if (this.id() == "Line1") {
-                isInArea = true;
-            }
-        });
+                //alert(this.id()); //Should show 'IDofImg'
+                if (this.id()=="Line1") {
+            isInArea = true;
+                }
+            });
 
         poly.on('pointerout', function () {
             isOutArea = true;
-            console.log(isOutArea);
+        console.log(isOutArea);
 
-        });
+            });
 
         poly.on('pointerenter', function () {
             isOutArea = false;
-            console.log(isOutArea);
-        });
+        console.log(isOutArea);
+            });
 
 
         PolyName += 1;
@@ -170,199 +264,199 @@
 
         if (this.id == "Area") {
             id = "Line1";
-        }
+            }
         else if (this.id == "DryArea") {
             id = poly.id();
-            //alert(poly.name() + this.id);
-        }
-    });
-
-
-
-
-
-    function MouseDownHandler() {
-        //console.log(this);
-        //if (this.pointerClickStartShape != undefined) {
-        //    id = this.pointerClickStartShape.attrs.id;
-        //    console.log(id);
-        //    //if (id[0]=="R") {
-        //    //    id = FindIndex(id);
-        //    //}
-        //}
-        if (isOverOnStarting == false && isFinished == false) {
-            if (isInArea == true || id != "Line2") {
-                var line = layer.findOne('#' + id);
-                //console.log(line.id());
-                var points = line.points();
-                if (isStartLine == true) {
-
-                    points.pop();
-                    points.pop();
-                    //points.pop();
-                    //points.pop();
-                }
-                isDraw = true;
-                var Position = stage.getPointerPosition();
-                //Points.push(Position.x, Position.y);
-                points.push(Position.x, Position.y);
-                line.points(points);
-                //console.log(line.points());
-
-
-                rect = new Konva.Rect({
-                    x: Position.x - 5,
-                    y: Position.y - 5,
-                    width: 10,
-                    height: 10,
-                    name: "Rect" + Name + "",
-                    id: "Rect" + Name + "",
-                    //fill: 'green',
-                    stroke: 'red',
-                    strokeWidth: 2,
-                    draggable: true,
-                });
-                if (isStartLine == true) {
-                    StartRect.push(rect.id());
-                    isStartLine = false;
-                }
-
-                Name += 1;
-                rect.on('pointerenter', function () {
-                    var id = this.name();
-                    var LineId = 0;
-                    if (id[0] == "R") {
-                        LineId = FindIndex(id);
-                    }
-                    var line = layer.findOne('#Line' + LineId);
-                    var points = line.points();
-                    var pointerPos = stage.getPointerPosition();
-                    if (isFinished == true || points.length < 6) {
-                        return;
-                    }
-                    else if (CheckFirstIndex(id)) {
-                        //var Rect1 = stage.find('.' + id);
-                        isOverOnStarting = true;
-                        //console.log(isOverOnStarting);
-
-                    }
-
-                });
-
-
-                rect.on("pointerout", function () {
-
-                    if (CheckFirstIndex(this.name())) {
-                        isOverOnStarting = false;
-                        //console.log(isOverOnStarting);
-                        //layer.batchDraw();
-                    }
-                });
-
-
-
-                rect.on('dragmove', (e) => {
-
-                    // update nodes from the new state
-                    //console.log(e);
-                    updateObjects(e.target.id());
-
-                });
-
-                /*rect.moveToTop();*/
-
-                layer.add(rect);
-
-
-                //var S = line.points();
-                var S = line.points().slice();
-                //console.log(line.points());
-                //if (rect.name()=="Rect2") {
-                //    S.pop();
-                //    S.pop();
-                //}
-                S.pop();
-                S.pop();
-                //console.log(S);
-                //console.log(S.length - 1);
-                //console.log(S.length - 2);
-                //console.log(S.length - 3);
-                //console.log(S.length - 4);
-                //alert(S[S.length - 1]+" = "+S[1]);
-
-                var x = (S[S.length - 4] + S[S.length - 2]) / 2;
-                var y = (S[S.length - 3] + S[S.length - 1]) / 2;
-                var dx = S[S.length - 2] - S[S.length - 4];
-                var dy = S[S.length - 1] - S[S.length - 3];
-                var Sumsqr = Math.pow(dx, 2);
-                Sumsqr += Math.pow(dy, 2);
-                var Distance = Math.sqrt(Sumsqr);
-                Distance = Distance.toFixed(2);
-                var angleRad = Math.atan(dy / dx);
-                var angleDeg = angleRad * 180 / Math.PI;
-                var Text = new Konva.Text({
-                    text: Distance,
-                    fontSize: 10,
-                    fontFamily: 'Calibri',
-                    fill: '#000',
-                    //width: poly.width(),
-                    rotation: angleDeg,
-                    padding: -20,
-                    y: y,
-                    x: x,
-                    id: "Text" + TextId + "",
-                });
-
-                TextId += 1;
-                layer.add(Text);
-
-                //poly.moveToBottom();
-                if (CheckFirstIndex(rect.name())) {
-                    Rect1 = layer.findOne('.' + rect.name());
-                    //rect.moveToTop();
-                }
-                Rect1.moveToTop();
-                isInArea = false;
+                //alert(poly.name() + this.id);
             }
+        });
 
 
-        }
-        else {
-            var LineId = 0;
-            //console.log(this.pointerClickStartShape.attrs.id);
-            //console.log(id);
-            //if (id[0] == "R") {
-            //    LineId = FindIndex(id);
+
+
+
+        function MouseDownHandler() {
+            //console.log(this);
+            //if (this.pointerClickStartShape != undefined) {
+            //    id = this.pointerClickStartShape.attrs.id;
+            //    console.log(id);
+            //    //if (id[0]=="R") {
+            //    //    id = FindIndex(id);
+            //    //}
             //}
-            //else {
-            //    LineId = id[4];
-            //}
-            var line = layer.findOne('#' + id);
-            isDraw = false;
+            if (isOverOnStarting == false && isFinished == false) {
+                if (isInArea == true || id!="Line2") {
+                    var line = layer.findOne('#' + id);
+        //console.log(line.id());
+        var points = line.points();
+        if (isStartLine == true) {
 
-            isFinished = true;
-            line.closed(true);
-            line.listening(true);
-            //console.log(line.name());
-            if (id == "Line1") {
-                line.fill("lightgreen");
+            points.pop();
+        points.pop();
+                        //points.pop();
+                        //points.pop();
+                    }
+        isDraw = true;
+        var Position = stage.getPointerPosition();
+        //Points.push(Position.x, Position.y);
+        points.push(Position.x, Position.y);
+        line.points(points);
+        //console.log(line.points());
 
-            }
-            else if (line.name() == "DryArea") {
-                line.fill("#ffe699");
-            }
 
-            //var CheckPoint = [709.6000366210938, 232.80003356933594];
-            //console.log(line.points());
-            //inside(CheckPoint, line.points());
+        rect = new Konva.Rect({
+            x: Position.x - 5,
+        y: Position.y - 5,
+        width: 10,
+        height: 10,
+        name: "Rect" + Name + "",
+        id: "Rect" + Name + "",
+        //fill: 'green',
+        stroke: 'red',
+        strokeWidth: 2,
+        draggable: true,
+                    });
+        if (isStartLine == true) {
+            StartRect.push(rect.id());
+        isStartLine = false;
+                    }
 
-            return;
-        }
-
-    }
-
-    function updateObjects(id) {
+        Name += 1;
+        rect.on('pointerenter', function () {
+                        var id = this.name();
         var LineId = 0;
+        if (id[0] == "R") {
+            LineId = FindIndex(id);
+                        }
+        var line = layer.findOne('#Line' + LineId);
+        var points = line.points();
+        var pointerPos = stage.getPointerPosition();
+        if (isFinished == true || points.length < 6) {
+                            return;
+                        }
+        else if (CheckFirstIndex(id)) {
+            //var Rect1 = stage.find('.' + id);
+            isOverOnStarting = true;
+                            //console.log(isOverOnStarting);
+
+                        }
+
+                    });
+
+
+        rect.on("pointerout", function () {
+
+                        if (CheckFirstIndex(this.name())) {
+            isOverOnStarting = false;
+                            //console.log(isOverOnStarting);
+                            //layer.batchDraw();
+                        }
+                    });
+
+
+
+                    rect.on('dragmove', (e) => {
+
+            // update nodes from the new state
+            //console.log(e);
+            updateObjects(e.target.id());
+
+                    });
+
+        /*rect.moveToTop();*/
+
+        layer.add(rect);
+
+
+        //var S = line.points();
+        var S = line.points().slice();
+                    //console.log(line.points());
+                    //if (rect.name()=="Rect2") {
+            //    S.pop();
+            //    S.pop();
+            //}
+            S.pop();
+        S.pop();
+        //console.log(S);
+        //console.log(S.length - 1);
+        //console.log(S.length - 2);
+        //console.log(S.length - 3);
+        //console.log(S.length - 4);
+        //alert(S[S.length - 1]+" = "+S[1]);
+
+        var x = (S[S.length - 4] + S[S.length - 2]) / 2;
+        var y = (S[S.length - 3] + S[S.length-1]) / 2;
+        var dx = S[S.length - 2] - S[S.length - 4];
+        var dy = S[S.length - 1] - S[S.length - 3];
+        var Sumsqr = Math.pow(dx, 2);
+        Sumsqr += Math.pow(dy, 2);
+        var Distance = Math.sqrt(Sumsqr);
+        Distance = Distance.toFixed(2);
+        var angleRad = Math.atan(dy / dx);
+        var angleDeg = angleRad * 180 / Math.PI;
+        var Text = new Konva.Text({
+            text: Distance,
+        fontSize: 10,
+        fontFamily: 'Calibri',
+        fill: '#000',
+        //width: poly.width(),
+        rotation: angleDeg,
+        padding: -20,
+        y: y,
+        x: x,
+        id: "Text" + TextId + "",
+                    });
+
+        TextId += 1;
+        layer.add(Text);
+
+        //poly.moveToBottom();
+        if (CheckFirstIndex(rect.name())) {
+            Rect1 = layer.findOne('.' + rect.name());
+                        //rect.moveToTop();
+                    }
+        Rect1.moveToTop();
+        isInArea = false;
+                }
+
+
+            }
+        else {
+                var LineId = 0;
+                //console.log(this.pointerClickStartShape.attrs.id);
+                //console.log(id);
+                //if (id[0] == "R") {
+                //    LineId = FindIndex(id);
+                //}
+                //else {
+                //    LineId = id[4];
+                //}
+                var line = layer.findOne('#' + id);
+        isDraw = false;
+
+        isFinished = true;
+        line.closed(true);
+        line.listening(true);
+        //console.log(line.name());
+        if (id == "Line1") {
+            line.fill("lightgreen");
+
+                }
+        else if (line.name() == "DryArea") {
+            line.fill("#ffe699");
+                }
+
+        //var CheckPoint = [709.6000366210938, 232.80003356933594];
+        //console.log(line.points());
+        //inside(CheckPoint, line.points());
+
+        return;
+            }
+
+        }
+
+        function updateObjects(id) {
+            var LineId = 0;
         var x1 = 0;
         var y1 = 0;
         var x2 = 0;
@@ -370,131 +464,131 @@
         var node = layer.findOne('#' + id);
         if (id[0] == "R") {
             LineId = FindIndex(id);
-        }
+            }
         //console.log(LineId);
         var line = layer.findOne('#Line' + LineId);
         var points = line.points();
         //line.destroy();
-        var ID = Number(id.replace('Rect', ''));
+        var ID =Number(id.replace('Rect', ''));
         var MOD = FindMOD(id);
         //console.log(MOD);
         //console.log(ID);
         if (CheckFirstIndex(id)) {
-            var Index = 0;
-            if (MOD == 0) {
-                Index = ((ID * 2) - 2);
-            }
-            else {
-                Index = ((ID * 2) - 2) % MOD;
-            }
-            line.closed(false);
-            points[Index] = node.x() + 5;
-            points[Index + 1] = node.y() + 5;
-            points[points.length - 2] = node.x() + 5;
-            points[points.length - 1] = node.y() + 5;
-
-
-
-
-            x1 = Index
-            y1 = Index + 1
-            x2 = Index + 2
-            y2 = Index + 3
-
-            var TextId = FindDragTextId(id);
-            var EText = layer.findOne('#' + TextId[0]);
-            //console.log(EText);
-
-            var S = line.points().slice();
-
-            x1 = points[x1];
-            x2 = points[x2];
-            y1 = points[y1];
-            y2 = points[y2];
-            var x = (x2 + x1) / 2;
-            var y = (y2 + y1) / 2;
-            var dx = x1 - x2;
-            var dy = y1 - y2;
-            var Sumsqr = Math.pow(dx, 2);
-            Sumsqr += Math.pow(dy, 2);
-            var Distance = Math.sqrt(Sumsqr);
-            Distance = Distance.toFixed(2);
-            var angleRad = Math.atan(dy / dx);
-            var angleDeg = angleRad * 180 / Math.PI;
-
-            EText.text(Distance.toString());
-            EText.rotation(angleDeg);
-            EText.y(y);
-            EText.x(x);
-
-            var RectCId = TextId[1].replace('Text', '');
-            MOD = FindMOD(RectCId);
-            console.log(MOD);
-            if (MOD == 0) {
-                Index = ((RectCId * 2) - 2);
-            }
-            else {
-                Index = ((RectCId * 2) - 2) % MOD;
-            }
-            //Index = ((RectCId * 2) - 2) % MOD;
-
-            var EText = layer.findOne('#' + TextId[1]);
-
-            x1 = Index
-            y1 = Index + 1
-            x2 = Index + 2
-            y2 = Index + 3
-
-            var S = line.points().slice();
-
-            x1 = points[x1];
-            x2 = points[x2];
-            y1 = points[y1];
-            y2 = points[y2];
-            var x = (x2 + x1) / 2;
-            var y = (y2 + y1) / 2;
-            var dx = x1 - x2;
-            var dy = y1 - y2;
-            var Sumsqr = Math.pow(dx, 2);
-            Sumsqr += Math.pow(dy, 2);
-            var Distance = Math.sqrt(Sumsqr);
-            Distance = Distance.toFixed(2);
-            var angleRad = Math.atan(dy / dx);
-            var angleDeg = angleRad * 180 / Math.PI;
-
-            EText.text(Distance.toString());
-            EText.rotation(angleDeg);
-            EText.y(y);
-            EText.x(x);
-
-
-            //console.log(FindDragTextId(id));
-
-        }
+                var Index = 0;
+        if (MOD == 0) {
+            Index = ((ID * 2) - 2) ;
+                }
         else {
-            var Index = 0;
-            if (MOD == 0) {
-                Index = ((ID * 2) - 2);
+            Index = ((ID * 2) - 2) % MOD;
+                }
+        line.closed(false);
+        points[Index] = node.x() + 5;
+        points[Index + 1] = node.y() + 5;
+        points[points.length - 2] = node.x() + 5;
+        points[points.length - 1] = node.y() + 5;
+
+
+
+
+        x1 = Index
+        y1 = Index + 1
+        x2 = Index + 2
+        y2 = Index + 3
+
+        var TextId = FindDragTextId(id);
+        var EText = layer.findOne('#' + TextId[0]);
+        //console.log(EText);
+
+        var S = line.points().slice();
+
+        x1 = points[x1];
+        x2 = points[x2];
+        y1 = points[y1];
+        y2 = points[y2];
+        var x = (x2 + x1) / 2;
+        var y = (y2 + y1) / 2;
+        var dx = x1 - x2;
+        var dy = y1 - y2;
+        var Sumsqr = Math.pow(dx, 2);
+        Sumsqr += Math.pow(dy, 2);
+        var Distance = Math.sqrt(Sumsqr);
+        Distance = Distance.toFixed(2);
+        var angleRad = Math.atan(dy / dx);
+        var angleDeg = angleRad * 180 / Math.PI;
+
+        EText.text(Distance.toString());
+        EText.rotation(angleDeg);
+        EText.y(y);
+        EText.x(x);
+
+        var RectCId = TextId[1].replace('Text', '');
+        MOD = FindMOD(RectCId);
+        console.log(MOD);
+        if (MOD == 0) {
+            Index = ((RectCId * 2) - 2);
+                }
+        else {
+            Index = ((RectCId * 2) - 2) % MOD;
+                }
+        //Index = ((RectCId * 2) - 2) % MOD;
+
+        var EText = layer.findOne('#' + TextId[1]);
+
+        x1 = Index
+        y1 = Index + 1
+        x2 = Index + 2
+        y2 = Index + 3
+
+        var S = line.points().slice();
+
+        x1 = points[x1];
+        x2 = points[x2];
+        y1 = points[y1];
+        y2 = points[y2];
+        var x = (x2 + x1) / 2;
+        var y = (y2 + y1) / 2;
+        var dx = x1 - x2;
+        var dy = y1 - y2;
+        var Sumsqr = Math.pow(dx, 2);
+        Sumsqr += Math.pow(dy, 2);
+        var Distance = Math.sqrt(Sumsqr);
+        Distance = Distance.toFixed(2);
+        var angleRad = Math.atan(dy / dx);
+        var angleDeg = angleRad * 180 / Math.PI;
+
+        EText.text(Distance.toString());
+        EText.rotation(angleDeg);
+        EText.y(y);
+        EText.x(x);
+
+
+                //console.log(FindDragTextId(id));
+
             }
-            else {
-                Index = ((ID * 2) - 2) % MOD;
-            }
-            line.closed(false);
-            points[Index] = node.x() + 5;
-            points[Index + 1] = node.y() + 5;
+        else {
+                var Index = 0;
+        if (MOD == 0) {
+            Index = ((ID * 2) - 2);
+                }
+        else {
+            Index = ((ID * 2) - 2) % MOD;
+                }
+        line.closed(false);
+        points[Index] = node.x() + 5;
+        points[Index + 1] = node.y() + 5;
 
-            x1 = Index - 2
-            y1 = Index - 1
-            x2 = Index
-            y2 = Index + 1
+        x1=Index-2
+        y1=Index-1
+        x2=Index
+        y2=Index+1
 
-            var TextId = FindDragTextId(id);
-            var EText = layer.findOne('#' + TextId[1]);
-            console.log(EText);
+        var TextId = FindDragTextId(id);
+        var EText = layer.findOne('#' + TextId[1]);
+        console.log(EText);
 
-            var S = line.points().slice();
-            //console.log(line.points());
-            //if (rect.name()=="Rect2") {
+        var S = line.points().slice();
+                //console.log(line.points());
+                //if (rect.name()=="Rect2") {
             //    S.pop();
             //    S.pop();
             //}
@@ -507,284 +601,285 @@
             //console.log(S.length - 4);
             //alert(S[S.length - 1]+" = "+S[1]);
             x1 = points[x1];
-            x2 = points[x2];
-            y1 = points[y1];
-            y2 = points[y2];
-            var x = (x2 + x1) / 2;
-            var y = (y2 + y1) / 2;
-            //console.log(x);
-            //console.log(y);
-            var dx = x1 - x2;
-            var dy = y1 - y2;
-            var Sumsqr = Math.pow(dx, 2);
-            Sumsqr += Math.pow(dy, 2);
-            var Distance = Math.sqrt(Sumsqr);
-            Distance = Distance.toFixed(2);
-            //console.log(Distance);
-            var angleRad = Math.atan(dy / dx);
-            var angleDeg = angleRad * 180 / Math.PI;
+        x2 = points[x2];
+        y1 = points[y1];
+        y2 = points[y2];
+        var x = (x2 + x1) / 2;
+        var y = (y2 + y1) / 2;
+        //console.log(x);
+        //console.log(y);
+        var dx = x1 - x2;
+        var dy =y1 - y2;
+        var Sumsqr = Math.pow(dx, 2);
+        Sumsqr += Math.pow(dy, 2);
+        var Distance = Math.sqrt(Sumsqr);
+        Distance = Distance.toFixed(2);
+        //console.log(Distance);
+        var angleRad = Math.atan(dy / dx);
+        var angleDeg = angleRad * 180 / Math.PI;
 
-            EText.text(Distance.toString());
-            EText.rotation(angleDeg);
-            EText.y(y);
-            EText.x(x);
-
-
-
-
-
-            x1 = Index
-            y1 = Index + 1
-            x2 = Index + 2
-            y2 = Index + 3
-
-            var TextId = FindDragTextId(id);
-            var EText = layer.findOne('#' + TextId[0]);
-            console.log(EText);
-
-            var S = line.points().slice();
-
-            x1 = points[x1];
-            x2 = points[x2];
-            y1 = points[y1];
-            y2 = points[y2];
-            var x = (x2 + x1) / 2;
-            var y = (y2 + y1) / 2;
-            var dx = x1 - x2;
-            var dy = y1 - y2;
-            var Sumsqr = Math.pow(dx, 2);
-            Sumsqr += Math.pow(dy, 2);
-            var Distance = Math.sqrt(Sumsqr);
-            Distance = Distance.toFixed(2);
-            var angleRad = Math.atan(dy / dx);
-            var angleDeg = angleRad * 180 / Math.PI;
-
-            EText.text(Distance.toString());
-            EText.rotation(angleDeg);
-            EText.y(y);
-            EText.x(x);
+        EText.text(Distance.toString());
+        EText.rotation(angleDeg);
+        EText.y(y);
+        EText.x(x);
 
 
 
 
-            //console.log(FindDragTextId(id));
-        }
+
+        x1 = Index
+        y1 = Index+1
+        x2 = Index+2
+        y2 = Index + 3
+
+        var TextId = FindDragTextId(id);
+        var EText = layer.findOne('#' + TextId[0]);
+        console.log(EText);
+
+        var S = line.points().slice();
+
+        x1 = points[x1];
+        x2 = points[x2];
+        y1 = points[y1];
+        y2 = points[y2];
+        var x = (x2 + x1) / 2;
+        var y = (y2 + y1) / 2;
+        var dx = x1 - x2;
+        var dy = y1 - y2;
+        var Sumsqr = Math.pow(dx, 2);
+        Sumsqr += Math.pow(dy, 2);
+        var Distance = Math.sqrt(Sumsqr);
+        Distance = Distance.toFixed(2);
+        var angleRad = Math.atan(dy / dx);
+        var angleDeg = angleRad * 180 / Math.PI;
+
+        EText.text(Distance.toString());
+        EText.rotation(angleDeg);
+        EText.y(y);
+        EText.x(x);
+
+
+
+
+                //console.log(FindDragTextId(id));
+            }
         line.closed(true);
-    }
-
-
-
-
-    //function handleMouseOverStartPoint () {
-    //    if (isFinished || Points.length < 3) {
-    //        alert();
-    //        return;
-    //    }
-    //    else
-    //    {
-    //        //rect.scale(2, 2);
-    //        rect.fill("red");
-    //        //layer.batchDraw();
-    //    }
-    //};
-
-    function MouseMoveHandler() {
-        //  //var id = 0;
-        if (!isDraw) {
-            //poly.closed = true;
-            return false;
         }
-        else {
-            //if (this.mouseClickStartShape != undefined) {
 
-            //    id = this.mouseClickStartShape.attrs.id;
-            //    console.log(id);
-            //}
-            if (isOutArea == false) {
-                var line = layer.findOne('#' + id);
-                var points = line.points();
-                if (isFirstMouseMove == false) {
-                    points.pop();
-                    points.pop();
+
+
+
+        //function handleMouseOverStartPoint () {
+            //    if (isFinished || Points.length < 3) {
+            //        alert();
+            //        return;
+            //    }
+            //    else
+            //    {
+            //        //rect.scale(2, 2);
+            //        rect.fill("red");
+            //        //layer.batchDraw();
+            //    }
+            //};
+
+            function MouseMoveHandler() {
+                //  //var id = 0;
+                if (!isDraw) {
+                    //poly.closed = true;
+                    return false;
                 }
+                else {
+                    //if (this.mouseClickStartShape != undefined) {
 
-                var TextId = FindTextId(rect.id());
-                var EText = layer.findOne('#' + TextId);
+                    //    id = this.mouseClickStartShape.attrs.id;
+                    //    console.log(id);
+                    //}
+                    if (isOutArea == false) {
+                        var line = layer.findOne('#' + id);
+                        var points = line.points();
+                        if (isFirstMouseMove == false) {
+                            points.pop();
+                            points.pop();
+                        }
 
-
-
-
-
-                var CPoints = [];
-                //var line = layer.findOne('#Line');
-                //var points = line.points();
-                Position = stage.getPointerPosition();
-
-
-                var S = line.points().slice();
-                //console.log(line.points());
-                //if (rect.name()=="Rect2") {
-                //    S.pop();
-                //    S.pop();
-                //}
-                //S.pop();
-                //S.pop();
-                //console.log(EText);
-                //console.log(S.length - 1);
-                //console.log(S.length - 2);
-                //console.log(S.length - 3);
-                //console.log(S.length - 4);
-                //alert(S[S.length - 1]+" = "+S[1]);
-
-                var x = (Position.x + S[S.length - 2]) / 2;
-                var y = (Position.y + S[S.length - 1]) / 2;
-                //console.log(x);
-                //console.log(y);
-                var dx = S[S.length - 2] - Position.x;
-                var dy = S[S.length - 1] - Position.y;
-                var Sumsqr = Math.pow(dx, 2);
-                Sumsqr += Math.pow(dy, 2);
-                var Distance = Math.sqrt(Sumsqr);
-                Distance = Distance.toFixed(2);
-                //console.log(Distance);
-                var angleRad = Math.atan(dy / dx);
-                var angleDeg = angleRad * 180 / Math.PI;
-
-                EText.text(Distance.toString());
-                EText.rotation(angleDeg);
-                EText.y(y);
-                EText.x(x);
+                        var TextId = FindTextId(rect.id());
+                        var EText = layer.findOne('#' + TextId);
 
 
-                //points.push(Position.x, Position.y);
-                points.push(Position.x, Position.y);
-                CPoints = points.slice();
-                line.points(CPoints);
-                isFirstMouseMove = false;
-                //layer.batchDraw();
 
-                //line.points(CPoints);
+
+
+                        var CPoints = [];
+                        //var line = layer.findOne('#Line');
+                        //var points = line.points();
+                        Position = stage.getPointerPosition();
+
+
+                        var S = line.points().slice();
+                        //console.log(line.points());
+                        //if (rect.name()=="Rect2") {
+                        //    S.pop();
+                        //    S.pop();
+                        //}
+                        //S.pop();
+                        //S.pop();
+                        //console.log(EText);
+                        //console.log(S.length - 1);
+                        //console.log(S.length - 2);
+                        //console.log(S.length - 3);
+                        //console.log(S.length - 4);
+                        //alert(S[S.length - 1]+" = "+S[1]);
+
+                        var x = (Position.x + S[S.length - 2]) / 2;
+                        var y = (Position.y + S[S.length - 1]) / 2;
+                        //console.log(x);
+                        //console.log(y);
+                        var dx = S[S.length - 2] - Position.x;
+                        var dy = S[S.length - 1] - Position.y;
+                        var Sumsqr = Math.pow(dx, 2);
+                        Sumsqr += Math.pow(dy, 2);
+                        var Distance = Math.sqrt(Sumsqr);
+                        Distance = Distance.toFixed(2);
+                        //console.log(Distance);
+                        var angleRad = Math.atan(dy / dx);
+                        var angleDeg = angleRad * 180 / Math.PI;
+
+                        EText.text(Distance.toString());
+                        EText.rotation(angleDeg);
+                        EText.y(y);
+                        EText.x(x);
+
+
+                        //points.push(Position.x, Position.y);
+                        points.push(Position.x, Position.y);
+                        CPoints = points.slice();
+                        line.points(CPoints);
+                        isFirstMouseMove = false;
+                        //layer.batchDraw();
+
+                        //line.points(CPoints);
+                    }
+
+
+                }
             }
 
-
-        }
-    }
-
-    function FindMOD(id) {
-        var RetIndex = "";
+        function FindMOD(id) {
+            var RetIndex = "";
         id = id.replace('Rect', '');
         var CStartRect = StartRect.slice();
         for (var i = 0; i < StartRect.length; i++) {
             CStartRect[i] = CStartRect[i].replace('Rect', '');
-            if (Number(CStartRect[i]) === Number(id)) {
-                RetIndex = CStartRect[i];
-            }
-            else {
-                if (Number(id) > Number(CStartRect[i])) {
-                    RetIndex = CStartRect[i];
+        if (Number(CStartRect[i]) === Number(id)) {
+            RetIndex = CStartRect[i];
+                }
+        else {
+                    if (Number(id) > Number(CStartRect[i])) {
+            RetIndex = CStartRect[i];
+                    }
                 }
             }
-        }
         var Mod = (Number(RetIndex) * 2) - 2;
         return Mod;
-    }
+        }
 
 
-    function FindTextId(id) {
-        var RectId = id.replace('Rect', '');
+        function FindTextId(id) {
+            var RectId = id.replace('Rect', '');
         var TextId = "Text" + RectId;
         return TextId;
 
-    }
+        }
 
 
-    function FindDragTextId(id) {
+        function FindDragTextId(id) {
 
-        var TextIds = [];
+            var TextIds = [];
         var RectId = Number(id.replace('Rect', ''));
         TextIds.push("Text" + RectId);
         if (CheckFirstIndex(id)) {
             console.log();
-            TextIds.push("Text" + FindLastId(id).replace('Rect', ''));
-        }
+        TextIds.push("Text" + FindLastId(id).replace('Rect', ''));
+            }
         else {
             TextIds.push("Text" + (RectId - 1));
-        }
+            }
 
         return TextIds;
 
-    }
+        }
 
 
-    function FindLastId(id) {
-        var RetIndex = 0;
+        function FindLastId(id) {
+            var RetIndex = 0;
         id = id.replace('Rect', '');
         var CStartRect = StartRect.slice();
         for (var i = 0; i < StartRect.length; i++) {
             CStartRect[i] = CStartRect[i].replace('Rect', '');
-            if (Number(CStartRect[i]) > Number(id)) {
+                if (Number(CStartRect[i]) > Number(id)) {
 
-                var RetId = "Rect" + Number(CStartRect[i]) - 1;
+                    var RetId = "Rect" + Number(CStartRect[i]) - 1;
 
-                return RetId;
+        return RetId;
+                }
+        RetIndex = i;
             }
-            RetIndex = i;
-        }
         var RetId = "Rect" + (Name - 1);
         //alert(Name);
         return RetId;
-    }
+        }
 
 
 
-    function FindIndex(id) {
-        var RetIndex = 0;
+        function FindIndex(id) {
+            var RetIndex = 0;
         id = id.replace('Rect', '');
         var CStartRect = StartRect.slice();
         for (var i = 0; i < StartRect.length; i++) {
             CStartRect[i] = CStartRect[i].replace('Rect', '');
-            if (Number(CStartRect[i]) == Number(id)) {
+        if (Number(CStartRect[i]) == Number(id)) {
 
-                return i + 1;
-            }
-            else {
-                if (Number(id) > Number(CStartRect[i])) {
-                    RetIndex = i + 1;
+                    return i + 1;
+                }
+        else {
+                    if (Number(id) > Number(CStartRect[i]))
+        {
+            RetIndex = i + 1;
+                    }
                 }
             }
-        }
         return RetIndex;
-    }
-
-
-    function CheckFirstIndex(id) {
-        for (var i = 0; i < StartRect.length; i++) {
-            if (StartRect[i] == id) {
-                return true;
-            }
         }
+
+
+        function CheckFirstIndex(id) {
+            for (var i = 0; i < StartRect.length; i++) {
+                if (StartRect[i] == id) {
+                    return true;
+                }
+            }
         return false;
-    }
+        }
 
 
-    //function inside(point, vs) {
-    //    // ray-casting algorithm based on
-    //    // https://wrf.ecse.rpi.edu/Research/Short_Notes/pnpoly.html/pnpoly.html
+        //function inside(point, vs) {
+        //    // ray-casting algorithm based on
+        //    // https://wrf.ecse.rpi.edu/Research/Short_Notes/pnpoly.html/pnpoly.html
 
-    //    var x = point[0], y = point[1];
+        //    var x = point[0], y = point[1];
 
-    //    var inside = false;
-    //    for (var i = 0, j = vs.length - 1; i < vs.length; j = i++) {
-    //        var xi = vs[i][0], yi = vs[i][1];
-    //        var xj = vs[j][0], yj = vs[j][1];
+        //    var inside = false;
+        //    for (var i = 0, j = vs.length - 1; i < vs.length; j = i++) {
+        //        var xi = vs[i][0], yi = vs[i][1];
+        //        var xj = vs[j][0], yj = vs[j][1];
 
-    //        var intersect = ((yi > y) != (yj > y))
-    //            && (x < (xj - xi) * (y - yi) / (yj - yi) + xi);
-    //        if (intersect) inside = !inside;
-    //    }
-    //    alert(inside);
-    //    return inside;
-    //};
+        //        var intersect = ((yi > y) != (yj > y))
+        //            && (x < (xj - xi) * (y - yi) / (yj - yi) + xi);
+        //        if (intersect) inside = !inside;
+        //    }
+        //    alert(inside);
+        //    return inside;
+        //};
 
 
 
@@ -794,8 +889,7 @@
 
     $(document).ready(function () {
 
-
-        $(".nav1 a").removeClass("active");
+        $(".nav1 li").removeClass("active");
         $('#DrawShape').addClass('active');
 
     });

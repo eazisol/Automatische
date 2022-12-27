@@ -50,8 +50,11 @@ namespace DrawingTheme.Controllers
                     cookie["UserId"] = User.UserId.ToString();
                     cookie["RoleId"] = User.RoleId.ToString();
                     cookie["Role"] = User.tblRole.Role;
+
+                    cookie["OrderId"] = User.RoleId.ToString();
+
                     cookie["FirstName"] = User.FirstName;
-                    cookie["ImagePath"] = User.ImagePath;
+
                     cookie.Expires = DateTime.Now.AddMonths(1);
                     Response.Cookies.Add(cookie);
 

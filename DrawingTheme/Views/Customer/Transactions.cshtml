@@ -1,7 +1,7 @@
-﻿@model IEnumerable<DrawingTheme.Models.tblComponent>
+﻿@model IEnumerable<DrawingTheme.Models.tblTransaction>
 
 @{
-    ViewBag.Title = "ComponentList";
+    ViewBag.Title = "TransactionList";
     Layout = "~/Views/Shared/_Layout.cshtml";
 
 
@@ -15,7 +15,7 @@
         <div class="row">
             <div class="col-lg-6 col-md-4 col-sm-12">
 
-                <h4>Component </h4>
+                <h4>Transaction </h4>
                 <ul class="breadcrumb">
                     <li class="breadcrumb-item">
                         <a href="index.html">
@@ -24,19 +24,19 @@
                         </a>
                     </li>
 
-                    <li class="breadcrumb-item active">Component </li>
+                    <li class="breadcrumb-item active">Transaction </li>
                 </ul>
             </div>
             <div class="col-lg-6 col-md-8 col-sm-12">
                 <ul class="nav nav-tabs tab-body-header rounded justify-content-end" role="tablist">
 
-                    <div class="page_action">
-                        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#addcontact" id="AddComponent">
+                    @*<div class="page_action">
+                        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#addcontact" id="AddTransaction">
                             <i class="fa fa-address-card mr-1" aria-hidden="true"></i>
-                            Add New Component
+                            Add New Transaction
                         </button>
 
-                    </div>
+                    </div>*@
                 </ul>
             </div>
         </div>
@@ -60,7 +60,7 @@
                 </div>
                 <div class="card">
                     <div class="card-header">
-                        <h3 class="card-title">Component List</h3>
+                        <h3 class="card-title">Transaction List</h3>
                     </div>
                     <div class="card-body pt-0">
                         <div class="table-responsive table_e2">
@@ -68,51 +68,42 @@
                                 <thead>
                                     <tr>
 
-                                        <th hidden>Component Id</th>
-                                        <th>Code</th>
-                                        <th>Name</th>
-                                        <th>Price</th>
-                                        <th >Status</th>
-                                        <th >Action</th>
+                                        <th hidden>Transaction Id</th>
+                                        <th>PaymentId</th>
+                                        <th>User Name</th>
+                                        <th>Order Name</th>
+                                        <th>Payment Status</th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    @foreach (DrawingTheme.Models.tblComponent Component in Model)
+                                    @foreach (DrawingTheme.Models.tblTransaction Transaction in Model)
                                     {
-                                    <tr>
+                                        <tr>
+                                            <td hidden>@Transaction.Id</td>
+                                            <td>@Transaction.PaypalPaymentId</td>
+                                            <td>
+                                                <span class="c_name">@Transaction.tblUser.FirstName</span>
+                                            </td>
 
-                                        <td hidden> @Component.ComponentId</td>
+                                            <td>@Transaction.tblOrder.Name</td>
+                                           
+                                            <td>
 
+                                                @if (@Transaction.Status == "Successfull")
+                                                {
+                                                    <label>Paid</label>
 
-                                        <td hidden> @Component.ComponentId</td>
-                                        <td>@Component.Code</td>
-                                        <td>
-                                            <span class="c_name">@Component.Name</span>
-                                        </td>
-
-
-                                        <td>
-                                            <span class="Price">@Component.Price</span>
-                                        </td>
-                                        <td>
-                                            @if (@Component.isActive == true)
-                                            {
-                                                <span class="badge badge-success">Active</span>
-                                            }
-                                            else
-                                            {
-                                                <span class="badge badge-danger">InActive</span>
-                                            }
-
-                                        </td>
-                                        <td >
-                                            <button type="button" class="btn btn-primary btn-sm" title="Edit" data-toggle="modal" data-target="#addcontact" id="EditComponent"><i class="fa fa-edit"></i></button>
-                                            <button type="button" class="btn btn-danger btn-sm" title="Delete" data-toggle="modal" data-target="#DeleteComponentModal" id="DeleteComponent"><i class="fa fa-trash-o"></i></button>
-                                        </td>
-                                    </tr>
+                                                }
+                                                else
+                                                {
+                                                    <label>Pending</label>
+                                                }
+                                            </td>
+                                            
+                                        </tr>
 
                                     }
-                                    
+
                                 </tbody>
                             </table>
                         </div>
@@ -123,41 +114,49 @@
         </div>
     </div>
 </div>
+
 <div class="modal fade" id="addcontact" tabindex="-1" role="dialog">
-    <div class="modal-dialog  " role="document">
-        @using (Html.BeginForm("AddComponent", "Component", FormMethod.Post, new { enctype = "multipart/form-data" }))
+    <div class="modal-dialog  modal-lg" role="document">
+        @using (Html.BeginForm("AddTransaction", "Customer", FormMethod.Post, new { enctype = "multipart/form-data" }))
         {@Html.AntiForgeryToken()
         <div class="modal-content">
             <div class="modal-header">
-                <h6 class="title" id="defaultModalLabel">Add Component</h6>
+                <h4 class="title" id="defaultModalLabel">Add Transaction</h4>
             </div>
             <div class="modal-body">
 
                 <div class="row clearfix">
-                    <div class="col-6">
+                    <div class="col-6" hidden>
                         <div class="form-group">
-                            <label>Code</label>
-                            <input type="text" class="form-control" id="Code" name="Code" placeholder="Code" required>
+                            <input type="text" class="form-control" id="TransactionNumber" name="TransactionNumber" placeholder="Transaction Number" required>
                         </div>
                     </div>
                     <div class="col-6">
                         <div class="form-group">
-                            <label>Name</label>
-                            <input type="text" hidden class="form-control" id="ComponentId" name="ComponentId" placeholder="First Name">
+                            <input type="text" hidden class="form-control" id="TransactionId" name="TransactionId" placeholder="First Name">
                             <input type="text" class="form-control" id="Name" name="Name" placeholder="Name" required>
                         </div>
                     </div>
-
                     <div class="col-6">
                         <div class="form-group">
-                            <label>Price</label>
-                            <input type="number" class="form-control" id="Price" name="Price" placeholder="Price" required>
+                            <input type="number" class="form-control" id="TotalPrice" name="TotalPrice" placeholder="Total Price">
                         </div>
                     </div>
-                    <div class="col-6 form-group">
+                    <div class="col-6">
+                        <div class="form-group">
+                            @*<input type="text" class="form-control" id="Status" name="Status" placeholder="Payment Status" >*@
+
+                            <select class="form-control" id="Status" name="Status">
+                                <option value="">Payment Status</option>
+                                <option value="1">Pending</option>
+                                <option value="2">Paid</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-12 form-group">
 
                         <label class="custom-control custom-checkbox custom-control-inline">
-                            <input type="checkbox" class="custom-control-input" id="isActive" name="isActive" value="true" checked>
+                            <input type="checkbox" class="custom-control-input" id="isActive" name="isActive" value="True">
                             <span class="custom-control-label">Active</span>
                         </label>
 
@@ -169,7 +168,7 @@
             </div>
             <div class="modal-footer">
                 <button type="submit" class="btn btn-primary">Save Changes</button>
-                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal">CLOSE</button>
             </div>
         </div>
     }
@@ -178,24 +177,23 @@
 
 
 
-<div class="modal fade" id="DeleteComponentModal" tabindex="-1" role="dialog">
-    <div class="modal-dialog  " role="document">
-        @using (Html.BeginForm("DeleteComponent", "Component", FormMethod.Post, new { enctype = "multipart/form-data" }))
+<div class="modal fade" id="DeleteTransactionModal" tabindex="-1" role="dialog">
+    <div class="modal-dialog  modal-lg" role="document">
+        @using (Html.BeginForm("DeleteTransaction", "Customer", FormMethod.Post, new { enctype = "multipart/form-data" }))
         {@Html.AntiForgeryToken()
         <div class="modal-content">
             <div class="modal-header">
-                <h6 class="title" id="defaultModalLabel">Delete Component</h6>
+                <h4 class="title" id="defaultModalLabel">Delete Transaction</h4>
             </div>
             <div class="modal-body text-center">
-                <img src="~/assets/images/sent.png" alt="" width="50" height="46" style="margin-bottom:3%">
-                <br>
-                <input class="form-control" type="text" name="ComponentId" id="DeleteComponentId" hidden>
-                <p>Are you sure want to delete this component information?</p>
+                <img src="~/assets/images/sent.png" alt="" width="50" height="46">
+                <input class="form-control" type="text" name="TransactionId" id="DeleteTransactionId" hidden>
+                <h5>Are you sure want to delete this Transaction information?</h5>
 
             </div>
             <div class="modal-footer">
                 <button type="submit" class="btn btn-danger">Delete</button>
-                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal">CLOSE</button>
             </div>
         </div>
     }
@@ -207,31 +205,32 @@
 <script src="~/assets/js/jquery-3.2.1.min.js"></script>
 <script>
 
-    $(document).on("click", "#DeleteComponent", function () {
+    $(document).on("click", "#DeleteTransaction", function () {
         //alert();
         var currentRow = $(this).closest("tr");
-        $("#DeleteComponentId").val(currentRow.find("td:eq(0)").text());
-       /* $("#DeleteComponentModal").toggle();*/
+        $("#DeleteTransactionId").val(currentRow.find("td:eq(0)").text());
+       /* $("#DeleteTransactionModal").toggle();*/
 
     });
 
 
-    $(document).on("click", "#AddComponent", function () {
-        $("#defaultModalLabel").text("Add Component");
-        $("#ComponentId").val('');
+    $(document).on("click", "#AddTransaction", function () {
+        $("#defaultModalLabel").text("Add Transaction");
+        $("#TransactionNumber").val('');
+        $("#TransactionId").val('');
         $("#Name").val('');
-        $("#Code").val('');
-        $("#Price").val('');
-       
+        $("#TotalPrice").val('');
+        $("#Status").val('');
+
         $('#isActive').prop('checked', false);
-        //var myModal = $('#offcanvasAddComponent');
-        //$('#offcanvasAddComponent').css("visibility", "visible");
-        //$('#offcanvasAddComponent').addClass("show");
-        //$('#AddComponentBody').css("visibility", "visible");
+        //var myModal = $('#offcanvasAddTransaction');
+        //$('#offcanvasAddTransaction').css("visibility", "visible");
+        //$('#offcanvasAddTransaction').addClass("show");
+        //$('#AddTransactionBody').css("visibility", "visible");
     });
 
 
-    $(document).on("click", "#EditComponent", function () {
+    $(document).on("click", "#EditTransaction", function () {
         @*var model1 = '@Html.Raw(Json.Encode(ViewBag.CategoryList))';
         var data = JSON.parse(model1);*@
         var currentRow = $(this).closest("tr");
@@ -239,14 +238,22 @@
 
         //alert(currentRow.find("td:eq(2)").text());
 
-        $("#defaultModalLabel").text("Edit Component");
-        var ComponentId = currentRow.find("td:eq(0)").text();
-        $("#ComponentId").val(ComponentId);
+        $("#defaultModalLabel").text("Edit Transaction");
+        var TransactionId = currentRow.find("td:eq(0)").text();
+        $("#TransactionId").val(TransactionId);
+        $("#TransactionNumber").val(currentRow.find("td:eq(1)").text());
         $("#Name").val(currentRow.find("span:eq(0)").text());
-        $("#Code").val(currentRow.find("td:eq(1)").text());
-        $("#Price").val(currentRow.find("span:eq(1)").text());
-       
-        if (currentRow.find("span:eq(2)").text() =="Active") {
+        $("#TotalPrice").val(currentRow.find("td:eq(3)").text());
+        var Status = currentRow.find("span:eq(1)").text();
+        if (Status == "") {
+            $("#Status").val(1);
+        }
+        else {
+            $("#Status").val(currentRow.find("span:eq(1)").text());
+        }
+
+
+        if (currentRow.find("span:eq(2)").text()=="True") {
             $('#isActive').prop('checked', true);
         }
         else {
@@ -288,9 +295,13 @@
         }
 
 
+        $('#ScrapperList').DataTable({
+            searching: true,
+            "Transactioning": false
+        });
 
         $(".nav1 li").removeClass("active");
-        $('#Component').addClass('active');
+        $('#Transaction').addClass('active');
 
     });
 </script>

@@ -4,25 +4,32 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="553b9a1785094fe8a6b945e95fc1c6f4" Name="Diagram1">
+      <Diagram DiagramId="553b9a1785094fe8a6b945e95fc1c6f4" Name="Diagram1" ZoomLevel="73">
         <EntityTypeShape EntityType="AutomatischeModel.tblAccessLevel" Width="1.5" PointX="3" PointY="3.875" IsExpanded="true" />
-        <EntityTypeShape EntityType="AutomatischeModel.tblLog" Width="1.5" PointX="8.125" PointY="9.875" IsExpanded="true" />
+
         <EntityTypeShape EntityType="AutomatischeModel.tblMenu" Width="1.5" PointX="0.75" PointY="0.75" IsExpanded="true" />
         <EntityTypeShape EntityType="AutomatischeModel.tblRole" Width="1.5" PointX="0.75" PointY="5.25" IsExpanded="true" />
-        <EntityTypeShape EntityType="AutomatischeModel.tblUser" Width="1.5" PointX="3" PointY="8.5" IsExpanded="true" />
         <AssociationConnector Association="AutomatischeModel.FK_AccessManu" ManuallyRouted="false" />
         <AssociationConnector Association="AutomatischeModel.FK_AccessRole" ManuallyRouted="false" />
-        <AssociationConnector Association="AutomatischeModel.FK_tblUser_tblRole" ManuallyRouted="false" />
+
         <EntityTypeShape EntityType="AutomatischeModel.tblSetting" Width="1.5" PointX="5.25" PointY="12.625" />
-        <AssociationConnector Association="AutomatischeModel.FK_tblSetting_tblUser" />
-        <EntityTypeShape EntityType="AutomatischeModel.tblComponent" Width="1.5" PointX="5.25" PointY="5.875" />
+        <EntityTypeShape EntityType="AutomatischeModel.tblOrder" Width="1.5" PointX="5.25" PointY="16.875" />
+        <EntityTypeShape EntityType="AutomatischeModel.tblOrderDetail" Width="1.5" PointX="7.5" PointY="11.875" />
+        <AssociationConnector Association="AutomatischeModel.FK_tblOrderDetail_tblOrder" />
+        <EntityTypeShape EntityType="AutomatischeModel.tblComponent" Width="1.5" PointX="5.25" PointY="5" />
+        <AssociationConnector Association="AutomatischeModel.FK_tblOrderDetail_tblComponent" />
+        <EntityTypeShape EntityType="AutomatischeModel.tblUser" Width="1.5" PointX="3" PointY="8.875" />
         <AssociationConnector Association="AutomatischeModel.FK_tblComponent_tblUser" />
         <AssociationConnector Association="AutomatischeModel.FK_tblComponent_tblUser1" />
-        <EntityTypeShape EntityType="AutomatischeModel.tblOrder" Width="1.5" PointX="5.25" PointY="17" />
-        <EntityTypeShape EntityType="AutomatischeModel.tblOrderDetail" Width="1.5" PointX="3.375" PointY="0.75" />
         <AssociationConnector Association="AutomatischeModel.FK_tblOrder_tblUser" />
         <AssociationConnector Association="AutomatischeModel.FK_tblOrder_tblUser1" />
-      </Diagram>
+        <AssociationConnector Association="AutomatischeModel.FK_tblUser_tblRole" />
+        <AssociationConnector Association="AutomatischeModel.FK_tblSetting_tblUser" />
+        <EntityTypeShape EntityType="AutomatischeModel.tblLog" Width="1.5" PointX="3.375" PointY="0.75" />
+        <EntityTypeShape EntityType="AutomatischeModel.tblTransaction" Width="1.5" PointX="7.5" PointY="15.625" />
+        <AssociationConnector Association="AutomatischeModel.FK_tblTransaction_tblOrder" />
+        <AssociationConnector Association="AutomatischeModel.FK_tblTransaction_tblUser" />
+        </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>
 </edmx:Edmx>

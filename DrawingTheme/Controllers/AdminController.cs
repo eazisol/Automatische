@@ -95,7 +95,24 @@ namespace DrawingTheme.Controllers
 
         public ActionResult DrawShape()
         {
-            return View();
+            List<tblComponent> Data = new List<tblComponent>();
+            try
+            {
+                
+                Data = DB.tblComponents.Select(r => r).Where(x => x.isActive == true).ToList();
+                
+
+            }
+            catch (Exception ex)
+            {
+
+                ViewBag.Error = ex.Message;
+                Console.WriteLine("Error" + ex.Message);
+            }
+
+
+
+            return View(Data);
         }
     }
 }
