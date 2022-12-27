@@ -57,7 +57,7 @@
 
                     <form class="sign-up-form" method="post" action="@Url.Action("Register", "Account")">
                         <h2 class="title">Sign up</h2>
-                        <div style="display:none; width:60%" class="alert alert-danger alert-dismissible fade show" id="SignUpError" role="alert">
+                        <div style="display:none; width:60%" class="alert alert-danger alert-dismissible" id="SignUpError" role="alert">
                            Email already exist!
                         </div>
                         <div class="input-field">
@@ -117,7 +117,7 @@
         $("body").on("change", "#Email", function () {
             var Email = $("#Email").val();
 
-
+          
             var model = {
 
                 Email: Email,
@@ -126,11 +126,12 @@
             //console.log(model);
 
             $.ajax({
-                type: "POST",
-                url: "@Url.Action("CheckEmail", "User")",
-                data: JSON.stringify(model),
-                contentType: "application/json; charset=utf-8",
-                dataType: "json",
+               type: "POST",
+                url: "@Url.Action("CheckEmail", "Account")",
+                data: "{Email:'" + Email + "'}",
+                contentType: 'application/json; charset=utf-8',
+                dataType: 'text',
+              
                 success: function (r) {
                     //alert(r + " record(s) inserted.");
                     var url = window.location.origin;

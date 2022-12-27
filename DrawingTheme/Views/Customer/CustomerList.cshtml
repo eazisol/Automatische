@@ -82,7 +82,7 @@
                                         </td>
                                         <td>
                                             <span>
-                                                <i class="fa fa-map-marker"></i> @User.Address
+                                                <i class="fa fa-map-marker mr-2"></i> @User.Address
                                             </span>
                                         </td>
                                         
@@ -256,7 +256,8 @@
         //});
 
         $(".nav1 li").removeClass("active");
-        $('#customer').addClass('active');
-
+        $('#Customer').addClass('active');
+        $(".sub-menu ul").removeClass("show");
+        $('#UserManagement').addClass('show');
     });
 </script>

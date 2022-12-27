@@ -155,7 +155,8 @@
                         </div>
                     </div>
                     <div class="col-6 form-group">
-
+                        <label>Status</label>
+                        <br>
                         <label class="custom-control custom-checkbox custom-control-inline">
                             <input type="checkbox" class="custom-control-input" id="isActive" name="isActive" value="true" checked>
                             <span class="custom-control-label">Active</span>
@@ -291,6 +292,7 @@
 
         $(".nav1 li").removeClass("active");
         $('#Component').addClass('active');
-
+        $(".sub-menu ul").removeClass("show");
+        $('#Settings').addClass('show');
     });
 </script>

@@ -42,7 +42,7 @@ namespace DrawingTheme.Controllers
 
 
                     //Session["User"] = DB.tblUsers.Select(r => r).Where(x => x.Email == Email).FirstOrDefault();
-                    Session["Access"] = DB.tblAccessLevels.Select(r => r).Where(x => x.RoleId == User.RoleId && x.isActive == true).ToList();
+                    Session["Access"] = DB.tblAccessLevels.Select(r => r).Where(x => x.RoleId == User.RoleId && x.isActive == true).OrderBy(x=>x.tblMenu.EditBy).ToList();
                     //Session["Settings"] = DB.tblSettings.Select(r => r).FirstOrDefault();
                     HttpCookie cookie = new HttpCookie("User");
 
@@ -103,7 +103,31 @@ namespace DrawingTheme.Controllers
         {
             return View();
         }
+        [HttpPost]
+        public ActionResult CheckEmail(string Email)
+        {
 
+            DB.Configuration.ProxyCreationEnabled = false;
+            try
+            {
+                if (DB.tblUsers.Select(r => r).Where(x => x.Email == Email).FirstOrDefault() == null)
+                {
+                    return Json(0);
+                }
+                else
+                {
+                    return Json(1);
+                }
+            }
+            catch (Exception ex)
+            {
+
+                ViewBag.ex = ex.Message;
+                Console.WriteLine("Error" + ex.Message);
+            }
+
+            return Json(0);
+        }
         [HttpPost]
         public ActionResult ForgetPassword(string Email)
         {

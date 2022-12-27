@@ -17,7 +17,6 @@ namespace DrawingTheme.Models
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public tblUser()
         {
-
             this.tblComponents = new HashSet<tblComponent>();
             this.tblComponents1 = new HashSet<tblComponent>();
             this.tblOrders = new HashSet<tblOrder>();
@@ -43,7 +42,6 @@ namespace DrawingTheme.Models
         public Nullable<System.DateTime> EditDate { get; set; }
         public Nullable<bool> isActive { get; set; }
     
-
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<tblComponent> tblComponents { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]

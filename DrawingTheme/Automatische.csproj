@@ -217,6 +217,7 @@
     <Content Include="assets\images\details_close.html" />
     <Content Include="assets\images\details_open.html" />
     <Content Include="assets\images\draw.png" />
+    <Content Include="assets\images\Favicon.png" />
     <Content Include="assets\images\handshake.svg" />
     <Content Include="assets\images\logo-icon.svg" />
     <Content Include="assets\images\logo.png" />
@@ -987,8 +988,8 @@
     <Content Include="Content\Site.css" />
     <Content Include="Models\Model.Context.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
-      <LastGenOutput>Model.Context.cs</LastGenOutput>
       <DependentUpon>Model.edmx</DependentUpon>
+      <LastGenOutput>Model.Context.cs</LastGenOutput>
     </Content>
     <Content Include="Models\Model.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
@@ -1097,6 +1098,7 @@
     <Content Include="Views\Component\Components.cshtml" />
     <Content Include="Views\Customer\Orders.cshtml" />
     <Content Include="Views\Customer\Transactions.cshtml" />
+    <Content Include="Views\Customer\ChangePassword.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

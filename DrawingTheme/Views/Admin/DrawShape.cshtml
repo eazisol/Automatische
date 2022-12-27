@@ -3,7 +3,21 @@
     ViewBag.Title = "DrawShape";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
+@{
+    int UserID = 0;
+    int OrderID = 0;
+    HttpCookie cookieObj = Request.Cookies["User"];
+    if (@cookieObj != null)
+    {
 
+
+        if (@cookieObj["UserId"] != null && @cookieObj["UserId"] != "")
+        {
+            UserID = Convert.ToInt32(@cookieObj["UserId"]);
+        }
+
+    }
+}
 <div class="block-header py-lg-2 py-2" style="margin-top:-6%">
     <div class="container-fluid">
         <div class="row align-items-center">
@@ -26,27 +40,30 @@
 <div class="body d-flex profile-page">
     <div class="container-fluid">
         <div>
-            <input type="text" name="OrderId" id="OrderId" value="" />
-            @foreach (DrawingTheme.Models.tblComponent Component in Model)
+
+            @*@foreach (DrawingTheme.Models.tblComponent Component in Model)
             {
-                <button id="Area" onclick="SaveData(@Component.ComponentId)">@Component.Name</button>
-            }
-            @*<button id="Area" style="margin-left:2%;">Lawn</button>
-            <button id="DryArea" style="margin-left:2%;">Dry Area</button>*@
+                <button id="Area" class="btn btn-primary" onclick="SaveData(@Component.ComponentId)">@Component.Name</button>
+            }*@
+            <button id="Area" style="margin-left:2%;">Lawn</button>
+            <button id="DryArea" style="margin-left:2%;">Dry Area</button>
         </div>
-        <div id="container"></div>
-        <form role="form" id="payment-form" method="POST" action="@Url.Action("PaymentWithPaypal","PayPal")">
+        <div class="card">
+            <div id="container" class="card-body" style="max-height:100vh"></div>
+        </div>
+        <form role="form" id="payment-form" method="POST" action="@Url.Action("PaymentWithPaypal","Paypal",new {UserId=UserID })">
             <div id="">Total Amount: <lebel id="TotalAmount"> 0</lebel></div>
-            <input type="text" id="TotalAmountInput" name="amount" value="" />
+            <input type="text" id="TotalAmountInput" name="Amount" value="" />
+            <input type="text" name="OrderID" id="OrderID" value=""  hidden/>
             <button> Save Diagram</button>
-            </form>
+        </form>
     </div>
 </div>
 
 
 
 <div class="modal fade" id="addcontact" tabindex="-1" role="dialog">
-    <div class="modal-dialog  modal-lg" role="document">
+    <div class="modal-dialog " role="document">
 
         <div class="modal-content">
             <div class="modal-header">
@@ -82,7 +99,7 @@
 
     function SaveData(id) {
         ComponentId = id;
-        OrderId = $("#OrderId").val();
+        OrderId = $("#OrderID").val();
 
         var model = {
             ComponentId: ComponentId,
@@ -120,8 +137,9 @@
             contentType: "application/json; charset=utf-8",
             dataType: "json",
             success: function (r) {
-                $("#OrderId").val(r);
+                $("#OrderID").val(r);
                 $("#addcontact").modal('toggle');
+                OrderID = r;
             }
         });
 
@@ -131,7 +149,7 @@
 
     $(document).ready(function () {
 
-        $("#addcontact").modal('toggle');
+      //  $("#addcontact").modal('toggle');
 
     });
 

@@ -115,6 +115,7 @@
                             </div>
                             <div class="col-md-6">
                                 <div class="form-group">
+                                    <label class="form-label">SSL</label>
                                     <label class="custom-control custom-checkbox custom-control-inline">
                                         @if (Model.isActive == true)
                                         {
@@ -157,6 +158,8 @@
 
         $(".nav1 li").removeClass("active");
         $('#Setting').addClass('active');
+        $(".sub-menu ul").removeClass("show");
+        $('#Settings').addClass('show');
 
     });
 </script>

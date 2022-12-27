@@ -181,7 +181,6 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_tblComponent_tblUser">
-
           <End Role="tblUser" Type="Self.tblUser" Multiplicity="0..1" />
           <End Role="tblComponent" Type="Self.tblComponent" Multiplicity="*" />
           <ReferentialConstraint>
@@ -206,7 +205,6 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_tblOrder_tblUser">
-
           <End Role="tblUser" Type="Self.tblUser" Multiplicity="0..1" />
           <End Role="tblOrder" Type="Self.tblOrder" Multiplicity="*" />
           <ReferentialConstraint>
@@ -230,7 +228,6 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-
         <Association Name="FK_tblOrderDetail_tblComponent">
           <End Role="tblComponent" Type="Self.tblComponent" Multiplicity="0..1" />
           <End Role="tblOrderDetail" Type="Self.tblOrderDetail" Multiplicity="*" />
@@ -246,7 +243,6 @@
         <Association Name="FK_tblOrderDetail_tblOrder">
           <End Role="tblOrder" Type="Self.tblOrder" Multiplicity="0..1" />
           <End Role="tblOrderDetail" Type="Self.tblOrderDetail" Multiplicity="*" />
-
           <ReferentialConstraint>
             <Principal Role="tblOrder">
               <PropertyRef Name="OrderId" />

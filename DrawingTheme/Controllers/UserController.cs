@@ -31,8 +31,12 @@ namespace DrawingTheme.Controllers
             {
                 Data = DB.tblUsers.Where(x => x.UserId == id).FirstOrDefault();
             }
-
-
+            int isAdmin = 1;
+            if (UserId == Data.UserId)
+            {
+                isAdmin = 0;
+            }
+            ViewBag.isAdmin = isAdmin;
             return View(Data);
         }
 
@@ -501,31 +505,7 @@ namespace DrawingTheme.Controllers
             return Json(MenuAccess, JsonRequestBehavior.AllowGet);
         }
 
-
-        public ActionResult CheckEmail(string Email )
-        {
-            
-            DB.Configuration.ProxyCreationEnabled = false;
-            try
-            {
-                if(DB.tblUsers.Select(r => r).Where(x => x.Email == Email).FirstOrDefault() == null)
-                {
-                    return Json(0);
-                }
-                else
-                {
-                    return Json(1);
-                }
-            }
-            catch (Exception ex)
-            {
-
-                ViewBag.ex = ex.Message;
-                Console.WriteLine("Error" + ex.Message);
-            }
-
-            return Json(0);
-        }
+       
 
     }
 }

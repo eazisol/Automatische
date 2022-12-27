@@ -90,7 +90,7 @@
                             </div>
                             <div class="card-body pt-0">
                                 <div class="row clearfix">
-                                    <div class="col-lg-4 col-md-12">
+                                    <div class="col-lg-3 col-md-12">
                                         <div class="form-group">
                                             <input type="text" class="form-control" placeholder="Katie" hidden name="UserId" value="@Model.UserId">
                                             <input type="text" class="form-control" placeholder="Katie" hidden name="RoleId" value="@Model.RoleId">
@@ -98,19 +98,19 @@
                                             <input type="text" class="form-control" placeholder="Katie" name="FirstName" value="@Model.FirstName">
                                         </div>
                                     </div>
-                                    <div class="col-lg-4 col-md-12">
+                                    <div class="col-lg-3 col-md-12">
                                         <div class="form-group">
                                             <label>Last Name</label>
                                             <input type="text" class="form-control" placeholder="Clark" name="LastName" value="@Model.LastName">
                                         </div>
                                     </div>
-                                    <div class="col-lg-4 col-md-12">
+                                    <div class="col-lg-3 col-md-12">
                                         <div class="form-group">
                                             <label>Email</label>
                                             <input type="text" class="form-control" placeholder="E-mail" name="Email" value="@Model.Email">
                                         </div>
                                     </div>
-                                    <div class="col-lg-4 col-md-12">
+                                    <div class="col-lg-3 col-md-12">
                                         <div class="form-group">
                                             <label>Phone</label>
                                             <input type="text" class="form-control" placeholder="Phone" name="Phone" value="@Model.Phone">
@@ -154,71 +154,78 @@
                     </div>
                 </div>
             }
-                @if (RoleId == 2)
-                {
-                    using (Html.BeginForm("ChangePassword", "Customer", FormMethod.Post, new { enctype = "multipart/form-data" }))
-                    {@Html.AntiForgeryToken()
-                    <div class="card">
-                        <div style="display:none;" class="alert alert-danger alert-dismissible fade show" role="alert" id="ChangePasserror">
-                            <strong>Error!</strong>New Password and Confirm Password not Matched.
-                        </div>
-                        <div class="card-header">
-                            <h3 class="card-title"><strong>Security</strong> Settings</h3>
-                        </div>
-                        <div class="card-body pt-0">
-                            <div class="col-lg-4 col-md-12">
-                                <div class="form-group">
-                                    <label>Old Password</label>
-                                    <input type="password" class="form-control" placeholder="Current Password" hidden name="id" value="@Model.UserId">
-                                    <input type="password" class="form-control" placeholder="Current Password" hidden name="Email" value="@Model.Email">
-                                    <input type="password" class="form-control" placeholder="Current Password" id="OldPassword" name="OldPassword">
+                <div class="row">
+                    <div class="col-md-6">
+
+                        @if (Convert.ToInt32(@ViewBag.isAdmin) == 0)
+                        {
+                            using (Html.BeginForm("CustomerChangePassword", "Customer", FormMethod.Post, new { enctype = "multipart/form-data" }))
+                            {@Html.AntiForgeryToken()
+                            <div class="card">
+                                <div style="display:none;" class="alert alert-danger alert-dismissible fade show" role="alert" id="ChangePasserror">
+                                    <strong>Error!</strong>New Password and Confirm Password not Matched.
+                                </div>
+                                <div class="card-header">
+                                    <h3 class="card-title"><strong>Security</strong> Settings</h3>
+                                </div>
+                                <div class="card-body pt-0">
+                                    <div class="col-lg-12 col-md-12">
+                                        <div class="form-group">
+                                            <label>Current Password</label>
+                                            <input type="password" class="form-control" placeholder="Current Password" hidden name="id" value="@Model.UserId">
+                                            <input type="password" class="form-control" placeholder="Current Password" hidden name="Email" value="@Model.Email">
+                                            <input type="password" class="form-control" placeholder="Current Password" id="OldPassword" name="OldPassword">
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-12 col-md-12">
+                                        <div class="form-group">
+                                            <label>New Password</label>
+                                            <input type="password" class="form-control" placeholder="New Password" id="NewPassword" name="NewPassword">
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-12 col-md-12">
+                                        <div class="form-group">
+                                            <label>Confirm Password</label>
+                                            <input type="password" class="form-control" placeholder="New Password" id="ConfirmPassword" name="ConfirmPassword">
+                                        </div>
+                                        <button class="btn btn-info btn-round" id="SaveChanges">Save Changes</button>
+                                    </div>
                                 </div>
                             </div>
-                            <div class="col-lg-4 col-md-12">
-                                <div class="form-group">
-                                    <label>New Password</label>
-                                    <input type="password" class="form-control" placeholder="New Password" id="NewPassword" name="NewPassword">
+                        }
+                    }
+                    else
+                    {
+                        using (Html.BeginForm("AdminChangePassword", "Customer", FormMethod.Post, new { enctype = "multipart/form-data" }))
+                        {@Html.AntiForgeryToken()
+                        <div class="card">
+                            <div style="display:none;" class="alert alert-danger alert-dismissible fade show" role="alert" id="ChangePasserror">
+                                <strong>Error!</strong>New Password and Confirm Password not Matched.
+                            </div>
+                            <div class="card-header">
+                                <h3 class="card-title"><strong>Security</strong> Settings</h3>
+                            </div>
+                            <div class="card-body pt-0">
+                                <div class="col-lg-4 col-md-12">
+                                    <div class="form-group">
+                                        <input type="password" class="form-control" placeholder="Current Password" hidden name="id" value="@Model.UserId">
+                                        <input type="password" class="form-control" placeholder="Current Password" hidden name="Email" value="@Model.Email">
+                                    </div>
                                 </div>
-                            </div>
-                            <div class="col-lg-4 col-md-12">
-                                <div class="form-group">
-                                    <label>Confirm Password</label>
-                                    <input type="password" class="form-control" placeholder="New Password" id="ConfirmPassword" name="ConfirmPassword">
-                                </div>
-                                <button class="btn btn-info btn-round" id="SaveChanges">Save Changes</button>
-                            </div>
-                        </div>
-                            </div>
-                }
-                }
-                else
-                {
-                    using (Html.BeginForm("AdminChangePassword", "Customer", FormMethod.Post, new { enctype = "multipart/form-data" }))
-                    {@Html.AntiForgeryToken()
-                    <div class="card">
-                        <div style="display:none;" class="alert alert-danger alert-dismissible fade show" role="alert" id="ChangePasserror">
-                            <strong>Error!</strong>New Password and Confirm Password not Matched.
-                        </div>
-                        <div class="card-header">
-                            <h3 class="card-title"><strong>Security</strong> Settings</h3>
-                        </div>
-                        <div class="card-body pt-0">
-                            <div class="col-lg-4 col-md-12">
-                                <div class="form-group">
-                                    <input type="password" class="form-control" placeholder="Current Password" hidden name="id" value="@Model.UserId">
-                                    <input type="password" class="form-control" placeholder="Current Password" hidden name="Email" value="@Model.Email">
-                                </div>
-                            </div>
                                 <div class="form-group">
                                     <label>New Password</label>
                                     <input type="password" class="form-control" placeholder="New Password" name="NewPassword">
                                 </div>
 
-                                <button class="btn btn-info btn-round">Save Changes</button>
+                                <button class="btn btn-primary btn-round">Save Changes</button>
                             </div>
                         </div>
+                    }
                 }
-                }
+                    </div>
+
+                </div>
+              
 
 
 
@@ -286,6 +293,7 @@
 
         $(".nav1 li").removeClass("active");
         $('#Profile').addClass('active');
-
+        $(".sub-menu ul").removeClass("show");
+        $('#Settings').addClass('show');
     });
 </script>

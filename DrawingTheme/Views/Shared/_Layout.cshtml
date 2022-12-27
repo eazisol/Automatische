@@ -102,13 +102,13 @@
         </div>
 
         <!-- sidebar -->
-        <div class="sidebar bg-primary px-3 py-2 py-md-3" style="--primary-color: #333333 !important;">
+        <div class="sidebar bg-primary px-3 py-2 py-md-3" style="--primary-color: #333333 !important;" id="SideBAr">
             <a class="nav-link p-2 p-lg-2 menu-toggle close-btn-nav" href="#"><i class="fa fa-close"></i></a>
 
             <div class="d-flex flex-column h-100">
-              
-                    <img class="" src="~/assets/images/logo.png" alt="user">
-               
+
+                <img class="" src="~/assets/images/logo.png" alt="user" id="Webimage">
+                <img class="" src="~/assets/images/Favicon.png" alt="user"  id="Mobimage" style="display:none;width: 85%;margin-left: 4%;">
 
                 <!-- Menu: main ul -->
                 <ul class="nav1 menu-list flex-grow-1">
@@ -127,28 +127,25 @@
 
                             }
 
-                            <li class="nav1">
-                                <a id="@AccessLevel.tblMenu.ElementId" class="m-link" href="javascript:void(0);" style="color: white; ">
-                                    <i class="@AccessLevel.tblMenu.FontAwesome" style="margin-left:10%"></i>
-                                    <span>@AccessLevel.tblMenu.Name</span>
+
+
+                            <li class="collapsed">
+                                <a class="m-link" data-toggle="collapse" data-target="#@AccessLevel.tblMenu.ElementId" href="#">
+                                    <i class="@AccessLevel.tblMenu.FontAwesome" style="margin-left:4%"></i>
+                                    <span>@AccessLevel.tblMenu.Name</span><span class="arrow fa fa-angle-down ml-auto text-right"></span>
                                 </a>
 
-
-
-                                <ul class="menu-sub">
-
+                                <ul class="sub-menu collapse" id="@AccessLevel.tblMenu.ElementId">
 
                                     @foreach (var AccessLevel1 in @ViewBag.Access)
                                     {
                                         if (@AccessLevel1.tblMenu.ParentId == @PID)
                                         {
 
-                                            <li class="nav1">
-                                                <a id="@AccessLevel1.tblMenu.ElementId" class="m-link" href="@Url.Action(AccessLevel1.tblMenu.ActionName,AccessLevel1.tblMenu.ControllerName)" style="color: white; ">
-                                                    <i class="@AccessLevel1.tblMenu.FontAwesome" style="margin-left:10%"></i>
-                                                    <span>@AccessLevel1.tblMenu.Name</span>
-                                                </a>
-                                            </li>
+
+                                            <li><a id="@AccessLevel1.tblMenu.ElementId" class="ms-link" href="@Url.Action(AccessLevel1.tblMenu.ActionName,AccessLevel1.tblMenu.ControllerName)">@AccessLevel1.tblMenu.Name</a></li>
+
+
                                         }
                                     }
                                 </ul>
@@ -162,7 +159,7 @@
 
                                 <li class="nav1">
                                     <a id="@AccessLevel.tblMenu.ElementId" class="m-link" href="@Url.Action(AccessLevel.tblMenu.ActionName,AccessLevel.tblMenu.ControllerName)" style="color: white; ">
-                                        <i class="@AccessLevel.tblMenu.FontAwesome" style="margin-left:10%"></i>
+                                        <i class="@AccessLevel.tblMenu.FontAwesome" style="margin-left:4%"></i>
                                         <span>@AccessLevel.tblMenu.Name</span>
                                     </a>
                                 </li>
@@ -180,7 +177,7 @@
             </li>*@
 
                 </ul>
-                <button type="button" class="btn btn-link sidebar-mini-btn text-light">
+                <button type="button" class="btn btn-link sidebar-mini-btn text-light" onclick="ChangeImage()">
                     <span class="ml-2"><i class="fa fa-arrow-left"></i></span>
                 </button>
 
@@ -224,6 +221,9 @@
 
                                         <a class="dropdown-item" href="@Url.Action("Profile","User",new { id=@UserID})">
                                             <i class="dropdown-icon fe fe-user"></i> Profile
+                                        </a>
+                                        <a class="dropdown-item" href="@Url.Action("ChangePassword","Customer",new { id=@UserID})">
+                                            <i class="dropdown-icon fe fe-lock"></i> Change Password
                                         </a>
                                         <a class="dropdown-item" href="@Url.Action("Login","Account")">
                                             <i class="dropdown-icon fe fe-log-out"></i>
@@ -279,7 +279,21 @@
     <script src="~/assets/js/page/ecommercechart.js"></script>
     <script src="~/assets/bundles/dataTables.bundle.js"></script>
     <script src="~/assets/js/table/datatable.js"></script>
-
+    <script>
+        function ChangeImage() {
+            
+            if ($("#SideBAr").hasClass("sidebar-mini"))
+            {
+                $("#Mobimage").hide();
+                $("#Webimage").show();
+            }
+            else {
+                $("#Mobimage").show();
+                $("#Webimage").hide();
+               
+            }
+        }
+        </script>
 </body>
 
 </html>

@@ -95,7 +95,7 @@
                                                 <span class="phone"><i class="fa fa-phone mr-2"></i>@User.Phone</span>
                                             </td>
                                             <td>
-                                                <span><i class="fa fa-map-marker"></i>@User.Address</span>
+                                                <span><i class="fa fa-map-marker mr-2"></i>@User.Address</span>
                                             </td>
                                             <td hidden>
                                                 <span>@User.RoleId</span>
@@ -190,6 +190,8 @@
                         </div>
                     </div>
                     <div class="col-6">
+                        <label>Status</label>
+                        <br>
                         <label class="custom-control custom-checkbox custom-control-inline">
                             <input type="checkbox" class="custom-control-input" id="isActive" name="isActive" value="True">
                             <span class="custom-control-label">Active</span>
@@ -355,6 +357,8 @@
 
         $(".nav1 li").removeClass("active");
         $('#User').addClass('active');
+        $(".sub-menu ul").removeClass("show");
+        $('#UserManagement').addClass('show');
 
     });
 </script>

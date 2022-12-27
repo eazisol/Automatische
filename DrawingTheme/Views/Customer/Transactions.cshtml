@@ -71,36 +71,42 @@
                                         <th hidden>Transaction Id</th>
                                         <th>PaymentId</th>
                                         <th>User Name</th>
+                                        <th>Order#</th>
                                         <th>Order Name</th>
+                                        <th>Date</th>
                                         <th>Payment Status</th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     @foreach (DrawingTheme.Models.tblTransaction Transaction in Model)
                                     {
-                                        <tr>
-                                            <td hidden>@Transaction.Id</td>
-                                            <td>@Transaction.PaypalPaymentId</td>
-                                            <td>
-                                                <span class="c_name">@Transaction.tblUser.FirstName</span>
-                                            </td>
+                                    <tr>
+                                        <td hidden>@Transaction.Id</td>
+                                        <td>@Transaction.PaypalPaymentId</td>
+                                        <td>
+                                            <span >@Transaction.tblUser.FirstName</span>
+                                        </td>
+                                        <td>@Transaction.tblOrder.OrderNumber</td>
+                                        <td>@Transaction.tblOrder.Name</td>
+                                        <td>@Transaction.PaymentDateTime</td>
+                                        <td>
 
-                                            <td>@Transaction.tblOrder.Name</td>
-                                           
-                                            <td>
+                                            @if (@Transaction.Status == "Successfull")
+                                            {
+                                                <span class="badge badge-success">
+                                                    Paid
+                                                </span>
 
-                                                @if (@Transaction.Status == "Successfull")
-                                                {
-                                                    <label>Paid</label>
+                                            }
+                                            else
+                                            {
+                                                <span class="badge badge-danger">
+                                                    Transaction.Status
+                                                </span>
+                                            }
+                                        </td>
 
-                                                }
-                                                else
-                                                {
-                                                    <label>Pending</label>
-                                                }
-                                            </td>
-                                            
-                                        </tr>
+                                    </tr>
 
                                     }
 
@@ -295,10 +301,10 @@
         }
 
 
-        $('#ScrapperList').DataTable({
-            searching: true,
-            "Transactioning": false
-        });
+        //$('#ScrapperList').DataTable({
+        //    searching: true,
+        //    "Transactioning": false
+        //});
 
         $(".nav1 li").removeClass("active");
         $('#Transaction').addClass('active');

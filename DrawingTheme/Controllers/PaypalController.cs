@@ -10,20 +10,33 @@ namespace DrawingTheme.Controllers
 {
     public class PaypalController : Controller
     {
+        static int UserID;
+        static int OrderID;
+        static int Amount;
         AutomatischeEntities DB = new AutomatischeEntities();
         public ActionResult PaymentWithPaypal(string Cancel = null)
         {
-            //SessionUser user = Session["User"] as SessionUser;
-
-            //getting the apiContext  
+            if (Cancel != null)
+            {
+                return RedirectToAction("Orders",  new { Error = "Your have canceled your request, please pay your payment." });
+            }
             APIContext apiContext = PaypalConfiguration.GetAPIContext();
             try
             {
-                HttpCookie cookieObj = Request.Cookies["User"];
-                int UserId = Int32.Parse(cookieObj["UserId"]);
-                int OrderId = Int32.Parse(cookieObj["OrderId"]);
-                //A resource representing a Payer that funds a payment Payment Method as paypal  
-                //Payer Id will be returned when payment proceeds or click to pay  
+                UserID = Convert.ToInt32(Request.QueryString["UserId"]);
+                OrderID = Convert.ToInt32(Request.QueryString["OrderId"]);
+
+         
+                if (OrderID == 0)
+                {
+                    string OrderIDs = Request.Params["OrderID"];
+                    OrderID = Convert.ToInt32(OrderIDs);
+                }
+
+                if (OrderID > 0)
+                { Session["OrderID"] = OrderID; }
+                if (UserID > 0)
+                { Session["UserID"] = UserID; }
                 string payerId = Request.Params["PayerID"];
                 if (string.IsNullOrEmpty(payerId))
                 {
@@ -65,8 +78,8 @@ namespace DrawingTheme.Controllers
                     {
 
                         Data.PaymentDateTime = DateTime.Now;
-                        Data.UserId = UserId;
-                        Data.OrderId = OrderId;
+                        Data.UserId = Convert.ToInt32(Session["UserID"]);
+                        Data.OrderId = Convert.ToInt32(Session["OrderID"]);
                         Data.Amount = executedPayment.transactions[0].amount.total;
                         Data.PayerEmail = executedPayment.payer.payer_info.email;
                         Data.PayerFirstName = executedPayment.payer.payer_info.first_name;
@@ -76,12 +89,18 @@ namespace DrawingTheme.Controllers
                         Data.Status = "Failed";
                         DB.tblTransactions.Add(Data);
                         DB.SaveChanges();
+                        int OrderNu = Convert.ToInt32(Session["OrderID"]);
+                        tblOrder orders = DB.tblOrders.Find(OrderNu);
+                        orders.TotalPrice = Convert.ToInt32(executedPayment.transactions[0].amount.total);
+                        orders.Status = 0;
+                        DB.Entry(orders);
+                        DB.SaveChanges();
                         return RedirectToAction("Transaction", "Customer",new {Error="Payment Failed" });
                     }
                     
                     Data.PaymentDateTime = DateTime.Now;
-                    Data.UserId = UserId;
-                    Data.OrderId = OrderId;
+                    Data.UserId = Convert.ToInt32(Session["UserID"]);
+                    Data.OrderId = Convert.ToInt32(Session["OrderID"]);
                     Data.Amount = executedPayment.transactions[0].amount.total;
                     Data.PayerEmail = executedPayment.payer.payer_info.email;
                     Data.PayerFirstName = executedPayment.payer.payer_info.first_name;
@@ -90,22 +109,21 @@ namespace DrawingTheme.Controllers
                     Data.PayerId = payerId;
                     Data.Status = "Successfull";
                     DB.tblTransactions.Add(Data);
+
+                    int Order = Convert.ToInt32(Session["OrderID"]);
+                    tblOrder order = DB.tblOrders.Find(Order);
+                    order.TotalPrice = Convert.ToInt32(executedPayment.transactions[0].amount.total);
+                    order.Status = 1;
+                    DB.Entry(order);
                     DB.SaveChanges();
-                    //TempData["message"] = "Success";
-                    //UserAccount Wallet = new UserAccount();
-                    //Wallet = DB.UserAccounts.Where(x => x.UserID == user.ID).FirstOrDefault();
-                    //Wallet.Amount += Convert.ToDecimal(Data.Amount);
-                    //DB.Entry(Wallet);
-                    //DB.SaveChanges();
+                    DB.SaveChanges();
+              
                 }
             }
             catch (Exception ex)
             {
                 return View("FailureView");
             }
-            //on successful payment, show success page to user.  
-
-            //return View("SuccessView");
             return RedirectToAction("Transactions", "Customer", new { Success = "Payment Successfull" });
         }
         private PayPal.Api.Payment payment;
@@ -124,6 +142,11 @@ namespace DrawingTheme.Controllers
             };
             return this.payment.Execute(apiContext, paymentExecution);
         }
+
+        public ActionResult Orders(string Success, string Update, string Delete, string Error)
+        {
+            return RedirectToAction("Orders", "Customer", new { Error = Error });
+        }
         private Payment CreatePayment(APIContext apiContext, string redirectUrl)
         {
 
@@ -137,7 +160,7 @@ namespace DrawingTheme.Controllers
             //Adding Item Details like name, currency, price etc  
             itemList.items.Add(new Item()
             {
-                name = "Item Name comes here",
+                name = "AUTOMATISCHE",
                 currency = "USD",
                 price = Amount,
                 quantity = "1",

@@ -11,6 +11,7 @@ namespace DrawingTheme.Controllers
     [FilterConfig.AuthorizeActionFilter]
     public class AdminController : Controller
     {
+        
         AutomatischeEntities DB = new AutomatischeEntities();
         // GET: Admin
         public ActionResult Index()
