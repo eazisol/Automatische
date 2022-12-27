@@ -73,7 +73,7 @@
                                         <th>Name</th>
                                         <th>Price</th>
                                         <th >Status</th>
-                                        <th class="text-right">Action</th>
+                                        <th >Action</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -102,7 +102,7 @@
                                             }
 
                                         </td>
-                                        <td class="text-right">
+                                        <td >
                                             <button type="button" class="btn btn-primary btn-sm" title="Edit" data-toggle="modal" data-target="#addcontact" id="EditComponent"><i class="fa fa-edit"></i></button>
                                             <button type="button" class="btn btn-danger btn-sm" title="Delete" data-toggle="modal" data-target="#DeleteComponentModal" id="DeleteComponent"><i class="fa fa-trash-o"></i></button>
                                         </td>
@@ -285,10 +285,6 @@
         }
 
 
-        $('#ScrapperList').DataTable({
-            searching: true,
-            "ordering": false
-        });
 
         $(".nav1 li").removeClass("active");
         $('#Component').addClass('active');

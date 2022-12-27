@@ -9,7 +9,7 @@
     string UserName = "";
     string UserType = "";
     string IsExpire = "";
-    int IsTrial = 0;
+    string ImagePath = "";
     HttpCookie cookieObj = Request.Cookies["User"];
     if (@cookieObj != null)
     {
@@ -31,6 +31,10 @@
         {
             UserType = (@cookieObj["Role"]);
         }
+        if (@cookieObj["ImagePath"] != null && @cookieObj["ImagePath"] != "")
+        {
+            ImagePath = (@cookieObj["ImagePath"]);
+        }
     }
 }
 <html lang="en" dir="ltr">
@@ -38,7 +42,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <link rel="icon" href="favicon.ico" type="image/x-icon" />
+    <link rel="icon" href="~/assets/images/Favicon.png" type="image/x-icon" />
     <title>AUTOMATISCHE</title>
     <!-- Bootstrap Core and Font Icon -->
     <link rel="stylesheet" href="~/assets/plugins/bootstrap/css/bootstrap.min.css" />
@@ -102,7 +106,9 @@
             <a class="nav-link p-2 p-lg-2 menu-toggle close-btn-nav" href="#"><i class="fa fa-close"></i></a>
 
             <div class="d-flex flex-column h-100">
-                <img class="" src="~/assets/images/logo.png" alt="user">
+              
+                    <img class="" src="~/assets/images/logo.png" alt="user">
+               
 
                 <!-- Menu: main ul -->
                 <ul class="nav1 menu-list flex-grow-1">
@@ -121,9 +127,9 @@
 
                             }
 
-                            <li class="m-link" id="@AccessLevel.tblMenu.ElementId">
-                                <a href="javascript:void(0);" style="color: white; margin-left: 10%;">
-                                    <i class="@AccessLevel.tblMenu.FontAwesome"></i>
+                            <li class="nav1">
+                                <a id="@AccessLevel.tblMenu.ElementId" class="m-link" href="javascript:void(0);" style="color: white; ">
+                                    <i class="@AccessLevel.tblMenu.FontAwesome" style="margin-left:10%"></i>
                                     <span>@AccessLevel.tblMenu.Name</span>
                                 </a>
 
@@ -137,9 +143,9 @@
                                         if (@AccessLevel1.tblMenu.ParentId == @PID)
                                         {
 
-                                            <li class="m-link" id="@AccessLevel1.tblMenu.ElementId">
-                                                <a href="@Url.Action(AccessLevel1.tblMenu.ActionName,AccessLevel1.tblMenu.ControllerName)" style="color: white; margin-left: 10%;">
-                                                    <i class="@AccessLevel1.tblMenu.FontAwesome"></i>
+                                            <li class="nav1">
+                                                <a id="@AccessLevel1.tblMenu.ElementId" class="m-link" href="@Url.Action(AccessLevel1.tblMenu.ActionName,AccessLevel1.tblMenu.ControllerName)" style="color: white; ">
+                                                    <i class="@AccessLevel1.tblMenu.FontAwesome" style="margin-left:10%"></i>
                                                     <span>@AccessLevel1.tblMenu.Name</span>
                                                 </a>
                                             </li>
@@ -154,9 +160,9 @@
                             {
 
 
-                                <li class="m-link" id="@AccessLevel.tblMenu.ElementId">
-                                    <a href="@Url.Action(AccessLevel.tblMenu.ActionName,AccessLevel.tblMenu.ControllerName)" style="color: white; margin-left: 10%;">
-                                        <i class="@AccessLevel.tblMenu.FontAwesome"></i>
+                                <li class="nav1">
+                                    <a id="@AccessLevel.tblMenu.ElementId" class="m-link" href="@Url.Action(AccessLevel.tblMenu.ActionName,AccessLevel.tblMenu.ControllerName)" style="color: white; ">
+                                        <i class="@AccessLevel.tblMenu.FontAwesome" style="margin-left:10%"></i>
                                         <span>@AccessLevel.tblMenu.Name</span>
                                     </a>
                                 </li>
@@ -166,12 +172,12 @@
 
                     }
 
-                    <li class="m-link" id="">
-                        <a href="@Url.Action("Login","Account")" style="color: white; margin-left: 10%;">
-                            <i class="fa fa-sign-out"></i>
-                            <span>Logout</span>
-                        </a>
-                    </li>
+                    @*<li class="m-link" id="">
+                <a href="@Url.Action("Login","Account")" style="color: white; margin-left: 10%;">
+                    <i class="fa fa-sign-out"></i>
+                    <span>Logout</span>
+                </a>
+            </li>*@
 
                 </ul>
                 <button type="button" class="btn btn-link sidebar-mini-btn text-light">
@@ -200,7 +206,14 @@
                                 <div class="dropdown">
                                     <a href="#" class="nav-link leading-none" data-toggle="dropdown"
                                        aria-expanded="false">
-                                        <img class="avatar" src="~/assets/images/user.png" alt="user">
+                                        @if (ImagePath != null && ImagePath != "")
+                                        {
+                                            <img class="avatar" src="@ImagePath" alt="user">
+                                        }
+                                        else
+                                        {
+                                            <img class="avatar" src="~/assets/images/user.png" alt="user">
+                                        }
                                         <span class="ml-2 d-none d-lg-block">
                                             <span class="user_name">@UserName</span>
                                             <small class="d-block mt-1">@UserType</small>

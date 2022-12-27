@@ -27,18 +27,7 @@
                     <li class="breadcrumb-item active">Order </li>
                 </ul>
             </div>
-            <div class="col-lg-6 col-md-8 col-sm-12">
-                <ul class="nav nav-tabs tab-body-header rounded justify-content-end" role="tablist">
-
-                    <div class="page_action">
-                        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#addcontact" id="AddOrder">
-                            <i class="fa fa-address-card mr-1" aria-hidden="true"></i>
-                            Add New Order
-                        </button>
-
-                    </div>
-                </ul>
-            </div>
+            
         </div>
     </div>
 </div>
@@ -72,33 +61,46 @@
                                         <th>Order Number</th>
                                         <th>Name</th>
                                         <th>Total Price</th>
+                                        <th>Date</th>
                                         <th>Payment Status</th>
                                         <th hidden>Status</th>
-                                        <th>Action</th>
+
                                     </tr>
                                 </thead>
                                 <tbody>
                                     @foreach (DrawingTheme.Models.tblOrder Order in Model)
                                     {
-                                        <tr>
-                                            <td hidden>@Order.OrderId</td>
-                                             <td>@Order.OrderNumber</td>
-                                            <td>
-                                                <span class="c_name">@Order.Name</span>
-                                            </td>
+                                    <tr>
+                                        <td hidden>@Order.OrderId</td>
+                                        <td>@Order.OrderNumber</td>
+                                        <td>
+                                            @Order.Name
+                                        </td>
 
-                                            <td>@Order.TotalPrice</td>
-                                            <td>
-                                                <span class="Price">@Order.Status</span>
-                                            </td>
-                                            <td hidden>
-                                                <span>@Order.isActive</span>
-                                            </td>
-                                            <td>
-                                                <button type="button" class="btn btn-primary btn-sm" title="Edit" data-toggle="modal" data-target="#addcontact" id="EditOrder"><i class="fa fa-edit"></i></button>
-                                                <button type="button" class="btn btn-danger btn-sm" title="Delete" data-toggle="modal" data-target="#DeleteOrderModal" id="DeleteOrder"><i class="fa fa-trash-o"></i></button>
-                                            </td>
-                                        </tr>
+                                        <td>$ @Order.TotalPrice</td>
+                                       
+                                        <td>
+                                            <span class="phone">
+                                                <i class="fa fa-calendar mr-2"></i>12-22-2022
+                                                @Convert.ToString(string.Format("{0:dd/MM/yyyy}", @Order.CreatedDate))
+                                            </span>
+                                        </td>
+                                        <td>
+                                            @if (Order.Status == 1)
+                                            {
+                                                <span class="badge badge-success">Paid</span>
+                                            }
+                                            else
+                                            {
+                                                <span class="badge badge-danger">Un Paid</span>
+                                            }
+
+                                        </td>
+                                        <td hidden>
+                                            <span>@Order.isActive</span>
+                                        </td>
+
+                                    </tr>
 
                                     }
 
@@ -278,10 +280,10 @@
         }
 
 
-        $('#ScrapperList').DataTable({
-            searching: true,
-            "ordering": false
-        });
+        //$('#ScrapperList').DataTable({
+        //    searching: true,
+        //    "ordering": false
+        //});
 
         $(".nav1 li").removeClass("active");
         $('#Order').addClass('active');
