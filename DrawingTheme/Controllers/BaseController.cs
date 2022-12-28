@@ -23,7 +23,7 @@ namespace DrawingTheme.Controllers
                         null;
            
             cultureName = CultureHelper.GetImplementedCulture(cultureName); 
-
+            //Set culture
                   
             Thread.CurrentThread.CurrentCulture = new System.Globalization.CultureInfo(cultureName);
             Thread.CurrentThread.CurrentUICulture = Thread.CurrentThread.CurrentCulture;
