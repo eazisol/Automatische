@@ -10,16 +10,16 @@
     <div class="container-fluid">
         <div class="row">
             <div class="col-lg-6 col-md-4 col-sm-12">
-                <h4>Settings</h4>
+                <h4>@Resources.Settings</h4>
                 <ul class="breadcrumb">
                     <li class="breadcrumb-item">
                         <a href="index.html">
                             <i class="fa fa-dashboard"></i>
-                            Dashboard
+                            @Resources.Dashboard
                         </a>
                     </li>
 
-                    <li class="breadcrumb-item active">Settings</li>
+                    <li class="breadcrumb-item active">@Resources.Settings</li>
                 </ul>
             </div>
         </div>
@@ -39,27 +39,27 @@
                 <div class="row card-body">
 
                     <div class="col-lg-6">
-                        <h3 class="card-title" style=" background: #8ec746; padding: 5px; color: white;">Paypal Settings</h3>
+                        <h3 class="card-title" style=" background: #8ec746; padding: 5px; color: white;">@Resources.PaypalSettings</h3>
 
 
                         <div class="row">
                             <div class="col-md-12">
                                 <div class="form-group">
                                     <input type="text" class="form-control" style="display:none;" name="SettingId" value="@Model.SettingId" required>
-                                    <label class="form-label">Secret Key</label>
+                                    <label class="form-label">@Resources.SecretKey</label>
                                     <input type="text" class="form-control" placeholder="Secret Key" name="SecretKey" value="@Model.SecretKey">
                                 </div>
                             </div>
                             <div class="col-md-12">
                                 <div class="form-group">
-                                    <label class="form-label">ClientID</label>
+                                    <label class="form-label">@Resources.ClientID</label>
                                     <input type="text" class="form-control" placeholder="ClientID" name="ClientID" value="@Model.ClientID">
                                 </div>
                             </div>
 
                             <div class="col-md-12">
                                 <div class="form-group">
-                                    <label class="form-label">Mode</label>
+                                    <label class="form-label">@Resources.Mode</label>
                                     <select class="form-control custom-select" name="Mode">
                                         @if (@Model.Mode == "Sandbox")
                                         {
@@ -87,35 +87,35 @@
 
 
                     <div class="col-lg-6">
-                        <h3 class="card-title" style=" background: #8ec746; padding: 5px; color: white;">Email Settings</h3>
+                        <h3 class="card-title" style=" background: #8ec746; padding: 5px; color: white;">@Resources.EmailSettings</h3>
                         <div class="row">
                             <div class="col-md-6">
                                 <div class="form-group">
-                                    <label class="form-label">Email</label>
+                                    <label class="form-label">@Resources.Email</label>
                                     <input type="text" class="form-control" placeholder="Email" name="Email" value="@Model.Email">
                                 </div>
                             </div>
                             <div class="col-md-6">
                                 <div class="form-group">
-                                    <label class="form-label">Password</label>
+                                    <label class="form-label">@Resources.Password</label>
                                     <input type="password" class="form-control" placeholder="Password" name="Password" value="@Model.Password">
                                 </div>
                             </div>
                             <div class="col-md-6">
                                 <div class="form-group">
-                                    <label class="form-label">Port</label>
+                                    <label class="form-label">@Resources.Port</label>
                                     <input type="text" class="form-control" placeholder="Port" name="Port" value="@Model.Port">
                                 </div>
                             </div>
                             <div class="col-md-6">
                                 <div class="form-group">
-                                    <label class="form-label">SMTP</label>
+                                    <label class="form-label">@Resources.SMTP</label>
                                     <input type="text" class="form-control" placeholder="SMTP" name="SMTP" value="@Model.SMTP">
                                 </div>
                             </div>
                             <div class="col-md-6">
                                 <div class="form-group">
-                                    <label class="form-label">SSL</label>
+                                    <label class="form-label">@Resources.SSL</label>
                                     <label class="custom-control custom-checkbox custom-control-inline">
                                         @if (Model.isActive == true)
                                         {
@@ -126,7 +126,7 @@
                                             <input type="checkbox" class="custom-control-input" name="isActive" value="True">
                                         }
 
-                                        <span class="custom-control-label">Active</span>
+                                    <span class="custom-control-label">@Resources.Active</span>
                                     </label>
                                 </div>
                             </div>
@@ -136,7 +136,7 @@
 
                 </div>
                 <div class="card-footer text-right">
-                    <button type="submit" class="btn btn-primary">Save Changes</button>
+                    <button type="submit" class="btn btn-primary">@Resources.SaveChanges</button>
                 </div>
             }
             </div>

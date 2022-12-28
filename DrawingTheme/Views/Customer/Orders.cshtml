@@ -15,16 +15,16 @@
         <div class="row">
             <div class="col-lg-6 col-md-4 col-sm-12">
 
-                <h4>Order </h4>
+                <h4>@Resources.Order </h4>
                 <ul class="breadcrumb">
                     <li class="breadcrumb-item">
                         <a href="index.html">
                             <i class="fa fa-dashboard"></i>
-                            Dashboard
+                            @Resources.Dashboard
                         </a>
                     </li>
 
-                    <li class="breadcrumb-item active">Order </li>
+                    <li class="breadcrumb-item active">@Resources.Order </li>
                 </ul>
             </div>
             
@@ -49,7 +49,7 @@
                 </div>
                 <div class="card">
                     <div class="card-header">
-                        <h3 class="card-title">Order List</h3>
+                        <h3 class="card-title">@Resources.OrderList</h3>
                     </div>
                     <div class="card-body pt-0">
                         <div class="table-responsive table_e2">
@@ -58,12 +58,12 @@
                                     <tr>
 
                                         <th hidden>Order Id</th>
-                                        <th>Order Number</th>
-                                        <th>Name</th>
-                                        <th>Total Price</th>
-                                        <th>Date</th>
-                                        <th>Payment Status</th>
-                                        <th>Action</th>
+                                        <th>@Resources.ORDERNUMBER</th>
+                                        <th>@Resources.NAME</th>
+                                        <th>@Resources.TOTALPRICE</th>
+                                        <th>@Resources.DATE</th>
+                                        <th>@Resources.PAYMENTSTATUS</th>
+                                        <th>@Resources.ACTION</th>
                                         <th hidden>Status</th>
 
                                     </tr>
@@ -89,11 +89,11 @@
                                         <td>
                                             @if (Order.Status == 1)
                                             {
-                                                <span class="badge badge-success">Paid</span>
+                                            <span class="badge badge-success">@Resources.Paid</span>
                                             }
                                             else
                                             {
-                                                <span class="badge badge-danger">Un Paid</span>
+                                        <span class="badge badge-danger">@Resources.UnPaid</span>
                                             }
 
                                         </td>

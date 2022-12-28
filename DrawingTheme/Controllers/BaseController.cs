@@ -16,7 +16,7 @@ namespace DrawingTheme.Controllers
 
             HttpCookie cultureCookie = Request.Cookies["_culture"];
             if (cultureCookie != null)
-                cultureName = cultureCookie.Value;
+                cultureName = cultureCookie["Language"];
             else
                 cultureName = Request.UserLanguages != null && Request.UserLanguages.Length > 0 ?
                         Request.UserLanguages[0] :  

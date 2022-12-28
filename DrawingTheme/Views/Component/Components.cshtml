@@ -15,16 +15,16 @@
         <div class="row">
             <div class="col-lg-6 col-md-4 col-sm-12">
 
-                <h4>Component </h4>
+                <h4>@Resources.Component </h4>
                 <ul class="breadcrumb">
                     <li class="breadcrumb-item">
                         <a href="index.html">
                             <i class="fa fa-dashboard"></i>
-                            Dashboard
+                            @Resources.Dashboard
                         </a>
                     </li>
 
-                    <li class="breadcrumb-item active">Component </li>
+                    <li class="breadcrumb-item active">@Resources.Component </li>
                 </ul>
             </div>
             <div class="col-lg-6 col-md-8 col-sm-12">
@@ -33,7 +33,7 @@
                     <div class="page_action">
                         <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#addcontact" id="AddComponent">
                             <i class="fa fa-address-card mr-1" aria-hidden="true"></i>
-                            Add New Component
+                            @Resources.AddNewComponent
                         </button>
 
                     </div>
@@ -60,7 +60,7 @@
                 </div>
                 <div class="card">
                     <div class="card-header">
-                        <h3 class="card-title">Component List</h3>
+                        <h3 class="card-title">@Resources.ComponentList</h3>
                     </div>
                     <div class="card-body pt-0">
                         <div class="table-responsive table_e2">
@@ -69,11 +69,11 @@
                                     <tr>
 
                                         <th hidden>Component Id</th>
-                                        <th>Code</th>
-                                        <th>Name</th>
-                                        <th>Price</th>
-                                        <th >Status</th>
-                                        <th >Action</th>
+                                        <th>@Resources.CODE</th>
+                                        <th>@Resources.NAME</th>
+                                        <th>@Resources.PRICE</th>
+                                        <th>@Resources.Status</th>
+                                        <th>@Resources.ACTION</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -97,11 +97,11 @@
                                         <td>
                                             @if (@Component.isActive == true)
                                             {
-                                                <span class="badge badge-success">Active</span>
+                                            <span class="badge badge-success">@Resources.Active</span>
                                             }
                                             else
                                             {
-                                                <span class="badge badge-danger">InActive</span>
+                                        <span class="badge badge-danger">@Resources.InActive</span>
                                             }
 
                                         </td>
@@ -129,20 +129,20 @@
         {@Html.AntiForgeryToken()
         <div class="modal-content">
             <div class="modal-header">
-                <h6 class="title" id="defaultModalLabel">Add Component</h6>
+                <h6 class="title" id="defaultModalLabel">@Resources.AddComponent</h6>
             </div>
             <div class="modal-body">
 
                 <div class="row clearfix">
                     <div class="col-6">
                         <div class="form-group">
-                            <label>Code</label>
+                            <label>@Resources.CODE</label>
                             <input type="text" class="form-control" id="Code" name="Code" placeholder="Code" required>
                         </div>
                     </div>
                     <div class="col-6">
                         <div class="form-group">
-                            <label>Name</label>
+                            <label>@Resources.NAME</label>
                             <input type="text" hidden class="form-control" id="ComponentId" name="ComponentId" placeholder="First Name">
                             <input type="text" class="form-control" id="Name" name="Name" placeholder="Name" required>
                         </div>
@@ -150,16 +150,16 @@
 
                     <div class="col-6">
                         <div class="form-group">
-                            <label>Price</label>
+                            <label>@Resources.PRICE</label>
                             <input type="number" class="form-control" id="Price" name="Price" placeholder="Price" required>
                         </div>
                     </div>
                     <div class="col-6 form-group">
-                        <label>Status</label>
+                        <label>@Resources.Status</label>
                         <br>
                         <label class="custom-control custom-checkbox custom-control-inline">
                             <input type="checkbox" class="custom-control-input" id="isActive" name="isActive" value="true" checked>
-                            <span class="custom-control-label">Active</span>
+                            <span class="custom-control-label">@Resources.Active</span>
                         </label>
 
                         <p id="error-checkbox"></p>
@@ -169,8 +169,8 @@
 
             </div>
             <div class="modal-footer">
-                <button type="submit" class="btn btn-primary">Save Changes</button>
-                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                <button type="submit" class="btn btn-primary">@Resources.SaveChanges</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal">@Resources.Close</button>
             </div>
         </div>
     }
@@ -185,18 +185,18 @@
         {@Html.AntiForgeryToken()
         <div class="modal-content">
             <div class="modal-header">
-                <h6 class="title" id="defaultModalLabel">Delete Component</h6>
+                <h6 class="title" id="defaultModalLabel">@Resources.DeleteComponent</h6>
             </div>
             <div class="modal-body text-center">
                 <img src="~/assets/images/sent.png" alt="" width="50" height="46" style="margin-bottom:3%">
                 <br>
                 <input class="form-control" type="text" name="ComponentId" id="DeleteComponentId" hidden>
-                <p>Are you sure want to delete this component information?</p>
+                <p>@Resources.Areyousurewanttodeletethisinformation?</p>
 
             </div>
             <div class="modal-footer">
-                <button type="submit" class="btn btn-danger">Delete</button>
-                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                <button type="submit" class="btn btn-danger">@Resources.Delete</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal">@Resources.Close</button>
             </div>
         </div>
     }

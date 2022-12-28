@@ -2,6 +2,7 @@
 
 @{ ViewBag.Access = Session["Access"];
     int PID = 0;
+    var culture1 = System.Threading.Thread.CurrentThread.CurrentUICulture.Name.ToLowerInvariant();
 }
 @{
     int UserID = 0;
@@ -54,7 +55,7 @@
         }
     }
 }
-<html lang="de" dir="ltr">
+<html lang="es" dir="ltr">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -216,7 +217,7 @@
                             <div class="collapse navbar-collapse" id="navbarSupportedContent">
 
                                 <div class="d-flex align-items-center currently_maintain hidden-xs mr-auto">
-                                    <span class="ml-1 mr-1">Language:</span>
+                                    <span class="ml-1 mr-1">@Resources.language:</span>
                                     <div class="dropdown">
                                         <button type="button" class="btn btn-secondary dropdown-toggle @culture" data-toggle="dropdown" style="width:2em;height:2em"></button>
                                         <div class="dropdown-menu ">
@@ -245,14 +246,14 @@
                                          style="will-change: transform;">
 
                                         <a class="dropdown-item" href="@Url.Action("Profile","User",new { id=@UserID})">
-                                            <i class="dropdown-icon fe fe-user"></i> Profile
+                                            <i class="dropdown-icon fe fe-user"></i> @Resources.Profile
                                         </a>
                                         <a class="dropdown-item" href="@Url.Action("ChangePassword","Customer",new { id=@UserID})">
-                                            <i class="dropdown-icon fe fe-lock"></i> Change Password
+                                            <i class="dropdown-icon fe fe-lock"></i> @Resources.ChangePassword
                                         </a>
                                         <a class="dropdown-item" href="@Url.Action("Login","Account")">
                                             <i class="dropdown-icon fe fe-log-out"></i>
-                                            Sign out
+                                            @Resources.SignOut
                                         </a>
                                     </div>
                                 </div>

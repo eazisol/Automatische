@@ -13,16 +13,16 @@
         <div class="row">
             <div class="col-lg-6 col-md-4 col-sm-12">
                 
-                <h4>Customer</h4>
+                <h4>@Resources.Customer</h4>
                 <ul class="breadcrumb">
                     <li class="breadcrumb-item">
                         <a href="index.html">
                             <i class="fa fa-dashboard"></i>
-                            Dashboard
+                            @Resources.Dashboard
                         </a>
                     </li>
 
-                    <li class="breadcrumb-item active">Customer</li>
+                    <li class="breadcrumb-item active">@Resources.Customer</li>
                 </ul>
             </div>
 
@@ -48,7 +48,7 @@
                 </div>
                 <div class="card">
                     <div class="card-header">
-                        <h3 class="card-title">Customer List</h3>
+                        <h3 class="card-title">@Resources.CustomerList</h3>
                     </div>
                     <div class="card-body pt-0">
                         <div class="table-responsive table_e2">
@@ -57,12 +57,12 @@
                                     <tr>
 
                                         <th hidden>User Id</th>
-                                        <th>Name</th>
-                                        <th>Email</th>
-                                        <th>Phone</th>
-                                        <th>Address</th>
-                                        <th>Status</th>
-                                        <th>Action</th>
+                                        <th>@Resources.NAME</th>
+                                        <th>@Resources.Email</th>
+                                        <th>@Resources.PhoneNumber</th>
+                                        <th>@Resources.Address</th>
+                                        <th>@Resources.Status</th>
+                                        <th>@Resources.ACTION</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -90,11 +90,11 @@
                                            
                                             @if (User.isActive == true)
                                             {
-                                                <span class="badge badge-success">Active</span>
+                                            <span class="badge badge-success">@Resources.Active</span>
                                             }
                                             else
                                             {
-                                                <span class="badge badge-danger">InActive</span>
+                                        <span class="badge badge-danger">@Resources.InActive</span>
                                             }
                                         </td>
                                         <td>
@@ -189,12 +189,12 @@
         {@Html.AntiForgeryToken()
         <div class="modal-content">
             <div class="modal-header">
-                <h6 class="title" id="defaultModalLabel">Delete Customer</h6>
+                <h6 class="title" id="defaultModalLabel">@Resources.DeleteCustomer</h6>
             </div>
             <div class="modal-body text-center">
                 <img src="~/assets/images/sent.png" alt="" width="50" height="46" style="margin-bottom:3%">
                 <input class="form-control" type="text" name="UserId" id="DeleteUserID" hidden>
-                <p>Are you sure want to delete this customer information?</p>
+                <p>@Resources.Areyousurewanttodeletethisinformation?</p>
 
             </div>
             <div class="modal-footer">

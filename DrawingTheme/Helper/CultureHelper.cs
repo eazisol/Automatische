@@ -13,7 +13,7 @@ namespace DrawingTheme.Helper
         // Include ONLY cultures you are implementing
         private static readonly List<string> _cultures = new List<string> {
         "en",  // first culture is the DEFAULT
-        "de", // Spanish NEUTRAL culture
+        "de" // Spanish NEUTRAL culture
         
         
     };

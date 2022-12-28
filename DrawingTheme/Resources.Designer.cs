@@ -22,24 +22,24 @@ namespace DrawingTheme {
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "16.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    internal class Resource {
+    public class Resources {
         
         private static global::System.Resources.ResourceManager resourceMan;
         
         private static global::System.Globalization.CultureInfo resourceCulture;
         
         [global::System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
-        internal Resource() {
+        internal Resources() {
         }
         
         /// <summary>
         ///   Returns the cached ResourceManager instance used by this class.
         /// </summary>
         [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Advanced)]
-        internal static global::System.Resources.ResourceManager ResourceManager {
+        public static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("DrawingTheme.Resource", typeof(Resource).Assembly);
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("DrawingTheme.Resources", typeof(Resources).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;
@@ -51,7 +51,7 @@ namespace DrawingTheme {
         ///   resource lookups using this strongly typed resource class.
         /// </summary>
         [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Advanced)]
-        internal static global::System.Globalization.CultureInfo Culture {
+        public static global::System.Globalization.CultureInfo Culture {
             get {
                 return resourceCulture;
             }
@@ -61,9 +61,18 @@ namespace DrawingTheme {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Account.
+        /// </summary>
+        public static string Account {
+            get {
+                return ResourceManager.GetString("Account", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Account Settings.
         /// </summary>
-        internal static string Account_Settings {
+        public static string Account_Settings {
             get {
                 return ResourceManager.GetString("Account Settings", resourceCulture);
             }
@@ -72,16 +81,25 @@ namespace DrawingTheme {
         /// <summary>
         ///   Looks up a localized string similar to ACTION.
         /// </summary>
-        internal static string ACTION {
+        public static string ACTION {
             get {
                 return ResourceManager.GetString("ACTION", resourceCulture);
             }
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Active.
+        /// </summary>
+        public static string Active {
+            get {
+                return ResourceManager.GetString("Active", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Add Component.
         /// </summary>
-        internal static string AddComponent {
+        public static string AddComponent {
             get {
                 return ResourceManager.GetString("AddComponent", resourceCulture);
             }
@@ -90,7 +108,7 @@ namespace DrawingTheme {
         /// <summary>
         ///   Looks up a localized string similar to Add New Component.
         /// </summary>
-        internal static string AddNewComponent {
+        public static string AddNewComponent {
             get {
                 return ResourceManager.GetString("AddNewComponent", resourceCulture);
             }
@@ -99,7 +117,7 @@ namespace DrawingTheme {
         /// <summary>
         ///   Looks up a localized string similar to Add New Role.
         /// </summary>
-        internal static string AddNewRole {
+        public static string AddNewRole {
             get {
                 return ResourceManager.GetString("AddNewRole", resourceCulture);
             }
@@ -108,7 +126,7 @@ namespace DrawingTheme {
         /// <summary>
         ///   Looks up a localized string similar to Add New User.
         /// </summary>
-        internal static string AddNewUser {
+        public static string AddNewUser {
             get {
                 return ResourceManager.GetString("AddNewUser", resourceCulture);
             }
@@ -117,7 +135,7 @@ namespace DrawingTheme {
         /// <summary>
         ///   Looks up a localized string similar to Address.
         /// </summary>
-        internal static string Address {
+        public static string Address {
             get {
                 return ResourceManager.GetString("Address", resourceCulture);
             }
@@ -126,25 +144,43 @@ namespace DrawingTheme {
         /// <summary>
         ///   Looks up a localized string similar to Add role, if it does not exist.
         /// </summary>
-        internal static string Addrole_ifitdoesnotexist {
+        public static string Addrole_ifitdoesnotexist {
             get {
                 return ResourceManager.GetString("Addrole,ifitdoesnotexist", resourceCulture);
             }
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Add role if it does not exist.
+        /// </summary>
+        public static string Addroleifitdoesnotexist {
+            get {
+                return ResourceManager.GetString("Addroleifitdoesnotexist", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Add User.
         /// </summary>
-        internal static string AddUser {
+        public static string AddUser {
             get {
                 return ResourceManager.GetString("AddUser", resourceCulture);
             }
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Are you sure want to delete this  information.
+        /// </summary>
+        public static string Areyousurewanttodeletethisinformation {
+            get {
+                return ResourceManager.GetString("Areyousurewanttodeletethisinformation", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Back to sign in.
         /// </summary>
-        internal static string Backtosignin {
+        public static string Backtosignin {
             get {
                 return ResourceManager.GetString("Backtosignin", resourceCulture);
             }
@@ -153,7 +189,7 @@ namespace DrawingTheme {
         /// <summary>
         ///   Looks up a localized string similar to Build, run, and scale your digital designs of gardens - end to end and more.
         /// </summary>
-        internal static string Build_run_andscaleyourdigitaldesignsofgardens_endtoendandmore {
+        public static string Build_run_andscaleyourdigitaldesignsofgardens_endtoendandmore {
             get {
                 return ResourceManager.GetString("Build,run,andscaleyourdigitaldesignsofgardens-endtoendandmore", resourceCulture);
             }
@@ -162,7 +198,7 @@ namespace DrawingTheme {
         /// <summary>
         ///   Looks up a localized string similar to Build digital designs with.
         /// </summary>
-        internal static string Builddigitaldesignswith {
+        public static string Builddigitaldesignswith {
             get {
                 return ResourceManager.GetString("Builddigitaldesignswith", resourceCulture);
             }
@@ -171,7 +207,7 @@ namespace DrawingTheme {
         /// <summary>
         ///   Looks up a localized string similar to Cancel.
         /// </summary>
-        internal static string Cancel {
+        public static string Cancel {
             get {
                 return ResourceManager.GetString("Cancel", resourceCulture);
             }
@@ -180,7 +216,7 @@ namespace DrawingTheme {
         /// <summary>
         ///   Looks up a localized string similar to Change Password.
         /// </summary>
-        internal static string ChangePassword {
+        public static string ChangePassword {
             get {
                 return ResourceManager.GetString("ChangePassword", resourceCulture);
             }
@@ -189,7 +225,7 @@ namespace DrawingTheme {
         /// <summary>
         ///   Looks up a localized string similar to ClientID.
         /// </summary>
-        internal static string ClientID {
+        public static string ClientID {
             get {
                 return ResourceManager.GetString("ClientID", resourceCulture);
             }
@@ -198,7 +234,7 @@ namespace DrawingTheme {
         /// <summary>
         ///   Looks up a localized string similar to Close.
         /// </summary>
-        internal static string Close {
+        public static string Close {
             get {
                 return ResourceManager.GetString("Close", resourceCulture);
             }
@@ -207,7 +243,7 @@ namespace DrawingTheme {
         /// <summary>
         ///   Looks up a localized string similar to CODE.
         /// </summary>
-        internal static string CODE {
+        public static string CODE {
             get {
                 return ResourceManager.GetString("CODE", resourceCulture);
             }
@@ -216,7 +252,7 @@ namespace DrawingTheme {
         /// <summary>
         ///   Looks up a localized string similar to Component.
         /// </summary>
-        internal static string Component {
+        public static string Component {
             get {
                 return ResourceManager.GetString("Component", resourceCulture);
             }
@@ -225,7 +261,7 @@ namespace DrawingTheme {
         /// <summary>
         ///   Looks up a localized string similar to Component List.
         /// </summary>
-        internal static string ComponentList {
+        public static string ComponentList {
             get {
                 return ResourceManager.GetString("ComponentList", resourceCulture);
             }
@@ -234,7 +270,7 @@ namespace DrawingTheme {
         /// <summary>
         ///   Looks up a localized string similar to Confirm Password.
         /// </summary>
-        internal static string ConfirmPassword {
+        public static string ConfirmPassword {
             get {
                 return ResourceManager.GetString("ConfirmPassword", resourceCulture);
             }
@@ -243,7 +279,7 @@ namespace DrawingTheme {
         /// <summary>
         ///   Looks up a localized string similar to Current Password.
         /// </summary>
-        internal static string CurrentPassword {
+        public static string CurrentPassword {
             get {
                 return ResourceManager.GetString("CurrentPassword", resourceCulture);
             }
@@ -252,7 +288,7 @@ namespace DrawingTheme {
         /// <summary>
         ///   Looks up a localized string similar to Customer.
         /// </summary>
-        internal static string Customer {
+        public static string Customer {
             get {
                 return ResourceManager.GetString("Customer", resourceCulture);
             }
@@ -261,7 +297,7 @@ namespace DrawingTheme {
         /// <summary>
         ///   Looks up a localized string similar to Customer List.
         /// </summary>
-        internal static string CustomerList {
+        public static string CustomerList {
             get {
                 return ResourceManager.GetString("CustomerList", resourceCulture);
             }
@@ -270,7 +306,7 @@ namespace DrawingTheme {
         /// <summary>
         ///   Looks up a localized string similar to Dashboard.
         /// </summary>
-        internal static string Dashboard {
+        public static string Dashboard {
             get {
                 return ResourceManager.GetString("Dashboard", resourceCulture);
             }
@@ -279,16 +315,52 @@ namespace DrawingTheme {
         /// <summary>
         ///   Looks up a localized string similar to DATE.
         /// </summary>
-        internal static string DATE {
+        public static string DATE {
             get {
                 return ResourceManager.GetString("DATE", resourceCulture);
             }
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Delete.
+        /// </summary>
+        public static string Delete {
+            get {
+                return ResourceManager.GetString("Delete", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Delete Component.
+        /// </summary>
+        public static string DeleteComponent {
+            get {
+                return ResourceManager.GetString("DeleteComponent", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Delete Customer.
+        /// </summary>
+        public static string DeleteCustomer {
+            get {
+                return ResourceManager.GetString("DeleteCustomer", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Delete User.
+        /// </summary>
+        public static string DeleteUser {
+            get {
+                return ResourceManager.GetString("DeleteUser", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Edit Component.
         /// </summary>
-        internal static string EditComponent {
+        public static string EditComponent {
             get {
                 return ResourceManager.GetString("EditComponent", resourceCulture);
             }
@@ -297,7 +369,7 @@ namespace DrawingTheme {
         /// <summary>
         ///   Looks up a localized string similar to Edit Role.
         /// </summary>
-        internal static string EditRole {
+        public static string EditRole {
             get {
                 return ResourceManager.GetString("EditRole", resourceCulture);
             }
@@ -306,7 +378,7 @@ namespace DrawingTheme {
         /// <summary>
         ///   Looks up a localized string similar to Edit User.
         /// </summary>
-        internal static string EditUser {
+        public static string EditUser {
             get {
                 return ResourceManager.GetString("EditUser", resourceCulture);
             }
@@ -315,7 +387,7 @@ namespace DrawingTheme {
         /// <summary>
         ///   Looks up a localized string similar to Email.
         /// </summary>
-        internal static string Email {
+        public static string Email {
             get {
                 return ResourceManager.GetString("Email", resourceCulture);
             }
@@ -324,7 +396,7 @@ namespace DrawingTheme {
         /// <summary>
         ///   Looks up a localized string similar to Email Settings.
         /// </summary>
-        internal static string EmailSettings {
+        public static string EmailSettings {
             get {
                 return ResourceManager.GetString("EmailSettings", resourceCulture);
             }
@@ -333,7 +405,7 @@ namespace DrawingTheme {
         /// <summary>
         ///   Looks up a localized string similar to Enter the email address you used when you joined and we&apos;ll send you instructions to reset your password..
         /// </summary>
-        internal static string Entertheemailaddressyouusedwhenyoujoinedandwe_llsendyouinstructionstoresetyourpassword_ {
+        public static string Entertheemailaddressyouusedwhenyoujoinedandwe_llsendyouinstructionstoresetyourpassword_ {
             get {
                 return ResourceManager.GetString("Entertheemailaddressyouusedwhenyoujoinedandwe\'llsendyouinstructionstoresetyourpas" +
                         "sword.", resourceCulture);
@@ -341,9 +413,18 @@ namespace DrawingTheme {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to First Name.
+        /// </summary>
+        public static string FirstName {
+            get {
+                return ResourceManager.GetString("FirstName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Forgot password.
         /// </summary>
-        internal static string Forgotpassword {
+        public static string Forgotpassword {
             get {
                 return ResourceManager.GetString("Forgotpassword", resourceCulture);
             }
@@ -352,25 +433,52 @@ namespace DrawingTheme {
         /// <summary>
         ///   Looks up a localized string similar to Forgot Password?.
         /// </summary>
-        internal static string ForgotPassword_ {
+        public static string ForgotPassword_ {
             get {
                 return ResourceManager.GetString("ForgotPassword?", resourceCulture);
             }
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to InActive.
+        /// </summary>
+        public static string InActive {
+            get {
+                return ResourceManager.GetString("InActive", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Language.
+        /// </summary>
+        public static string language {
+            get {
+                return ResourceManager.GetString("language", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Last Name.
         /// </summary>
-        internal static string LastName {
+        public static string LastName {
             get {
                 return ResourceManager.GetString("LastName", resourceCulture);
             }
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to LOGIN.
+        /// </summary>
+        public static string LOGIN {
+            get {
+                return ResourceManager.GetString("LOGIN", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Mode.
         /// </summary>
-        internal static string Mode {
+        public static string Mode {
             get {
                 return ResourceManager.GetString("Mode", resourceCulture);
             }
@@ -379,7 +487,7 @@ namespace DrawingTheme {
         /// <summary>
         ///   Looks up a localized string similar to NAME.
         /// </summary>
-        internal static string NAME {
+        public static string NAME {
             get {
                 return ResourceManager.GetString("NAME", resourceCulture);
             }
@@ -388,7 +496,7 @@ namespace DrawingTheme {
         /// <summary>
         ///   Looks up a localized string similar to Name.
         /// </summary>
-        internal static string Name1 {
+        public static string Name1 {
             get {
                 return ResourceManager.GetString("Name1", resourceCulture);
             }
@@ -397,7 +505,7 @@ namespace DrawingTheme {
         /// <summary>
         ///   Looks up a localized string similar to New Password.
         /// </summary>
-        internal static string NewPassword {
+        public static string NewPassword {
             get {
                 return ResourceManager.GetString("NewPassword", resourceCulture);
             }
@@ -406,7 +514,7 @@ namespace DrawingTheme {
         /// <summary>
         ///   Looks up a localized string similar to Order.
         /// </summary>
-        internal static string Order {
+        public static string Order {
             get {
                 return ResourceManager.GetString("Order", resourceCulture);
             }
@@ -415,7 +523,7 @@ namespace DrawingTheme {
         /// <summary>
         ///   Looks up a localized string similar to ORDER#.
         /// </summary>
-        internal static string ORDER_ {
+        public static string ORDER_ {
             get {
                 return ResourceManager.GetString("ORDER#", resourceCulture);
             }
@@ -424,7 +532,7 @@ namespace DrawingTheme {
         /// <summary>
         ///   Looks up a localized string similar to Order List.
         /// </summary>
-        internal static string OrderList {
+        public static string OrderList {
             get {
                 return ResourceManager.GetString("OrderList", resourceCulture);
             }
@@ -433,7 +541,7 @@ namespace DrawingTheme {
         /// <summary>
         ///   Looks up a localized string similar to ORDER NAME.
         /// </summary>
-        internal static string ORDERNAME {
+        public static string ORDERNAME {
             get {
                 return ResourceManager.GetString("ORDERNAME", resourceCulture);
             }
@@ -442,16 +550,25 @@ namespace DrawingTheme {
         /// <summary>
         ///   Looks up a localized string similar to ORDER NUMBER.
         /// </summary>
-        internal static string ORDERNUMBER {
+        public static string ORDERNUMBER {
             get {
                 return ResourceManager.GetString("ORDERNUMBER", resourceCulture);
             }
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Paid.
+        /// </summary>
+        public static string Paid {
+            get {
+                return ResourceManager.GetString("Paid", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Password.
         /// </summary>
-        internal static string Password {
+        public static string Password {
             get {
                 return ResourceManager.GetString("Password", resourceCulture);
             }
@@ -460,7 +577,7 @@ namespace DrawingTheme {
         /// <summary>
         ///   Looks up a localized string similar to PAYMENTID.
         /// </summary>
-        internal static string PAYMENTID {
+        public static string PAYMENTID {
             get {
                 return ResourceManager.GetString("PAYMENTID", resourceCulture);
             }
@@ -469,7 +586,7 @@ namespace DrawingTheme {
         /// <summary>
         ///   Looks up a localized string similar to PAYMENT STATUS.
         /// </summary>
-        internal static string PAYMENTSTATUS {
+        public static string PAYMENTSTATUS {
             get {
                 return ResourceManager.GetString("PAYMENTSTATUS", resourceCulture);
             }
@@ -478,7 +595,7 @@ namespace DrawingTheme {
         /// <summary>
         ///   Looks up a localized string similar to Paypal Settings.
         /// </summary>
-        internal static string PaypalSettings {
+        public static string PaypalSettings {
             get {
                 return ResourceManager.GetString("PaypalSettings", resourceCulture);
             }
@@ -487,7 +604,7 @@ namespace DrawingTheme {
         /// <summary>
         ///   Looks up a localized string similar to Pending Amount.
         /// </summary>
-        internal static string PendingAmount {
+        public static string PendingAmount {
             get {
                 return ResourceManager.GetString("PendingAmount", resourceCulture);
             }
@@ -496,7 +613,7 @@ namespace DrawingTheme {
         /// <summary>
         ///   Looks up a localized string similar to Pending Transaction.
         /// </summary>
-        internal static string PendingTransaction {
+        public static string PendingTransaction {
             get {
                 return ResourceManager.GetString("PendingTransaction", resourceCulture);
             }
@@ -505,7 +622,7 @@ namespace DrawingTheme {
         /// <summary>
         ///   Looks up a localized string similar to Phone Number.
         /// </summary>
-        internal static string PhoneNumber {
+        public static string PhoneNumber {
             get {
                 return ResourceManager.GetString("PhoneNumber", resourceCulture);
             }
@@ -514,7 +631,7 @@ namespace DrawingTheme {
         /// <summary>
         ///   Looks up a localized string similar to Port.
         /// </summary>
-        internal static string Port {
+        public static string Port {
             get {
                 return ResourceManager.GetString("Port", resourceCulture);
             }
@@ -523,7 +640,7 @@ namespace DrawingTheme {
         /// <summary>
         ///   Looks up a localized string similar to PRICE.
         /// </summary>
-        internal static string PRICE {
+        public static string PRICE {
             get {
                 return ResourceManager.GetString("PRICE", resourceCulture);
             }
@@ -532,7 +649,7 @@ namespace DrawingTheme {
         /// <summary>
         ///   Looks up a localized string similar to Profile.
         /// </summary>
-        internal static string Profile {
+        public static string Profile {
             get {
                 return ResourceManager.GetString("Profile", resourceCulture);
             }
@@ -541,16 +658,25 @@ namespace DrawingTheme {
         /// <summary>
         ///   Looks up a localized string similar to Profile.
         /// </summary>
-        internal static string Profile1 {
+        public static string Profile1 {
             get {
                 return ResourceManager.GetString("Profile1", resourceCulture);
             }
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Reset Password.
+        /// </summary>
+        public static string ResetPassword {
+            get {
+                return ResourceManager.GetString("ResetPassword", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Role.
         /// </summary>
-        internal static string Role {
+        public static string Role {
             get {
                 return ResourceManager.GetString("Role", resourceCulture);
             }
@@ -559,7 +685,7 @@ namespace DrawingTheme {
         /// <summary>
         ///   Looks up a localized string similar to Role Name.
         /// </summary>
-        internal static string RoleName {
+        public static string RoleName {
             get {
                 return ResourceManager.GetString("RoleName", resourceCulture);
             }
@@ -568,7 +694,7 @@ namespace DrawingTheme {
         /// <summary>
         ///   Looks up a localized string similar to Role Permissions.
         /// </summary>
-        internal static string RolePermissions {
+        public static string RolePermissions {
             get {
                 return ResourceManager.GetString("RolePermissions", resourceCulture);
             }
@@ -577,7 +703,7 @@ namespace DrawingTheme {
         /// <summary>
         ///   Looks up a localized string similar to Roles Management.
         /// </summary>
-        internal static string RolesManagement {
+        public static string RolesManagement {
             get {
                 return ResourceManager.GetString("RolesManagement", resourceCulture);
             }
@@ -586,7 +712,7 @@ namespace DrawingTheme {
         /// <summary>
         ///   Looks up a localized string similar to Save Changes.
         /// </summary>
-        internal static string SaveChanges {
+        public static string SaveChanges {
             get {
                 return ResourceManager.GetString("SaveChanges", resourceCulture);
             }
@@ -595,16 +721,25 @@ namespace DrawingTheme {
         /// <summary>
         ///   Looks up a localized string similar to Secret Key.
         /// </summary>
-        internal static string SecretKey {
+        public static string SecretKey {
             get {
                 return ResourceManager.GetString("SecretKey", resourceCulture);
             }
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Security.
+        /// </summary>
+        public static string Security {
+            get {
+                return ResourceManager.GetString("Security", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Security Settings.
         /// </summary>
-        internal static string Security_Settings {
+        public static string Security_Settings {
             get {
                 return ResourceManager.GetString("Security Settings", resourceCulture);
             }
@@ -613,7 +748,7 @@ namespace DrawingTheme {
         /// <summary>
         ///   Looks up a localized string similar to Send Email.
         /// </summary>
-        internal static string SendEmail {
+        public static string SendEmail {
             get {
                 return ResourceManager.GetString("SendEmail", resourceCulture);
             }
@@ -622,7 +757,7 @@ namespace DrawingTheme {
         /// <summary>
         ///   Looks up a localized string similar to Set role permissions.
         /// </summary>
-        internal static string Setrolepermissions {
+        public static string Setrolepermissions {
             get {
                 return ResourceManager.GetString("Setrolepermissions", resourceCulture);
             }
@@ -631,7 +766,7 @@ namespace DrawingTheme {
         /// <summary>
         ///   Looks up a localized string similar to Settings.
         /// </summary>
-        internal static string Settings {
+        public static string Settings {
             get {
                 return ResourceManager.GetString("Settings", resourceCulture);
             }
@@ -640,7 +775,7 @@ namespace DrawingTheme {
         /// <summary>
         ///   Looks up a localized string similar to Sign In.
         /// </summary>
-        internal static string SignIn {
+        public static string SignIn {
             get {
                 return ResourceManager.GetString("SignIn", resourceCulture);
             }
@@ -649,16 +784,25 @@ namespace DrawingTheme {
         /// <summary>
         ///   Looks up a localized string similar to Sign Out.
         /// </summary>
-        internal static string SignOut {
+        public static string SignOut {
             get {
                 return ResourceManager.GetString("SignOut", resourceCulture);
             }
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Sign out.
+        /// </summary>
+        public static string Signout1 {
+            get {
+                return ResourceManager.GetString("Signout1", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Sign UP.
         /// </summary>
-        internal static string SignUP {
+        public static string SignUP {
             get {
                 return ResourceManager.GetString("SignUP", resourceCulture);
             }
@@ -667,7 +811,7 @@ namespace DrawingTheme {
         /// <summary>
         ///   Looks up a localized string similar to SMTP.
         /// </summary>
-        internal static string SMTP {
+        public static string SMTP {
             get {
                 return ResourceManager.GetString("SMTP", resourceCulture);
             }
@@ -676,7 +820,7 @@ namespace DrawingTheme {
         /// <summary>
         ///   Looks up a localized string similar to SSL.
         /// </summary>
-        internal static string SSL {
+        public static string SSL {
             get {
                 return ResourceManager.GetString("SSL", resourceCulture);
             }
@@ -685,7 +829,7 @@ namespace DrawingTheme {
         /// <summary>
         ///   Looks up a localized string similar to Status.
         /// </summary>
-        internal static string Status {
+        public static string Status {
             get {
                 return ResourceManager.GetString("Status", resourceCulture);
             }
@@ -694,7 +838,7 @@ namespace DrawingTheme {
         /// <summary>
         ///   Looks up a localized string similar to Submit.
         /// </summary>
-        internal static string Submit {
+        public static string Submit {
             get {
                 return ResourceManager.GetString("Submit", resourceCulture);
             }
@@ -703,7 +847,7 @@ namespace DrawingTheme {
         /// <summary>
         ///   Looks up a localized string similar to Successful Transaction.
         /// </summary>
-        internal static string SuccessfulTransaction {
+        public static string SuccessfulTransaction {
             get {
                 return ResourceManager.GetString("SuccessfulTransaction", resourceCulture);
             }
@@ -712,7 +856,7 @@ namespace DrawingTheme {
         /// <summary>
         ///   Looks up a localized string similar to Total Components.
         /// </summary>
-        internal static string TotalComponents {
+        public static string TotalComponents {
             get {
                 return ResourceManager.GetString("TotalComponents", resourceCulture);
             }
@@ -721,7 +865,7 @@ namespace DrawingTheme {
         /// <summary>
         ///   Looks up a localized string similar to Total Customers.
         /// </summary>
-        internal static string TotalCustomers {
+        public static string TotalCustomers {
             get {
                 return ResourceManager.GetString("TotalCustomers", resourceCulture);
             }
@@ -730,7 +874,7 @@ namespace DrawingTheme {
         /// <summary>
         ///   Looks up a localized string similar to TOTAL PRICE.
         /// </summary>
-        internal static string TOTALPRICE {
+        public static string TOTALPRICE {
             get {
                 return ResourceManager.GetString("TOTALPRICE", resourceCulture);
             }
@@ -739,7 +883,7 @@ namespace DrawingTheme {
         /// <summary>
         ///   Looks up a localized string similar to Total Sales.
         /// </summary>
-        internal static string TotalSales {
+        public static string TotalSales {
             get {
                 return ResourceManager.GetString("TotalSales", resourceCulture);
             }
@@ -748,7 +892,7 @@ namespace DrawingTheme {
         /// <summary>
         ///   Looks up a localized string similar to Transaction.
         /// </summary>
-        internal static string Transaction {
+        public static string Transaction {
             get {
                 return ResourceManager.GetString("Transaction", resourceCulture);
             }
@@ -757,16 +901,25 @@ namespace DrawingTheme {
         /// <summary>
         ///   Looks up a localized string similar to Transaction List.
         /// </summary>
-        internal static string TransactionList {
+        public static string TransactionList {
             get {
                 return ResourceManager.GetString("TransactionList", resourceCulture);
             }
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Un Paid.
+        /// </summary>
+        public static string UnPaid {
+            get {
+                return ResourceManager.GetString("UnPaid", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to User List.
         /// </summary>
-        internal static string UserList {
+        public static string UserList {
             get {
                 return ResourceManager.GetString("UserList", resourceCulture);
             }
@@ -775,16 +928,16 @@ namespace DrawingTheme {
         /// <summary>
         ///   Looks up a localized string similar to User Management.
         /// </summary>
-        internal static string UserManagement {
+        public static string UserManagement {
             get {
                 return ResourceManager.GetString("UserManagement", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to s.
+        ///   Looks up a localized string similar to Username.
         /// </summary>
-        internal static string Username {
+        public static string Username {
             get {
                 return ResourceManager.GetString("Username", resourceCulture);
             }
@@ -793,9 +946,18 @@ namespace DrawingTheme {
         /// <summary>
         ///   Looks up a localized string similar to USER NAME.
         /// </summary>
-        internal static string USERNAME1 {
+        public static string USERNAME1 {
             get {
                 return ResourceManager.GetString("USERNAME1", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to User_settings.
+        /// </summary>
+        public static string Usersettings {
+            get {
+                return ResourceManager.GetString("Usersettings", resourceCulture);
             }
         }
     }

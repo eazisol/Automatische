@@ -25,16 +25,16 @@
         <div class="row">
 
             <div class="col-lg-6 col-md-4 col-sm-12">
-                <h4>User Management</h4>
+                <h4>@Resources.UserManagement</h4>
                 <ul class="breadcrumb">
                     <li class="breadcrumb-item">
                         <a href="index.html">
                             <i class="fa fa-dashboard"></i>
-                            Dashboard
+                            @Resources.Dashboard
                         </a>
                     </li>
 
-                    <li class="breadcrumb-item active">Roles Management</li>
+                    <li class="breadcrumb-item active">@Resources.RolesManagement</li>
                 </ul>
             </div>
 
@@ -57,7 +57,7 @@
                                 <div class="role-heading">
                                     <h4 hidden class="mb-1" id="ListRoleId">@item.RoleId</h4>
                                     <h4 class="mb-1" id="ListRole">@item.Role</h4>
-                                    <a href="javascript:;" data-toggle="modal" data-target="#addRoleModal" class="role-edit-modal" id="EditRole"><small>Edit Role</small></a>
+                                    <a href="javascript:;" data-toggle="modal" data-target="#addRoleModal" class="role-edit-modal" id="EditRole"><small>@Resources.EditRole</small></a>
                                 </div>
                                 <a href="javascript:void(0);" class="text-muted"><i class="bx bx-copy"></i></a>
                             </div>
@@ -71,8 +71,8 @@
 
                             <div class="col-sm-12">
                                 <div class="card-body text-sm-end text-center ps-sm-0">
-                                    <button data-target="#addRoleModal" data-toggle="modal" class="btn btn-primary mb-3 text-nowrap add-new-role">Add New Role</button>
-                                    <p class="mb-0">Add role, if it does not exist</p>
+                                    <button data-target="#addRoleModal" data-toggle="modal" class="btn btn-primary mb-3 text-nowrap add-new-role">@Resources.AddNewRole</button>
+                                    <p class="mb-0">@Resources.Addroleifitdoesnotexist</p>
                                 </div>
                             </div>
                         </div>
@@ -87,13 +87,13 @@
 
             <div class="modal-body">
                 <div class="text-center mb-4">
-                    <h3 class="role-title">Add New Role</h3>
-                    <p>Set role permissions</p>
+                    <h3 class="role-title">@Resources.AddNewRole</h3>
+                    <p>@Resources.Setrolepermissions</p>
                 </div>
                 <!-- Add role form -->
                 <form id="addPermissionForm" class="row g-3 fv-plugins-bootstrap5 fv-plugins-framework" onsubmit="return false" novalidate="novalidate">
                     <div class="col-12 mb-4 fv-plugins-icon-container">
-                        <label class="form-label" for="modalPermissionName">Role Name</label>
+                        <label class="form-label" for="modalPermissionName">@Resources.RoleName</label>
                         <input type="text" id="RoleId" name="RoleId" class="form-control" placeholder="Role Id" hidden>
                         <label id="LblError" style="color:red;display:none;">Role name must be filled!</label>
                         <input type="text" id="Role" name="Role" class="form-control" placeholder="Role Name" autofocus />
@@ -190,9 +190,9 @@
                     </div>
                     <div class="col-12 text-right">
                         <div id="loading" style="display:none;margin: 0 auto; text-decoration-color:cornflowerblue;"><div class="spinner-border text-success" id="display_loading" style="margin: 0 auto;"></div><div class="spinner-border text-success" id="display_loading" style="display:none;margin: 0 auto;"></div></div>
-                        <button type="submit" class="btn btn-primary me-sm-3 me-1" id="btnSave">      Submit</button>
-                        <button type="reset" class="btn btn-secondary" aria-label="Close">Cancel</button>
-                        <button type="button" class="btn btn-danger" data-dismiss="modal" aria-label="Close">Close</button>
+                        <button type="submit" class="btn btn-primary me-sm-3 me-1" id="btnSave">      @Resources.Submit</button>
+                        <button type="reset" class="btn btn-secondary" aria-label="Close">@Resources.Cancel</button>
+                        <button type="button" class="btn btn-danger" data-dismiss="modal" aria-label="Close">@Resources.Close</button>
                     </div>
                     <div></div><input type="hidden">
                 </form>

@@ -36,7 +36,7 @@
                     
                     <form class="sign-in-form" method="post" action="@Url.Action("Login", "Account")">
                        
-                        <h2 class="title">Sign in</h2>
+                        <h2 class="title">@Resources.SignIn</h2>
                         <div style="display:none; width:60%" class="alert alert-danger alert-dismissible fade show" id="error" role="alert">
                             @ViewBag.Error
                         </div>
@@ -49,9 +49,9 @@
                             <input type="password" name="Password" placeholder="Password" required />
                         </div>
 
-                        <button type="submit" style="width:60%" class="btn solid">LOGIN</button>
+                        <button type="submit" style="width:60%" class="btn solid">@Resources.LOGIN</button>
 
-                        <a href="@Url.Action("Forgetpassword", "Account")" class="text-right">Forgot Password?</a>
+                        <a href="@Url.Action("Forgetpassword", "Account")" class="text-right">@Resources.Forgotpassword?</a>
 
                     </form>
                         
@@ -84,36 +84,38 @@
                 <div class="panel left-panel">
                     <div class="content">
                         <img class="logo1" src="~/assets/images/logo.png" alt="user" style="margin-bottom:15%;width:45%">
-                        <h3>Build digital designs with</h3>
+                        <h3>@Resources.Builddigitaldesignswith</h3>
                         <p>
-                            Build, run, and scale your digital designs of gardens - end to end  and more
+                            @Resources.Build_run_andscaleyourdigitaldesignsofgardens_endtoendandmore
                         </p>
+
                         <button class="btn transparent" id="sign-up-btn" style="background-color:#8dc63f">
-                            Sign up
+                            @Resources.SignUP
                         </button>
                         <br>  <br>
-                        <button type="button" class="btn transparent dropdown-toggle flag-icon flag-icon-us flag-icon-squared" data-toggle="dropdown" > Language</button>
+                        <button type="button" class="btn transparent dropdown-toggle flag-icon flag-icon-us flag-icon-squared" data-toggle="dropdown"> Language</button>
                         <div class="dropdown-menu ">
-                            <a class="dropdown-item " href="javascript:void(0);"><i class="flag-icon flag-icon-us flag-icon-squared mr-2"></i> English</a>
-                            <a class="dropdown-item " href="javascript:void(0);"><i class="flag-icon flag-icon-de flag-icon-squared mr-2"></i> German</a>
+                            <a class="dropdown-item " href="@Url.Action("SetCulture","Account",new { culture="en"})"><i class="flag-icon flag-icon-us flag-icon-squared mr-2"></i> English</a>
+                            <a class="dropdown-item " href="@Url.Action("SetCulture","Account",new { culture="de"})"><i class="flag-icon flag-icon-de flag-icon-squared mr-2"></i> German</a>
                         </div>
                     </div>
                 </div>
                 <div class="panel right-panel">
                     <div class="content">
                         <img class="logo1" src="~/assets/images/logo.png" alt="user" style="margin-bottom:15%;width:45%">
-                        <h3>Build digital designs with</h3>
+                        <h3>@Resources.Builddigitaldesignswith</h3>
                         <p>
-                            Build, run, and scale your digital designs of gardens - end to end  and more
+                            @Resources.Build_run_andscaleyourdigitaldesignsofgardens_endtoendandmore
                         </p>
+
                         <button class="btn transparent" id="sign-in-btn" style="background-color:#8dc63f">
-                            Sign in
+                            @Resources.SignIn
                         </button>
                         <br>  <br>
                         <button type="button" class="btn transparent dropdown-toggle flag-icon flag-icon-us flag-icon-squared" data-toggle="dropdown">  Language</button>
                         <div class="dropdown-menu ">
-                            <a class="dropdown-item " href="javascript:void(0);"><i class="flag-icon flag-icon-us flag-icon-squared mr-2"></i> English</a>
-                            <a class="dropdown-item " href="javascript:void(0);"><i class="flag-icon flag-icon-de flag-icon-squared mr-2"></i> German</a>
+                            <a class="dropdown-item " href="@Url.Action("SetCulture","Account",new { culture="en"})"><i class="flag-icon flag-icon-us flag-icon-squared mr-2"></i> English</a>
+                            <a class="dropdown-item " href="@Url.Action("SetCulture","Account",new { culture="de"})"><i class="flag-icon flag-icon-de flag-icon-squared mr-2"></i> German</a>
                         </div>
                     </div>
                 </div>

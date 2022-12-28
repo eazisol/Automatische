@@ -12,23 +12,23 @@
     <div class="container-fluid">
         <div class="row">
             <div class="col-lg-6 col-md-4 col-sm-12">
-                <h4>Profile</h4>
+                <h4>@Resources.Profile</h4>
                 <ul class="breadcrumb">
                     <li class="breadcrumb-item">
                         <a href="index.html">
                             <i class="fa fa-dashboard"></i>
-                            Dashboard
+                            @Resources.Dashboard
                         </a>
                     </li>
 
-                    <li class="breadcrumb-item active">Profile</li>
+                    <li class="breadcrumb-item active">@Resources.Profile</li>
                 </ul>
             </div>
             <div class="col-lg-6 col-md-8 col-sm-12">
                 <ul class="nav nav-tabs tab-body-header rounded justify-content-end" role="tablist">
                     <li class="nav-item">
                         <a class="nav-link active" data-toggle="tab" href="#usersettings"
-                           role="tab">User-settings</a>
+                           role="tab">@Resources.Usersettings</a>
                     </li>
 
 
@@ -86,7 +86,7 @@
 
                         <div class="card">
                             <div class="card-header">
-                                <h3 class="card-title"><strong>Account</strong> Settings</h3>
+                                <h3 class="card-title"><strong>@Resources.Account</strong> @Resources.Settings</h3>
                             </div>
                             <div class="card-body pt-0">
                                 <div class="row clearfix">
@@ -94,32 +94,32 @@
                                         <div class="form-group">
                                             <input type="text" class="form-control" placeholder="Katie" hidden name="UserId" value="@Model.UserId">
                                             <input type="text" class="form-control" placeholder="Katie" hidden name="RoleId" value="@Model.RoleId">
-                                            <label>First Name</label>
+                                            <label>@Resources.FirstName</label>
                                             <input type="text" class="form-control" placeholder="Katie" name="FirstName" value="@Model.FirstName">
                                         </div>
                                     </div>
                                     <div class="col-lg-3 col-md-12">
                                         <div class="form-group">
-                                            <label>Last Name</label>
+                                            <label>@Resources.LastName</label>
                                             <input type="text" class="form-control" placeholder="Clark" name="LastName" value="@Model.LastName">
                                         </div>
                                     </div>
                                     <div class="col-lg-3 col-md-12">
                                         <div class="form-group">
-                                            <label>Email</label>
+                                            <label>@Resources.Email</label>
                                             <input type="text" class="form-control" placeholder="E-mail" name="Email" value="@Model.Email">
                                         </div>
                                     </div>
                                     <div class="col-lg-3 col-md-12">
                                         <div class="form-group">
-                                            <label>Phone</label>
+                                            <label>@Resources.PhoneNumber</label>
                                             <input type="text" class="form-control" placeholder="Phone" name="Phone" value="@Model.Phone">
                                         </div>
                                     </div>
 
                                     <div class="col-md-12">
                                         <div class="form-group">
-                                            <label>Address</label>
+                                            <label>@Resources.Address</label>
                                             <textarea rows="4" class="form-control no-resize"
                                                       placeholder="Address" name="Address" value="@Model.Address">@Model.Address</textarea>
                                         </div>
@@ -137,14 +137,14 @@
                                                     <input id="procheck1" type="checkbox" name="isActive" value="True">
                                                 }
 
-                                                <label for="procheck1">Active</label>
+                                            <label for="procheck1">@Resources.Active</label>
                                             </div>
 
                                         </div>
                                     }
 
                                     <div class="col-md-12">
-                                        <button class="btn btn-primary btn-round">Save Changes</button>
+                                        <button class="btn btn-primary btn-round">@Resources.SaveChanges</button>
                                     </div>
                                 </div>
                             </div>
@@ -166,12 +166,12 @@
                                     <strong>Error!</strong>New Password and Confirm Password not Matched.
                                 </div>
                                 <div class="card-header">
-                                    <h3 class="card-title"><strong>Security</strong> Settings</h3>
+                                    <h3 class="card-title"><strong>@Resources.Security</strong> @Resources.Settings</h3>
                                 </div>
                                 <div class="card-body pt-0">
                                     <div class="col-lg-12 col-md-12">
                                         <div class="form-group">
-                                            <label>Current Password</label>
+                                            <label>@Resources.CurrentPassword</label>
                                             <input type="password" class="form-control" placeholder="Current Password" hidden name="id" value="@Model.UserId">
                                             <input type="password" class="form-control" placeholder="Current Password" hidden name="Email" value="@Model.Email">
                                             <input type="password" class="form-control" placeholder="Current Password" id="OldPassword" name="OldPassword" required>
@@ -179,16 +179,16 @@
                                     </div>
                                     <div class="col-lg-12 col-md-12">
                                         <div class="form-group">
-                                            <label>New Password</label>
+                                            <label>@Resources.NewPassword</label>
                                             <input type="password" class="form-control" placeholder="New Password" id="NewPassword" name="NewPassword" required>
                                         </div>
                                     </div>
                                     <div class="col-lg-12 col-md-12">
                                         <div class="form-group">
-                                            <label>Confirm Password</label>
+                                            <label>@Resources.ConfirmPassword</label>
                                             <input type="password" class="form-control" placeholder="New Password" id="ConfirmPassword" name="ConfirmPassword" required>
                                         </div>
-                                        <button class="btn btn-info btn-round" id="SaveChanges">Save Changes</button>
+                                        <button class="btn btn-info btn-round" id="SaveChanges">@Resources.SaveChanges</button>
                                     </div>
                                 </div>
                             </div>
@@ -213,11 +213,11 @@
                                     </div>
                                 </div>
                                 <div class="form-group">
-                                    <label>New Password</label>
+                                    <label>@Resources.NewPassword</label>
                                     <input type="password" class="form-control" placeholder="New Password" name="NewPassword" required>
                                 </div>
 
-                                <button class="btn btn-primary btn-round">Save Changes</button>
+                                <button class="btn btn-primary btn-round">@Resources.SaveChanges</button>
                             </div>
                         </div>
                     }
