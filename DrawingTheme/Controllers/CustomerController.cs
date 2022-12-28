@@ -10,7 +10,7 @@ using System.Web.Mvc;
 namespace DrawingTheme.Controllers
 {
     [FilterConfig.AuthorizeActionFilter]
-    public class CustomerController : Controller
+    public class CustomerController : BaseController
     {
         AutomatischeEntities DB = new AutomatischeEntities();
         // GET: Customer

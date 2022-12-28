@@ -6,7 +6,7 @@ using System.Web.Mvc;
 
 namespace DrawingTheme.Controllers
 {
-    public class TransactionsController : Controller
+    public class TransactionsController : BaseController
     {
         // GET: Transactions
         public ActionResult Index()

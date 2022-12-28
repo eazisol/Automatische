@@ -9,7 +9,7 @@ namespace DrawingTheme.Controllers
 {
     [FilterConfig.NoDirectAccess]
     [FilterConfig.AuthorizeActionFilter]
-    public class AdminController : Controller
+    public class AdminController : BaseController
     {
         
         AutomatischeEntities DB = new AutomatischeEntities();

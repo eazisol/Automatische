@@ -11,7 +11,7 @@ namespace DrawingTheme.Controllers
 {
     [FilterConfig.NoDirectAccess]
     [FilterConfig.AuthorizeActionFilter]
-    public class UserController : Controller
+    public class UserController : BaseController
     {
         AutomatischeEntities DB = new AutomatischeEntities();
         // GET: User

@@ -1,4 +1,5 @@
-﻿using DrawingTheme.Models;
+﻿using DrawingTheme.Helper;
+using DrawingTheme.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,9 +8,33 @@ using System.Web.Mvc;
 
 namespace DrawingTheme.Controllers
 {
-    public class HomeController : Controller
+    public class HomeController : BaseController
     {
         AutomatischeEntities DB = new AutomatischeEntities();
+
+        public ActionResult SetCulture(string culture)
+        {
+            
+            if (Request.Cookies["_culture"] != null)
+            {
+                Response.Cookies["_culture"].Expires = DateTime.Now.AddDays(-1);
+            }
+            // Validate input
+            culture = CultureHelper.GetImplementedCulture(culture);
+            // Save culture in a cookie
+            HttpCookie cookie = Request.Cookies["_culture"];
+            if (cookie != null)
+                cookie["Language"] = culture;   // update cookie value
+            else
+            {
+                cookie = new HttpCookie("_culture");
+                cookie["Language"] = culture;
+                cookie.Expires = DateTime.Now.AddDays(2);
+            }
+            Response.Cookies.Add(cookie);
+
+            return RedirectToAction("Index");
+        }
         public ActionResult Index()
         {
             HttpCookie cookieObj = Request.Cookies["User"];
