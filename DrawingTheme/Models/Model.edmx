@@ -21,6 +21,13 @@
           <Property Name="EditDate" Type="datetime" />
           <Property Name="isActive" Type="bit" />
         </EntityType>
+        <EntityType Name="tblCategory">
+          <Key>
+            <PropertyRef Name="CategoryID" />
+          </Key>
+          <Property Name="CategoryID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="CategoryName" Type="varchar" MaxLength="500" />
+        </EntityType>
         <EntityType Name="tblComponent">
           <Key>
             <PropertyRef Name="ComponentId" />
@@ -115,6 +122,46 @@
           <Property Name="Editby" Type="int" />
           <Property Name="EditDate" Type="datetime" />
           <Property Name="isActive" Type="bit" />
+          <Property Name="IsAdminReceived" Type="bit" />
+        </EntityType>
+        <EntityType Name="tblSubCategory">
+          <Key>
+            <PropertyRef Name="SubcategoryID" />
+          </Key>
+          <Property Name="SubcategoryID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="CategoryID" Type="int" />
+          <Property Name="SubcategoryName" Type="varchar" MaxLength="500" />
+          <Property Name="ComponentPiktogramm" Type="varchar" MaxLength="500" />
+          <Property Name="Unit" Type="varchar" MaxLength="50" />
+          <Property Name="Price" Type="float" />
+          <Property Name="SprinklerType" Type="varchar" MaxLength="50" />
+          <Property Name="MinAngle" Type="float" />
+          <Property Name="MaxAngle" Type="float" />
+          <Property Name="ThrowDistanceMax" Type="float" />
+          <Property Name="ThrowDistanceMin" Type="float" />
+          <Property Name="ThrowWidth" Type="float" />
+          <Property Name="ThrowHeight" Type="float" />
+          <Property Name="mhgeneral" Type="float" />
+          <Property Name="PipelineMaxLength" Type="float" />
+          <Property Name="IrrigationWiringMaxStation" Type="float" />
+          <Property Name="IrrigationComputermaxstation" Type="int" />
+          <Property Name="IrrigationComputerindoor" Type="bit" />
+          <Property Name="IrrigationComputeroutdoor" Type="bit" />
+          <Property Name="IrrigationComputersmarphone" Type="bit" />
+          <Property Name="valveboxcircle" Type="int" />
+          <Property Name="valveboxFilter" Type="bit" />
+          <Property Name="drinkingwatersource" Type="bit" />
+          <Property Name="wellwatersource" Type="bit" />
+          <Property Name="rainwatersource" Type="bit" />
+          <Property Name="mh45" Type="float" />
+          <Property Name="mh90" Type="float" />
+          <Property Name="mh105" Type="float" />
+          <Property Name="mh180" Type="float" />
+          <Property Name="mh210" Type="float" />
+          <Property Name="mh270" Type="float" />
+          <Property Name="mh360" Type="float" />
+          <Property Name="Plannercomponent" Type="bit" />
+          <Property Name="BOMRelevant" Type="bit" />
         </EntityType>
         <EntityType Name="tblTransaction">
           <Key>
@@ -264,6 +311,18 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_tblSubCategory_tblCategory">
+          <End Role="tblCategory" Type="Self.tblCategory" Multiplicity="0..1" />
+          <End Role="tblSubCategory" Type="Self.tblSubCategory" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tblCategory">
+              <PropertyRef Name="CategoryID" />
+            </Principal>
+            <Dependent Role="tblSubCategory">
+              <PropertyRef Name="CategoryID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_tblTransaction_tblOrder">
           <End Role="tblOrder" Type="Self.tblOrder" Multiplicity="0..1" />
           <End Role="tblTransaction" Type="Self.tblTransaction" Multiplicity="*" />
@@ -303,6 +362,7 @@
         <Function Name="SpOrderNumber" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
         <EntityContainer Name="AutomatischeModelStoreContainer">
           <EntitySet Name="tblAccessLevel" EntityType="Self.tblAccessLevel" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tblCategory" EntityType="Self.tblCategory" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tblComponent" EntityType="Self.tblComponent" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tblLog" EntityType="Self.tblLog" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tblMenu" EntityType="Self.tblMenu" Schema="dbo" store:Type="Tables" />
@@ -310,6 +370,7 @@
           <EntitySet Name="tblOrderDetail" EntityType="Self.tblOrderDetail" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tblRole" EntityType="Self.tblRole" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tblSetting" EntityType="Self.tblSetting" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tblSubCategory" EntityType="Self.tblSubCategory" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tblTransaction" EntityType="Self.tblTransaction" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tblUser" EntityType="Self.tblUser" Schema="dbo" store:Type="Tables" />
           <AssociationSet Name="FK_AccessManu" Association="Self.FK_AccessManu">
@@ -347,6 +408,10 @@
           <AssociationSet Name="FK_tblSetting_tblUser" Association="Self.FK_tblSetting_tblUser">
             <End Role="tblUser" EntitySet="tblUser" />
             <End Role="tblSetting" EntitySet="tblSetting" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tblSubCategory_tblCategory" Association="Self.FK_tblSubCategory_tblCategory">
+            <End Role="tblCategory" EntitySet="tblCategory" />
+            <End Role="tblSubCategory" EntitySet="tblSubCategory" />
           </AssociationSet>
           <AssociationSet Name="FK_tblTransaction_tblOrder" Association="Self.FK_tblTransaction_tblOrder">
             <End Role="tblOrder" EntitySet="tblOrder" />
@@ -505,6 +570,12 @@
             <End Role="tblUser" EntitySet="tblUsers" />
             <End Role="tblTransaction" EntitySet="tblTransactions" />
           </AssociationSet>
+          <EntitySet Name="tblCategories" EntityType="AutomatischeModel.tblCategory" />
+          <EntitySet Name="tblSubCategories" EntityType="AutomatischeModel.tblSubCategory" />
+          <AssociationSet Name="FK_tblSubCategory_tblCategory" Association="AutomatischeModel.FK_tblSubCategory_tblCategory">
+            <End Role="tblCategory" EntitySet="tblCategories" />
+            <End Role="tblSubCategory" EntitySet="tblSubCategories" />
+          </AssociationSet>
           </EntityContainer>
         <EntityType Name="tblSetting">
           <Key>
@@ -522,6 +593,7 @@
           <Property Name="EditDate" Type="DateTime" Precision="3" />
           <Property Name="isActive" Type="Boolean" />
           <NavigationProperty Name="tblUser" Relationship="AutomatischeModel.FK_tblSetting_tblUser" FromRole="tblSetting" ToRole="tblUser" />
+          <Property Name="IsAdminReceived" Type="Boolean" />
         </EntityType>
         <EntityType Name="tblOrder">
           <Key>
@@ -750,6 +822,66 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <EntityType Name="tblCategory">
+          <Key>
+            <PropertyRef Name="CategoryID" />
+          </Key>
+          <Property Name="CategoryID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="CategoryName" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="tblSubCategories" Relationship="AutomatischeModel.FK_tblSubCategory_tblCategory" FromRole="tblCategory" ToRole="tblSubCategory" />
+        </EntityType>
+        <EntityType Name="tblSubCategory">
+          <Key>
+            <PropertyRef Name="SubcategoryID" />
+          </Key>
+          <Property Name="SubcategoryID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="CategoryID" Type="Int32" />
+          <Property Name="SubcategoryName" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="ComponentPiktogramm" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="Unit" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Price" Type="Double" />
+          <Property Name="SprinklerType" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="MinAngle" Type="Double" />
+          <Property Name="MaxAngle" Type="Double" />
+          <Property Name="ThrowDistanceMax" Type="Double" />
+          <Property Name="ThrowDistanceMin" Type="Double" />
+          <Property Name="ThrowWidth" Type="Double" />
+          <Property Name="ThrowHeight" Type="Double" />
+          <Property Name="mhgeneral" Type="Double" />
+          <Property Name="PipelineMaxLength" Type="Double" />
+          <Property Name="IrrigationWiringMaxStation" Type="Double" />
+          <Property Name="IrrigationComputermaxstation" Type="Int32" />
+          <Property Name="IrrigationComputerindoor" Type="Boolean" />
+          <Property Name="IrrigationComputeroutdoor" Type="Boolean" />
+          <Property Name="IrrigationComputersmarphone" Type="Boolean" />
+          <Property Name="valveboxcircle" Type="Int32" />
+          <Property Name="valveboxFilter" Type="Boolean" />
+          <Property Name="drinkingwatersource" Type="Boolean" />
+          <Property Name="wellwatersource" Type="Boolean" />
+          <Property Name="rainwatersource" Type="Boolean" />
+          <Property Name="mh45" Type="Double" />
+          <Property Name="mh90" Type="Double" />
+          <Property Name="mh105" Type="Double" />
+          <Property Name="mh180" Type="Double" />
+          <Property Name="mh210" Type="Double" />
+          <Property Name="mh270" Type="Double" />
+          <Property Name="mh360" Type="Double" />
+          <Property Name="Plannercomponent" Type="Boolean" />
+          <Property Name="BOMRelevant" Type="Boolean" />
+          <NavigationProperty Name="tblCategory" Relationship="AutomatischeModel.FK_tblSubCategory_tblCategory" FromRole="tblSubCategory" ToRole="tblCategory" />
+        </EntityType>
+        <Association Name="FK_tblSubCategory_tblCategory">
+          <End Type="AutomatischeModel.tblCategory" Role="tblCategory" Multiplicity="0..1" />
+          <End Type="AutomatischeModel.tblSubCategory" Role="tblSubCategory" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tblCategory">
+              <PropertyRef Name="CategoryID" />
+            </Principal>
+            <Dependent Role="tblSubCategory">
+              <PropertyRef Name="CategoryID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -808,6 +940,7 @@
           <EntitySetMapping Name="tblSettings">
             <EntityTypeMapping TypeName="AutomatischeModel.tblSetting">
               <MappingFragment StoreEntitySet="tblSetting">
+                <ScalarProperty Name="IsAdminReceived" ColumnName="IsAdminReceived" />
                 <ScalarProperty Name="isActive" ColumnName="isActive" />
                 <ScalarProperty Name="EditDate" ColumnName="EditDate" />
                 <ScalarProperty Name="Editby" ColumnName="Editby" />
@@ -915,6 +1048,54 @@
                 <ScalarProperty Name="PaypalPaymentId" ColumnName="PaypalPaymentId" />
                 <ScalarProperty Name="PaymentDateTime" ColumnName="PaymentDateTime" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tblCategories">
+            <EntityTypeMapping TypeName="AutomatischeModel.tblCategory">
+              <MappingFragment StoreEntitySet="tblCategory">
+                <ScalarProperty Name="CategoryName" ColumnName="CategoryName" />
+                <ScalarProperty Name="CategoryID" ColumnName="CategoryID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tblSubCategories">
+            <EntityTypeMapping TypeName="AutomatischeModel.tblSubCategory">
+              <MappingFragment StoreEntitySet="tblSubCategory">
+                <ScalarProperty Name="BOMRelevant" ColumnName="BOMRelevant" />
+                <ScalarProperty Name="Plannercomponent" ColumnName="Plannercomponent" />
+                <ScalarProperty Name="mh360" ColumnName="mh360" />
+                <ScalarProperty Name="mh270" ColumnName="mh270" />
+                <ScalarProperty Name="mh210" ColumnName="mh210" />
+                <ScalarProperty Name="mh180" ColumnName="mh180" />
+                <ScalarProperty Name="mh105" ColumnName="mh105" />
+                <ScalarProperty Name="mh90" ColumnName="mh90" />
+                <ScalarProperty Name="mh45" ColumnName="mh45" />
+                <ScalarProperty Name="rainwatersource" ColumnName="rainwatersource" />
+                <ScalarProperty Name="wellwatersource" ColumnName="wellwatersource" />
+                <ScalarProperty Name="drinkingwatersource" ColumnName="drinkingwatersource" />
+                <ScalarProperty Name="valveboxFilter" ColumnName="valveboxFilter" />
+                <ScalarProperty Name="valveboxcircle" ColumnName="valveboxcircle" />
+                <ScalarProperty Name="IrrigationComputersmarphone" ColumnName="IrrigationComputersmarphone" />
+                <ScalarProperty Name="IrrigationComputeroutdoor" ColumnName="IrrigationComputeroutdoor" />
+                <ScalarProperty Name="IrrigationComputerindoor" ColumnName="IrrigationComputerindoor" />
+                <ScalarProperty Name="IrrigationComputermaxstation" ColumnName="IrrigationComputermaxstation" />
+                <ScalarProperty Name="IrrigationWiringMaxStation" ColumnName="IrrigationWiringMaxStation" />
+                <ScalarProperty Name="PipelineMaxLength" ColumnName="PipelineMaxLength" />
+                <ScalarProperty Name="mhgeneral" ColumnName="mhgeneral" />
+                <ScalarProperty Name="ThrowHeight" ColumnName="ThrowHeight" />
+                <ScalarProperty Name="ThrowWidth" ColumnName="ThrowWidth" />
+                <ScalarProperty Name="ThrowDistanceMin" ColumnName="ThrowDistanceMin" />
+                <ScalarProperty Name="ThrowDistanceMax" ColumnName="ThrowDistanceMax" />
+                <ScalarProperty Name="MaxAngle" ColumnName="MaxAngle" />
+                <ScalarProperty Name="MinAngle" ColumnName="MinAngle" />
+                <ScalarProperty Name="SprinklerType" ColumnName="SprinklerType" />
+                <ScalarProperty Name="Price" ColumnName="Price" />
+                <ScalarProperty Name="Unit" ColumnName="Unit" />
+                <ScalarProperty Name="ComponentPiktogramm" ColumnName="ComponentPiktogramm" />
+                <ScalarProperty Name="SubcategoryName" ColumnName="SubcategoryName" />
+                <ScalarProperty Name="CategoryID" ColumnName="CategoryID" />
+                <ScalarProperty Name="SubcategoryID" ColumnName="SubcategoryID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

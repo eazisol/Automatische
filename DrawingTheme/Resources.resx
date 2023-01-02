@@ -129,14 +129,23 @@
   <data name="Active" xml:space="preserve">
     <value>Active</value>
   </data>
+  <data name="AddCategory" xml:space="preserve">
+    <value>Add Category</value>
+  </data>
   <data name="AddComponent" xml:space="preserve">
     <value>Add Component</value>
+  </data>
+  <data name="AddNewCategory" xml:space="preserve">
+    <value>Add New Category</value>
   </data>
   <data name="AddNewComponent" xml:space="preserve">
     <value>Add New Component</value>
   </data>
   <data name="AddNewRole" xml:space="preserve">
     <value>Add New Role</value>
+  </data>
+  <data name="AddNewSubCategory" xml:space="preserve">
+    <value>Add New Sub Category</value>
   </data>
   <data name="AddNewUser" xml:space="preserve">
     <value>Add New User</value>
@@ -159,6 +168,9 @@
   <data name="Backtosignin" xml:space="preserve">
     <value>Back to sign in</value>
   </data>
+  <data name="BOMRelevant" xml:space="preserve">
+    <value>BOM Relevant</value>
+  </data>
   <data name="Build,run,andscaleyourdigitaldesignsofgardens-endtoendandmore" xml:space="preserve">
     <value>Build, run, and scale your digital designs of gardens - end to end and more</value>
   </data>
@@ -167,6 +179,12 @@
   </data>
   <data name="Cancel" xml:space="preserve">
     <value>Cancel</value>
+  </data>
+  <data name="Category" xml:space="preserve">
+    <value>Category</value>
+  </data>
+  <data name="CategoryList" xml:space="preserve">
+    <value>Category List</value>
   </data>
   <data name="ChangePassword" xml:space="preserve">
     <value>Change Password</value>
@@ -216,6 +234,12 @@
   <data name="DeleteUser" xml:space="preserve">
     <value>Delete User</value>
   </data>
+  <data name="DrawNewPlan" xml:space="preserve">
+    <value>Draw New Plan</value>
+  </data>
+  <data name="drinkingwatersource" xml:space="preserve">
+    <value>Drinking Water Source</value>
+  </data>
   <data name="EditComponent" xml:space="preserve">
     <value>Edit Component</value>
   </data>
@@ -246,6 +270,24 @@
   <data name="InActive" xml:space="preserve">
     <value>InActive</value>
   </data>
+  <data name="IrrigationComputerindoor" xml:space="preserve">
+    <value>Irrigation Computer Indoor</value>
+  </data>
+  <data name="IrrigationComputermaxstation" xml:space="preserve">
+    <value>Irrigation Computer Max Station</value>
+  </data>
+  <data name="IrrigationComputeroutdoor" xml:space="preserve">
+    <value>Irrigation Computer Outdoor</value>
+  </data>
+  <data name="IrrigationComputersmarphone" xml:space="preserve">
+    <value>Irrigation Computer Smarphone</value>
+  </data>
+  <data name="IrrigationWiringMaxStation" xml:space="preserve">
+    <value>Irrigation Wiring Max Station</value>
+  </data>
+  <data name="IsAdminReceived" xml:space="preserve">
+    <value>Send emails to admin?</value>
+  </data>
   <data name="language" xml:space="preserve">
     <value>Language</value>
   </data>
@@ -254,6 +296,36 @@
   </data>
   <data name="LOGIN" xml:space="preserve">
     <value>LOGIN</value>
+  </data>
+  <data name="MaxAngle" xml:space="preserve">
+    <value>Max Angle</value>
+  </data>
+  <data name="mh105" xml:space="preserve">
+    <value>mh105</value>
+  </data>
+  <data name="mh180" xml:space="preserve">
+    <value>mh180</value>
+  </data>
+  <data name="mh210" xml:space="preserve">
+    <value>mh210</value>
+  </data>
+  <data name="mh270" xml:space="preserve">
+    <value>mh270</value>
+  </data>
+  <data name="mh360" xml:space="preserve">
+    <value>mh360</value>
+  </data>
+  <data name="mh45" xml:space="preserve">
+    <value>mh45</value>
+  </data>
+  <data name="mh90" xml:space="preserve">
+    <value>mh90</value>
+  </data>
+  <data name="mhgeneral" xml:space="preserve">
+    <value>mh general</value>
+  </data>
+  <data name="MinAngle" xml:space="preserve">
+    <value>Min Angle</value>
   </data>
   <data name="Mode" xml:space="preserve">
     <value>Mode</value>
@@ -306,6 +378,18 @@
   <data name="PhoneNumber" xml:space="preserve">
     <value>Phone Number</value>
   </data>
+  <data name="PipelineMaxLength" xml:space="preserve">
+    <value>Pipeline Max Length</value>
+  </data>
+  <data name="Plan" xml:space="preserve">
+    <value>Plan</value>
+  </data>
+  <data name="Planlist" xml:space="preserve">
+    <value>Plan List</value>
+  </data>
+  <data name="Plannercomponent" xml:space="preserve">
+    <value>Planner Component</value>
+  </data>
   <data name="Port" xml:space="preserve">
     <value>Port</value>
   </data>
@@ -317,6 +401,9 @@
   </data>
   <data name="Profile1" xml:space="preserve">
     <value>Profile</value>
+  </data>
+  <data name="rainwatersource" xml:space="preserve">
+    <value>Rain Water Source</value>
   </data>
   <data name="ResetPassword" xml:space="preserve">
     <value>Reset Password</value>
@@ -335,6 +422,9 @@
   </data>
   <data name="SaveChanges" xml:space="preserve">
     <value>Save Changes</value>
+  </data>
+  <data name="SaveIregationPlans" xml:space="preserve">
+    <value>Saved Irrigation Plans</value>
   </data>
   <data name="SecretKey" xml:space="preserve">
     <value>Secret Key</value>
@@ -369,17 +459,38 @@
   <data name="SMTP" xml:space="preserve">
     <value>SMTP</value>
   </data>
+  <data name="SprinklerType" xml:space="preserve">
+    <value>Sprinkler Type</value>
+  </data>
   <data name="SSL" xml:space="preserve">
     <value>SSL</value>
   </data>
   <data name="Status" xml:space="preserve">
     <value>Status</value>
   </data>
+  <data name="SubCategory" xml:space="preserve">
+    <value>Sub Category</value>
+  </data>
+  <data name="SubCategoryList" xml:space="preserve">
+    <value>Sub Category List</value>
+  </data>
   <data name="Submit" xml:space="preserve">
     <value>Submit</value>
   </data>
   <data name="SuccessfulTransaction" xml:space="preserve">
     <value>Successful Transaction</value>
+  </data>
+  <data name="ThrowDistanceMax" xml:space="preserve">
+    <value>Throw Distance Max</value>
+  </data>
+  <data name="ThrowDistanceMin" xml:space="preserve">
+    <value>Throw Distance Min</value>
+  </data>
+  <data name="ThrowHeight" xml:space="preserve">
+    <value>Throw Height</value>
+  </data>
+  <data name="ThrowWidth" xml:space="preserve">
+    <value>Throw Width</value>
   </data>
   <data name="TotalComponents" xml:space="preserve">
     <value>Total Components</value>
@@ -399,8 +510,14 @@
   <data name="TransactionList" xml:space="preserve">
     <value>Transaction List</value>
   </data>
+  <data name="Unit" xml:space="preserve">
+    <value>Unit</value>
+  </data>
   <data name="UnPaid" xml:space="preserve">
     <value>Un Paid</value>
+  </data>
+  <data name="UploadProfileImage" xml:space="preserve">
+    <value>Upload Profile Image</value>
   </data>
   <data name="UserList" xml:space="preserve">
     <value>User List</value>
@@ -415,6 +532,15 @@
     <value>USER NAME</value>
   </data>
   <data name="Usersettings" xml:space="preserve">
-    <value>User_settings</value>
+    <value>User Setting</value>
+  </data>
+  <data name="valveboxcircle" xml:space="preserve">
+    <value>Valvebox Circle</value>
+  </data>
+  <data name="valveboxFilter" xml:space="preserve">
+    <value>Valvebox Filter</value>
+  </data>
+  <data name="wellwatersource" xml:space="preserve">
+    <value>Well Water Source</value>
   </data>
 </root>

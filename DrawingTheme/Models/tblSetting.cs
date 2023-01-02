@@ -25,6 +25,7 @@ namespace DrawingTheme.Models
         public Nullable<int> Editby { get; set; }
         public Nullable<System.DateTime> EditDate { get; set; }
         public Nullable<bool> isActive { get; set; }
+        public Nullable<bool> IsAdminReceived { get; set; }
     
         public virtual tblUser tblUser { get; set; }
     }

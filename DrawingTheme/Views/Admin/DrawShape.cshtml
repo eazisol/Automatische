@@ -2,23 +2,11 @@
 @{
     ViewBag.Title = "DrawShape";
     Layout = "~/Views/Shared/_Layout.cshtml";
+    int i = 0;
+    //Layout = null;
 }
-@{
-    int UserID = 0;
-    int OrderID = 0;
-    HttpCookie cookieObj = Request.Cookies["User"];
-    if (@cookieObj != null)
-    {
 
-
-        if (@cookieObj["UserId"] != null && @cookieObj["UserId"] != "")
-        {
-            UserID = Convert.ToInt32(@cookieObj["UserId"]);
-        }
-
-    }
-}
-<div class="block-header py-lg-2 py-2" style="margin-top:-6%">
+<div class="block-header py-lg-2 py-2">
     <div class="container-fluid">
         <div class="row align-items-center">
             <div class="col-lg-6 col-md-4 col-sm-12">
@@ -37,33 +25,104 @@
         </div>
     </div>
 </div>
+<div class="navigation navbar navbar-light justify-content-center px-3 px-lg-2 py-2 py-md-3  ver-menu">
+      
+<ul class="nav navbar-nav flex-row flex-lg-column flex-grow-1 justify-content-start align-items-center py-2 py-lg-0">
+ Create group 
+<li class="nav-item flex-grow-1">
+         <a class="nav-link p-2 p-lg-2 d-block d-xl-none menu-toggle" href="#">
+             <i class="fa fa-bars"></i>
+         </a>
+     </li>
+     <li class="nav-item">
+             <a class="nav-link p-2 p-lg-3" href="#" title="Search" data-toggle="modal"
+                data-target="#SearchModal"><i class="fa fa-search"></i></a>
+         </li>
+         <li class="nav-item flex-grow-1">
+             <a class="nav-link p-2 p-lg-3" href="#" title="notifications" data-toggle="modal"
+                data-target="#notificationsModal"><i class="fa fa-bell"></i></a>
+         </li>
+ Menu collapse 
+<li class="nav-item">
+            <a class="nav-link p-2 p-lg-3" href="Url.Action("Profile","User")" title="Menu collapse">
+                <i class="fa fa-user"></i>
+            </a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link p-2 p-lg-3" href="Url.Action("Login","Account")" title="Menu collapse">
+                <i class="fa fa-sign-out"></i>
+            </a>
+        </li>
+    </ul>
+</div>
+
 <div class="body d-flex profile-page">
     <div class="container-fluid">
         <div>
-
-            @*@foreach (DrawingTheme.Models.tblComponent Component in Model)
+            <input type="text" name="OrderId" id="OrderId" value="" hidden />
+            @foreach (DrawingTheme.Models.tblComponent Component in Model)
             {
-                <button id="Area" class="btn btn-primary" onclick="SaveData(@Component.ComponentId)">@Component.Name</button>
-            }*@
-            <button id="Area" style="margin-left:2%;">Lawn</button>
-            <button id="DryArea" style="margin-left:2%;">Dry Area</button>
+                {
+                    i += 1;
+                }
+                <button id="@Component.Code" onclick="SaveData(@Component.ComponentId)" data-radius="30" data-Width="100" data-Height="40" data-Angle="180" data-Rotation="45">@Component.Name</button>
+                if (i == 7)
+                {
+                    <br />
+                }
+            }
+            <button id="UndoCanvas">Undo</button>
+            <button id="BtnTap">Tap</button>
+            <button id="BtnSystem">Computer System</button>
+            <button id="BtnValveBox">Valve Box</button>
+            <button id="BtnEndsprinkler" style="display:none;">End sprinkler</button>
+            @*<button id="BtnEndRectangularsprinkler" style="display:none;">End rectangular sprinkler</button>*@
+            <button id="save">Save as PDF</button>
+            <input type="file" id="file_input" accept="image/*" name="name" value="" />
+            <br />
+            <div id="DivImageOpacityValue" style="display:none;">
+                <label>Image opacity</label>
+                <input type="number" id="ImageOpacityValue" min="0" max="1" value="1" />
+            </div>
+
+
+            @*<button id="Area" style="margin-left:2%;">Lawn</button>
+                <button id="DryArea" style="margin-left:2%;">Dry Area</button>*@
         </div>
-        <div class="card">
-            <div id="container" class="card-body" style="max-height:100vh"></div>
+        <div class="row">
+            <div class="col-md-10">
+                <div id="container">
+                </div>
+            </div>
+            <div class="col-md-2">
+                <div class="card">
+                    <div class="card-header">
+                        <h4>Property</h4>
+                    </div>
+                    <div class="card-body">
+                        <input class="form-control" type="text" id="SId" hidden name="name" value="" />
+                        <label>Radius</label>
+                        <input class="form-control" type="number" id="SRadius" onchange="SetS(this,1)" name="name" value="" />
+                        <label>Start Angle</label>
+                        <input class="form-control" type="number" id="StartAngle" onchange="SetS(this,2)" name="name" value="" />
+                        <label>Angle</label>
+                        <input class="form-control" type="number" id="SAngle" onchange="SetS(this,3)" name="name" value="" />
+                    </div>
+                </div>
+            </div>
         </div>
-        <form role="form" id="payment-form" method="POST" action="@Url.Action("PaymentWithPaypal","Paypal",new {UserId=UserID })">
+
+        <form role="form" id="payment-form" method="POST" action="@Url.Action("PaymentWithPaypal","PayPal")">
             <div id="">Total Amount: <lebel id="TotalAmount"> 0</lebel></div>
-            <input type="text" id="TotalAmountInput" name="Amount" value="" />
-            <input type="text" name="OrderID" id="OrderID" value=""  hidden/>
+            <input type="text" id="TotalAmountInput" name="amount" value="" hidden />
             <button> Save Diagram</button>
         </form>
     </div>
 </div>
 
 
-
 <div class="modal fade" id="addcontact" tabindex="-1" role="dialog">
-    <div class="modal-dialog " role="document">
+    <div class="modal-dialog  modal-lg" role="document">
 
         <div class="modal-content">
             <div class="modal-header">
@@ -93,13 +152,13 @@
 
 
 <script src="https://unpkg.com/konva@8.3.14/konva.min.js"></script>
-
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.5.3/jspdf.debug.js" integrity="sha384-NaWTHo/8YCBYJ59830LTz/P4aQZK1sS0SneOgAvhsIl3zBu8r9RevNg5lHCHAuQ/" crossorigin="anonymous"></script>
 <script src="~/assets/js/jquery-3.2.1.min.js"></script>
 <script>
 
     function SaveData(id) {
         ComponentId = id;
-        OrderId = $("#OrderID").val();
+        OrderId = $("#OrderId").val();
 
         var model = {
             ComponentId: ComponentId,
@@ -137,9 +196,8 @@
             contentType: "application/json; charset=utf-8",
             dataType: "json",
             success: function (r) {
-                $("#OrderID").val(r);
+                $("#OrderId").val(r);
                 $("#addcontact").modal('toggle');
-                OrderID = r;
             }
         });
 
@@ -149,12 +207,12 @@
 
     $(document).ready(function () {
 
-      //  $("#addcontact").modal('toggle');
+        $("#addcontact").modal('toggle');
 
     });
 
         var width = window.innerWidth;
-        var height = window.innerHeight;
+    var height = window.innerHeight;
 
         var isDraw = false;
         var isFirst = false;
@@ -171,8 +229,23 @@
         var Name = 1;
         var TextId = 1;
         var Rect1;
-        var PolyName=1;
-        var id = "Line1";
+    var PolyName = 1;
+    var TapName = 1;
+    var SystemName = 1;
+    var ValveBoxName = 1;
+    var UndoArray = [];
+    var SprinklerName=1;
+    var RectangularSprinklerName=1;
+        var id = "";
+    var CurrentObjId = "Line1";
+    var FillCirFirstTime = true;
+    var EndSprinkler = true;
+    var CurretSprinkler = "";
+    var CurretRectangularSprinkler = "";
+    var CountnueRotate = true;
+
+
+
         const Group = new Konva.Group();
         var stage = new Konva.Stage({
             container: 'container',
@@ -201,41 +274,46 @@
                 name: "Area",
             });
 
-        poly.on('pointerdown', function () {
-                //alert(this.id()); //Should show 'IDofImg'
-                if (this.id()=="Line1") {
-            isInArea = true;
-                }
+            poly.on('pointerdown', function () {
+                    //alert(this.id()); //Should show 'IDofImg'
+                    if (this.id()=="Line1") {
+                isInArea = true;
+                    }
 
-            });
+                });
 
-        poly.on('pointerout', function () {
-            isOutArea = true;
-        console.log(isOutArea);
+            poly.on('pointerout', function () {
+                isOutArea = true;
+            console.log(isOutArea);
 
-            });
+                });
 
-        poly.on('pointerenter', function () {
-            isOutArea = false;
-        console.log(isOutArea);
-            });
+            poly.on('pointerenter', function () {
+                isOutArea = false;
+            console.log(isOutArea);
+                });
 
 
-        PolyName += 1;
-        layer.add(poly);
-        isOverOnStarting = false;
-        isStartLine = true;
-        isFinished = false;
-        isFirstMouseMove = true;
+            PolyName += 1;
+            layer.add(poly);
+            isOverOnStarting = false;
+            isStartLine = true;
+            isFinished = false;
+            isFirstMouseMove = true;
 
-        //alert(poly.name());
-        if (this.id == "Area") {
-            id = "Line1";
-            }
-        else if (this.id == "DryArea") {
-            id = "Line2";
-            }
-        $("#Area").prop('disabled', true);
+            CurrentObjId = poly.name();
+
+            id = poly.id();
+            //alert(poly.name());
+            //if (this.id == "Area") {
+            //    id = "Line1";
+            //    }
+            //else if (this.id == "DryArea") {
+            //    id = "Line2";
+            //    }
+            $("#Area").prop('disabled', true);
+
+            UndoArray.push(poly.id());
         });
 
 
@@ -252,46 +330,449 @@
                 name: "DryArea",
             });
 
-        poly.on('pointerdown', function () {
-                //alert(this.id()); //Should show 'IDofImg'
-                if (this.id()=="Line1") {
-            isInArea = true;
-                }
+            poly.on('pointerdown', function () {
+                    //alert(this.id()); //Should show 'IDofImg'
+                    //console.log("Line Dry"+" "+this.id());
+                if (this.id() == "Line1") {
+                isInArea = true;
+                    }
+                });
+
+            poly.on('pointerout', function () {
+                isOutArea = true;
+            console.log(isOutArea);
+
+                });
+
+            poly.on('pointerenter', function () {
+                isOutArea = false;
+            console.log(isOutArea);
+                });
+
+
+            PolyName += 1;
+            layer.add(poly);
+            isOverOnStarting = false;
+            isStartLine = true;
+            isFinished = false;
+            isFirstMouseMove = true;
+
+            CurrentObjId = poly.name();
+
+                id = poly.id();
+            //if (this.id == "Area") {
+            //    id = "Line1";
+            //    }
+            //else if (this.id == "DryArea") {
+            //    id = poly.id();
+            //        //alert(poly.name() + this.id);
+            //}
+            UndoArray.push(poly.id());
+        });
+
+
+    $("body").on("click", "#Hedge", function () {
+            //alert(this.id);
+            poly = new Konva.Line({
+                points: [0, 0],
+                stroke: 'black',
+                strokeWidth: 3,
+                lineCap: 'round',
+                lineJoin: 'round',
+                id: "Line" + PolyName + "",
+                listening: false,
+                name: "Hedge",
             });
 
-        poly.on('pointerout', function () {
-            isOutArea = true;
-        console.log(isOutArea);
+            //poly.on('pointerdown', function () {
+            //    if (this.id() == "Line1") {
+            //    isInArea = true;
+            //        }
+            //    });
 
+            //poly.on('pointerout', function () {
+            //    isOutArea = true;
+            //console.log(isOutArea);
+
+            //    });
+
+            //poly.on('pointerenter', function () {
+            //    isOutArea = false;
+            //console.log(isOutArea);
+            //    });
+
+
+            PolyName += 1;
+            layer.add(poly);
+            isOverOnStarting = false;
+            isStartLine = true;
+            isFinished = false;
+            isFirstMouseMove = true;
+        CurrentObjId = poly.name();
+        id = poly.id();
+
+        UndoArray.push(poly.id());
+     });
+
+
+    $("body").on("click", "#GetWet", function () {
+            //alert(this.id);
+            poly = new Konva.Line({
+                points: [0, 0],
+                stroke: 'black',
+                strokeWidth: 3,
+                lineCap: 'round',
+                lineJoin: 'round',
+                id: "Line" + PolyName + "",
+                listening: false,
+                name: "GetWet",
             });
 
-        poly.on('pointerenter', function () {
-            isOutArea = false;
-        console.log(isOutArea);
+            //poly.on('pointerdown', function () {
+            //    if (this.id() == "Line1") {
+            //    isInArea = true;
+            //        }
+            //    });
+
+            //poly.on('pointerout', function () {
+            //    isOutArea = true;
+            //console.log(isOutArea);
+
+            //    });
+
+            //poly.on('pointerenter', function () {
+            //    isOutArea = false;
+            //console.log(isOutArea);
+            //    });
+
+
+            PolyName += 1;
+            layer.add(poly);
+            isOverOnStarting = false;
+            isStartLine = true;
+            isFinished = false;
+            isFirstMouseMove = true;
+
+        CurrentObjId = poly.name();
+
+
+        id = poly.id();
+
+        UndoArray.push(poly.id());
+     });
+
+
+    $("body").on("click", "#BtnTap", function () {
+        //alert(this.id);
+        var imageObj = new Image();
+        imageObj.onload = function () {
+            var yoda = new Konva.Image({
+                x: 50,
+                y: 50,
+                image: imageObj,
+                width: 25,
+                height: 25,
+                id: "Tap" + TapName,
+                draggable: true,
             });
+            TapName += 1;
+            // add the shape to the layer
+            layer.add(yoda);
+            UndoArray.push(yoda.id());
+        };
+        imageObj.src = '/assets/images/ecommerce/Tap.png';
+
+    });
 
 
-        PolyName += 1;
-        layer.add(poly);
-        isOverOnStarting = false;
-        isStartLine = true;
-        isFinished = false;
-        isFirstMouseMove = true;
+    $("body").on("click", "#BtnSystem", function () {
+        //alert(this.id);
+        var imageObj = new Image();
+        imageObj.onload = function () {
+            var yoda = new Konva.Image({
+                x: 50,
+                y: 50,
+                image: imageObj,
+                width: 25,
+                height: 25,
+                id: "System" + SystemName,
+                draggable: true,
+            });
+            SystemName += 1;
+            // add the shape to the layer
+            layer.add(yoda);
+            UndoArray.push(yoda.id());
+        };
+        imageObj.src = '/assets/images/ecommerce/System.png';
+
+    });
 
 
+    $("body").on("click", "#BtnValveBox", function () {
+        //alert(this.id);
+        var imageObj = new Image();
+        imageObj.onload = function () {
+            var yoda = new Konva.Image({
+                x: 50,
+                y: 50,
+                image: imageObj,
+                width: 25,
+                height: 25,
+                id: "ValveBox" + ValveBoxName,
+                draggable: true,
+            });
+            ValveBoxName += 1;
+            // add the shape to the layer
+            layer.add(yoda);
+            UndoArray.push(yoda.id());
+        };
+        imageObj.src = '/assets/images/ecommerce/ValveBox.png';
 
-        if (this.id == "Area") {
-            id = "Line1";
+    });
+
+
+    $("body").on("click", "#Sprinkler,#Sprinkler1,#Sprinkler2", function () {
+        var Radius = Number($(this).attr("data-radius"));
+        var Angle = Number($(this).attr("data-Angle"));
+        var Rotation = Number($(this).attr("data-Rotation"));
+        if (CurretSprinkler != "") {
+            var node = layer.findOne('#' + CurretSprinkler);
+            var x = node.x();
+            var y = node.y();
+            console.log(x);
+            node.destroy(y);
+            var node = layer.findOne('#' + CurretSprinkler.replace("Sprinkler", "FillCircle"));
+            if (node != null) {
+                node.destroy();
             }
-        else if (this.id == "DryArea") {
-            id = poly.id();
-                //alert(poly.name() + this.id);
+            var node = layer.findOne('#' + CurretSprinkler.replace("Sprinkler", "Circle"));
+            if (node != null) {
+                node.destroy();
             }
+            var node = layer.findOne('#' + CurretSprinkler.replace("Sprinkler", "Arc"));
+            if (node != null) {
+                node.destroy();
+            }
+
+            var circle = new Konva.Circle({
+                x: x,
+                y: y,
+                radius: Radius,
+                //fill: 'red',
+                stroke: 'black',
+                strokeWidth: 1,
+                id: "Sprinkler" + SprinklerName + "",
+                name: "Sprinkler",
+
+            });
+
+            var cir = new Konva.Circle({
+                x: x - circle.radius(),
+                y: y,
+                radius: 5,
+                //fill: 'red',
+                stroke: 'black',
+                strokeWidth: 1,
+                id: circle.id().replace("Sprinkler", "Circle"),
+                draggable: true,
+            });
+
+            cir.on('dragmove', (e) => {
+
+                updateSprinkler(e.target.id());
+
+            });
+
+            layer.add(cir);
+
+            var cirFill = new Konva.Circle({
+                x: x + circle.radius(),
+                y: y,
+                radius: 5,
+                //fill: 'red',
+                stroke: 'black',
+                strokeWidth: 1,
+                id: circle.id().replace("Sprinkler", "FillCircle"),
+                draggable: true,
+            });
+
+            cirFill.on('dragmove', (e) => {
+
+                updateSprinkler(e.target.id());
+            });
+
+            layer.add(cirFill);
+
+            var ArcCir = new Konva.Arc({
+                x: x,
+                y: y,
+                innerRadius: circle.radius(),
+                angle: Angle - Rotation,
+                fill: 'lightblue',
+                stroke: 'black',
+                strokeWidth: 0,
+                id: circle.id().replace("Sprinkler", "Arc"),
+                //draggable: true,
+                listening: false,
+                rotation: Rotation,
+            });
+
+
+            layer.add(ArcCir);
+
+
+        }
+        else {
+            var circle = new Konva.Circle({
+                //x: stage.width() / 2,
+                //y: stage.height() / 2,
+                radius: Radius,
+                //fill: 'red',
+                stroke: 'black',
+                strokeWidth: 1,
+                id: "Sprinkler" + SprinklerName + "",
+                name: "Sprinkler",
+
+            });
+
+            isOverOnStarting = false;
+            isStartLine = true;
+            isFinished = false;
+            isFirstMouseMove = true;
+        }
+
+        //alert(Radius);
+
+
+
+        CurretSprinkler = circle.id();
+
+        //console.log(UndoArray);
+        SprinklerName += 1;
+        layer.add(circle);
+
+
+        //alert(poly.name());
+        id = circle.id();
+        CurrentObjId = circle.name();
+        //$("#Area").prop('disabled', true);
+        UndoArray.push(circle.id());
+
+        $("#SId").val(circle.id());
+        $("#SRadius").val(circle.radius());
+        $("#StartAngle").val(circle.rotation());
+
+        $("#SAngle").val(0);
+
+        //$("#Sprinkler").prop('disabled', true);
+        $("#BtnEndsprinkler").show();
+    });
+
+
+
+    $("body").on("click", "#BtnEndsprinkler", function () {
+
+        //$("#Sprinkler").prop('disabled', false);
+        //
+        $("#BtnEndsprinkler").hide();
+        CurretSprinkler = "";
+
+    });
+
+
+
+
+    $("body").on("click", "#RectangularSprinkler", function () {
+        //if (CurretSprinkler != "") {
+        //    var node = layer.findOne('#' + CurretSprinkler);
+        //    node.destroy();
+        //    var node = layer.findOne('#' + CurretSprinkler.replace("Sprinkler", "FillRSCircle"));
+        //    if (node != null) {
+        //        node.destroy();
+        //    }
+        //    var node = layer.findOne('#' + CurretSprinkler.replace("Sprinkler", "RSCircle"));
+        //    if (node != null) {
+        //        node.destroy();
+        //    }
+        //    //var node = layer.findOne('#' + CurretSprinkler.replace("Sprinkler", "Arc"));
+        //    //if (node != null) {
+        //    //    node.destroy();
+        //    //}
+        //}
+        var Radius = Number($(this).attr("data-radius"));
+        var Width = Number($(this).attr("data-Width"));
+        var Height = Number($(this).attr("data-Height"));
+        //alert(Radius);
+        var circle = new Konva.Rect({
+            //x: stage.width() / 2,
+            //y: stage.height() / 2,
+            width: Width,
+            height: Height,
+            //fill: 'green',
+            stroke: 'black',
+            strokeWidth: 1,
+            id: "RectangularSprinkler" + RectangularSprinklerName + "",
+            name: "RectangularSprinkler",
+
+        });
+
+
+        circle.on('pointerclick', (e) => {
+
+            //console.log(e.evt.button);
+
+            if (e.evt.button === 0) {
+                var TSprinkler = layer.findOne('#' + e.target.id().replace("RectangularSprinkler", "TRS"));
+                TSprinkler.rotateEnabled(true);
+
+            }
+            else if (e.evt.button === 2) {
+
+                var TSprinkler = layer.findOne('#' + e.target.id().replace("RectangularSprinkler", "TRS"));
+                TSprinkler.rotateEnabled(false);
+            }
+
         });
 
 
 
 
+        CurretRectangularSprinkler = circle.id();
+
+        //console.log(UndoArray);
+        RectangularSprinklerName += 1;
+        layer.add(circle);
+        isOverOnStarting = false;
+        isStartLine = true;
+        isFinished = false;
+        isFirstMouseMove = true;
+
+        id = circle.id();
+        CurrentObjId = circle.name();
+        UndoArray.push(circle.id());
+
+        //$("#SId").val(circle.id());
+        //$("#SRadius").val(circle.radius());
+        //$("#StartAngle").val(circle.rotation());
+
+        //$("#SAngle").val(0);
+
+
+        $("#BtnEndRectangularsprinkler").show();
+    });
+
+    $("body").on("click", "#BtnEndRectangularsprinkler", function () {
+
+        //$("#Sprinkler").prop('disabled', false);
+        $("#BtnEndRectangularsprinkler").hide();
+        CurretRectangularSprinkler = "";
+
+    });
+
+
+    stage.on('contextmenu', (e) => {
+        e.evt.preventDefault();
+    });
 
         function MouseDownHandler() {
             //console.log(this);
@@ -303,389 +784,1028 @@
             //    //}
             //}
             if (isOverOnStarting == false && isFinished == false) {
-                if (isInArea == true || id!="Line2") {
+                if (CurrentObjId == "Sprinkler") {
+                    var circle = layer.findOne('#' + id);
+
+                    var Position = stage.getPointerPosition();
+                    circle.x(Position.x);
+                    circle.y(Position.y);
+
+
+
+                    var cir = new Konva.Circle({
+                        x: Position.x - circle.radius(),
+                        y: Position.y ,
+                        radius: 5,
+                        //fill: 'red',
+                        stroke: 'black',
+                        strokeWidth: 1,
+                        id: id.replace("Sprinkler","Circle"),
+                        draggable: true,
+                    });
+
+                    cir.on('dragmove', (e) => {
+
+
+                        //var sprinkler = layer.findOne('#' + e.target.id().replace("Circle", "Sprinkler"));
+                        //// update nodes from the new state
+                        ////console.log(e);
+                        //e.target.y(sprinkler.y());
+                        updateSprinkler(e.target.id());
+
+                    });
+
+                    layer.add(cir);
+
+                    var cirFill = new Konva.Circle({
+                        x: Position.x + circle.radius(),
+                        y: Position.y ,
+                        radius: 5,
+                        //fill: 'red',
+                        stroke: 'black',
+                        strokeWidth: 1,
+                        id: id.replace("Sprinkler", "FillCircle"),
+                        draggable: true,
+                    });
+
+                    cirFill.on('dragmove', (e) => {
+
+                        // update nodes from the new state
+
+                        //var sprinkler = layer.findOne('#' + e.target.id().replace("FillCircle", "Sprinkler"));
+                        //var x1 = e.target.x();
+                        //var y1 = e.target.y();
+                        //var x2 = sprinkler.x();
+                        //var y2 = sprinkler.y();
+
+                        //var dx = x1 - x2;
+                        //var dy = y1 - y2;
+                        //var Sumsqr = Math.pow(dx, 2);
+                        //Sumsqr += Math.pow(dy, 2);
+                        //var Distance = Math.sqrt(Sumsqr);
+                        //var Radius = sprinkler.radius();
+
+
+                        //console.log(Distance + " " + Radius);
+                        //if (Distance > Radius+3 || Distance < Radius-3) {
+                        //    e.target.draggable(false);
+                        //    e.target.x(x2 + Radius);
+                        //    e.target.y(y2);
+                        //}
+
+                        /*console.log(e);*/
+                        //updateSprinkler(e.target.id());
+
+
+
+                        //var x1 = 0;
+                        //var y1 = 0;
+                        //var x2 = 0;
+                        //var y2 = 0;
+                        //var Sprinkler = layer.findOne('#' + e.target.id().replace("FillCircle", "Sprinkler"));
+                        //x1 = e.target.x();
+                        //y1 = e.target.y();
+                        //x2 = Sprinkler.x();
+                        //y2 = Sprinkler.y();
+                        //dx = x1 - x2;
+                        //dy = y1 - y2;
+                        //var angleRad1 = Math.atan2(dy, dx);
+                        //var angleDeg1 = angleRad1 * 180 / Math.PI;
+                        //angleDeg1 = (360 + (angleDeg1)) % 360;
+
+                        //console.log("Drag Angle " + angleDeg1);
+
+
+
+                        updateSprinkler(e.target.id());
+
+
+                    });
+
+                    layer.add(cirFill);
+
+
+
+
+                    var ArcCir = new Konva.Arc({
+                        x: Position.x,
+                        y: Position.y,
+                        innerRadius: circle.radius(),
+                        angle: 180,
+                        fill: 'lightblue',
+                        stroke: 'black',
+                        strokeWidth: 0,
+                        id: id.replace("Sprinkler", "Arc"),
+                        //draggable: true,
+                        listening: false,
+                        rotation: 0,
+                    });
+
+                    //var arc = new Konva.Arc({
+                    //    x: Position.x,
+                    //    y: Position.y - 20,
+                    //    innerRadius: circle.radius(),
+                    //    angle: 60,
+                    //    fill: 'yellow',
+                    //    stroke: 'black',
+                    //    strokeWidth: 4,
+                    //    id: id.replace("Sprinkler", "arc"),
+                    //    draggable: true,
+                    //});
+
+
+                    layer.add(ArcCir);
+
+
+                    isFinished = true;
+                }
+                else if (CurrentObjId == "RectangularSprinkler")
+                {
+                    var circle = layer.findOne('#' + id);
+
+                    var Position = stage.getPointerPosition();
+                    circle.x(Position.x);
+                    circle.y(Position.y);
+
+                    var cir = new Konva.Circle({
+                        x: Position.x ,
+                        y: Position.y,
+                        radius: 5,
+                        //fill: 'red',
+                        stroke: 'black',
+                        strokeWidth: 1,
+                        id: id.replace("RectangularSprinkler", "RSCircle"),
+                        draggable: true,
+                    });
+
+                    cir.on('pointerclick', (e) => {
+
+                        //console.log(e.evt.button);
+
+                        if (e.evt.button === 0) {
+                                var Sprinkler = layer.findOne('#' + e.target.id().replace("RSCircle", "RectangularSprinkler"));
+                                Sprinkler.rotation(Sprinkler.rotation() + 1);
+
+                        }
+                        else if (e.evt.button === 2) {
+
+                            var Sprinkler = layer.findOne('#' + e.target.id().replace("RSCircle", "RectangularSprinkler"));
+                            Sprinkler.rotation(Sprinkler.rotation() - 1);
+                        }
+
+                    });
+
+                    cir.on('dragmove', (e) => {
+                        //updateRSSprinkler(e.target.id());
+
+                        var Sprinkler = layer.findOne('#' + e.target.id().replace("RSCircle", "RectangularSprinkler"));
+                        Sprinkler.x(e.target.x());
+                        Sprinkler.y(e.target.y());
+                    });
+
+                    layer.add(cir);
+                        var Sprinkler = layer.findOne('#' + id);
+
+                    var transformer = new Konva.Transformer({
+                        nodes: [Sprinkler, cir],
+                        rotateAnchorOffset: 60,
+                        enabledAnchors: ['top-left', 'top-right', 'bottom-left', 'bottom-right'],
+                        id: id.replace("RectangularSprinkler", "TRS")
+                    });
+                    layer.add(transformer);
+
+                    transformer.anchorCornerRadius(10);
+                    transformer.borderEnabled(false);
+                    transformer.resizeEnabled(false);
+                    transformer.rotateAnchorOffset(0);
+
+                    //transformer.stopTransform(true);
+                    //var cirFill = new Konva.Circle({
+                    //    x: Position.x ,
+                    //    y: Position.y,
+                    //    radius: 5,
+                    //    //fill: 'red',
+                    //    stroke: 'black',
+                    //    strokeWidth: 1,
+                    //    id: id.replace("Sprinkler", "FillRSCircle"),
+                    //    draggable: true,
+                    //});
+
+                    //cirFill.on('pointerclick', (e) => {
+                    //    e.target.rotation(e.target.rotation + 1);
+                    //});
+
+                    //cirFill.on('pointerdblclick', (e) => {
+                    //    e.target.rotation(e.target.rotation + 1);
+                    //});
+
+                    //cirFill.on('dragmove', (e) => {
+                    //    //updateRSSprinkler(e.target.id());
+                    //});
+
+                    //layer.add(cirFill);
+
+                    //var ArcCir = new Konva.Arc({
+                    //    x: Position.x,
+                    //    y: Position.y,
+                    //    innerRadius: circle.radius(),
+                    //    angle: 180,
+                    //    fill: 'lightblue',
+                    //    stroke: 'black',
+                    //    strokeWidth: 0,
+                    //    id: id.replace("Sprinkler", "Arc"),
+                    //    //draggable: true,
+                    //    listening: false,
+                    //    rotation: 0,
+                    //});
+
+
+                    //layer.add(ArcCir);
+
+
+                    isFinished = true;
+                }
+                else if (id[0]=='L') {
                     var line = layer.findOne('#' + id);
-        //console.log(line.id());
-        var points = line.points();
-        if (isStartLine == true) {
+                    if (isInArea == true || (line.name() != "DryArea" && line.name() != "GetWet")) {
+                        //var line = layer.findOne('#' + id);
+                        //console.log(line.id());
+                        var points = line.points();
+                        if (isStartLine == true) {
 
-            points.pop();
-        points.pop();
-                        //points.pop();
-                        //points.pop();
+                            points.pop();
+                            points.pop();
+                            //points.pop();
+                            //points.pop();
+                        }
+                        isDraw = true;
+                        var Position = stage.getPointerPosition();
+                        //Points.push(Position.x, Position.y);
+                        points.push(Position.x, Position.y);
+                        line.points(points);
+                        //console.log(line.points());
+
+
+                        rect = new Konva.Rect({
+                            x: Position.x - 5,
+                            y: Position.y - 5,
+                            width: 10,
+                            height: 10,
+                            name: "Rect" + Name + "",
+                            id: "Rect" + Name + "",
+                            //fill: 'green',
+                            stroke: 'red',
+                            strokeWidth: 2,
+                            draggable: true,
+                        });
+                        if (isStartLine == true) {
+                            StartRect.push(rect.id());
+                            isStartLine = false;
+                        }
+
+                        Name += 1;
+                        rect.on('pointerenter', function () {
+                            var id = this.name();
+                            var LineId = 0;
+                            if (id[0] == "R") {
+                                LineId = FindIndex(id);
+                            }
+                            var line = layer.findOne('#Line' + LineId);
+                            var points = line.points();
+                            var pointerPos = stage.getPointerPosition();
+                            if (isFinished == true || points.length < 6) {
+                                return;
+                            }
+                            else if (CheckFirstIndex(id)) {
+                                //var Rect1 = stage.find('.' + id);
+                                isOverOnStarting = true;
+                                //console.log(isOverOnStarting);
+
+                            }
+
+                        });
+
+
+                        rect.on("pointerout", function () {
+
+                            if (CheckFirstIndex(this.name())) {
+                                isOverOnStarting = false;
+                                //console.log(isOverOnStarting);
+                                //layer.batchDraw();
+                            }
+                        });
+
+
+
+                        rect.on('dragmove', (e) => {
+
+                            // update nodes from the new state
+                            //console.log(e);
+                            updateObjects(e.target.id());
+
+                        });
+
+                        /*rect.moveToTop();*/
+
+                        layer.add(rect);
+
+
+                        //var S = line.points();
+                        var S = line.points().slice();
+                        //console.log(line.points());
+                        //if (rect.name()=="Rect2") {
+                        //    S.pop();
+                        //    S.pop();
+                        //}
+                        S.pop();
+                        S.pop();
+                        //console.log(S);
+                        //console.log(S.length - 1);
+                        //console.log(S.length - 2);
+                        //console.log(S.length - 3);
+                        //console.log(S.length - 4);
+                        //alert(S[S.length - 1]+" = "+S[1]);
+
+                        var x = (S[S.length - 4] + S[S.length - 2]) / 2;
+                        var y = (S[S.length - 3] + S[S.length - 1]) / 2;
+                        var dx = S[S.length - 2] - S[S.length - 4];
+                        var dy = S[S.length - 1] - S[S.length - 3];
+                        var Sumsqr = Math.pow(dx, 2);
+                        Sumsqr += Math.pow(dy, 2);
+                        var Distance = Math.sqrt(Sumsqr);
+                        Distance /=  12;
+                        Distance = Distance.toFixed(2);
+                        var angleRad = Math.atan(dy / dx);
+                        var angleDeg = angleRad * 180 / Math.PI;
+                        var Text = new Konva.Text({
+                            text: Distance+" m",
+                            fontSize: 10,
+                            fontFamily: 'Calibri',
+                            fill: '#000',
+                            //width: poly.width(),
+                            rotation: angleDeg,
+                            padding: -20,
+                            y: y,
+                            x: x,
+                            id: "Text" + TextId + "",
+                        });
+
+                        TextId += 1;
+                        layer.add(Text);
+
+                        //poly.moveToBottom();
+                        if (CheckFirstIndex(rect.name())) {
+                            Rect1 = layer.findOne('.' + rect.name());
+                            //rect.moveToTop();
+                        }
+                        Rect1.moveToTop();
+                        isInArea = false;
                     }
-        isDraw = true;
-        var Position = stage.getPointerPosition();
-        //Points.push(Position.x, Position.y);
-        points.push(Position.x, Position.y);
-        line.points(points);
-        //console.log(line.points());
 
-
-        rect = new Konva.Rect({
-            x: Position.x - 5,
-        y: Position.y - 5,
-        width: 10,
-        height: 10,
-        name: "Rect" + Name + "",
-        id: "Rect" + Name + "",
-        //fill: 'green',
-        stroke: 'red',
-        strokeWidth: 2,
-        draggable: true,
-                    });
-        if (isStartLine == true) {
-            StartRect.push(rect.id());
-        isStartLine = false;
-                    }
-
-        Name += 1;
-        rect.on('pointerenter', function () {
-                        var id = this.name();
-        var LineId = 0;
-        if (id[0] == "R") {
-            LineId = FindIndex(id);
-                        }
-        var line = layer.findOne('#Line' + LineId);
-        var points = line.points();
-        var pointerPos = stage.getPointerPosition();
-        if (isFinished == true || points.length < 6) {
-                            return;
-                        }
-        else if (CheckFirstIndex(id)) {
-            //var Rect1 = stage.find('.' + id);
-            isOverOnStarting = true;
-                            //console.log(isOverOnStarting);
-
-                        }
-
-                    });
-
-
-        rect.on("pointerout", function () {
-
-                        if (CheckFirstIndex(this.name())) {
-            isOverOnStarting = false;
-                            //console.log(isOverOnStarting);
-                            //layer.batchDraw();
-                        }
-                    });
-
-
-
-                    rect.on('dragmove', (e) => {
-
-            // update nodes from the new state
-            //console.log(e);
-            updateObjects(e.target.id());
-
-                    });
-
-        /*rect.moveToTop();*/
-
-        layer.add(rect);
-
-
-        //var S = line.points();
-        var S = line.points().slice();
-                    //console.log(line.points());
-                    //if (rect.name()=="Rect2") {
-            //    S.pop();
-            //    S.pop();
-            //}
-            S.pop();
-        S.pop();
-        //console.log(S);
-        //console.log(S.length - 1);
-        //console.log(S.length - 2);
-        //console.log(S.length - 3);
-        //console.log(S.length - 4);
-        //alert(S[S.length - 1]+" = "+S[1]);
-
-        var x = (S[S.length - 4] + S[S.length - 2]) / 2;
-        var y = (S[S.length - 3] + S[S.length-1]) / 2;
-        var dx = S[S.length - 2] - S[S.length - 4];
-        var dy = S[S.length - 1] - S[S.length - 3];
-        var Sumsqr = Math.pow(dx, 2);
-        Sumsqr += Math.pow(dy, 2);
-        var Distance = Math.sqrt(Sumsqr);
-        Distance = Distance.toFixed(2);
-        var angleRad = Math.atan(dy / dx);
-        var angleDeg = angleRad * 180 / Math.PI;
-        var Text = new Konva.Text({
-            text: Distance,
-        fontSize: 10,
-        fontFamily: 'Calibri',
-        fill: '#000',
-        //width: poly.width(),
-        rotation: angleDeg,
-        padding: -20,
-        y: y,
-        x: x,
-        id: "Text" + TextId + "",
-                    });
-
-        TextId += 1;
-        layer.add(Text);
-
-        //poly.moveToBottom();
-        if (CheckFirstIndex(rect.name())) {
-            Rect1 = layer.findOne('.' + rect.name());
-                        //rect.moveToTop();
-                    }
-        Rect1.moveToTop();
-        isInArea = false;
                 }
 
 
             }
-        else {
-                var LineId = 0;
-                //console.log(this.pointerClickStartShape.attrs.id);
-                //console.log(id);
-                //if (id[0] == "R") {
-                //    LineId = FindIndex(id);
-                //}
-                //else {
-                //    LineId = id[4];
-                //}
-                var line = layer.findOne('#' + id);
-        isDraw = false;
+            else {
+                if (CurrentObjId == "Sprinkler" || CurrentObjId == "RectangularSprinkler") {
+                    //var circle = layer.findOne('#' + id);
+                    //var Position = stage.getPointerPosition();
+                    //circle.x(Position.x);
+                    //circle.y(Position.y);
 
-        isFinished = true;
-        line.closed(true);
-        line.listening(true);
-        //console.log(line.name());
-        if (id == "Line1") {
-            line.fill("lightgreen");
 
                 }
-        else if (line.name() == "DryArea") {
-            line.fill("#ffe699");
+                else {
+                    var LineId = 0;
+                    //console.log(this.pointerClickStartShape.attrs.id);
+                    //console.log(id);
+                    //if (id[0] == "R") {
+                    //    LineId = FindIndex(id);
+                    //}
+                    //else {
+                    //    LineId = id[4];
+                    //}
+                    var line = layer.findOne('#' + id);
+                    isDraw = false;
+
+                    isFinished = true;
+                    line.closed(true);
+                    line.listening(true);
+                    //console.log(line.name());
+                    if (line.name() == "Area") {
+                        line.fill("lightgreen");
+
+                    }
+                    else if (line.name() == "DryArea") {
+                        line.fill("#ffe699");
+                    }
+                    else if (line.name() == "Hedge") {
+                        line.fill("#D2BFFF");
+                    }
+                    else if (line.name() == "GetWet") {
+                        line.fill("rgba(111, 187, 211, .8)");
+                    }
                 }
 
-        //var CheckPoint = [709.6000366210938, 232.80003356933594];
-        //console.log(line.points());
-        //inside(CheckPoint, line.points());
 
-        return;
+                //var CheckPoint = [709.6000366210938, 232.80003356933594];
+                //console.log(line.points());
+                //inside(CheckPoint, line.points());
+
+                return;
             }
 
         }
 
         function updateObjects(id) {
-            var LineId = 0;
+                    var LineId = 0;
+                    var x1 = 0;
+                    var y1 = 0;
+                    var x2 = 0;
+                    var y2 = 0;
+                    var node = layer.findOne('#' + id);
+                    if (id[0] == "R") {
+                        LineId = FindIndex(id);
+                    }
+                    //console.log(LineId);
+                    var line = layer.findOne('#Line' + LineId);
+                    var points = line.points();
+                    //line.destroy();
+                    var ID =Number(id.replace('Rect', ''));
+                    var MOD = FindMOD(id);
+                    //console.log(MOD);
+                    //console.log(ID);
+                    if (CheckFirstIndex(id)) {
+                            var Index = 0;
+                        if (MOD == 0) {
+                            Index = ((ID * 2) - 2) ;
+                                }
+                        else {
+                            Index = ((ID * 2) - 2) % MOD;
+                                }
+                        line.closed(false);
+                        points[Index] = node.x() + 5;
+                        points[Index + 1] = node.y() + 5;
+                        points[points.length - 2] = node.x() + 5;
+                        points[points.length - 1] = node.y() + 5;
+
+
+
+
+                        x1 = Index
+                        y1 = Index + 1
+                        x2 = Index + 2
+                        y2 = Index + 3
+
+                        var TextId = FindDragTextId(id);
+                        var EText = layer.findOne('#' + TextId[0]);
+                        //console.log(EText);
+
+                        var S = line.points().slice();
+
+                        x1 = points[x1];
+                        x2 = points[x2];
+                        y1 = points[y1];
+                        y2 = points[y2];
+                        var x = (x2 + x1) / 2;
+                        var y = (y2 + y1) / 2;
+                        var dx = x1 - x2;
+                        var dy = y1 - y2;
+                        var Sumsqr = Math.pow(dx, 2);
+                        Sumsqr += Math.pow(dy, 2);
+                        var Distance = Math.sqrt(Sumsqr);
+                        Distance /= 12;
+                        Distance = Distance.toFixed(2);
+                        var angleRad = Math.atan(dy / dx);
+                        var angleDeg = angleRad * 180 / Math.PI;
+
+                        EText.text(Distance.toString() + " m");
+                        EText.rotation(angleDeg);
+                        EText.y(y);
+                        EText.x(x);
+
+                        var RectCId = TextId[1].replace('Text', '');
+                        MOD = FindMOD(RectCId);
+                        //console.log(MOD);
+                        if (MOD == 0) {
+                            Index = ((RectCId * 2) - 2);
+                                }
+                        else {
+                            Index = ((RectCId * 2) - 2) % MOD;
+                                }
+                        //Index = ((RectCId * 2) - 2) % MOD;
+
+                        var EText = layer.findOne('#' + TextId[1]);
+
+                        x1 = Index
+                        y1 = Index + 1
+                        x2 = Index + 2
+                        y2 = Index + 3
+
+                        var S = line.points().slice();
+
+                        x1 = points[x1];
+                        x2 = points[x2];
+                        y1 = points[y1];
+                        y2 = points[y2];
+                        var x = (x2 + x1) / 2;
+                        var y = (y2 + y1) / 2;
+                        var dx = x1 - x2;
+                        var dy = y1 - y2;
+                        var Sumsqr = Math.pow(dx, 2);
+                        Sumsqr += Math.pow(dy, 2);
+                        var Distance = Math.sqrt(Sumsqr);
+                        Distance /= 12;
+                        Distance = Distance.toFixed(2);
+                        var angleRad = Math.atan(dy / dx);
+                        var angleDeg = angleRad * 180 / Math.PI;
+
+                        EText.text(Distance.toString() + " m");
+                        EText.rotation(angleDeg);
+                        EText.y(y);
+                        EText.x(x);
+
+
+                            //console.log(FindDragTextId(id));
+
+                     }
+                    else {
+                            var Index = 0;
+                        if (MOD == 0) {
+                            Index = ((ID * 2) - 2);
+                                }
+                        else {
+                            Index = ((ID * 2) - 2) % MOD;
+                                }
+                        line.closed(false);
+                        points[Index] = node.x() + 5;
+                        points[Index + 1] = node.y() + 5;
+
+                        x1=Index-2
+                        y1=Index-1
+                        x2=Index
+                        y2=Index+1
+
+                        var TextId = FindDragTextId(id);
+                        var EText = layer.findOne('#' + TextId[1]);
+                        //console.log(EText);
+
+                        var S = line.points().slice();
+                                //console.log(line.points());
+                                //if (rect.name()=="Rect2") {
+                            //    S.pop();
+                            //    S.pop();
+                            //}
+                            //S.pop();
+                            //S.pop();
+                            //console.log(EText);
+                            //console.log(S.length - 1);
+                            //console.log(S.length - 2);
+                            //console.log(S.length - 3);
+                            //console.log(S.length - 4);
+                            //alert(S[S.length - 1]+" = "+S[1]);
+                            x1 = points[x1];
+                        x2 = points[x2];
+                        y1 = points[y1];
+                        y2 = points[y2];
+                        var x = (x2 + x1) / 2;
+                        var y = (y2 + y1) / 2;
+                        //console.log(x);
+                        //console.log(y);
+                        var dx = x1 - x2;
+                        var dy =y1 - y2;
+                        var Sumsqr = Math.pow(dx, 2);
+                        Sumsqr += Math.pow(dy, 2);
+                        var Distance = Math.sqrt(Sumsqr);
+                        Distance /= 12;
+                        Distance = Distance.toFixed(2);
+                        //console.log(Distance);
+                        var angleRad = Math.atan(dy / dx);
+                        var angleDeg = angleRad * 180 / Math.PI;
+
+                        EText.text(Distance.toString() + " m");
+                        EText.rotation(angleDeg);
+                        EText.y(y);
+                        EText.x(x);
+
+
+
+
+
+                        x1 = Index
+                        y1 = Index+1
+                        x2 = Index+2
+                        y2 = Index + 3
+
+                        var TextId = FindDragTextId(id);
+                        var EText = layer.findOne('#' + TextId[0]);
+                        //console.log(EText);
+
+                        var S = line.points().slice();
+
+                        x1 = points[x1];
+                        x2 = points[x2];
+                        y1 = points[y1];
+                        y2 = points[y2];
+                        var x = (x2 + x1) / 2;
+                        var y = (y2 + y1) / 2;
+                        var dx = x1 - x2;
+                        var dy = y1 - y2;
+                        var Sumsqr = Math.pow(dx, 2);
+                        Sumsqr += Math.pow(dy, 2);
+                        var Distance = Math.sqrt(Sumsqr);
+                        Distance /= 12;
+                        Distance = Distance.toFixed(2);
+                        var angleRad = Math.atan(dy / dx);
+                        var angleDeg = angleRad * 180 / Math.PI;
+
+                        EText.text(Distance.toString() + " m");
+                        EText.rotation(angleDeg);
+                        EText.y(y);
+                        EText.x(x);
+
+
+
+
+                            //console.log(FindDragTextId(id));
+                        }
+                    line.closed(true);
+                }
+
+
+    function updateSprinkler(id) {
+        var LineId = 0;
         var x1 = 0;
         var y1 = 0;
         var x2 = 0;
         var y2 = 0;
-        var node = layer.findOne('#' + id);
-        if (id[0] == "R") {
-            LineId = FindIndex(id);
-            }
-        //console.log(LineId);
-        var line = layer.findOne('#Line' + LineId);
-        var points = line.points();
-        //line.destroy();
-        var ID =Number(id.replace('Rect', ''));
-        var MOD = FindMOD(id);
-        //console.log(MOD);
-        //console.log(ID);
-        if (CheckFirstIndex(id)) {
-                var Index = 0;
-        if (MOD == 0) {
-            Index = ((ID * 2) - 2) ;
-                }
+        var circle = null;
+
+        var FillCircle = null;
+        var Sprinkler = null;
+        var ArcCir = null;
+        if (id[0] == "C") {
+            circle = layer.findOne('#' + id);
+            FillCircle = layer.findOne('#' + id.replace("Circle", "FillCircle"));
+        }
         else {
-            Index = ((ID * 2) - 2) % MOD;
-                }
-        line.closed(false);
-        points[Index] = node.x() + 5;
-        points[Index + 1] = node.y() + 5;
-        points[points.length - 2] = node.x() + 5;
-        points[points.length - 1] = node.y() + 5;
+             FillCircle= layer.findOne('#' + id);
+            circle= layer.findOne('#' + id.replace("FillCircle", "Circle"));
+        }
 
-
-
-
-        x1 = Index
-        y1 = Index + 1
-        x2 = Index + 2
-        y2 = Index + 3
-
-        var TextId = FindDragTextId(id);
-        var EText = layer.findOne('#' + TextId[0]);
-        //console.log(EText);
-
-        var S = line.points().slice();
-
-        x1 = points[x1];
-        x2 = points[x2];
-        y1 = points[y1];
-        y2 = points[y2];
-        var x = (x2 + x1) / 2;
-        var y = (y2 + y1) / 2;
-        var dx = x1 - x2;
-        var dy = y1 - y2;
-        var Sumsqr = Math.pow(dx, 2);
-        Sumsqr += Math.pow(dy, 2);
-        var Distance = Math.sqrt(Sumsqr);
-        Distance = Distance.toFixed(2);
-        var angleRad = Math.atan(dy / dx);
-        var angleDeg = angleRad * 180 / Math.PI;
-
-        EText.text(Distance.toString());
-        EText.rotation(angleDeg);
-        EText.y(y);
-        EText.x(x);
-
-        var RectCId = TextId[1].replace('Text', '');
-        MOD = FindMOD(RectCId);
-        console.log(MOD);
-        if (MOD == 0) {
-            Index = ((RectCId * 2) - 2);
-                }
+        if (id[0] == "C") {
+            Sprinkler = layer.findOne('#' + id.replace("Circle", "Sprinkler"));
+        }
         else {
-            Index = ((RectCId * 2) - 2) % MOD;
-                }
-        //Index = ((RectCId * 2) - 2) % MOD;
+            Sprinkler = layer.findOne('#' + id.replace("FillCircle", "Sprinkler"));
+        }
 
-        var EText = layer.findOne('#' + TextId[1]);
-
-        x1 = Index
-        y1 = Index + 1
-        x2 = Index + 2
-        y2 = Index + 3
-
-        var S = line.points().slice();
-
-        x1 = points[x1];
-        x2 = points[x2];
-        y1 = points[y1];
-        y2 = points[y2];
-        var x = (x2 + x1) / 2;
-        var y = (y2 + y1) / 2;
-        var dx = x1 - x2;
-        var dy = y1 - y2;
-        var Sumsqr = Math.pow(dx, 2);
-        Sumsqr += Math.pow(dy, 2);
-        var Distance = Math.sqrt(Sumsqr);
-        Distance = Distance.toFixed(2);
-        var angleRad = Math.atan(dy / dx);
-        var angleDeg = angleRad * 180 / Math.PI;
-
-        EText.text(Distance.toString());
-        EText.rotation(angleDeg);
-        EText.y(y);
-        EText.x(x);
-
-
-                //console.log(FindDragTextId(id));
-
-            }
+        if (id[0] == "C") {
+            ArcCir = layer.findOne('#' + id.replace("Circle", "Arc"));
+        }
         else {
-                var Index = 0;
-        if (MOD == 0) {
-            Index = ((ID * 2) - 2);
-                }
+            ArcCir = layer.findOne('#' + id.replace("FillCircle", "Arc"));
+        }
+
+        if (id[0] == "C") {
+            x1 = circle.x();
+            y1 = circle.y();
+            x2 = Sprinkler.x();
+            y2 = Sprinkler.y();
+            ArcCir = layer.findOne('#' + id.replace("Circle", "Arc"));
+        }
         else {
-            Index = ((ID * 2) - 2) % MOD;
-                }
-        line.closed(false);
-        points[Index] = node.x() + 5;
-        points[Index + 1] = node.y() + 5;
-
-        x1=Index-2
-        y1=Index-1
-        x2=Index
-        y2=Index+1
-
-        var TextId = FindDragTextId(id);
-        var EText = layer.findOne('#' + TextId[1]);
-        console.log(EText);
-
-        var S = line.points().slice();
-                //console.log(line.points());
-                //if (rect.name()=="Rect2") {
-            //    S.pop();
-            //    S.pop();
-            //}
-            //S.pop();
-            //S.pop();
-            //console.log(EText);
-            //console.log(S.length - 1);
-            //console.log(S.length - 2);
-            //console.log(S.length - 3);
-            //console.log(S.length - 4);
-            //alert(S[S.length - 1]+" = "+S[1]);
-            x1 = points[x1];
-        x2 = points[x2];
-        y1 = points[y1];
-        y2 = points[y2];
-        var x = (x2 + x1) / 2;
-        var y = (y2 + y1) / 2;
-        //console.log(x);
-        //console.log(y);
-        var dx = x1 - x2;
-        var dy =y1 - y2;
-        var Sumsqr = Math.pow(dx, 2);
-        Sumsqr += Math.pow(dy, 2);
-        var Distance = Math.sqrt(Sumsqr);
-        Distance = Distance.toFixed(2);
-        //console.log(Distance);
-        var angleRad = Math.atan(dy / dx);
-        var angleDeg = angleRad * 180 / Math.PI;
-
-        EText.text(Distance.toString());
-        EText.rotation(angleDeg);
-        EText.y(y);
-        EText.x(x);
-
-
-
-
-
-        x1 = Index
-        y1 = Index+1
-        x2 = Index+2
-        y2 = Index + 3
-
-        var TextId = FindDragTextId(id);
-        var EText = layer.findOne('#' + TextId[0]);
-        console.log(EText);
-
-        var S = line.points().slice();
-
-        x1 = points[x1];
-        x2 = points[x2];
-        y1 = points[y1];
-        y2 = points[y2];
-        var x = (x2 + x1) / 2;
-        var y = (y2 + y1) / 2;
-        var dx = x1 - x2;
-        var dy = y1 - y2;
-        var Sumsqr = Math.pow(dx, 2);
-        Sumsqr += Math.pow(dy, 2);
-        var Distance = Math.sqrt(Sumsqr);
-        Distance = Distance.toFixed(2);
-        var angleRad = Math.atan(dy / dx);
-        var angleDeg = angleRad * 180 / Math.PI;
-
-        EText.text(Distance.toString());
-        EText.rotation(angleDeg);
-        EText.y(y);
-        EText.x(x);
-
-
-
-
-                //console.log(FindDragTextId(id));
-            }
-        line.closed(true);
+            x1 = FillCircle.x();
+            y1 = FillCircle.y();
+            x2 = Sprinkler.x();
+            y2 = Sprinkler.y();
+            ArcCir = layer.findOne('#' + id.replace("FillCircle", "Arc"));
         }
 
 
 
+        var dx = x1 - x2;
+        var dy = y1 - y2;
+        var Sumsqr = Math.pow(dx, 2);
+        Sumsqr += Math.pow(dy, 2);
+        var Distance = Math.sqrt(Sumsqr);
+        //Distance = Distance.toFixed(2);
+        var oldRadius = Sprinkler.radius();
+        Sprinkler.radius(Distance);
+
+
+        if (id[0] == "C") {
+
+            x1 = FillCircle.x();
+            y1 = FillCircle.y();
+        }
+        else {
+            x1 = circle.x();
+            y1 = circle.y();
+        }
+
+
+
+
+
+        dx = x1 - x2;
+        dy = y1 - y2;
+
+
+        // Sumsqr = Math.pow(dx, 2);
+        //Sumsqr += Math.pow(dy, 2);
+        // Distance = Math.sqrt(Sumsqr);
+        var angleRad1 = Math.atan2(dy, dx);
+        var angleDeg1 = angleRad1 * 180 / Math.PI;
+        angleDeg1 = (360 + (angleDeg1)) % 360;
+        //var angleRad = Math.atan2(dy , dx);
+        //var angleDeg = angleRad * 180 / Math.PI;
+        //angleDeg = (360 + (angleDeg)) % 360;
+
+        //console.log(x1+ " " +x2);
+        //console.log(y1 + " " + y2);
+
+        //console.log("Angle " + angleDeg1);
+        var DiffRadius = Number(Distance - oldRadius).toFixed(5);
+        console.log("Diffin Radius " + DiffRadius);
+        //console.log("Sprinkler.Radius() " + Sprinkler.radius());
+        //console.log("Sprinkler.x() " + Sprinkler.x());
+        //console.log("Sprinkler.y() " + Sprinkler.y());
+
+        if (angleDeg1 == 0) {
+            if (id[0] == "C") {
+
+                FillCircle.x(Sprinkler.x() + Sprinkler.radius());
+            }
+            else {
+                circle.x(Sprinkler.x() + Sprinkler.radius());
+            }
+
+        }
+        else if (angleDeg1 == 180) {
+            if (id[0] == "C") {
+
+                FillCircle.x(Sprinkler.x() - Sprinkler.radius());
+            }
+            else {
+                circle.x(Sprinkler.x() - Sprinkler.radius());
+            }
+
+        }
+        else if (angleDeg1 == 90) {
+            if (id[0] == "C") {
+
+                FillCircle.y(Sprinkler.y() + Sprinkler.radius());
+            }
+            else {
+                circle.y(Sprinkler.y() + Sprinkler.radius());
+            }
+        }
+        else if (angleDeg1 == 270) {
+            if (id[0] == "C") {
+
+                FillCircle.y(Sprinkler.y() - Sprinkler.radius());
+            }
+            else {
+                circle.y(Sprinkler.y() - Sprinkler.radius());
+            }
+
+        }
+        else if (angleDeg1 < 90) {
+            if (id[0] == "C") {
+                var setx = Number(FillCircle.x()) + Number(DiffRadius );
+                var sety = Number(FillCircle.y()) + Number(DiffRadius );
+                //console.log("Oldx " + FillCircle.x());
+                //console.log("Oldy " + FillCircle.y());
+                //console.log("Newx " + setx);
+                //console.log("Newy " + sety);
+                //console.log("Diffx " + (setx - FillCircle.x()));
+                //console.log("Diffy " + (sety - FillCircle.y()));
+                FillCircle.x(setx);
+                FillCircle.y(sety);
+            }
+            else {
+                var setx = Number(circle.x()) + Number(DiffRadius);
+                var sety = Number(circle.y()) + Number(DiffRadius);
+                circle.x(setx);
+                circle.y(sety);
+            }
+            //console.log("FillCircle.x() " + FillCircle.x());
+            //console.log("FillCircle.y() " + FillCircle.y());
+        }
+        else if (angleDeg1 < 180) {
+
+            if (id[0] == "C") {
+
+                var setx = Number(FillCircle.x()) - Number(DiffRadius);
+                var sety = Number(FillCircle.y()) + Number(DiffRadius);
+                FillCircle.x(setx);
+                FillCircle.y(sety);
+            }
+            else {
+                var setx = Number(circle.x()) - Number(DiffRadius);
+                var sety = Number(circle.y()) + Number(DiffRadius);
+                circle.x(setx);
+                circle.y(sety);
+                circle.x(setx);
+            }
+
+            //FillCircle.x(Sprinkler.x() - Sprinkler.radius());
+            //FillCircle.y(Sprinkler.y() + Sprinkler.radius());
+        }
+        else if (angleDeg1 < 270) {
+
+            if (id[0] == "C") {
+
+                var setx = Number(FillCircle.x()) - Number(DiffRadius);
+                var sety = Number(FillCircle.y()) - Number(DiffRadius);
+                FillCircle.x(setx);
+                FillCircle.y(sety);
+            }
+            else {
+
+                var setx = Number(circle.x()) - Number(DiffRadius);
+                var sety = Number(circle.y()) - Number(DiffRadius);
+                circle.x(setx);
+                circle.y(sety);
+            }
+            //FillCircle.x(Sprinkler.x() - Sprinkler.radius());
+            //FillCircle.y(Sprinkler.y() - Sprinkler.radius());
+        }
+        else if (angleDeg1 < 360) {
+
+
+            if (id[0] == "C") {
+
+                var setx = Number(FillCircle.x()) + Number(DiffRadius);
+                var sety = Number(FillCircle.y()) - Number(DiffRadius);
+                FillCircle.x(setx);
+                FillCircle.y(sety);
+            }
+            else {
+
+                var setx = Number(circle.x()) + Number(DiffRadius);
+                var sety = Number(circle.y()) - Number(DiffRadius);
+                circle.x(setx);
+                circle.y(sety);
+            }
+            //FillCircle.x(Sprinkler.x() + Sprinkler.radius());
+            //FillCircle.y(Sprinkler.y() - Sprinkler.radius());
+        }
+
+        x1 = FillCircle.x();
+        y1 = FillCircle.y();
+        dx = x1 - x2;
+        dy = y1 - y2;
+        var StartangleRad1 = Math.atan2(dy, dx);
+        var StartangleDeg = StartangleRad1 * 180 / Math.PI;
+        StartangleDeg = (360 + (StartangleDeg)) % 360;
+        console.log("StartangleDeg "+StartangleDeg);
+        ArcCir.rotation(StartangleDeg);
+
+        x1 = circle.x();
+        y1 = circle.y();
+        dx = x1 - x2;
+        dy = y1 - y2;
+         angleRad1 = Math.atan2(dy, dx);
+         angleDeg1 = angleRad1 * 180 / Math.PI;
+        angleDeg1 = (360 + (angleDeg1)) % 360;
+        angleDeg1 = angleDeg1 - StartangleDeg;
+
+        ArcCir.innerRadius(Distance);
+        ArcCir.angle(angleDeg1);
+
+        $("#SId").val(Sprinkler.id());
+        $("#SRadius").val(Sprinkler.radius().toFixed(2));
+        $("#StartAngle").val(ArcCir.rotation().toFixed(2));
+
+        $("#SAngle").val(ArcCir.angle().toFixed(2));
+
+
+        //console.log("FillCircle Radius " + angleDeg1);
+
+        //FillCircle.x(Sprinkler.x() + Sprinkler.radius());
+    }
+
+
+    function updateRSSprinkler(id) {
+        var LineId = 0;
+        var x1 = 0;
+        var y1 = 0;
+        var x2 = 0;
+        var y2 = 0;
+        var circle = null;
+
+        var FillCircle = null;
+        var Sprinkler = null;
+        var ArcCir = null;
+        if (id[0] == "C") {
+            circle = layer.findOne('#' + id);
+            FillCircle = layer.findOne('#' + id.replace("RSCircle", "FillRSCircle"));
+        }
+        else {
+             FillCircle= layer.findOne('#' + id);
+            circle = layer.findOne('#' + id.replace("FillRSCircle", "RSCircle"));
+        }
+
+        if (id[0] == "C") {
+            Sprinkler = layer.findOne('#' + id.replace("RSCircle", "RectangularSprinkler"));
+        }
+        else {
+            Sprinkler = layer.findOne('#' + id.replace("FillRSCircle", "RectangularSprinkler"));
+        }
+
+        //if (id[0] == "C") {
+        //    ArcCir = layer.findOne('#' + id.replace("Circle", "Arc"));
+        //}
+        //else {
+        //    ArcCir = layer.findOne('#' + id.replace("FillCircle", "Arc"));
+        //}
+
+        if (id[0] == "C") {
+            x1 = circle.x();
+            y1 = circle.y();
+            x2 = Sprinkler.x();
+            y2 = Sprinkler.y();
+            //ArcCir = layer.findOne('#' + id.replace("Circle", "Arc"));
+
+            var dx = x1 - x2;
+            var dy = y1 - y2;
+            var Sumsqr = Math.pow(dx, 2);
+            Sumsqr += Math.pow(dy, 2);
+            var Distance = Math.sqrt(Sumsqr);
+            //Distance = Distance.toFixed(2);
+            //var oldRadius = Sprinkler.radius();
+            Sprinkler.width(Distance);
+        }
+        else {
+            x1 = FillCircle.x();
+            y1 = FillCircle.y();
+            x2 = Sprinkler.x();
+            y2 = Sprinkler.y();
+            //ArcCir = layer.findOne('#' + id.replace("FillCircle", "Arc"));
+
+
+            var dx = x1 - x2;
+            var dy = y1 - y2;
+
+            var angleRad1 = Math.atan2(dy, dx);
+            var angleDeg1 = angleRad1 * 180 / Math.PI;
+            angleDeg1 = (360 + (angleDeg1)) % 360;
+            var DiffRadius = Number(Distance - oldRadius).toFixed(5);
+        }
+
+
+
+
+
+
+        //if (id[0] == "C") {
+
+        //    x1 = FillCircle.x();
+        //    y1 = FillCircle.y();
+        //}
+        //else {
+        //    x1 = circle.x();
+        //    y1 = circle.y();
+        //}
+
+
+
+
+
+
+
+
+
+        x1 = FillCircle.x();
+        y1 = FillCircle.y();
+        dx = x1 - x2;
+        dy = y1 - y2;
+        var StartangleRad1 = Math.atan2(dy, dx);
+        var StartangleDeg = StartangleRad1 * 180 / Math.PI;
+        StartangleDeg = (360 + (StartangleDeg)) % 360;
+        console.log("StartangleDeg "+StartangleDeg);
+        ArcCir.rotation(StartangleDeg);
+
+        x1 = circle.x();
+        y1 = circle.y();
+        dx = x1 - x2;
+        dy = y1 - y2;
+         angleRad1 = Math.atan2(dy, dx);
+         angleDeg1 = angleRad1 * 180 / Math.PI;
+        angleDeg1 = (360 + (angleDeg1)) % 360;
+        angleDeg1 = angleDeg1 - StartangleDeg;
+
+        ArcCir.innerRadius(Distance);
+        ArcCir.angle(angleDeg1);
+
+        //$("#SId").val(Sprinkler.id());
+        //$("#SRadius").val(Sprinkler.radius().toFixed(2));
+        //$("#StartAngle").val(ArcCir.rotation().toFixed(2));
+
+        //$("#SAngle").val(ArcCir.angle().toFixed(2));
+    }
 
         //function handleMouseOverStartPoint () {
             //    if (isFinished || Points.length < 3) {
@@ -757,12 +1877,15 @@
                         var Sumsqr = Math.pow(dx, 2);
                         Sumsqr += Math.pow(dy, 2);
                         var Distance = Math.sqrt(Sumsqr);
+                        Distance /= 12;
                         Distance = Distance.toFixed(2);
                         //console.log(Distance);
-                        var angleRad = Math.atan(dy / dx);
+                        //var angleRad = Math.atan(dy / dx);
+                        var angleRad = Math.atan(dy/ dx);
                         var angleDeg = angleRad * 180 / Math.PI;
-
-                        EText.text(Distance.toString());
+                        //angleDeg = (360 + (angleDeg)) % 360;
+                        //console.log("Angle " + angleDeg);
+                        EText.text(Distance.toString() + " m");
                         EText.rotation(angleDeg);
                         EText.y(y);
                         EText.x(x);
@@ -816,8 +1939,11 @@
         var RectId = Number(id.replace('Rect', ''));
         TextIds.push("Text" + RectId);
         if (CheckFirstIndex(id)) {
-            console.log();
-        TextIds.push("Text" + FindLastId(id).replace('Rect', ''));
+            //console.log();
+            var LastIndex = FindLastId(id)
+            console.log(id);
+            console.log(LastIndex);
+            TextIds.push("Text" + LastIndex.replace('Rect', ''));
             }
         else {
             TextIds.push("Text" + (RectId - 1));
@@ -836,14 +1962,15 @@
             CStartRect[i] = CStartRect[i].replace('Rect', '');
                 if (Number(CStartRect[i]) > Number(id)) {
 
-                    var RetId = "Rect" + Number(CStartRect[i]) - 1;
-
-        return RetId;
+                    var RetId = "Rect" + (Number(CStartRect[i]) - 1);
+                    console.log("RetId " + RetId);
+                     return RetId;
                 }
         RetIndex = i;
             }
         var RetId = "Rect" + (Name - 1);
-        //alert(Name);
+            //alert(Name);
+
         return RetId;
         }
 
@@ -880,29 +2007,304 @@
         }
 
 
-        //function inside(point, vs) {
-        //    // ray-casting algorithm based on
-        //    // https://wrf.ecse.rpi.edu/Research/Short_Notes/pnpoly.html/pnpoly.html
 
-        //    var x = point[0], y = point[1];
+    $("body").on("click", "#UndoCanvas", function () {
+        if (UndoArray.length > 0) {
+            var CLastId = UndoArray[UndoArray.length - 1];
+            console.log(CLastId);
+            if (CLastId =="UploadImg") {
+                $("#file_input").prop('disabled', false);
+            }
+            var FirstId = "";
+            var LastId = "";
 
-        //    var inside = false;
-        //    for (var i = 0, j = vs.length - 1; i < vs.length; j = i++) {
-        //        var xi = vs[i][0], yi = vs[i][1];
-        //        var xj = vs[j][0], yj = vs[j][1];
+            if (CLastId[0] == 'L') {
+                var temp = Number(CLastId.replace("Line", ""));
+                FirstId = StartRect[temp - 1];
+                LastId = FindLastId(FirstId);
+                for (var i = Number(FirstId.replace("Rect", "")); i <= Number(LastId.replace("Rect", "")); i++) {
+                    var node = layer.findOne('#Rect' + i);
+                    node.destroy();
+                    node = layer.findOne('#Text' + i);
+                    node.destroy();
+                }
 
-        //        var intersect = ((yi > y) != (yj > y))
-        //            && (x < (xj - xi) * (y - yi) / (yj - yi) + xi);
-        //        if (intersect) inside = !inside;
-        //    }
-        //    alert(inside);
-        //    return inside;
-        //};
+            }
+            else if (CLastId[0] == 'S' && CLastId[1] == 'p') {
+                var node = layer.findOne('#' + CLastId.replace("Sprinkler", "FillCircle"));
+
+                node.destroy();
+                var node = layer.findOne('#' + CLastId.replace("Sprinkler", "Circle"));
+                node.destroy();
+                var node = layer.findOne('#' + CLastId.replace("Sprinkler", "Arc"));
+                node.destroy();
+
+            }
+            var node = layer.findOne('#' + CLastId);
+            node.destroy();
+            UndoArray.pop();
+
+
+            @*ComponentCode = id;
+            OrderId = $("#OrderId").val();
+
+            var model = {
+                ComponentCode: ComponentCode,
+                OrderId: OrderId,
+            };
+
+            $.ajax({
+                type: "POST",
+                url: "@Url.Action("DeleteOrderDetails", "Customer")",
+                data: JSON.stringify(model),
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: function (r) {
+                    $("#TotalAmount").text(r);
+                    $("#TotalAmountInput").val(r);
+                }
+            });*@
+
+        }
+
+    });
+
+
+    function SetS(obj, Type) {
+        var SAID = $("#SId").val().replace("Sprinkler", "Arc");
+        var SID = $("#SId").val();
+        var SCID = $("#SId").val().replace("Sprinkler", "Circle");
+        var SFCID = $("#SId").val().replace("Sprinkler", "FillCircle");
+        var x1 = 0;
+        var y1 = 0;
+        var x2 = 0;
+        var y2 = 0;
+        var Sprinkler = layer.findOne('#' + SID);
+       var ArcCir = layer.findOne('#' + SAID);
+        var circle = layer.findOne('#' + SCID);
+        var FillCircle = layer.findOne('#' + SFCID);
+        if (Type == 1) {
+            var oldRadius = Sprinkler.radius();
+
+            ArcCir.innerRadius(obj.value);
+            Sprinkler.radius(obj.value);
+            var Distance = Sprinkler.radius();
+            //var radius = Sprinkler.radius();
+            x2 = Sprinkler.x();
+            y2 = Sprinkler.y();
+
+            x1 = circle.x();
+            y1 = circle.y();
+
+
+            dx = x1 - x2;
+            dy = y1 - y2;
+
+
+            var angleRad1 = Math.atan2(dy, dx);
+             angleDeg1 = angleRad1 * 180 / Math.PI;
+            angleDeg1 = (360 + (angleDeg1)) % 360;
+
+            var DiffRadius = Number(Distance) - Number(oldRadius);
+            console.log("Diffin Radius " + DiffRadius);
+            console.log("Diffin Radius " + angleDeg1);
+
+
+            SetWithangle(angleDeg1, DiffRadius, circle, Sprinkler);
+
+            x1 = FillCircle.x();
+            y1 = FillCircle.y();
+
+
+            dx = x1 - x2;
+            dy = y1 - y2;
+
+
+             angleRad1 = Math.atan2(dy, dx);
+             angleDeg1 = angleRad1 * 180 / Math.PI;
+            angleDeg1 = (360 + (angleDeg1)) % 360;
+            console.log("Diffin Radius " + DiffRadius);
+            //console.log("Diffin Radius " + angleDeg1);
+
+
+            SetWithangle(angleDeg1, DiffRadius, FillCircle, Sprinkler);
 
 
 
 
+        }
+        else if (Type == 2) {
+            ArcCir.rotation(obj.value);
+            ArcCir.angle(ArcCir.angle() - obj.value);
 
+
+            //var radius = 60;
+            //var angle = 140;
+            //var x = radius * Math.sin(Math.PI * 2 * angle / 360);
+            //var y = radius * Math.cos(Math.PI * 2 * angle / 360);
+            //console.log('Points coors are  x=' +
+            //    Math.round(x * 100) / 100 + ', y=' +
+            //    Math.round(y * 100) / 100);
+
+
+        }
+        else if (Type == 3) {
+            ArcCir.angle(obj.value);
+        }
+    }
+
+
+    function SetWithangle(angleDeg2, DiffRadius, circle1, Sprinkler) {
+        console.log("Values " + angleDeg2 + " " + DiffRadius + " " + Sprinkler.radius() + " " + circle1.x()+" " + circle1.y());
+        if (angleDeg2 == 0) {
+            //alert(0);
+            circle1.x(Sprinkler.x() + Number(Sprinkler.radius()));
+        }
+        else if (angleDeg2 == 180) {
+            circle1.x(Sprinkler.x() - Number(Sprinkler.radius()));
+
+        }
+        else if (angleDeg2 == 90) {
+            circle1.y(Sprinkler.y() + Number(Sprinkler.radius()));
+        }
+            else if (angleDeg2 == 270) {
+            circle1.y(Sprinkler.y() - Number(Sprinkler.radius()));
+
+            }
+        else if (angleDeg2 < 90) {
+            //alert(0);
+                var setx = Number(circle1.x()) + Number(DiffRadius);
+                var sety = Number(circle1.y()) + Number(DiffRadius);
+                circle1.x(setx);
+            circle1.y(sety);
+            console.log(circle1.x());
+            console.log(circle1.y());
+            }
+            else if (angleDeg2 < 180) {
+                var setx = Number(circle1.x()) - Number(DiffRadius);
+                var sety = Number(circle1.y()) + Number(DiffRadius);
+                circle1.x(setx);
+                circle1.y(sety);
+            }
+            else if (angleDeg2 < 270) {
+                var setx = Number(circle1.x()) - Number(DiffRadius);
+                var sety = Number(circle1.y()) - Number(DiffRadius);
+                circle1.x(setx);
+                circle1.y(sety);
+            }
+            else if (angleDeg2 < 360) {
+
+                var setx = Number(circle1.x()) + Number(DiffRadius);
+                var sety = Number(circle1.y()) - Number(DiffRadius);
+                circle1.x(setx);
+                circle1.y(sety);
+        }
+        return 0;
+    }
+
+
+    document.getElementById('save').addEventListener('click', function () {
+        var pdf = new jsPDF('l', 'px', [stage.width(), stage.height()+300]);
+        pdf.setTextColor('#000000');
+        // first add texts
+        stage.find('Text').forEach((text) => {
+            const size = text.fontSize() / 0.75; // convert pixels to points
+            pdf.setFontSize(size);
+            pdf.text(text.text(), text.x(), text.y(), {
+                baseline: 'top',
+                angle: -text.getAbsoluteRotation(),
+            });
+        });
+
+        // then put image on top of texts (so texts are not visible)
+        pdf.addImage(
+            stage.toDataURL({ pixelRatio: 2 }),
+            0,
+            0,
+            stage.width(),
+            stage.height()
+        );
+
+        pdf.save('canvas.pdf');
+    });
+
+
+    function angle(cx, cy, ex, ey) {
+        var dy = ey - cy;
+        var dx = ex - cx;
+        var theta = Math.atan2(dy, dx); // range (-PI, PI]
+        theta *= 180 / Math.PI; // rads to degs, range (-180, 180]
+        //if (theta < 0) theta = 360 + theta; // range [0, 360)
+        return theta;
+    }
+
+
+    $("#file_input").change(function (e) {
+        //var URL = window.webkitURL || window.URL;
+        //var url = URL.createObjectURL(e.target.files[0]);
+        //var img = new Image();
+        //img.src = url;
+
+        var FileName = "";
+
+        var formData = new FormData();
+        var fileInput = $("#file_input").get(0);
+        var file = fileInput.files[0];
+        formData.append("file", file);
+        //console.log(file);
+        //formData.append("InvoiceNum",5);
+        //console.log(FormData);
+
+        $.ajax({
+            type: "POST",
+            url: "@Url.Action("UploadDesignImg","Admin")",
+            data: formData,
+            processData: false,
+            contentType: false,
+            dataType: "json",
+            success: function (r) {
+                FileName = r;
+                var Url = "/Uploading/" + FileName;
+                console.log(Url);
+                var imageObj = new Image();
+                imageObj.onload = function () {
+                    var yoda = new Konva.Image({
+                        x: 200,
+                        y: 100,
+                        image: imageObj,
+                        width: 350,
+                        height: 300,
+                        id:"UploadImg",
+                        draggable: true,
+                        opacity:1,
+                    });
+
+                    // add the shape to the layer
+                    layer.add(yoda);
+                    UndoArray.push(yoda.id());
+                };
+                //console.log(url);
+                imageObj.src = Url;
+                },
+            error: function (r) {
+                console.log(r);
+                }
+        });
+
+        //$("#checkimg").src("/assets/images/ecommerce/ValveBox.png");
+        /* $("#checkimg").attr("src", url);*/
+        $("#file_input").prop('disabled', true);
+        $("#DivImageOpacityValue").show();
+
+
+    });
+
+    $("body").on("change", "#ImageOpacityValue", function () {
+        var node = layer.findOne('#UploadImg');
+        //console.log(node);
+        //console.log(this.value);
+        node.opacity(this.value);
+    });
 
 
     $(document).ready(function () {

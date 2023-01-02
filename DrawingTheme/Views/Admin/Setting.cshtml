@@ -126,11 +126,27 @@
                                             <input type="checkbox" class="custom-control-input" name="isActive" value="True">
                                         }
 
-                                    <span class="custom-control-label">@Resources.Active</span>
+                                        <span class="custom-control-label">@Resources.Active</span>
                                     </label>
                                 </div>
                             </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label class="form-label">@Resources.IsAdminReceived</label>
+                                    <label class="custom-control custom-checkbox custom-control-inline">
+                                        @if (Model.IsAdminReceived == true)
+                                        {
+                                            <input type="checkbox" class="custom-control-input" name="isActive" value="True" checked>
+                                        }
+                                        else
+                                        {
+                                            <input type="checkbox" class="custom-control-input" name="isActive" value="True">
+                                        }
 
+                                        <span class="custom-control-label">@Resources.Active</span>
+                                    </label>
+                                </div>
+                            </div>
                         </div>
                     </div>
 

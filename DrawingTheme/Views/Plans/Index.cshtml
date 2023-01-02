@@ -1,7 +1,7 @@
-﻿@model IEnumerable<DrawingTheme.Models.tblTransaction>
+﻿@model IEnumerable<DrawingTheme.Models.tblOrder>
 
 @{
-    ViewBag.Title = "TransactionList";
+    ViewBag.Title = "OrderList";
     Layout = "~/Views/Shared/_Layout.cshtml";
 
 
@@ -15,7 +15,7 @@
         <div class="row">
             <div class="col-lg-6 col-md-4 col-sm-12">
 
-                <h4>@Resources.Transaction </h4>
+                <h4>@Resources.Plan </h4>
                 <ul class="breadcrumb">
                     <li class="breadcrumb-item">
                         <a href="index.html">
@@ -24,21 +24,10 @@
                         </a>
                     </li>
 
-                    <li class="breadcrumb-item active">@Resources.Transaction </li>
+                    <li class="breadcrumb-item active">@Resources.Plan </li>
                 </ul>
             </div>
-            <div class="col-lg-6 col-md-8 col-sm-12">
-                <ul class="nav nav-tabs tab-body-header rounded justify-content-end" role="tablist">
 
-                    @*<div class="page_action">
-                        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#addcontact" id="AddTransaction">
-                            <i class="fa fa-address-card mr-1" aria-hidden="true"></i>
-                            Add New Transaction
-                        </button>
-
-                    </div>*@
-                </ul>
-            </div>
         </div>
     </div>
 </div>
@@ -60,7 +49,7 @@
                 </div>
                 <div class="card">
                     <div class="card-header">
-                        <h3 class="card-title">@Resources.TransactionList</h3>
+                        <h3 class="card-title">@Resources.Planlist</h3>
                     </div>
                     <div class="card-body pt-0">
                         <div class="table-responsive table_e2">
@@ -68,46 +57,59 @@
                                 <thead>
                                     <tr>
 
-                                        <th hidden>Transaction Id</th>
-                                        <th>@Resources.PAYMENTID</th>
-                                        <th>@Resources.Username</th>
-                                        <th>@Resources.Order#</th>
-                                        <th>@Resources.Plan</th>
+                                        <th hidden>Order Id</th>
+                                        <th>@Resources.NAME</th>
+                                        <th>@Resources.TOTALPRICE</th>
                                         <th>@Resources.DATE</th>
-                                        <th>@Resources.PAYMENTSTATUS</th>
+                                        <th>@Resources.Status</th>
+                                        <th>@Resources.ACTION</th>
+                                        <th hidden>Status</th>
+
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    @foreach (DrawingTheme.Models.tblTransaction Transaction in Model)
+                                    @foreach (DrawingTheme.Models.tblOrder Order in Model)
                                     {
-                                    <tr>
-                                        <td hidden>@Transaction.Id</td>
-                                        <td>@Transaction.PaypalPaymentId</td>
-                                        <td>
-                                            <span>@Transaction.tblUser.FirstName</span>
-                                        </td>
-                                        <td>@Transaction.tblOrder.OrderNumber</td>
-                                        <td>@Transaction.tblOrder.Name</td>
-                                      
-                                        <td>  @Convert.ToString(string.Format("{0:dd/MM/yyyy}", @Transaction.PaymentDateTime))</td>
-                                        <td>
+                                        <tr>
+                                            <td hidden>@Order.OrderId</td>
+                                            <td>
+                                                @Order.Name
+                                            </td>
 
-                                            @if (@Transaction.Status == "Successfull")
-                                            {
-                                                <span class="badge badge-success">
-                                                    @Resources.Paid
+                                            <td>$ @Order.TotalPrice</td>
+
+                                            <td>
+                                                <span class="phone">
+                                                    <i class="fa fa-calendar mr-2"></i>
+                                                    @Convert.ToString(string.Format("{0:dd/MM/yyyy}", @Order.CreatedDate))
                                                 </span>
+                                            </td>
+                                            <td>
+                                                @if (Order.Status == 1)
+                                                {
+                                                    <span class="badge badge-success">@Resources.Paid</span>
+                                                }
+                                                else
+                                                {
+                                                    <span class="badge badge-danger">@Resources.UnPaid</span>
+                                                }
 
-                                            }
-                                            else
-                                            {
-                                                <span class="badge badge-danger">
-                                                    @Transaction.Status
-                                                </span>
-                                            }
-                                        </td>
+                                            </td>
+                                            <td hidden>
+                                                <span>@Order.isActive</span>
+                                            </td>
+                                            <td>
+                                                @if (Order.Status == 1)
+                                                {
 
-                                    </tr>
+                                                }
+                                                else
+                                                {
+                                                    <a href="@Url.Action("PaymentWithPaypal","Paypal",new {UserId=@Order.CreatedBy,OrderID=@Order.OrderId })"><button type="button" class="btn btn-primary btn-sm" title="Edit"><i class="fa fa-paypal"></i> Pay</button></a>
+                                                }
+
+                                            </td>
+                                        </tr>
 
                                     }
 
@@ -121,43 +123,36 @@
         </div>
     </div>
 </div>
-
 <div class="modal fade" id="addcontact" tabindex="-1" role="dialog">
     <div class="modal-dialog  modal-lg" role="document">
-        @using (Html.BeginForm("AddTransaction", "Customer", FormMethod.Post, new { enctype = "multipart/form-data" }))
+        @using (Html.BeginForm("AddOrder", "Order", FormMethod.Post, new { enctype = "multipart/form-data" }))
         {@Html.AntiForgeryToken()
         <div class="modal-content">
             <div class="modal-header">
-                <h4 class="title" id="defaultModalLabel">Add Transaction</h4>
+                <h4 class="title" id="defaultModalLabel">Add Order</h4>
             </div>
             <div class="modal-body">
 
                 <div class="row clearfix">
-                    <div class="col-6" hidden>
+                    <div class="col-6">
                         <div class="form-group">
-                            <input type="text" class="form-control" id="TransactionNumber" name="TransactionNumber" placeholder="Transaction Number" required>
+                            <input type="text" class="form-control" id="OrderNumber" name="OrderNumber" placeholder="Order Number" required>
                         </div>
                     </div>
                     <div class="col-6">
                         <div class="form-group">
-                            <input type="text" hidden class="form-control" id="TransactionId" name="TransactionId" placeholder="First Name">
+                            <input type="text" hidden class="form-control" id="OrderId" name="OrderId" placeholder="First Name">
                             <input type="text" class="form-control" id="Name" name="Name" placeholder="Name" required>
                         </div>
                     </div>
                     <div class="col-6">
                         <div class="form-group">
-                            <input type="number" class="form-control" id="TotalPrice" name="TotalPrice" placeholder="Total Price">
+                            <input type="text" class="form-control" id="TotalPrice" name="TotalPrice" placeholder="Total Price" required>
                         </div>
                     </div>
                     <div class="col-6">
                         <div class="form-group">
-                            @*<input type="text" class="form-control" id="Status" name="Status" placeholder="Payment Status" >*@
-
-                            <select class="form-control" id="Status" name="Status">
-                                <option value="">Payment Status</option>
-                                <option value="1">Pending</option>
-                                <option value="2">Paid</option>
-                            </select>
+                            <input type="text" class="form-control" id="Status" name="Status" placeholder="Status" required>
                         </div>
                     </div>
                     <div class="col-12 form-group">
@@ -184,18 +179,18 @@
 
 
 
-<div class="modal fade" id="DeleteTransactionModal" tabindex="-1" role="dialog">
+<div class="modal fade" id="DeleteOrderModal" tabindex="-1" role="dialog">
     <div class="modal-dialog  modal-lg" role="document">
-        @using (Html.BeginForm("DeleteTransaction", "Customer", FormMethod.Post, new { enctype = "multipart/form-data" }))
+        @using (Html.BeginForm("DeleteOrder", "Order", FormMethod.Post, new { enctype = "multipart/form-data" }))
         {@Html.AntiForgeryToken()
         <div class="modal-content">
             <div class="modal-header">
-                <h4 class="title" id="defaultModalLabel">Delete Transaction</h4>
+                <h4 class="title" id="defaultModalLabel">Delete Order</h4>
             </div>
             <div class="modal-body text-center">
                 <img src="~/assets/images/sent.png" alt="" width="50" height="46">
-                <input class="form-control" type="text" name="TransactionId" id="DeleteTransactionId" hidden>
-                <h5>Are you sure want to delete this Transaction information?</h5>
+                <input class="form-control" type="text" name="OrderId" id="DeleteOrderId" hidden>
+                <h5>Are you sure want to delete this Order information?</h5>
 
             </div>
             <div class="modal-footer">
@@ -212,32 +207,31 @@
 <script src="~/assets/js/jquery-3.2.1.min.js"></script>
 <script>
 
-    $(document).on("click", "#DeleteTransaction", function () {
+    $(document).on("click", "#DeleteOrder", function () {
         //alert();
         var currentRow = $(this).closest("tr");
-        $("#DeleteTransactionId").val(currentRow.find("td:eq(0)").text());
-       /* $("#DeleteTransactionModal").toggle();*/
+        $("#DeleteOrderId").val(currentRow.find("td:eq(0)").text());
+       /* $("#DeleteOrderModal").toggle();*/
 
     });
 
 
-    $(document).on("click", "#AddTransaction", function () {
-        $("#defaultModalLabel").text("Add Transaction");
-        $("#TransactionNumber").val('');
-        $("#TransactionId").val('');
+    $(document).on("click", "#AddOrder", function () {
+        $("#defaultModalLabel").text("Add Order");
+        $("#OrderId").val('');
         $("#Name").val('');
         $("#TotalPrice").val('');
         $("#Status").val('');
 
         $('#isActive').prop('checked', false);
-        //var myModal = $('#offcanvasAddTransaction');
-        //$('#offcanvasAddTransaction').css("visibility", "visible");
-        //$('#offcanvasAddTransaction').addClass("show");
-        //$('#AddTransactionBody').css("visibility", "visible");
+        //var myModal = $('#offcanvasAddOrder');
+        //$('#offcanvasAddOrder').css("visibility", "visible");
+        //$('#offcanvasAddOrder').addClass("show");
+        //$('#AddOrderBody').css("visibility", "visible");
     });
 
 
-    $(document).on("click", "#EditTransaction", function () {
+    $(document).on("click", "#EditOrder", function () {
         @*var model1 = '@Html.Raw(Json.Encode(ViewBag.CategoryList))';
         var data = JSON.parse(model1);*@
         var currentRow = $(this).closest("tr");
@@ -245,20 +239,13 @@
 
         //alert(currentRow.find("td:eq(2)").text());
 
-        $("#defaultModalLabel").text("Edit Transaction");
-        var TransactionId = currentRow.find("td:eq(0)").text();
-        $("#TransactionId").val(TransactionId);
-        $("#TransactionNumber").val(currentRow.find("td:eq(1)").text());
+        $("#defaultModalLabel").text("Edit Order");
+        var OrderId = currentRow.find("td:eq(0)").text();
+        $("#OrderId").val(OrderId);
+        $("#OrderNumber").val(currentRow.find("td:eq(1)").text());
         $("#Name").val(currentRow.find("span:eq(0)").text());
         $("#TotalPrice").val(currentRow.find("td:eq(3)").text());
-        var Status = currentRow.find("span:eq(1)").text();
-        if (Status == "") {
-            $("#Status").val(1);
-        }
-        else {
-            $("#Status").val(currentRow.find("span:eq(1)").text());
-        }
-
+        $("#Status").val(currentRow.find("span:eq(1)").text());
 
         if (currentRow.find("span:eq(2)").text()=="True") {
             $('#isActive').prop('checked', true);
@@ -304,11 +291,11 @@
 
         //$('#ScrapperList').DataTable({
         //    searching: true,
-        //    "Transactioning": false
+        //    "ordering": false
         //});
 
         $(".nav1 li").removeClass("active");
-        $('#Transaction').addClass('active');
+        $('#Order').addClass('active');
 
     });
 </script>

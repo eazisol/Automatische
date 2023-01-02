@@ -34,43 +34,47 @@
                         <div class="card-body top_counter">
                             <div class="icon bg-yellow"><i class="fa fa-users"></i> </div>
                             <div class="content">
-                                <span>@Resources.TotalCustomers</span>
+                                <a href="@Url.Action("CustomerList","Customer")"> <span>@Resources.TotalCustomers</span></a>
                                 <h5 class="number mb-0">@ViewBag.TotalCustomer</h5>
                             </div>
                         </div>
                     </div>
-                </div>}
-            <div class="col-lg-3 col-md-6">
-                <div class="card">
-                    <div class="card-body top_counter">
-                        <div class="icon bg-green"><i class="fa fa-area-chart"></i> </div>
-                        <div class="content">
-                            <span> @Resources.SuccessfulTransaction</span>
-                            
-                            <h5 class="number mb-0">@ViewBag.TotalSuccessfull</h5>
+                </div>
+                <div class="col-lg-3 col-md-6">
+                    <div class="card">
+                        <div class="card-body top_counter">
+                            <div class="icon bg-green"><i class="fa fa-area-chart"></i> </div>
+                            <div class="content">
+                                <a href="@Url.Action("Orders","Customer",new { status="Completed"})">
+                                    <span> @Resources.SuccessfulTransaction</span>
+                                </a>
+                                <h5 class="number mb-0">@ViewBag.TotalSuccessfull <span style="float:right">@ViewBag.TotalSuccessfullAmount €</span></h5>
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
-            <div class="col-lg-3 col-md-6">
-                <div class="card">
-                    <div class="card-body top_counter">
-                        <div class="icon bg-orange"><i class="fa fa-area-chart"></i> </div>
-                        <div class="content">
-                            <span> @Resources.PendingTransaction</span>
-                         
-                            <h5 class="number mb-0">@ViewBag.TotalPending</h5>
+                <div class="col-lg-3 col-md-6">
+                    <div class="card">
+                        <div class="card-body top_counter">
+                            <div class="icon bg-orange"><i class="fa fa-area-chart"></i> </div>
+                            <div class="content">
+                                <a href="@Url.Action("Orders","Customer",new { status="Pending"})">
+                                    <span> @Resources.PendingTransaction</span>
+                                </a>
+                                <h5 class="number mb-0">@ViewBag.TotalPending <span style="float:right">@ViewBag.TotalPendingAmount €</span></h5>
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
-            <div class="col-lg-3 col-md-6">
+                @*<div class="col-lg-3 col-md-6">
                 <div class="card">
                     <div class="card-body top_counter">
-                        <div class="icon bg-blue"><i class="fa fa-sort-amount-asc"></i> </div>
+                        <div class="icon bg-blue"><i class="fa fa-sort-amount-up"></i> </div>
                         <div class="content">
-                            <span>@Resources.TotalSales</span>
-                            <h5 class="number mb-0">$ @ViewBag.TotalSuccessfullAmount</h5>
+                            <a href="@Url.Action("Orders","Customer",new { status="Completed"})">
+                                <span>@Resources.TotalSales</span>
+                                </a>
+                                <h5 class="number mb-0">$ @ViewBag.TotalSuccessfullAmount</h5>
                         </div>
                     </div>
                 </div>
@@ -80,25 +84,85 @@
                     <div class="card-body top_counter">
                         <div class="icon bg-red"><i class="fa fa-sort-amount-desc"></i> </div>
                         <div class="content">
-                            <span>@Resources.PendingAmount</span>
-                            <h5 class="number mb-0">$ @ViewBag.TotalPendingAmount</h5>
+                            <a href="@Url.Action("Orders","Customer",new { status="Pending"})">
+                                <span>@Resources.PendingAmount</span>
+                                </a>
+                                <h5 class="number mb-0">$ @ViewBag.TotalPendingAmount</h5>
                         </div>
                     </div>
                 </div>
-            </div>
-            @if (RoleId == 1)
-            {
+            </div>*@
+
                 <div class="col-lg-3 col-md-6">
                     <div class="card">
                         <div class="card-body top_counter">
                             <div class="icon bg-indigo"><i class="fa fa-tag"></i> </div>
                             <div class="content">
-                                <span>@Resources.TotalComponents</span>
+                                <a href="@Url.Action("Components","Component")">
+                                    <span>@Resources.TotalComponents</span>
+                                </a>
                                 <h5 class="number mb-0">@ViewBag.TotalComponent</h5>
                             </div>
                         </div>
                     </div>
-                </div>}
+                </div>
+            }
+
+            else
+            {
+                <div class="col-lg-3 col-md-6">
+                    <div class="card">
+                        <div class="card-body top_counter">
+                            <div class="icon bg-green"><i class="fa fa-area-chart"></i> </div>
+                            <div class="content" style="width:70%">
+                                <a href="@Url.Action("Orders","Customer")">
+                                    <span> @Resources.Order</span>
+                                </a>
+                                <h5 class="number mb-0">@ViewBag.TotalSuccessfull <span style="float:right">@ViewBag.TotalSuccessfullAmount €</span></h5>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-6">
+                    <div class="card">
+                        <div class="card-body top_counter">
+                            <div class="icon bg-orange"><i class="fa fa-paint-brush"></i> </div>
+                            <div class="content">
+                                <a href="@Url.Action("Orders","Customer")">
+                                    <span> @Resources.DrawNewPlan</span>
+                                </a>
+                               
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-6">
+                    <div class="card">
+                        <div class="card-body top_counter">
+                            <div class="icon bg-indigo"><i class="fa fa-save"></i> </div>
+                            <div class="content">
+                                <a href="@Url.Action("Index","Plans")">
+                                    <span> @Resources.SaveIregationPlans</span>
+                                </a>
+                                <h5 class="number mb-0">@ViewBag.TotalPending</h5>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-6">
+                    <div class="card">
+                        <div class="card-body top_counter">
+                            <div class="icon bg-yellow"><i class="fa fa-user"></i> </div>
+                            <div class="content">
+                                <a href="@Url.Action("Profile","User")">
+                                    <span> @Resources.Usersettings</span>
+                                </a>
+                               
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            }
         </div>
      
     </div>

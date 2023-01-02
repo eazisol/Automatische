@@ -97,11 +97,29 @@ namespace DrawingTheme {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Add Category.
+        /// </summary>
+        public static string AddCategory {
+            get {
+                return ResourceManager.GetString("AddCategory", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Add Component.
         /// </summary>
         public static string AddComponent {
             get {
                 return ResourceManager.GetString("AddComponent", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Add New Category.
+        /// </summary>
+        public static string AddNewCategory {
+            get {
+                return ResourceManager.GetString("AddNewCategory", resourceCulture);
             }
         }
         
@@ -120,6 +138,15 @@ namespace DrawingTheme {
         public static string AddNewRole {
             get {
                 return ResourceManager.GetString("AddNewRole", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Add New Sub Category.
+        /// </summary>
+        public static string AddNewSubCategory {
+            get {
+                return ResourceManager.GetString("AddNewSubCategory", resourceCulture);
             }
         }
         
@@ -187,6 +214,15 @@ namespace DrawingTheme {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to BOM Relevant.
+        /// </summary>
+        public static string BOMRelevant {
+            get {
+                return ResourceManager.GetString("BOMRelevant", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Build, run, and scale your digital designs of gardens - end to end and more.
         /// </summary>
         public static string Build_run_andscaleyourdigitaldesignsofgardens_endtoendandmore {
@@ -210,6 +246,24 @@ namespace DrawingTheme {
         public static string Cancel {
             get {
                 return ResourceManager.GetString("Cancel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Category.
+        /// </summary>
+        public static string Category {
+            get {
+                return ResourceManager.GetString("Category", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Category List.
+        /// </summary>
+        public static string CategoryList {
+            get {
+                return ResourceManager.GetString("CategoryList", resourceCulture);
             }
         }
         
@@ -358,6 +412,24 @@ namespace DrawingTheme {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Draw New Plan.
+        /// </summary>
+        public static string DrawNewPlan {
+            get {
+                return ResourceManager.GetString("DrawNewPlan", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Drinking Water Source.
+        /// </summary>
+        public static string drinkingwatersource {
+            get {
+                return ResourceManager.GetString("drinkingwatersource", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Edit Component.
         /// </summary>
         public static string EditComponent {
@@ -449,6 +521,60 @@ namespace DrawingTheme {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Irrigation Computer Indoor.
+        /// </summary>
+        public static string IrrigationComputerindoor {
+            get {
+                return ResourceManager.GetString("IrrigationComputerindoor", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Irrigation Computer Max Station.
+        /// </summary>
+        public static string IrrigationComputermaxstation {
+            get {
+                return ResourceManager.GetString("IrrigationComputermaxstation", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Irrigation Computer Outdoor.
+        /// </summary>
+        public static string IrrigationComputeroutdoor {
+            get {
+                return ResourceManager.GetString("IrrigationComputeroutdoor", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Irrigation Computer Smarphone.
+        /// </summary>
+        public static string IrrigationComputersmarphone {
+            get {
+                return ResourceManager.GetString("IrrigationComputersmarphone", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Irrigation Wiring Max Station.
+        /// </summary>
+        public static string IrrigationWiringMaxStation {
+            get {
+                return ResourceManager.GetString("IrrigationWiringMaxStation", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Send emails to admin?.
+        /// </summary>
+        public static string IsAdminReceived {
+            get {
+                return ResourceManager.GetString("IsAdminReceived", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Language.
         /// </summary>
         public static string language {
@@ -472,6 +598,96 @@ namespace DrawingTheme {
         public static string LOGIN {
             get {
                 return ResourceManager.GetString("LOGIN", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Max Angle.
+        /// </summary>
+        public static string MaxAngle {
+            get {
+                return ResourceManager.GetString("MaxAngle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to mh105.
+        /// </summary>
+        public static string mh105 {
+            get {
+                return ResourceManager.GetString("mh105", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to mh180.
+        /// </summary>
+        public static string mh180 {
+            get {
+                return ResourceManager.GetString("mh180", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to mh210.
+        /// </summary>
+        public static string mh210 {
+            get {
+                return ResourceManager.GetString("mh210", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to mh270.
+        /// </summary>
+        public static string mh270 {
+            get {
+                return ResourceManager.GetString("mh270", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to mh360.
+        /// </summary>
+        public static string mh360 {
+            get {
+                return ResourceManager.GetString("mh360", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to mh45.
+        /// </summary>
+        public static string mh45 {
+            get {
+                return ResourceManager.GetString("mh45", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to mh90.
+        /// </summary>
+        public static string mh90 {
+            get {
+                return ResourceManager.GetString("mh90", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to mh general.
+        /// </summary>
+        public static string mhgeneral {
+            get {
+                return ResourceManager.GetString("mhgeneral", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Min Angle.
+        /// </summary>
+        public static string MinAngle {
+            get {
+                return ResourceManager.GetString("MinAngle", resourceCulture);
             }
         }
         
@@ -629,6 +845,42 @@ namespace DrawingTheme {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Pipeline Max Length.
+        /// </summary>
+        public static string PipelineMaxLength {
+            get {
+                return ResourceManager.GetString("PipelineMaxLength", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Plan.
+        /// </summary>
+        public static string Plan {
+            get {
+                return ResourceManager.GetString("Plan", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Plan List.
+        /// </summary>
+        public static string Planlist {
+            get {
+                return ResourceManager.GetString("Planlist", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Planner Component.
+        /// </summary>
+        public static string Plannercomponent {
+            get {
+                return ResourceManager.GetString("Plannercomponent", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Port.
         /// </summary>
         public static string Port {
@@ -661,6 +913,15 @@ namespace DrawingTheme {
         public static string Profile1 {
             get {
                 return ResourceManager.GetString("Profile1", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Rain Water Source.
+        /// </summary>
+        public static string rainwatersource {
+            get {
+                return ResourceManager.GetString("rainwatersource", resourceCulture);
             }
         }
         
@@ -715,6 +976,15 @@ namespace DrawingTheme {
         public static string SaveChanges {
             get {
                 return ResourceManager.GetString("SaveChanges", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Saved Irrigation Plans.
+        /// </summary>
+        public static string SaveIregationPlans {
+            get {
+                return ResourceManager.GetString("SaveIregationPlans", resourceCulture);
             }
         }
         
@@ -818,6 +1088,15 @@ namespace DrawingTheme {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Sprinkler Type.
+        /// </summary>
+        public static string SprinklerType {
+            get {
+                return ResourceManager.GetString("SprinklerType", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to SSL.
         /// </summary>
         public static string SSL {
@@ -836,6 +1115,24 @@ namespace DrawingTheme {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Sub Category.
+        /// </summary>
+        public static string SubCategory {
+            get {
+                return ResourceManager.GetString("SubCategory", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Sub Category List.
+        /// </summary>
+        public static string SubCategoryList {
+            get {
+                return ResourceManager.GetString("SubCategoryList", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Submit.
         /// </summary>
         public static string Submit {
@@ -850,6 +1147,42 @@ namespace DrawingTheme {
         public static string SuccessfulTransaction {
             get {
                 return ResourceManager.GetString("SuccessfulTransaction", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Throw Distance Max.
+        /// </summary>
+        public static string ThrowDistanceMax {
+            get {
+                return ResourceManager.GetString("ThrowDistanceMax", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Throw Distance Min.
+        /// </summary>
+        public static string ThrowDistanceMin {
+            get {
+                return ResourceManager.GetString("ThrowDistanceMin", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Throw Height.
+        /// </summary>
+        public static string ThrowHeight {
+            get {
+                return ResourceManager.GetString("ThrowHeight", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Throw Width.
+        /// </summary>
+        public static string ThrowWidth {
+            get {
+                return ResourceManager.GetString("ThrowWidth", resourceCulture);
             }
         }
         
@@ -908,11 +1241,29 @@ namespace DrawingTheme {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Unit.
+        /// </summary>
+        public static string Unit {
+            get {
+                return ResourceManager.GetString("Unit", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Un Paid.
         /// </summary>
         public static string UnPaid {
             get {
                 return ResourceManager.GetString("UnPaid", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Upload Profile Image.
+        /// </summary>
+        public static string UploadProfileImage {
+            get {
+                return ResourceManager.GetString("UploadProfileImage", resourceCulture);
             }
         }
         
@@ -953,11 +1304,38 @@ namespace DrawingTheme {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to User_settings.
+        ///   Looks up a localized string similar to User Setting.
         /// </summary>
         public static string Usersettings {
             get {
                 return ResourceManager.GetString("Usersettings", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Valvebox Circle.
+        /// </summary>
+        public static string valveboxcircle {
+            get {
+                return ResourceManager.GetString("valveboxcircle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Valvebox Filter.
+        /// </summary>
+        public static string valveboxFilter {
+            get {
+                return ResourceManager.GetString("valveboxFilter", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Well Water Source.
+        /// </summary>
+        public static string wellwatersource {
+            get {
+                return ResourceManager.GetString("wellwatersource", resourceCulture);
             }
         }
     }

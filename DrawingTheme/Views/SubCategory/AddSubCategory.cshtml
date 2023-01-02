@@ -1,0 +1,303 @@
+﻿@model DrawingTheme.Models.tblSubCategory
+@{
+    ViewBag.Title = "AddSubCategory";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="body d-flex profile-page">
+    <div class="container-fluid">
+        <div class="row clearfix">
+            <div class="col-lg-12">
+                <div style="display:none;" class="alert alert-success alert-dismissible fade show" id="SuccessAlert" role="alert">
+                    <strong>Success!</strong> @ViewBag.Success
+                </div>
+                <div style="display:none;" class="alert alert-info alert-dismissible fade show" id="UpdateAlert" role="alert">
+                    <strong>Success!</strong> @ViewBag.Update
+                </div>
+                <div style="display:none;" class="alert alert-warning alert-dismissible fade show" id="DeleteAlert" role="alert">
+                    <strong>Success!</strong> @ViewBag.Delete
+                </div>
+                <div style="display:none;" class="alert alert-danger alert-dismissible fade show" id="error" role="alert">
+                    @ViewBag.Error
+                </div>
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="card-title">@Resources.AddNewSubCategory</h3>
+                    </div>
+                    <div class="card-body pt-0">
+
+                        <div class="row clearfix">
+                            <div class="col-3">
+                                <div class="form-group">
+                                    <label>@Resources.NAME</label>
+                                    <input type="text" hidden class="form-control" id="SubcategoryID" name="SubcategoryID" value="@Model.SubcategoryID">
+                                    <input type="text" class="form-control" id="SubcategoryName" name="SubcategoryName" value="@Model.SubcategoryName" placeholder="First Name" required>
+                                </div>
+                            </div>
+                            <div class="col-3">
+                                <div class="form-group multiselect_div">
+                                    <label>@Resources.Unit</label>
+                                    <select id="Unit" name="Unit" class="form-control">
+                                        <option value=""></option>
+                                        @if (Model.Unit == "Meter")
+                                        {
+                                            <option value="Meter" selected>Meter</option>
+                                            <option value="Piece">Piece</option>
+                                        }
+                                        else if (Model.Unit == "Piece")
+                                        {
+                                            <option value="Piece" selected>Piece</option>
+                                            <option value="Meter">Meter</option>
+                                        }
+                                        else
+                                        {
+                                            <option value="Meter">Meter</option>
+                                            <option value="Piece">Piece</option>
+                                        }
+
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-3">
+                                <div class="form-group">
+                                    <label>@Resources.PRICE</label>
+                                    <input type="text" class="form-control" id="Price" name="Price" vale="@Model.Price" placeholder="Last Name" required>
+                                </div>
+                            </div>
+                            <div class="col-3">
+                                <div class="form-group multiselect_div">
+                                    <label>@Resources.SprinklerType </label>
+                                    <select id="SprinklerType" name="SprinklerType" class="form-control">
+                                        <option value=""></option>
+                                        @if (Model.Unit == "Round")
+                                        {
+                                            <option value="Round" selected>Round</option>
+                                            <option value="Rectangle">Rectangle</option>
+                                        }
+                                        else if (Model.Unit == "Rectangle")
+                                        {
+                                            <option value="Rectangle" selected>Rectangle</option>
+                                            <option value="Round">Round</option>
+                                        }
+                                        else
+                                        {
+                                            <option value="Rectangle">Rectangle</option>
+                                            <option value="Round">Round</option>
+                                        }
+
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-3">
+                                <div class="form-group">
+                                    <label>@Resources.MinAngle</label>
+                                    <input type="number'" class="form-control" id="MinAngle" name="MinAngle" value="@Model.MinAngle">
+                                </div>
+                            </div>
+                            <div class="col-3">
+                                <div class="form-group">
+                                    <label>@Resources.MaxAngle</label>
+                                    <input type="number" class="form-control" id="MaxAngle" name="MaxAngle" value="@Model.MaxAngle">
+                                </div>
+                            </div>
+                            <div class="col-3">
+                                <div class="form-group">
+                                    <label>@Resources.ThrowDistanceMin</label>
+                                    <input type="number" class="form-control" id="ThrowDistanceMin" name="ThrowDistanceMin" value="@Model.ThrowDistanceMin">
+                                </div>
+                            </div>
+                            <div class="col-3">
+                                <div class="form-group">
+                                    <label>@Resources.ThrowDistanceMax</label>
+                                    <input type="number" class="form-control" id="ThrowDistanceMax" name="ThrowDistanceMax" value="@Model.ThrowDistanceMax">
+                                </div>
+                            </div>
+                            <div class="col-3">
+                                <div class="form-group">
+                                    <label>@Resources.ThrowWidth</label>
+                                    <input type="number" class="form-control" id="ThrowWidth" name="ThrowWidth" value="@Model.ThrowWidth">
+                                </div>
+                            </div>
+                            <div class="col-3">
+                                <div class="form-group">
+                                    <label>@Resources.ThrowHeight</label>
+                                    <input type="number" class="form-control" id="ThrowHeight" name="ThrowHeight" value="@Model.ThrowHeight">
+                                </div>
+                            </div>
+                            <div class="col-3">
+                                <div class="form-group">
+                                    <label>@Resources.mhgeneral</label>
+                                    <input type="number" class="form-control" id="mhgeneral" name="mhgeneral" value="@Model.mhgeneral">
+                                </div>
+                            </div>
+                            <div class="col-3">
+                                <div class="form-group">
+                                    <label>@Resources.mh45</label>
+                                    <input type="number" class="form-control" id="mh45" name="mh45" value="@Model.mh45">
+                                </div>
+                            </div>
+                            <div class="col-3">
+                                <div class="form-group">
+                                    <label>@Resources.mh90</label>
+                                    <input type="number" class="form-control" id="mh90" name="mh90" value="@Model.mh90">
+                                </div>
+                            </div>
+                            <div class="col-3">
+                                <div class="form-group">
+                                    <label>@Resources.mh105</label>
+                                    <input type="number" class="form-control" id="mh105" name="mh105" value="@Model.mh105">
+                                </div>
+                            </div>
+                            <div class="col-3">
+                                <div class="form-group">
+                                    <label>@Resources.mh180</label>
+                                    <input type="number" class="form-control" id="mh180" name="mh180" value="@Model.mh180">
+                                </div>
+                            </div>
+                            <div class="col-3">
+                                <div class="form-group">
+                                    <label>@Resources.mh210</label>
+                                    <input type="number" class="form-control" id="mh210" name="mh210" value="@Model.mh210">
+                                </div>
+                            </div>
+                            <div class="col-3">
+                                <div class="form-group">
+                                    <label>@Resources.mh270</label>
+                                    <input type="number" class="form-control" id="mh270" name="mh270" value="@Model.mh270">
+                                </div>
+                            </div>
+                            <div class="col-3">
+                                <div class="form-group">
+                                    <label>@Resources.mh360</label>
+                                    <input type="number" class="form-control" id="mh360" name="mh360" value="@Model.mh360">
+                                </div>
+                            </div>
+                            <div class="col-3">
+                                <div class="form-group">
+                                    <label>@Resources.PipelineMaxLength</label>
+                                    <input type="number" class="form-control" id="PipelineMaxLength" name="PipelineMaxLength" value="@Model.PipelineMaxLength">
+                                </div>
+                            </div>
+                            <div class="col-3">
+                                <div class="form-group">
+                                    <label>@Resources.IrrigationWiringMaxStation</label>
+                                    <input type="number" class="form-control" id="IrrigationWiringMaxStation" name="IrrigationWiringMaxStation" value="@Model.IrrigationWiringMaxStation">
+                                </div>
+                            </div>
+                            <div class="col-3">
+                                <div class="form-group">
+                                    <label>@Resources.IrrigationComputermaxstation</label>
+                                    <input type="number" class="form-control" id="IrrigationComputermaxstation" name="IrrigationComputermaxstation" value="@Model.IrrigationComputermaxstation">
+                                </div>
+                            </div>
+                            <div class="col-3">
+                                <label>@Resources.IrrigationComputerindoor</label>
+                                <br>
+                                <label class="custom-control custom-checkbox custom-control-inline">
+                                    <input type="checkbox" class="custom-control-input" id="IrrigationComputerindoor" name="IrrigationComputerindoor" value="True">
+                                    <span class="custom-control-label">@Resources.Active</span>
+                                </label>
+
+                            </div>
+                            <div class="col-3">
+                                <label>@Resources.IrrigationComputeroutdoor</label>
+                                <br>
+                                <label class="custom-control custom-checkbox custom-control-inline">
+                                    <input type="checkbox" class="custom-control-input" id="IrrigationComputeroutdoor" name="IrrigationComputeroutdoor" value="True">
+                                    <span class="custom-control-label">@Resources.Active</span>
+                                </label>
+
+                            </div>
+                            <div class="col-3">
+                                <label>@Resources.IrrigationComputersmarphone</label>
+                                <br>
+                                <label class="custom-control custom-checkbox custom-control-inline">
+                                    <input type="checkbox" class="custom-control-input" id="IrrigationComputersmarphone" name="IrrigationComputersmarphone" value="True">
+                                    <span class="custom-control-label">@Resources.Active</span>
+                                </label>
+
+                            </div>
+                            <div class="col-3">
+                                <label>@Resources.valveboxcircle</label>
+                                <br>
+                                <label class="custom-control custom-checkbox custom-control-inline">
+                                    <input type="number" class="custom-control-input" id="valveboxcircle" name="valveboxcircle" value="True">
+                                    
+                                </label>
+
+                            </div>
+                            <div class="col-3">
+                                <label>@Resources.valveboxFilter</label>
+                                <br>
+                                <label class="custom-control custom-checkbox custom-control-inline">
+                                    <input type="checkbox" class="custom-control-input" id="valveboxFilter" name="valveboxFilter" value="True">
+                                    <span class="custom-control-label">@Resources.Active</span>
+                                </label>
+
+                                <div class="col-3">
+                                    <label>@Resources.drinkingwatersource</label>
+                                    <br>
+                                    <label class="custom-control custom-checkbox custom-control-inline">
+                                        <input type="checkbox" class="custom-control-input" id="drinkingwatersource" name="drinkingwatersource" value="True">
+                                        <span class="custom-control-label">@Resources.Active</span>
+                                    </label>
+
+                                    <div class="col-3">
+                                        <label>@Resources.wellwatersource</label>
+                                        <br>
+                                        <label class="custom-control custom-checkbox custom-control-inline">
+                                            <input type="checkbox" class="custom-control-input" id="wellwatersource" name="wellwatersource" value="True">
+                                            <span class="custom-control-label">@Resources.Active</span>
+                                        </label>
+
+
+                                    </div>
+                                    <div class="col-3">
+                                        <label>@Resources.rainwatersource</label>
+                                        <br>
+                                        <label class="custom-control custom-checkbox custom-control-inline">
+                                            <input type="checkbox" class="custom-control-input" id="rainwatersource" name="rainwatersource" value="True">
+                                            <span class="custom-control-label">@Resources.Active</span>
+                                        </label>
+
+
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-3">
+                                <label>@Resources.Plannercomponent</label>
+                                <br>
+                                <label class="custom-control custom-checkbox custom-control-inline">
+                                    <input type="checkbox" class="custom-control-input" id="Plannercomponent" name="Plannercomponent" value="True">
+                                    <span class="custom-control-label">@Resources.Active</span>
+                                </label>
+
+                            </div>
+                            <div class="col-3">
+                                <label>@Resources.BOMRelevant</label>
+                                <br>
+                                <label class="custom-control custom-checkbox custom-control-inline">
+                                    <input type="checkbox" class="custom-control-input" id="BOMRelevant" name="BOMRelevant" value="True">
+                                    <span class="custom-control-label">@Resources.Active</span>
+                                </label>
+
+                            </div>
+                            <div class="col-12">
+                                <div class="form-group">
+                                    <input type="file" class="form-control-file" id="Image"
+                                           aria-describedby="fileHelp" name="Image">
+
+                                </div>
+
+                            </div>
+
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+

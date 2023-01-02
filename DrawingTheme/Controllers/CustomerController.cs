@@ -365,19 +365,42 @@ namespace DrawingTheme.Controllers
             return View();
         }
 
-        public ActionResult Orders(string Success, string Update, string Delete, string Error)
+        public ActionResult Orders(string Success, string Update, string Delete, string Error,string status)
         {
             HttpCookie cookieObj = Request.Cookies["User"];
             int UserId = Int32.Parse(cookieObj["UserId"]);
             int RoleId = Int32.Parse(cookieObj["RoleId"]);
             List<tblOrder> Orders = null;
-            if (RoleId==1)
+            if (RoleId !=2)
             {
-                Orders = DB.tblOrders.ToList();
+                if (status == "" || status == null)
+                {
+                    Orders = DB.tblOrders.ToList();
+                }
+                if (status == "Pending" )
+                {
+                    Orders = DB.tblOrders.Where(x=>x.Status==0 || x.Status==null).ToList();
+                }
+                if (status == "Completed")
+                {
+                    Orders = DB.tblOrders.Where(x => x.Status == 1).ToList();
+                }
             }
             else
             {
-                Orders = DB.tblOrders.Where(x=>x.CreatedBy==UserId).ToList();
+                if (status == "" || status == null)
+                {
+                    Orders = DB.tblOrders.Where(x => x.CreatedBy == UserId).ToList();
+                }
+                if (status == "Pending")
+                {
+                    Orders = DB.tblOrders.Where(x => x.CreatedBy == UserId && x.Status == 0 || x.Status == null).ToList();
+                }
+                if (status == "Completed")
+                {
+                    Orders = DB.tblOrders.Where(x => x.CreatedBy == UserId && x.Status == 1).ToList();
+                }
+               
             }
             
 
@@ -641,7 +664,7 @@ namespace DrawingTheme.Controllers
             int UserId = Int32.Parse(cookieObj["UserId"]);
             int RoleId = Int32.Parse(cookieObj["RoleId"]);
             List<tblTransaction> Transactions = null;
-            if (RoleId == 1)
+            if (RoleId != 2)
             {
                 Transactions = DB.tblTransactions.ToList();
             }

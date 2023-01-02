@@ -1,0 +1,242 @@
+﻿@model IEnumerable<DrawingTheme.Models.tblCategory>
+
+@{
+    ViewBag.Title = "ComponentList";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+
+    string Succ = @ViewBag.Success;
+    string Update = @ViewBag.Update;
+    string Delete = @ViewBag.Delete;
+    string Error = @ViewBag.Error;
+}
+<div class="block-header py-lg-2 py-2">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-lg-6 col-md-4 col-sm-12">
+
+                <h4>@Resources.Category </h4>
+                <ul class="breadcrumb">
+                    <li class="breadcrumb-item">
+                        <a href="index.html">
+                            <i class="fa fa-dashboard"></i>
+                            @Resources.Dashboard
+                        </a>
+                    </li>
+
+                    <li class="breadcrumb-item active">@Resources.Category </li>
+                </ul>
+            </div>
+            <div class="col-lg-6 col-md-8 col-sm-12">
+                <ul class="nav nav-tabs tab-body-header rounded justify-content-end" role="tablist">
+
+                    <div class="page_action">
+                        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#addcontact" id="AddComponent">
+                            <i class="fa fa-address-card mr-1" aria-hidden="true"></i>
+                            @Resources.AddNewCategory
+                        </button>
+
+                    </div>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="body d-flex profile-page">
+    <div class="container-fluid">
+        <div class="row clearfix">
+            <div class="col-lg-12">
+                <div style="display:none;" class="alert alert-success alert-dismissible fade show" id="SuccessAlert" role="alert">
+                    <strong>Success!</strong> @ViewBag.Success
+                </div>
+                <div style="display:none;" class="alert alert-info alert-dismissible fade show" id="UpdateAlert" role="alert">
+                    <strong>Success!</strong> @ViewBag.Update
+                </div>
+                <div style="display:none;" class="alert alert-warning alert-dismissible fade show" id="DeleteAlert" role="alert">
+                    <strong>Success!</strong> @ViewBag.Delete
+                </div>
+                <div style="display:none;" class="alert alert-danger alert-dismissible fade show" id="error" role="alert">
+                    @ViewBag.Error
+                </div>
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="card-title">@Resources.CategoryList</h3>
+                    </div>
+                    <div class="card-body pt-0">
+                        <div class="table-responsive table_e2">
+                            <table class="table table-hover table-vcenter text-nowrap mb-0" id="ScrapperList">
+                                <thead>
+                                    <tr>
+
+                                        <th hidden>CategoryID</th>
+                                        <th>@Resources.NAME</th>
+                                        <th>@Resources.ACTION</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach (DrawingTheme.Models.tblCategory Component in Model)
+                                    {
+                                        <tr>
+
+                                            
+
+                                            <td hidden> @Component.CategoryID</td>
+                                            <td>@Component.CategoryName</td>
+                                          
+
+                                            
+                                            <td>
+                                                <button type="button" class="btn btn-primary btn-sm" title="Edit" data-toggle="modal" data-target="#addcontact" id="EditComponent"><i class="fa fa-edit"></i></button>
+                                                <button type="button" class="btn btn-danger btn-sm" title="Delete" data-toggle="modal" data-target="#DeleteComponentModal" id="DeleteComponent"><i class="fa fa-trash-o"></i></button>
+                                            </td>
+                                        </tr>
+
+                                    }
+
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="addcontact" tabindex="-1" role="dialog">
+    <div class="modal-dialog  " role="document">
+        @using (Html.BeginForm("AddCategory", "Category", FormMethod.Post, new { enctype = "multipart/form-data" }))
+        {@Html.AntiForgeryToken()
+        <div class="modal-content">
+            <div class="modal-header">
+                <h6 class="title" id="defaultModalLabel">@Resources.AddCategory</h6>
+            </div>
+            <div class="modal-body">
+
+                <div class="row clearfix">
+                   
+                    <div class="col-6">
+                        <div class="form-group">
+                            <label>@Resources.NAME</label>
+                            <input type="text" hidden class="form-control" id="CategoryID" name="CategoryID" placeholder="First Name">
+                            <input type="text" class="form-control" id="Name" name="CategoryName" placeholder="Name" required>
+                        </div>
+                    </div>
+
+                
+
+                </div>
+
+            </div>
+            <div class="modal-footer">
+                <button type="submit" class="btn btn-primary">@Resources.SaveChanges</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal">@Resources.Close</button>
+            </div>
+        </div>
+    }
+    </div>
+</div>
+
+
+
+<div class="modal fade" id="DeleteComponentModal" tabindex="-1" role="dialog">
+    <div class="modal-dialog  " role="document">
+        @using (Html.BeginForm("DeleteCategory", "Category", FormMethod.Post, new { enctype = "multipart/form-data" }))
+        {@Html.AntiForgeryToken()
+        <div class="modal-content">
+            <div class="modal-header">
+                <h6 class="title" >@Resources.DeleteComponent</h6>
+            </div>
+            <div class="modal-body text-center">
+                <img src="~/assets/images/sent.png" alt="" width="50" height="46" style="margin-bottom:3%">
+                <br>
+                <input class="form-control" type="text" name="CategoryID" id="CategoryID" hidden>
+                <p>@Resources.Areyousurewanttodeletethisinformation?</p>
+
+            </div>
+            <div class="modal-footer">
+                <button type="submit" class="btn btn-danger">@Resources.Delete</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal">@Resources.Close</button>
+            </div>
+        </div>
+    }
+    </div>
+</div>
+
+
+
+<script src="~/assets/js/jquery-3.2.1.min.js"></script>
+<script>
+
+    $(document).on("click", "#DeleteComponent", function () {
+        //alert();
+        var currentRow = $(this).closest("tr");
+        $("#CategoryID").val(currentRow.find("td:eq(0)").text());
+       /* $("#DeleteComponentModal").toggle();*/
+
+    });
+
+
+    $(document).on("click", "#AddComponent", function () {
+        $("#defaultModalLabel").text("Add Category");
+        $("#CategoryID").val('');
+        $("#Name").val('');
+        
+    });
+
+
+    $(document).on("click", "#EditComponent", function () {
+        @*var model1 = '@Html.Raw(Json.Encode(ViewBag.CategoryList))';
+        var data = JSON.parse(model1);*@
+        var currentRow = $(this).closest("tr");
+
+
+        //alert(currentRow.find("td:eq(2)").text());
+
+        $("#defaultModalLabel").text("Edit Category");
+        var CategoryID = currentRow.find("td:eq(0)").text();
+        $("#CategoryID").val(CategoryID);
+        $("#Name").val(currentRow.find("td:eq(1)").text());
+       
+    });
+
+    $(document).ready(function () {
+
+
+        if ("@Succ"!="") {
+            $('#SuccessAlert').fadeIn();
+            $('#SuccessAlert').fadeOut(10000);
+        }
+        else {
+            $('#SuccessAlert').fadeOut();
+        }
+        if ("@Update" != "") {
+            $('#UpdateAlert').fadeIn();
+            $('#UpdateAlert').fadeOut(10000);
+        }
+        else {
+            $('#UpdateAlert').fadeOut();
+        }
+        if ("@Delete" != "") {
+            $('#DeleteAlert').fadeIn();
+            $('#DeleteAlert').fadeOut(10000);
+        }
+        else {
+            $('#DeleteAlert').fadeOut();
+        }
+        if ("@Error" != "") {
+            $('#error').fadeIn();
+            $('#error').fadeOut(10000);
+        }
+        else {
+            $('#error').fadeOut();
+        }
+
+
+
+        $(".nav1 li").removeClass("active");
+        $('#Category').addClass('active');
+        $(".sub-menu ul").removeClass("show");
+        $('#Component').addClass('show');
+    });
+</script>

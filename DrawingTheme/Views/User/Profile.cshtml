@@ -70,10 +70,11 @@
                                 }
                             </div>
                             <div class="u_name text-left" style="color:black !important">
-                                <h4 class="mb-0"><strong>@Model.FirstName </strong>@Model.LastName</h4>
-                               <br>
+                                <h4 class="mb-1"><strong>@Model.FirstName </strong>@Model.LastName</h4>
+                             
+                                <h6 class="mb-0">@Resources.UploadProfileImage</h6>
                                 <input type="file" class="form-control-file" name="Image" id="exampleInputFile"
-                                       aria-describedby="fileHelp">
+                                       aria-describedby="fileHelp" value="Upload Profile Image">
                             </div>
 
                         </div>
@@ -144,7 +145,7 @@
                                     }
 
                                     <div class="col-md-12">
-                                        <button class="btn btn-primary btn-round">@Resources.SaveChanges</button>
+                                        <button class="btn btn-primary btn-round" style="float:right">@Resources.SaveChanges</button>
                                     </div>
                                 </div>
                             </div>
@@ -161,7 +162,7 @@
                         {
                             using (Html.BeginForm("CustomerChangePassword", "Customer", FormMethod.Post, new { enctype = "multipart/form-data" }))
                             {@Html.AntiForgeryToken()
-                            <div class="card">
+                            <div class="card" hidden>
                                 <div style="display:none;" class="alert alert-danger alert-dismissible fade show" role="alert" id="ChangePasserror">
                                     <strong>Error!</strong>New Password and Confirm Password not Matched.
                                 </div>
@@ -188,7 +189,7 @@
                                             <label>@Resources.ConfirmPassword</label>
                                             <input type="password" class="form-control" placeholder="New Password" id="ConfirmPassword" name="ConfirmPassword" required>
                                         </div>
-                                        <button class="btn btn-info btn-round" id="SaveChanges">@Resources.SaveChanges</button>
+                                        <button class="btn btn-primary btn-round" id="SaveChanges" style="float:right">@Resources.SaveChanges</button>
                                     </div>
                                 </div>
                             </div>
@@ -217,7 +218,7 @@
                                     <input type="password" class="form-control" placeholder="New Password" name="NewPassword" required>
                                 </div>
 
-                                <button class="btn btn-primary btn-round">@Resources.SaveChanges</button>
+                                <button class="btn btn-primary btn-round" style="float:right">@Resources.SaveChanges</button>
                             </div>
                         </div>
                     }

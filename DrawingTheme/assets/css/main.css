@@ -17385,7 +17385,7 @@
             .sidebar .menu-list .sub-menu::before {
                 background-color: var(--secondary-color);
                 content: "";
-                position: absolute;
+                position: inherit;
                 height: 100%;
                 width: 1px;
                 left: 8px;
