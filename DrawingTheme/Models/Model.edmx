@@ -27,6 +27,7 @@
           </Key>
           <Property Name="CategoryID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="CategoryName" Type="varchar" MaxLength="500" />
+          <Property Name="Code" Type="varchar" MaxLength="500" />
         </EntityType>
         <EntityType Name="tblComponent">
           <Key>
@@ -829,6 +830,7 @@
           <Property Name="CategoryID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="CategoryName" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
           <NavigationProperty Name="tblSubCategories" Relationship="AutomatischeModel.FK_tblSubCategory_tblCategory" FromRole="tblCategory" ToRole="tblSubCategory" />
+          <Property Name="Code" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
         </EntityType>
         <EntityType Name="tblSubCategory">
           <Key>
@@ -1054,6 +1056,7 @@
           <EntitySetMapping Name="tblCategories">
             <EntityTypeMapping TypeName="AutomatischeModel.tblCategory">
               <MappingFragment StoreEntitySet="tblCategory">
+                <ScalarProperty Name="Code" ColumnName="Code" />
                 <ScalarProperty Name="CategoryName" ColumnName="CategoryName" />
                 <ScalarProperty Name="CategoryID" ColumnName="CategoryID" />
               </MappingFragment>

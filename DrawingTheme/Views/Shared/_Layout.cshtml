@@ -67,6 +67,16 @@
     <link rel="stylesheet" href="~/assets/plugins/animate-css/vivify.min.css" />
     <link rel="stylesheet" href="~/assets/plugins/font-awesome/css/font-awesome.min.css">
     <!-- Core css -->
+    <link rel="stylesheet" href="~/assets/plugins/rangeslider/css/ion.rangeSlider.css" />
+    <link rel="stylesheet" href="~/assets/plugins/rangeslider/css/ion.rangeSlider.skinFlat.css" />
+
+    <!-- Material Plugin css -->
+    <link rel="stylesheet" href="~/assets/plugins/material-rangeslider/style.css" />
+
+    <!-- Round Slider Plugin css -->
+    <link rel="stylesheet" href="~/assets/plugins/roundslider/roundslider.min.css" />
+    <link rel="stylesheet" href="~/assets/plugins/roundslider/style.css" />
+
 
     <link href="https://cdnjs.cloudflare.com/ajax/libs/flag-icon-css/3.3.0/css/flag-icon.min.css" rel="stylesheet" />
     <link rel="stylesheet" href="~/assets/plugins/multi-select/css/multi-select.css">
@@ -89,25 +99,24 @@
         <!-- Navigation -->
         <!--<div class="navigation navbar navbar-light justify-content-center px-3 px-lg-2 py-2 py-md-3  ver-menu">
             <!-- Brand -->
-            <!-- Menu: icon -->
-            <!--<ul class="nav navbar-nav flex-row flex-lg-column flex-grow-1 justify-content-start align-items-center py-2 py-lg-0">-->
-                <!-- Create group -->
-           <!--<li class="nav-item flex-grow-1">
-                    <a class="nav-link p-2 p-lg-2 d-block d-xl-none menu-toggle" href="#">
-                        <i class="fa fa-bars"></i>
-                    </a>
-                </li>
-                <li class="nav-item">
-                        <a class="nav-link p-2 p-lg-3" href="#" title="Search" data-toggle="modal"
-                           data-target="#SearchModal"><i class="fa fa-search"></i></a>
-                    </li>
-                    <li class="nav-item flex-grow-1">
-                        <a class="nav-link p-2 p-lg-3" href="#" title="notifications" data-toggle="modal"
-                           data-target="#notificationsModal"><i class="fa fa-bell"></i></a>
-                    </li>-->
-
-                <!-- Menu collapse -->
-                <!--<li class="nav-item">
+        <!-- Menu: icon -->
+        <!--<ul class="nav navbar-nav flex-row flex-lg-column flex-grow-1 justify-content-start align-items-center py-2 py-lg-0">-->
+        <!-- Create group -->
+        <!--<li class="nav-item flex-grow-1">
+                 <a class="nav-link p-2 p-lg-2 d-block d-xl-none menu-toggle" href="#">
+                     <i class="fa fa-bars"></i>
+                 </a>
+             </li>
+             <li class="nav-item">
+                     <a class="nav-link p-2 p-lg-3" href="#" title="Search" data-toggle="modal"
+                        data-target="#SearchModal"><i class="fa fa-search"></i></a>
+                 </li>
+                 <li class="nav-item flex-grow-1">
+                     <a class="nav-link p-2 p-lg-3" href="#" title="notifications" data-toggle="modal"
+                        data-target="#notificationsModal"><i class="fa fa-bell"></i></a>
+                 </li>-->
+        <!-- Menu collapse -->
+        <!--<li class="nav-item">
                     <a class="nav-link p-2 p-lg-3" href="Url.Action("Profile","User",new { id=UserID})" title="Menu collapse">
                         <i class="fa fa-user"></i>
                     </a>
@@ -119,7 +128,6 @@
                 </li>
             </ul>
         </div>-->
-
         <!-- sidebar -->
         <div class="sidebar bg-primary px-3 py-2 py-md-3" style="--primary-color: #333333 !important;" id="SideBAr">
             <a class="nav-link p-2 p-lg-2 menu-toggle close-btn-nav" href="#"><i class="fa fa-close"></i></a>
@@ -193,40 +201,40 @@
                             <span>@Resources.Usersettings</span>
                         </a>
                     </li>
-                   
-                </ul>
-                    <ul class="nav1 menu-list ">
-                        <li  id="" >
-                            <a class="m-link" href="https://automatische-gartenberegnung.de/widerrufsrecht/" target="_blank" style="color: white;padding: 5px 0 !important;margin-bottom:0px !important ">
-                                <i class="fa fa-link" ></i>  <span>Widerrufsrecht</span>
-                            </a>
-                        </li>
-                        <li id="">
-                            <a  class="m-link" href="https://automatische-gartenberegnung.de/impressum/" target="_blank" style="color: white; padding: 5px 0 !important;margin-bottom:0px !important">
-                                <i class="fa fa-link" ></i>   <span>Impressum</span>
-                            </a>
-                        </li>
-                        <li  id="" >
-                            <a class="m-link" href="https://automatische-gartenberegnung.de/datenschutzerklaerung/" target="_blank" style="color:white;padding: 5px 0 !important;margin-bottom:0px !important">
-                                <i class="fa fa-link" ></i>    <span>Datenschutzerklaerung</span>
-                            </a>
-                        </li>
-                        <li  id="" >
-                            <a class="m-link" href="https://automatische-gartenberegnung.de/agb/" target="_blank" style="color: white;padding: 5px 0 !important;margin-bottom:0px !important ">
-                                <i class="fa fa-link" ></i>    <span>AGB</span>
-                            </a>
-                        </li>
-                        <li  id="" >
-                            <a class="m-link" href="https://automatische-gartenberegnung.de/zahlung-und-versand/" target="_blank" style="color: white;padding: 5px 0 !important;margin-bottom:0px !important">
-                                <i class="fa fa-link"></i>  <span>Zahlung und Versand</span>
-                            </a>
-                        </li>
-                    </ul>
-                    <button type="button" class="btn btn-link sidebar-mini-btn text-light" onclick="ChangeImage()">
-                        <span class="ml-2"><i class="fa fa-arrow-left"></i></span>
-                    </button>
 
-</div>
+                </ul>
+                <ul class="nav1 menu-list ">
+                    <li id="">
+                        <a class="m-link" href="https://automatische-gartenberegnung.de/widerrufsrecht/" target="_blank" style="color: white;padding: 5px 0 !important;margin-bottom:0px !important ">
+                            <i class="fa fa-link"></i>  <span>Widerrufsrecht</span>
+                        </a>
+                    </li>
+                    <li id="">
+                        <a class="m-link" href="https://automatische-gartenberegnung.de/impressum/" target="_blank" style="color: white; padding: 5px 0 !important;margin-bottom:0px !important">
+                            <i class="fa fa-link"></i>   <span>Impressum</span>
+                        </a>
+                    </li>
+                    <li id="">
+                        <a class="m-link" href="https://automatische-gartenberegnung.de/datenschutzerklaerung/" target="_blank" style="color:white;padding: 5px 0 !important;margin-bottom:0px !important">
+                            <i class="fa fa-link"></i>    <span>Datenschutzerklaerung</span>
+                        </a>
+                    </li>
+                    <li id="">
+                        <a class="m-link" href="https://automatische-gartenberegnung.de/agb/" target="_blank" style="color: white;padding: 5px 0 !important;margin-bottom:0px !important ">
+                            <i class="fa fa-link"></i>    <span>AGB</span>
+                        </a>
+                    </li>
+                    <li id="">
+                        <a class="m-link" href="https://automatische-gartenberegnung.de/zahlung-und-versand/" target="_blank" style="color: white;padding: 5px 0 !important;margin-bottom:0px !important">
+                            <i class="fa fa-link"></i>  <span>Zahlung und Versand</span>
+                        </a>
+                    </li>
+                </ul>
+                <button type="button" class="btn btn-link sidebar-mini-btn text-light" id="btnChangeImage" onclick="ChangeImage()">
+                    <span class="ml-2"><i class="fa fa-arrow-left"></i></span>
+                </button>
+
+            </div>
         </div>
 
         <!-- Main Setting menu -->
@@ -323,14 +331,19 @@
     <!-- page vendor js file -->
     @*<script src="~/assets/bundles/apexcharts.bundle.js"></script>*@
 
-
+    <script src="~/assets/plugins/rangeslider/js/ion.rangeSlider.js"></script>
+    <script src="~/assets/plugins/roundslider/roundslider.min.js"></script>
 
     <!-- page js file -->
     <script src="~/assets/bundles/mainscripts.bundle.js"></script>
     @*<script src="~/assets/js/page/ecommerce.js"></script>
-    <script src="~/assets/js/page/ecommercechart.js"></script>*@
-    <script src="~/assets/bundles/dataTables.bundle.js"></script>
-    <script src="~/assets/js/table/datatable.js"></script>
+        <script src="~/assets/js/page/ecommercechart.js"></script>*@
+    @*<script src="~/assets/bundles/dataTables.bundle.js"></script>
+    <script src="~/assets/js/table/datatable.js"></script>*@
+
+    <script src="~/assets/plugins/material-rangeslider/mrange.js"></script> <!-- material rangeslider Js -->
+    <script src="~/assets/plugins/roundslider/custom.js"></script><!-- roundslider Plugin Js -->
+    <script src="~/assets/js/page/range-sliders.js"></script>
     <script>
         function ChangeImage() {
 

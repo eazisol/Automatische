@@ -8,6 +8,8 @@ using System.Web.Mvc;
 
 namespace DrawingTheme.Controllers
 {
+    [FilterConfig.NoDirectAccess]
+    [FilterConfig.AuthorizeActionFilter]
     public class CategoryController : Controller
     {
         AutomatischeEntities DB = new AutomatischeEntities();

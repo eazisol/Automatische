@@ -8,6 +8,8 @@ using System.Web.Mvc;
 
 namespace DrawingTheme.Controllers
 {
+    [FilterConfig.NoDirectAccess]
+    [FilterConfig.AuthorizeActionFilter]
     public class SubCategoryController : Controller
     {
         AutomatischeEntities DB = new AutomatischeEntities();
@@ -63,7 +65,7 @@ namespace DrawingTheme.Controllers
                         Data = category;
                         DB.tblCategories.Add(Data);
                         DB.SaveChanges();
-                        return RedirectToAction("Index", new { Success = "Category has been add successfully." });
+                        return RedirectToAction("Index", new { Success = "Sub category has been add successfully." });
                     }
                     else
                     {
@@ -73,12 +75,12 @@ namespace DrawingTheme.Controllers
                         Data.CategoryName = category.CategoryName;
                         DB.Entry(Data);
                         DB.SaveChanges();
-                        return RedirectToAction("Index", new { Update = "Category has been Update successfully." });
+                        return RedirectToAction("Index", new { Update = "Sub category has been updated successfully." });
                     }
                 }
                 else
                 {
-                    return RedirectToAction("Index", new { Delete = "Category Already Exsist!!!" });
+                    return RedirectToAction("Index", new { Delete = "Sub category already exsist!!!" });
 
                 }
             }
@@ -101,7 +103,7 @@ namespace DrawingTheme.Controllers
                 Data = DB.tblSubCategories.Select(r => r).Where(x => x.SubcategoryID == SubcategoryID).FirstOrDefault();
                 DB.Entry(Data).State = EntityState.Deleted;
                 DB.SaveChanges();
-                return RedirectToAction("Index", new { Delete = "Sub Category has been delete successfully." });
+                return RedirectToAction("Index", new { Delete = "Sub category has been deleted successfully." });
             }
             catch (Exception ex)
             {

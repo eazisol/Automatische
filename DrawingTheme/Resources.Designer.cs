@@ -827,7 +827,7 @@ namespace DrawingTheme {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Pending Transaction.
+        ///   Looks up a localized string similar to Pending Transactions.
         /// </summary>
         public static string PendingTransaction {
             get {
@@ -1142,7 +1142,7 @@ namespace DrawingTheme {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Successful Transaction.
+        ///   Looks up a localized string similar to Successful Transactions.
         /// </summary>
         public static string SuccessfulTransaction {
             get {

@@ -373,7 +373,7 @@
     <value>Pending Amount</value>
   </data>
   <data name="PendingTransaction" xml:space="preserve">
-    <value>Pending Transaction</value>
+    <value>Pending Transactions</value>
   </data>
   <data name="PhoneNumber" xml:space="preserve">
     <value>Phone Number</value>
@@ -478,7 +478,7 @@
     <value>Submit</value>
   </data>
   <data name="SuccessfulTransaction" xml:space="preserve">
-    <value>Successful Transaction</value>
+    <value>Successful Transactions</value>
   </data>
   <data name="ThrowDistanceMax" xml:space="preserve">
     <value>Throw Distance Max</value>

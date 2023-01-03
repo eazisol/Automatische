@@ -31,7 +31,7 @@
                                 <div class="form-group">
                                     <label>@Resources.NAME</label>
                                     <input type="text" hidden class="form-control" id="SubcategoryID" name="SubcategoryID" value="@Model.SubcategoryID">
-                                    <input type="text" class="form-control" id="SubcategoryName" name="SubcategoryName" value="@Model.SubcategoryName" placeholder="First Name" required>
+                                    <input type="text" class="form-control" id="SubcategoryName" name="SubcategoryName" value="@Model.SubcategoryName"  required>
                                 </div>
                             </div>
                             <div class="col-3">
@@ -61,7 +61,7 @@
                             <div class="col-3">
                                 <div class="form-group">
                                     <label>@Resources.PRICE</label>
-                                    <input type="text" class="form-control" id="Price" name="Price" vale="@Model.Price" placeholder="Last Name" required>
+                                    <input type="text" class="form-control" id="Price" name="Price" vale="@Model.Price" required>
                                 </div>
                             </div>
                             <div class="col-3">
@@ -218,12 +218,11 @@
 
                             </div>
                             <div class="col-3">
-                                <label>@Resources.valveboxcircle</label>
-                                <br>
-                                <label class="custom-control custom-checkbox custom-control-inline">
-                                    <input type="number" class="custom-control-input" id="valveboxcircle" name="valveboxcircle" value="True">
-                                    
-                                </label>
+                                <div class="form-group">
+                                    <label>@Resources.valveboxcircle</label>
+                                    <input type="number" class="form-control" id="valveboxcircle" name="valveboxcircle" value="@Model.valveboxcircle">
+                                </div>
+                             
 
                             </div>
                             <div class="col-3">
@@ -234,35 +233,37 @@
                                     <span class="custom-control-label">@Resources.Active</span>
                                 </label>
 
-                                <div class="col-3">
-                                    <label>@Resources.drinkingwatersource</label>
-                                    <br>
-                                    <label class="custom-control custom-checkbox custom-control-inline">
-                                        <input type="checkbox" class="custom-control-input" id="drinkingwatersource" name="drinkingwatersource" value="True">
-                                        <span class="custom-control-label">@Resources.Active</span>
-                                    </label>
 
-                                    <div class="col-3">
-                                        <label>@Resources.wellwatersource</label>
-                                        <br>
-                                        <label class="custom-control custom-checkbox custom-control-inline">
-                                            <input type="checkbox" class="custom-control-input" id="wellwatersource" name="wellwatersource" value="True">
-                                            <span class="custom-control-label">@Resources.Active</span>
-                                        </label>
+                            </div>
+                            <div class="col-3">
+                                <label>@Resources.drinkingwatersource</label>
+                                <br>
+                                <label class="custom-control custom-checkbox custom-control-inline">
+                                    <input type="checkbox" class="custom-control-input" id="drinkingwatersource" name="drinkingwatersource" value="True">
+                                    <span class="custom-control-label">@Resources.Active</span>
+                                </label>
 
 
-                                    </div>
-                                    <div class="col-3">
-                                        <label>@Resources.rainwatersource</label>
-                                        <br>
-                                        <label class="custom-control custom-checkbox custom-control-inline">
-                                            <input type="checkbox" class="custom-control-input" id="rainwatersource" name="rainwatersource" value="True">
-                                            <span class="custom-control-label">@Resources.Active</span>
-                                        </label>
+                            </div>
+                            <div class="col-3">
+                                <label>@Resources.wellwatersource</label>
+                                <br>
+                                <label class="custom-control custom-checkbox custom-control-inline">
+                                    <input type="checkbox" class="custom-control-input" id="wellwatersource" name="wellwatersource" value="True">
+                                    <span class="custom-control-label">@Resources.Active</span>
+                                </label>
 
 
-                                    </div>
-                                </div>
+                            </div>
+                            <div class="col-3">
+                                <label>@Resources.rainwatersource</label>
+                                <br>
+                                <label class="custom-control custom-checkbox custom-control-inline">
+                                    <input type="checkbox" class="custom-control-input" id="rainwatersource" name="rainwatersource" value="True">
+                                    <span class="custom-control-label">@Resources.Active</span>
+                                </label>
+
+
                             </div>
                             <div class="col-3">
                                 <label>@Resources.Plannercomponent</label>
