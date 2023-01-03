@@ -37,8 +37,8 @@
                 @foreach (DrawingTheme.Models.tblCategory item in ViewBag.Category)
                 {
 
-                    <div class="dropdown mb-2">
-                        <button type="button" class="btn btn-secondary dropdown-toggle" data-toggle="dropdown">
+                    <div class="dropdown mb-2" id="btn_@item.Code">
+                        <button type="button" class="btn btn-secondary dropdown-toggle"  data-toggle="dropdown">
                             <i class="fe fe-calendar">@item.CategoryName</i>
                         </button>
                         <div class="dropdown-menu" style="will-change: transform; position: absolute; transform: translate3d(0px, 34px, 0px); top: 0px; left: 0px;" x-placement="bottom-start">
@@ -47,7 +47,7 @@
                             {
                                 if (@item1.CategoryID == item.CategoryID)
                                 {
-                                    <a class="dropdown-item" id="@item.Code"  href="javascript:void(0)">
+                                    <a class="dropdown-item" id="@item.Code" data-SubCatId="@item1.SubcategoryID" data-Name="@item1.SubcategoryName"  data-radius="@item1.ThrowDistanceMax" data-width="@item1.ThrowWidth" data-height="@item1.ThrowHeight" data-angle="@item1.MaxAngle" data-rotation="@item1.MinAngle" data-IrrigationCircles="@item1.valveboxcircle"  data-Filter="@item1.valveboxFilter"  data-DrinkingWater="@item1.drinkingwatersource"  data-WellWater="@item1.wellwatersource"  data-RainWater="@item1.rainwatersource"   data-Station="@item1.IrrigationComputermaxstation" data-Indoor="@item1.IrrigationComputerindoor" data-Outdoor="@item1.IrrigationComputeroutdoor" data-SP="@item1.IrrigationComputeroutdoor" href="javascript:void(0)">
                                         @item1.SubcategoryName
                                     </a>
                                 }
@@ -115,7 +115,8 @@
                             <button id="GetWet" class="btn" style="background-color: rgba(111, 187, 211, .8);" onclick="SaveData(9)" data-radius="30" data-width="100" data-height="40" data-angle="180" data-rotation="45">Get Wet </button>
                             @*<button id="Sprinkler" onclick="SaveData(7)" data-radius="30" data-width="100" data-height="40" data-angle="180" data-rotation="45">Sprinkler</button>*@
                             @*<button id="RectangularSprinkler" onclick="SaveData(8)" data-radius="30" data-width="100" data-height="40" data-angle="180" data-rotation="45">Rectangular</button>*@
-                            <button id="UndoCanvas">Undo</button>
+                            
+                            <button class="btn" style="background-color: red;" id="UndoCanvas">Undo</button>
 
 
                             <button class="btn btn-primary" id="save">Save as PDF</button>
@@ -137,13 +138,54 @@
                                         <h4>Property</h4>
                                     </div>
                                     <div class="card-body">
-                                        <input class="form-control" type="text" id="SId" hidden name="name" value="" />
-                                        <label>Radius</label>
-                                        <input class="form-control" type="number" id="SRadius" onchange="SetS(this,1)" name="name" value="" />
-                                        <label>Start Angle</label>
-                                        <input class="form-control" type="number" id="StartAngle" onchange="SetS(this,2)" name="name" value="" />
-                                        <label>Angle</label>
-                                        <input class="form-control" type="number" id="SAngle" onchange="SetS(this,3)" name="name" value="" />
+                                            <h6 id="SName"></h6>
+                                            <h6 hidden id="SubCatId"></h6>
+                                            <div id="RSPD" style="display:none;">
+                                                <input class="form-control" type="text" id="SId" hidden name="name" value="" />
+                                                <label>Radius</label>
+                                                <input class="form-control" type="number" id="SRadius" onchange="SetS(this,1)" name="name" value="" />
+                                                <label>Start Angle</label>
+                                                <input class="form-control" type="number" id="StartAngle" onchange="SetS(this,2)" name="name" value="" />
+                                                <label>Angle</label>
+                                                <input class="form-control" type="number" id="SAngle" onchange="SetS(this,3)" name="name" value="" />
+                                                <button class="btn" id="BtnEndsprinkler" style="display:none; background-color:aqua;">End sprinkler</button>
+                                            </div>
+                                            <div id="SSPD" style="display:none;">
+                                                <input class="form-control" type="text" id="SSId" hidden name="name" value="" />
+                                                <label>Width</label>
+                                                <input class="form-control" type="number" id="SSWidth" onchange="SetS(this,4)" name="name" value="" />
+                                                <label>Height</label>
+                                                <input class="form-control" type="number" id="SSHeight" onchange="SetS(this,5)" name="name" value="" />
+                                                <button class="btn" id="BtnEndRectangularsprinkler" style="display:none;background-color:aqua;">End rectangular sprinkler</button>
+                                            </div>
+                                            <div id="VBPD" style="display:none;">
+                                                <input class="form-control" type="text" id="VBId" hidden name="name" value="" />
+                                                <label id="VBF" style="display:none;">Filter included</label>
+                                                <label id="VBDW" style="display:none;">for drinking water source</label>
+                                                <label id="VBWW" style="display:none;">for well water source</label>
+                                                <label id="VBRW" style="display:none;">for rainwater source</label>
+                                                <button class="btn" id="EndVB" style="display:none;background-color:aqua;">End Valve box</button>
+                                            </div>
+                                            <div id="ICPD" style="display:none;">
+                                                <input class="form-control" type="text" id="ICId" hidden name="name" value="" />
+                                                <label id="ICS" >Filter included</label>
+                                                <label id="ICID" style="display:none;">Indoor</label>
+                                                <label id="ICOD" style="display:none;">outdoor</label>
+                                                <label id="ICSP" style="display:none;">Smarphone</label>
+                                                <button class="btn" id="EndIC" style="display:none;background-color:aqua;">End Irrigation computer</button>
+                                            </div>
+                                            <div id="TapPD" style="display:none;">
+                                                <input class="form-control" type="text" id="TapId" hidden name="name" value="" />
+                                                <select id="TapSelect" onchange="SetS(this,6)">
+                                                    <option value="70">Drinking Water Source</option>
+                                                    <option value="71">Well Water Source</option>
+                                                    <option value="72">Rain Water Source</option>
+                                                </select>
+                                                <button class="btn" id="EndTap" style="display:none;background-color:aqua;">End Tap</button>
+                                            </div>
+                                        
+                                        
+                                        
                                     </div>
                                 </div>
                             </div>
@@ -206,7 +248,7 @@
                     <div class="col-6">
                         <div class="form-group">
                             @*<input type="text" hidden class="form-control" id="OrderId" name="OrderId" placeholder="First Name">*@
-                            <input type="text" class="form-control" id="Name" name="Name" placeholder="Order Name" required>
+                            <input type="text" class="form-control" id="ModalName" name="Name" placeholder="Order Name" required>
                         </div>
                     </div>
 
@@ -254,7 +296,7 @@
 
     $(document).on("click", "#SaveOrder", function () {
 
-        Name = $("#Name").val();
+        var Name = $("#ModalName").val();
 
         var model = {
             Name: Name,
@@ -279,13 +321,13 @@
 
     $(document).ready(function () {
 
-        //$("#addcontact").modal('toggle');
-        //$('#addcontact').modal({ backdrop: 'static', keyboard: false })
+        $("#addcontact").modal('toggle');
+        $('#addcontact').modal({ backdrop: 'static', keyboard: false })
 
     });
 
         var width = window.innerWidth;
-    var height = window.innerHeight;
+        var height = window.innerHeight;
 
         var isDraw = false;
         var isFirst = false;
@@ -302,20 +344,24 @@
         var Name = 1;
         var TextId = 1;
         var Rect1;
-    var PolyName = 1;
-    var TapName = 1;
-    var SystemName = 1;
-    var ValveBoxName = 1;
-    var UndoArray = [];
-    var SprinklerName=1;
-    var RectangularSprinklerName=1;
+        var PolyName = 1;
+        var TapName = 1;
+        var SystemName = 1;
+        var ValveBoxName = 1;
+        var UndoArray = [];
+        var SprinklerName=1;
+        var RectangularSprinklerName=1;
         var id = "";
-    var CurrentObjId = "Line1";
-    var FillCirFirstTime = true;
-    var EndSprinkler = true;
-    var CurretSprinkler = "";
-    var CurretRectangularSprinkler = "";
-    var CountnueRotate = true;
+        var CurrentObjId = "Line1";
+        var FillCirFirstTime = true;
+        var EndSprinkler = true;
+        var CurretSprinkler = "";
+        var CurretRSprinkler = "";
+        var CurretRectangularSprinkler = "";
+        var CurretIC = "";
+    var CurretTap = "";
+    var CurretVB = "";
+        var CountnueRotate = true;
 
 
 
@@ -535,85 +581,383 @@
      });
 
 
-    $("body").on("click", "#BtnTap", function () {
+    $("body").on("click", "#TAP", function () {
         //alert(this.id);
-        var imageObj = new Image();
-        imageObj.onload = function () {
-            var yoda = new Konva.Image({
-                x: 50,
-                y: 50,
-                image: imageObj,
-                width: 25,
-                height: 25,
-                id: "Tap" + TapName,
-                draggable: true,
-            });
-            TapName += 1;
-            // add the shape to the layer
-            layer.add(yoda);
-            UndoArray.push(yoda.id());
-        };
-        imageObj.src = '/assets/images/ecommerce/Tap.png';
+        //var imageObj = new Image();
+        //imageObj.onload = function () {
+        //    var yoda = new Konva.Image({
+        //        x: 50,
+        //        y: 50,
+        //        image: imageObj,
+        //        width: 25,
+        //        height: 25,
+        //        id: "Tap" + TapName,
+        //        draggable: true,
+        //    });
+        //    TapName += 1;
+        //    // add the shape to the layer
+        //    layer.add(yoda);
+        //    UndoArray.push(yoda.id());
+        //};
+        //imageObj.src = '/assets/images/ecommerce/Tap.png';
+
+        if (CurretTap != "") {
+            var SubName = $(this).attr("data-Name");
+            var SubId = $(this).attr("data-SubCatId");
+            $("#SName").text(SubName);
+            $("#SubCatId").text(SubId);
+            $("#TapSelect").val(SubId);
+            
+        }
+        else {
+
+           
+            var SubName = $(this).attr("data-Name");
+            var SubId = $(this).attr("data-SubCatId");
+            $("#TapSelect").val(SubId);
+
+
+
+            Konva.Image.fromURL(
+                '/assets/images/ecommerce/Tap.png',
+                (img) => {
+                    img.setAttrs({
+                        x: 50,
+                        y: 50,
+                        width: 25,
+                        height: 25,
+                        id: "Tap" + TapName,
+                        draggable: true,
+                    });
+                    layer.add(img);
+                    UndoArray.push(img.id());
+                    $("#SName").text(SubName);
+                    $("#SubCatId").text(SubId);
+                    $("#TapId").val(img.id());
+                    CurretTap=img.id();
+                    // apply default left-top crop
+                    //applyCrop('center-middle');
+
+                    const tr = new Konva.Transformer({
+                        nodes: [img],
+                        keepRatio: true,
+                        enabledAnchors: ['top-left', 'top-right', 'bottom-left', 'bottom-right'],
+                        id: img.id().replace("Tap", "TTap")
+                    });
+
+                    layer.add(tr);
+                    tr.anchorCornerRadius(10);
+                    tr.rotateEnabled(false);
+                }
+            );
+        }
+
+        $("#TapPD").show();
+        $("#EndTap").show();
 
     });
 
 
-    $("body").on("click", "#BtnSystem", function () {
-        //alert(this.id);
-        var imageObj = new Image();
-        imageObj.onload = function () {
-            var yoda = new Konva.Image({
-                x: 50,
-                y: 50,
-                image: imageObj,
-                width: 25,
-                height: 25,
-                id: "System" + SystemName,
-                draggable: true,
-            });
-            SystemName += 1;
-            // add the shape to the layer
-            layer.add(yoda);
-            UndoArray.push(yoda.id());
+    $("body").on("click", "#EndTap", function () {
+
+        //$("#Sprinkler").prop('disabled', false);
+        //
+
+        SubCategoryID = $("#SubCatId").text();
+        SubcategoryName = $("#SName").text();
+        UniqueId = $("#TapId").text();
+        OrderId = $("#OrderId").val();
+
+        $("#EndTap").hide();
+        $("#TapPD").hide();
+        $("#SName").text("");
+        $("#SubCatId").text("");
+        $("#btn_TAP *").prop('disabled', true);
+
+        var model = {
+            UniqueId: UniqueId,
+            SubCategoryID: SubCategoryID,
+            SubcategoryName: SubcategoryName,
+            OrderId: OrderId,
         };
-        imageObj.src = '/assets/images/ecommerce/System.png';
+
+        $.ajax({
+            type: "POST",
+            url: "@Url.Action("AddOrderDetails", "Customer")",
+            data: JSON.stringify(model),
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            success: function (r) {
+                $("#TotalAmount").text(r);
+                $("#TotalAmountInput").val(r);
+            }
+        });
+    });
+
+
+
+    $("body").on("click", "#IC", function () {
+        //alert(this.id);
+        //var imageObj = new Image();
+        //imageObj.onload = function () {
+        //    var yoda = new Konva.Image({
+        //        x: 50,
+        //        y: 50,
+        //        image: imageObj,
+        //        width: 25,
+        //        height: 25,
+        //        id: "System" + SystemName,
+        //        draggable: true,
+        //    });
+        //    SystemName += 1;
+        //    // add the shape to the layer
+        //    layer.add(yoda);
+        //    UndoArray.push(yoda.id());
+        //};
+        //imageObj.src = '/assets/images/ecommerce/System.png';
+
+        if (CurretIC != "") {
+            var Station = $(this).attr("data-Station");
+            var InDoor = $(this).attr("data-InDoor");
+            var OutDoor = $(this).attr("data-OutDoor");
+            var SP = $(this).attr("data-SP");
+            var SubName = $(this).attr("data-Name");
+            var SubId = $(this).attr("data-SubCatId");
+            $("#SName").text(SubName);
+            $("#SubCatId").text(SubId);
+            $("#ICS").text(Station);
+            if (InDoor == "True") {
+                $("#ICID").show();
+            }
+            if (OutDoor == "True") {
+                $("#ICOD").show();
+            }
+            if (SP == "True") {
+                $("#ICSP").show();
+            }
+        }
+        else {
+           
+            var Station = $(this).attr("data-Station");
+            var InDoor = $(this).attr("data-InDoor");
+            var OutDoor = $(this).attr("data-OutDoor");
+            var SP = $(this).attr("data-SP");
+            var SubName = $(this).attr("data-Name");
+            var SubId = $(this).attr("data-SubCatId");
+            $("#ICS").text(Station);
+            if (InDoor == "True") {
+                $("#ICID").show();
+            }
+            if (OutDoor == "True") {
+                $("#ICOD").show();
+            }
+            if (SP == "True") {
+                $("#ICSP").show();
+            }
+
+
+
+            Konva.Image.fromURL(
+                '/assets/images/ecommerce/System.png',
+                (img) => {
+                    img.setAttrs({
+                        x: 50,
+                        y: 50,
+                        width: 25,
+                        height: 25,
+                        id: "System" + SystemName,
+                        draggable: true,
+                    });
+                    layer.add(img);
+                    UndoArray.push(img.id());
+
+                    $("#SName").text(SubName);
+                    $("#SubCatId").text(SubId);
+                    $("#ICId").val(img.id());
+                    CurretIC = img.id();
+                    // apply default left-top crop
+                    //applyCrop('center-middle');
+
+                    const tr = new Konva.Transformer({
+                        nodes: [img],
+                        keepRatio: true,
+                        enabledAnchors: ['top-left', 'top-right', 'bottom-left', 'bottom-right'],
+                        id: img.id().replace("System", "TIC")
+                    });
+
+                    layer.add(tr);
+                    tr.anchorCornerRadius(10);
+                    tr.rotateEnabled(false);
+                }
+            );
+        }
+
+        $("#ICPD").show();
+        $("#EndIC").show();
+
+        
+
 
     });
 
 
-    $("body").on("click", "#BtnValveBox", function () {
-        //alert(this.id);
-        var imageObj = new Image();
-        imageObj.onload = function () {
-            var yoda = new Konva.Image({
-                x: 50,
-                y: 50,
-                image: imageObj,
-                width: 25,
-                height: 25,
-                id: "ValveBox" + ValveBoxName,
-                draggable: true,
-            });
-            ValveBoxName += 1;
-            // add the shape to the layer
-            layer.add(yoda);
-            UndoArray.push(yoda.id());
+    $("body").on("click", "#EndIC", function () {
+
+        //$("#Sprinkler").prop('disabled', false);
+        //
+
+        SubCategoryID = $("#SubCatId").text();
+        SubcategoryName = $("#SName").text();
+        UniqueId = $("#ICId").text();
+        OrderId = $("#OrderId").val();
+
+        $("#EndIC").hide();
+        $("#ICPD").hide();
+        $("#SName").text("");
+        $("#SubCatId").text("");
+        //$("#btn_IC").prop("disabled", true);
+        $("#btn_IC *").prop('disabled', true);
+
+
+        var model = {
+            UniqueId: UniqueId,
+            SubCategoryID: SubCategoryID,
+            SubcategoryName: SubcategoryName,
+            OrderId: OrderId,
         };
-        imageObj.src = '/assets/images/ecommerce/ValveBox.png';
+
+        $.ajax({
+            type: "POST",
+            url: "@Url.Action("AddOrderDetails", "Customer")",
+            data: JSON.stringify(model),
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            success: function (r) {
+                $("#TotalAmount").text(r);
+                $("#TotalAmountInput").val(r);
+            }
+        });
+    });
+
+
+    $("body").on("click", "#VB", function () {
+        //var imageObj = new Image();
+        //imageObj.onload = function () {
+        //    var yoda = new Konva.Image({
+        //        x: 50,
+        //        y: 50,
+        //        image: imageObj,
+        //        width: 25,
+        //        height: 25,
+        //        id: "ValveBox" + ValveBoxName,
+        //        draggable: true,
+        //    });
+        //    ValveBoxName += 1;
+        //    // add the shape to the layer
+        //    layer.add(yoda);
+        //    UndoArray.push(yoda.id());
+        //};
+        //imageObj.src = '/assets/images/ecommerce/ValveBox.png';
+
+
+        if (CurretVB != "") {
+            var Filter = $(this).attr("data-Filter");
+            var DrinkingWater = $(this).attr("data-DrinkingWater");
+            var WellWater = $(this).attr("data-WellWater");
+            var RainWater = $(this).attr("data-RainWater");
+            var SubName = $(this).attr("data-Name");
+            var SubId = $(this).attr("data-SubCatId");
+            $("#SName").text(SubName);
+            $("#SubCatId").text(SubId);
+            if (Filter == "True") {
+                $("#VBF").show();
+            }
+            if (DrinkingWater == "True") {
+                $("#VBDW").show();
+            }
+            if (WellWater == "True") {
+                $("#VBWW").show();
+            }
+            if (RainWater == "True") {
+                $("#VBRW").show();
+            }
+        }
+        else {
+
+
+            var Filter = $(this).attr("data-Filter");
+            var DrinkingWater = $(this).attr("data-DrinkingWater");
+            var WellWater = $(this).attr("data-WellWater");
+            var RainWater = $(this).attr("data-RainWater");
+            var SubName = $(this).attr("data-Name");
+            var SubId = $(this).attr("data-SubCatId");
+            if (Filter == "True") {
+                $("#VBF").show();
+            }
+            if (DrinkingWater == "True") {
+                $("#VBDW").show();
+            }
+            if (WellWater == "True") {
+                $("#VBWW").show();
+            }
+            if (RainWater == "True") {
+                $("#VBRW").show();
+            }
+
+
+            Konva.Image.fromURL(
+                '/assets/images/ecommerce/ValveBox.png',
+                (img) => {
+                    img.setAttrs({
+                        x: 50,
+                        y: 50,
+                        width: 25,
+                        height: 25,
+                        id: "ValveBox" + ValveBoxName,
+                        draggable: true,
+                    });
+                    layer.add(img);
+                    UndoArray.push(img.id());
+
+                    $("#SName").text(SubName);
+                    $("#SubCatId").text(SubId);
+                    $("#VBId").val(img.id());
+                    CurretVB = img.id();
+                    // apply default left-top crop
+                    //applyCrop('center-middle');
+
+                    const tr = new Konva.Transformer({
+                        nodes: [img],
+                        keepRatio: true,
+                        enabledAnchors: ['top-left', 'top-right', 'bottom-left', 'bottom-right'],
+                        id: img.id().replace("ValveBox", "TVB")
+                    });
+
+                    layer.add(tr);
+                    tr.anchorCornerRadius(10);
+                    tr.rotateEnabled(false);
+                }
+            );
+        }
+
+        $("#VBPD").show();
+        $("#EndVB").show();
 
     });
 
 
-    $("body").on("click", "#Sprinkler,#Sprinkler1,#Sprinkler2", function () {
-        var Radius = Number($(this).attr("data-radius"));
+    $("body").on("click", "#RSP,#Sprinkler1,#Sprinkler2", function () {
+        $("#RSPD").show();
+        var Radius = MToPx(Number($(this).attr("data-radius")));
         var Angle = Number($(this).attr("data-Angle"));
         var Rotation = Number($(this).attr("data-Rotation"));
+        var SubName = $(this).attr("data-Name");
+        var SubId = $(this).attr("data-SubCatId");
         if (CurretSprinkler != "") {
             var node = layer.findOne('#' + CurretSprinkler);
             var x = node.x();
             var y = node.y();
-            console.log(x);
-            node.destroy(y);
+            node.destroy();
             var node = layer.findOne('#' + CurretSprinkler.replace("Sprinkler", "FillCircle"));
             if (node != null) {
                 node.destroy();
@@ -697,8 +1041,8 @@
         }
         else {
             var circle = new Konva.Circle({
-                //x: stage.width() / 2,
-                //y: stage.height() / 2,
+                x:-100,
+                y: -100 ,
                 radius: Radius,
                 //fill: 'red',
                 stroke: 'black',
@@ -708,13 +1052,16 @@
 
             });
 
+
             isOverOnStarting = false;
             isStartLine = true;
             isFinished = false;
             isFirstMouseMove = true;
+
         }
 
         //alert(Radius);
+
 
 
 
@@ -722,8 +1069,9 @@
 
         //console.log(UndoArray);
         SprinklerName += 1;
-        layer.add(circle);
 
+
+            layer.add(circle);
 
         //alert(poly.name());
         id = circle.id();
@@ -732,85 +1080,312 @@
         UndoArray.push(circle.id());
 
         $("#SId").val(circle.id());
-        $("#SRadius").val(circle.radius());
-        $("#StartAngle").val(circle.rotation());
-
-        $("#SAngle").val(0);
+        $("#SRadius").val(PxToM(circle.radius()));
+        $("#StartAngle").val(Rotation);
+        $("#SAngle").val(Angle);
+        $("#SName").text(SubName);
+        $("#SubCatId").text(SubId);
 
         //$("#Sprinkler").prop('disabled', true);
         $("#BtnEndsprinkler").show();
     });
 
+    function PxToM(Val) {
 
+        return (Number(Val) / 12);
+
+    }
+
+    function MToPx(Val) {
+
+        return (Number(Val) * 12);
+
+    }
 
     $("body").on("click", "#BtnEndsprinkler", function () {
 
         //$("#Sprinkler").prop('disabled', false);
         //
+
+        SubCategoryID = $("#SubCatId").text();
+        SubcategoryName = $("#SName").text();
+        UniqueId = $("#SId").text();
+        MinAngle = $("#StartAngle").val();
+        MaxAngle = $("#SAngle").val();
+        ThrowDistanceMax = $("#SRadius").val();
+        OrderId = $("#OrderId").val();
+
         $("#BtnEndsprinkler").hide();
+        $("#RSPD").hide();
+        $("#SName").text("");
         CurretSprinkler = "";
 
+
+        var model = {
+            UniqueId: UniqueId,
+            SubCategoryID: SubCategoryID,
+            SubcategoryName: SubcategoryName,
+            MinAngle: MinAngle,
+            MaxAngle: MaxAngle,
+            ThrowDistanceMax: ThrowDistanceMax,
+            OrderId: OrderId,
+        };
+
+        $.ajax({
+            type: "POST",
+            url: "@Url.Action("AddOrderDetails", "Customer")",
+            data: JSON.stringify(model),
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            success: function (r) {
+                $("#TotalAmount").text(r);
+                $("#TotalAmountInput").val(r);
+            }
+        });
+
+
+    });
+
+    $("body").on("click", "#EndVB", function () {
+
+        //$("#Sprinkler").prop('disabled', false);
+        //
+
+        SubCategoryID = $("#SubCatId").text();
+        SubcategoryName = $("#SName").text();
+        UniqueId = $("#VBId").text();
+        OrderId = $("#OrderId").val();
+
+        $("#EndVB").hide();
+        $("#VBPD").hide();
+        $("#SName").text("");
+        $("#SubCatId").text("");
+        //CurretSprinkler = "";
+        $("#btn_VB *").prop('disabled', true);
+
+
+        var model = {
+            UniqueId: UniqueId,
+            SubCategoryID: SubCategoryID,
+            SubcategoryName: SubcategoryName,
+            OrderId: OrderId,
+        };
+
+        $.ajax({
+            type: "POST",
+            url: "@Url.Action("AddOrderDetails", "Customer")",
+            data: JSON.stringify(model),
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            success: function (r) {
+                $("#TotalAmount").text(r);
+                $("#TotalAmountInput").val(r);
+            }
+        });
     });
 
 
 
-
-    $("body").on("click", "#RectangularSprinkler", function () {
-        //if (CurretSprinkler != "") {
-        //    var node = layer.findOne('#' + CurretSprinkler);
-        //    node.destroy();
-        //    var node = layer.findOne('#' + CurretSprinkler.replace("Sprinkler", "FillRSCircle"));
-        //    if (node != null) {
-        //        node.destroy();
-        //    }
-        //    var node = layer.findOne('#' + CurretSprinkler.replace("Sprinkler", "RSCircle"));
-        //    if (node != null) {
-        //        node.destroy();
-        //    }
-        //    //var node = layer.findOne('#' + CurretSprinkler.replace("Sprinkler", "Arc"));
-        //    //if (node != null) {
-        //    //    node.destroy();
-        //    //}
-        //}
-        var Radius = Number($(this).attr("data-radius"));
-        var Width = Number($(this).attr("data-Width"));
-        var Height = Number($(this).attr("data-Height"));
-        //alert(Radius);
-        var circle = new Konva.Rect({
-            //x: stage.width() / 2,
-            //y: stage.height() / 2,
-            width: Width,
-            height: Height,
-            //fill: 'green',
-            stroke: 'black',
-            strokeWidth: 1,
-            id: "RectangularSprinkler" + RectangularSprinklerName + "",
-            name: "RectangularSprinkler",
-
-        });
-
-
-        circle.on('pointerclick', (e) => {
-
-            //console.log(e.evt.button);
-
-            if (e.evt.button === 0) {
-                var TSprinkler = layer.findOne('#' + e.target.id().replace("RectangularSprinkler", "TRS"));
-                TSprinkler.rotateEnabled(true);
-
+    $("body").on("click", "#SSP", function () {
+        $("#SSPD").show();
+        var SubName = $(this).attr("data-Name");
+        var Width = MToPx(Number($(this).attr("data-Width")));
+        var Height = MToPx(Number($(this).attr("data-Height")));
+        var SubId = $(this).attr("data-SubCatId");
+        if (CurretRSprinkler != "") {
+            var node = layer.findOne('#' + CurretRSprinkler);
+            var x = node.x();
+            var y = node.y();
+            node.destroy();
+            var node = layer.findOne('#' + CurretRSprinkler.replace("RectangularSprinkler", "TRS"));
+            if (node != null) {
+                node.destroy();
             }
-            else if (e.evt.button === 2) {
-
-                var TSprinkler = layer.findOne('#' + e.target.id().replace("RectangularSprinkler", "TRS"));
-                TSprinkler.rotateEnabled(false);
+            var node = layer.findOne('#' + CurretRSprinkler.replace("RectangularSprinkler", "RSCircle"));
+            if (node != null) {
+                node.destroy();
             }
 
-        });
+
+
+            var circle = new Konva.Rect({
+                x: x,
+                y: y,
+                width: Width,
+                height: Height,
+                //fill: 'green',
+                stroke: 'black',
+                strokeWidth: 1,
+                id: "RectangularSprinkler" + RectangularSprinklerName + "",
+                name: "RectangularSprinkler",
+
+            });
+
+
+            circle.on('pointerclick', (e) => {
+
+                //console.log(e.evt.button);
+
+                if (e.evt.button === 0) {
+                    var TSprinkler = layer.findOne('#' + e.target.id().replace("RectangularSprinkler", "TRS"));
+                    TSprinkler.rotateEnabled(true);
+
+                }
+                else if (e.evt.button === 2) {
+
+                    var TSprinkler = layer.findOne('#' + e.target.id().replace("RectangularSprinkler", "TRS"));
+                    TSprinkler.rotateEnabled(false);
+                }
+
+            });
+
+
+            var cir = new Konva.Circle({
+                x: x,
+                y: y,
+                radius: 5,
+                //fill: 'red',
+                stroke: 'black',
+                strokeWidth: 1,
+                id: circle.id().replace("RectangularSprinkler", "RSCircle"),
+                draggable: true,
+            });
+
+            cir.on('pointerclick', (e) => {
+
+                //console.log(e.evt.button);
+
+                if (e.evt.button === 0) {
+                    var Sprinkler = layer.findOne('#' + e.target.id().replace("RSCircle", "RectangularSprinkler"));
+                    Sprinkler.rotation(Sprinkler.rotation() + 1);
+
+                }
+                else if (e.evt.button === 2) {
+
+                    var Sprinkler = layer.findOne('#' + e.target.id().replace("RSCircle", "RectangularSprinkler"));
+                    Sprinkler.rotation(Sprinkler.rotation() - 1);
+                }
+
+            });
+
+            cir.on('dragmove', (e) => {
+                //updateRSSprinkler(e.target.id());
+
+                var Sprinkler = layer.findOne('#' + e.target.id().replace("RSCircle", "RectangularSprinkler"));
+                Sprinkler.x(e.target.x());
+                Sprinkler.y(e.target.y());
+            });
+
+            layer.add(cir);
+
+            var transformer = new Konva.Transformer({
+                nodes: [circle, cir],
+                rotateAnchorOffset: 60,
+                enabledAnchors: ['top-left', 'top-right', 'bottom-left', 'bottom-right'],
+                id: circle.id().replace("RectangularSprinkler", "TRS")
+            });
+            layer.add(transformer);
+
+            transformer.anchorCornerRadius(10);
+            transformer.borderEnabled(false);
+            transformer.resizeEnabled(false);
+            transformer.rotateAnchorOffset(0);
+
+
+        }
+        else {
+            //alert(Radius);
+            var circle = new Konva.Rect({
+                x: 50,
+                y: 50,
+                width: Width,
+                height: Height,
+                //fill: 'green',
+                stroke: 'black',
+                strokeWidth: 1,
+                id: "RectangularSprinkler" + RectangularSprinklerName + "",
+                name: "RectangularSprinkler",
+
+            });
+
+
+            circle.on('pointerclick', (e) => {
+
+                //console.log(e.evt.button);
+
+                if (e.evt.button === 0) {
+                    var TSprinkler = layer.findOne('#' + e.target.id().replace("RectangularSprinkler", "TRS"));
+                    TSprinkler.rotateEnabled(true);
+
+                }
+                else if (e.evt.button === 2) {
+
+                    var TSprinkler = layer.findOne('#' + e.target.id().replace("RectangularSprinkler", "TRS"));
+                    TSprinkler.rotateEnabled(false);
+                }
+
+            });
+
+
+            var cir = new Konva.Circle({
+                x: 50,
+                y: 50,
+                radius: 5,
+                //fill: 'red',
+                stroke: 'black',
+                strokeWidth: 1,
+                id: circle.id().replace("RectangularSprinkler", "RSCircle"),
+                draggable: true,
+            });
+
+            cir.on('pointerclick', (e) => {
+
+                //console.log(e.evt.button);
+
+                if (e.evt.button === 0) {
+                    var Sprinkler = layer.findOne('#' + e.target.id().replace("RSCircle", "RectangularSprinkler"));
+                    Sprinkler.rotation(Sprinkler.rotation() + 1);
+
+                }
+                else if (e.evt.button === 2) {
+
+                    var Sprinkler = layer.findOne('#' + e.target.id().replace("RSCircle", "RectangularSprinkler"));
+                    Sprinkler.rotation(Sprinkler.rotation() - 1);
+                }
+
+            });
+
+            cir.on('dragmove', (e) => {
+                //updateRSSprinkler(e.target.id());
+
+                var Sprinkler = layer.findOne('#' + e.target.id().replace("RSCircle", "RectangularSprinkler"));
+                Sprinkler.x(e.target.x());
+                Sprinkler.y(e.target.y());
+            });
+
+            layer.add(cir);
+
+            var transformer = new Konva.Transformer({
+                nodes: [circle, cir],
+                rotateAnchorOffset: 60,
+                enabledAnchors: ['top-left', 'top-right', 'bottom-left', 'bottom-right'],
+                id: circle.id().replace("RectangularSprinkler", "TRS")
+            });
+            layer.add(transformer);
+
+            transformer.anchorCornerRadius(10);
+            transformer.borderEnabled(false);
+            transformer.resizeEnabled(false);
+            transformer.rotateAnchorOffset(0);
+
+        }
 
 
 
 
-        CurretRectangularSprinkler = circle.id();
+
+
+        CurretRSprinkler = circle.id();
 
         //console.log(UndoArray);
         RectangularSprinklerName += 1;
@@ -824,11 +1399,11 @@
         CurrentObjId = circle.name();
         UndoArray.push(circle.id());
 
-        //$("#SId").val(circle.id());
-        //$("#SRadius").val(circle.radius());
-        //$("#StartAngle").val(circle.rotation());
-
-        //$("#SAngle").val(0);
+        $("#SSId").val(circle.id());
+        $("#SName").text(SubName);
+        $("#SSWidth").val(PxToM(circle.width()));
+        $("#SSHeight").val(PxToM(circle.height()));
+        $("#SubCatId").text(SubId);
 
 
         $("#BtnEndRectangularsprinkler").show();
@@ -837,8 +1412,40 @@
     $("body").on("click", "#BtnEndRectangularsprinkler", function () {
 
         //$("#Sprinkler").prop('disabled', false);
+
+
+
+
+        SubCategoryID = $("#SubCatId").text();
+        SubcategoryName = $("#SName").text();
+        UniqueId = $("#SSId").text();
+        OrderId = $("#OrderId").val();
+
         $("#BtnEndRectangularsprinkler").hide();
-        CurretRectangularSprinkler = "";
+        $("#SSPD").hide();
+        $("#SName").text("");
+        CurretRSprinkler = "";
+
+
+        var model = {
+            UniqueId: UniqueId,
+            SubCategoryID: SubCategoryID,
+            SubcategoryName: SubcategoryName,
+            OrderId: OrderId,
+        };
+
+        $.ajax({
+            type: "POST",
+            url: "@Url.Action("AddOrderDetails", "Customer")",
+            data: JSON.stringify(model),
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            success: function (r) {
+                $("#TotalAmount").text(r);
+                $("#TotalAmountInput").val(r);
+            }
+        });
+
 
     });
 
@@ -994,63 +1601,63 @@
                 }
                 else if (CurrentObjId == "RectangularSprinkler")
                 {
-                    var circle = layer.findOne('#' + id);
+                    //var circle = layer.findOne('#' + id);
 
-                    var Position = stage.getPointerPosition();
-                    circle.x(Position.x);
-                    circle.y(Position.y);
+                    //var Position = stage.getPointerPosition();
+                    //circle.x(Position.x);
+                    //circle.y(Position.y);
 
-                    var cir = new Konva.Circle({
-                        x: Position.x ,
-                        y: Position.y,
-                        radius: 5,
-                        //fill: 'red',
-                        stroke: 'black',
-                        strokeWidth: 1,
-                        id: id.replace("RectangularSprinkler", "RSCircle"),
-                        draggable: true,
-                    });
+                    //var cir = new Konva.Circle({
+                    //    x: Position.x ,
+                    //    y: Position.y,
+                    //    radius: 5,
+                    //    //fill: 'red',
+                    //    stroke: 'black',
+                    //    strokeWidth: 1,
+                    //    id: id.replace("RectangularSprinkler", "RSCircle"),
+                    //    draggable: true,
+                    //});
 
-                    cir.on('pointerclick', (e) => {
+                    //cir.on('pointerclick', (e) => {
 
-                        //console.log(e.evt.button);
+                    //    //console.log(e.evt.button);
 
-                        if (e.evt.button === 0) {
-                                var Sprinkler = layer.findOne('#' + e.target.id().replace("RSCircle", "RectangularSprinkler"));
-                                Sprinkler.rotation(Sprinkler.rotation() + 1);
+                    //    if (e.evt.button === 0) {
+                    //            var Sprinkler = layer.findOne('#' + e.target.id().replace("RSCircle", "RectangularSprinkler"));
+                    //            Sprinkler.rotation(Sprinkler.rotation() + 1);
 
-                        }
-                        else if (e.evt.button === 2) {
+                    //    }
+                    //    else if (e.evt.button === 2) {
 
-                            var Sprinkler = layer.findOne('#' + e.target.id().replace("RSCircle", "RectangularSprinkler"));
-                            Sprinkler.rotation(Sprinkler.rotation() - 1);
-                        }
+                    //        var Sprinkler = layer.findOne('#' + e.target.id().replace("RSCircle", "RectangularSprinkler"));
+                    //        Sprinkler.rotation(Sprinkler.rotation() - 1);
+                    //    }
 
-                    });
+                    //});
 
-                    cir.on('dragmove', (e) => {
-                        //updateRSSprinkler(e.target.id());
+                    //cir.on('dragmove', (e) => {
+                    //    //updateRSSprinkler(e.target.id());
 
-                        var Sprinkler = layer.findOne('#' + e.target.id().replace("RSCircle", "RectangularSprinkler"));
-                        Sprinkler.x(e.target.x());
-                        Sprinkler.y(e.target.y());
-                    });
+                    //    var Sprinkler = layer.findOne('#' + e.target.id().replace("RSCircle", "RectangularSprinkler"));
+                    //    Sprinkler.x(e.target.x());
+                    //    Sprinkler.y(e.target.y());
+                    //});
 
-                    layer.add(cir);
-                        var Sprinkler = layer.findOne('#' + id);
+                    //layer.add(cir);
+                    //    var Sprinkler = layer.findOne('#' + id);
 
-                    var transformer = new Konva.Transformer({
-                        nodes: [Sprinkler, cir],
-                        rotateAnchorOffset: 60,
-                        enabledAnchors: ['top-left', 'top-right', 'bottom-left', 'bottom-right'],
-                        id: id.replace("RectangularSprinkler", "TRS")
-                    });
-                    layer.add(transformer);
+                    //var transformer = new Konva.Transformer({
+                    //    nodes: [Sprinkler, cir],
+                    //    rotateAnchorOffset: 60,
+                    //    enabledAnchors: ['top-left', 'top-right', 'bottom-left', 'bottom-right'],
+                    //    id: id.replace("RectangularSprinkler", "TRS")
+                    //});
+                    //layer.add(transformer);
 
-                    transformer.anchorCornerRadius(10);
-                    transformer.borderEnabled(false);
-                    transformer.resizeEnabled(false);
-                    transformer.rotateAnchorOffset(0);
+                    //transformer.anchorCornerRadius(10);
+                    //transformer.borderEnabled(false);
+                    //transformer.resizeEnabled(false);
+                    //transformer.rotateAnchorOffset(0);
 
                     //transformer.stopTransform(true);
                     //var cirFill = new Konva.Circle({
@@ -1098,7 +1705,8 @@
 
                     isFinished = true;
                 }
-                else if (id[0]=='L') {
+                else if (id[0] == 'L') {
+                    console.log(id);
                     var line = layer.findOne('#' + id);
                     if (isInArea == true || (line.name() != "DryArea" && line.name() != "GetWet")) {
                         //var line = layer.findOne('#' + id);
@@ -1139,10 +1747,12 @@
                         Name += 1;
                         rect.on('pointerenter', function () {
                             var id = this.name();
+                            console.log(id);
                             var LineId = 0;
                             if (id[0] == "R") {
                                 LineId = FindIndex(id);
                             }
+                            console.log(LineId);
                             var line = layer.findOne('#Line' + LineId);
                             var points = line.points();
                             var pointerPos = stage.getPointerPosition();
@@ -1331,6 +1941,8 @@
                         y2 = Index + 3
 
                         var TextId = FindDragTextId(id);
+                        consol.log(id);
+                        consol.log(TextId);
                         var EText = layer.findOne('#' + TextId[0]);
                         //console.log(EText);
 
@@ -2104,6 +2716,9 @@
 
             }
             else if (CLastId[0] == 'S' && CLastId[1] == 'p') {
+                if (CurretSprinkler!="") {
+                    CurretSprinkler = "";
+                }
                 var node = layer.findOne('#' + CLastId.replace("Sprinkler", "FillCircle"));
 
                 node.destroy();
@@ -2112,6 +2727,32 @@
                 var node = layer.findOne('#' + CLastId.replace("Sprinkler", "Arc"));
                 node.destroy();
 
+            }
+            else if (CLastId[0] == 'R' && CLastId[1] == 'e') {
+                if (CurretRSprinkler != "") {
+                    CurretRSprinkler = "";
+                }
+                var node = layer.findOne('#' + CLastId.replace("RectangularSprinkler", "RSCircle"));
+
+                node.destroy();
+                var node = layer.findOne('#' + CLastId.replace("RectangularSprinkler", "TRS"));
+                node.destroy();
+
+            }
+            else if (CLastId[0] == 'S' && CLastId[1] == 'y') {
+                var node = layer.findOne('#' + CLastId.replace("System", "TIC"));
+
+                node.destroy();
+            }
+            else if (CLastId[0] == 'V' ) {
+                var node = layer.findOne('#' + CLastId.replace("ValveBox", "TVB"));
+
+                node.destroy();
+            }
+            else if (CLastId[0] == 'T' && CLastId[1] == 'a') {
+                var node = layer.findOne('#' + CLastId.replace("Tap", "TTap"));
+
+                node.destroy();
             }
             var node = layer.findOne('#' + CLastId);
             node.destroy();
@@ -2144,85 +2785,104 @@
 
 
     function SetS(obj, Type) {
-        var SAID = $("#SId").val().replace("Sprinkler", "Arc");
-        var SID = $("#SId").val();
-        var SCID = $("#SId").val().replace("Sprinkler", "Circle");
-        var SFCID = $("#SId").val().replace("Sprinkler", "FillCircle");
-        var x1 = 0;
-        var y1 = 0;
-        var x2 = 0;
-        var y2 = 0;
-        var Sprinkler = layer.findOne('#' + SID);
-       var ArcCir = layer.findOne('#' + SAID);
-        var circle = layer.findOne('#' + SCID);
-        var FillCircle = layer.findOne('#' + SFCID);
-        if (Type == 1) {
-            var oldRadius = Sprinkler.radius();
+        if (Type<=3) {
+            var SAID = $("#SId").val().replace("Sprinkler", "Arc");
+            var SID = $("#SId").val();
+            var SCID = $("#SId").val().replace("Sprinkler", "Circle");
+            var SFCID = $("#SId").val().replace("Sprinkler", "FillCircle");
+            var x1 = 0;
+            var y1 = 0;
+            var x2 = 0;
+            var y2 = 0;
+            var Sprinkler = layer.findOne('#' + SID);
+            var ArcCir = layer.findOne('#' + SAID);
+            var circle = layer.findOne('#' + SCID);
+            var FillCircle = layer.findOne('#' + SFCID);
+            if (Type == 1) {
+                var oldRadius = Sprinkler.radius();
 
-            ArcCir.innerRadius(obj.value);
-            Sprinkler.radius(obj.value);
-            var Distance = Sprinkler.radius();
-            //var radius = Sprinkler.radius();
-            x2 = Sprinkler.x();
-            y2 = Sprinkler.y();
+                ArcCir.innerRadius(MToPx(obj.value));
+                Sprinkler.radius(MToPx(obj.value));
+                var Distance = Sprinkler.radius();
+                //var radius = Sprinkler.radius();
+                x2 = Sprinkler.x();
+                y2 = Sprinkler.y();
 
-            x1 = circle.x();
-            y1 = circle.y();
-
-
-            dx = x1 - x2;
-            dy = y1 - y2;
+                x1 = circle.x();
+                y1 = circle.y();
 
 
-            var angleRad1 = Math.atan2(dy, dx);
-             angleDeg1 = angleRad1 * 180 / Math.PI;
-            angleDeg1 = (360 + (angleDeg1)) % 360;
-
-            var DiffRadius = Number(Distance) - Number(oldRadius);
-            console.log("Diffin Radius " + DiffRadius);
-            console.log("Diffin Radius " + angleDeg1);
+                dx = x1 - x2;
+                dy = y1 - y2;
 
 
-            SetWithangle(angleDeg1, DiffRadius, circle, Sprinkler);
+                var angleRad1 = Math.atan2(dy, dx);
+                angleDeg1 = angleRad1 * 180 / Math.PI;
+                angleDeg1 = (360 + (angleDeg1)) % 360;
 
-            x1 = FillCircle.x();
-            y1 = FillCircle.y();
-
-
-            dx = x1 - x2;
-            dy = y1 - y2;
-
-
-             angleRad1 = Math.atan2(dy, dx);
-             angleDeg1 = angleRad1 * 180 / Math.PI;
-            angleDeg1 = (360 + (angleDeg1)) % 360;
-            console.log("Diffin Radius " + DiffRadius);
-            //console.log("Diffin Radius " + angleDeg1);
+                var DiffRadius = Number(Distance) - Number(oldRadius);
+                console.log("Diffin Radius " + DiffRadius);
+                console.log("Diffin Radius " + angleDeg1);
 
 
-            SetWithangle(angleDeg1, DiffRadius, FillCircle, Sprinkler);
+                SetWithangle(angleDeg1, DiffRadius, circle, Sprinkler);
+
+                x1 = FillCircle.x();
+                y1 = FillCircle.y();
+
+
+                dx = x1 - x2;
+                dy = y1 - y2;
+
+
+                angleRad1 = Math.atan2(dy, dx);
+                angleDeg1 = angleRad1 * 180 / Math.PI;
+                angleDeg1 = (360 + (angleDeg1)) % 360;
+                console.log("Diffin Radius " + DiffRadius);
+                //console.log("Diffin Radius " + angleDeg1);
+
+
+                SetWithangle(angleDeg1, DiffRadius, FillCircle, Sprinkler);
 
 
 
 
+            }
+            else if (Type == 2) {
+                ArcCir.rotation(obj.value);
+                ArcCir.angle(ArcCir.angle() - obj.value);
+
+
+                //var radius = 60;
+                //var angle = 140;
+                //var x = radius * Math.sin(Math.PI * 2 * angle / 360);
+                //var y = radius * Math.cos(Math.PI * 2 * angle / 360);
+                //console.log('Points coors are  x=' +
+                //    Math.round(x * 100) / 100 + ', y=' +
+                //    Math.round(y * 100) / 100);
+
+
+            }
+            else if (Type == 3) {
+                ArcCir.angle(obj.value);
+            }
         }
-        else if (Type == 2) {
-            ArcCir.rotation(obj.value);
-            ArcCir.angle(ArcCir.angle() - obj.value);
-
-
-            //var radius = 60;
-            //var angle = 140;
-            //var x = radius * Math.sin(Math.PI * 2 * angle / 360);
-            //var y = radius * Math.cos(Math.PI * 2 * angle / 360);
-            //console.log('Points coors are  x=' +
-            //    Math.round(x * 100) / 100 + ', y=' +
-            //    Math.round(y * 100) / 100);
-
-
+        else if (Type<=5)
+        {
+            var SSID = $("#SSId").val();
+            var Sprinkler = layer.findOne('#' + SSID);
+            if (Type == 4) {
+                Sprinkler.width(MToPx(obj.value));
+            }
+            else if (Type == 5) {
+                Sprinkler.height(MToPx(obj.value));
+            }
         }
-        else if (Type == 3) {
-            ArcCir.angle(obj.value);
+        else if (Type==6)
+        {
+            $("#SubCatId").text(obj.value);
+            $("#SName").text(obj.options[obj.selectedIndex].text);
+           
         }
     }
 

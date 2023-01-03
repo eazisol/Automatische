@@ -614,17 +614,16 @@ namespace DrawingTheme.Controllers
             int UserId = Int32.Parse(cookieObj["UserId"]);
             tblOrderDetail Data = new tblOrderDetail();
             List<tblOrderDetail> OrderDetailData = new List<tblOrderDetail>();
-            tblComponent Component = new tblComponent();
+            tblSubCategory SubCategory = new tblSubCategory();
 
             try
             {
                 double? TotalPrice = 0;
 
-                Component = DB.tblComponents.Where(x => x.ComponentId == OrderDetail.ComponentId).FirstOrDefault();
+                SubCategory = DB.tblSubCategories.Where(x => x.SubcategoryID == OrderDetail.SubCategoryID).FirstOrDefault();
                 Data = OrderDetail;
-                Data.ComponentName = Component.Name;
-                Data.ComponentCode= Component.Code;
-                Data.ComponentPrice= Component.Price;
+                Data.SubcategoryName = SubCategory.SubcategoryName;
+                Data.Price= SubCategory.Price;
                 DB.tblOrderDetails.Add(Data);
                 DB.SaveChanges();
 
@@ -640,7 +639,7 @@ namespace DrawingTheme.Controllers
 
                 OrderDetailData = DB.tblOrderDetails.Where(x => x.OrderId == OrderDetail.OrderId).ToList();
 
-                TotalPrice=OrderDetailData.Sum(S => S.ComponentPrice);
+                TotalPrice=OrderDetailData.Sum(S => S.Price);
 
                 return Json(TotalPrice);
 

@@ -91,10 +91,14 @@
           </Key>
           <Property Name="OrderDetailId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="OrderId" Type="int" />
-          <Property Name="ComponentId" Type="int" />
-          <Property Name="ComponentName" Type="nvarchar(max)" />
-          <Property Name="ComponentCode" Type="nvarchar(max)" />
-          <Property Name="ComponentPrice" Type="float" />
+          <Property Name="SubCategoryID" Type="int" />
+          <Property Name="SubcategoryName" Type="varchar" MaxLength="500" />
+          <Property Name="Price" Type="float" />
+          <Property Name="MinAngle" Type="float" />
+          <Property Name="MaxAngle" Type="float" />
+          <Property Name="ThrowDistanceMax" Type="float" />
+          <Property Name="ThrowDistanceMin" Type="float" />
+          <Property Name="UniqueId" Type="nvarchar" MaxLength="500" />
         </EntityType>
         <EntityType Name="tblRole">
           <Key>
@@ -276,18 +280,6 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_tblOrderDetail_tblComponent">
-          <End Role="tblComponent" Type="Self.tblComponent" Multiplicity="0..1" />
-          <End Role="tblOrderDetail" Type="Self.tblOrderDetail" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="tblComponent">
-              <PropertyRef Name="ComponentId" />
-            </Principal>
-            <Dependent Role="tblOrderDetail">
-              <PropertyRef Name="ComponentId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK_tblOrderDetail_tblOrder">
           <End Role="tblOrder" Type="Self.tblOrder" Multiplicity="0..1" />
           <End Role="tblOrderDetail" Type="Self.tblOrderDetail" Multiplicity="*" />
@@ -297,6 +289,18 @@
             </Principal>
             <Dependent Role="tblOrderDetail">
               <PropertyRef Name="OrderId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tblOrderDetail_tblSubCategory">
+          <End Role="tblSubCategory" Type="Self.tblSubCategory" Multiplicity="0..1" />
+          <End Role="tblOrderDetail" Type="Self.tblOrderDetail" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tblSubCategory">
+              <PropertyRef Name="SubcategoryID" />
+            </Principal>
+            <Dependent Role="tblOrderDetail">
+              <PropertyRef Name="SubCategoryID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -398,12 +402,12 @@
             <End Role="tblUser" EntitySet="tblUser" />
             <End Role="tblOrder" EntitySet="tblOrder" />
           </AssociationSet>
-          <AssociationSet Name="FK_tblOrderDetail_tblComponent" Association="Self.FK_tblOrderDetail_tblComponent">
-            <End Role="tblComponent" EntitySet="tblComponent" />
-            <End Role="tblOrderDetail" EntitySet="tblOrderDetail" />
-          </AssociationSet>
           <AssociationSet Name="FK_tblOrderDetail_tblOrder" Association="Self.FK_tblOrderDetail_tblOrder">
             <End Role="tblOrder" EntitySet="tblOrder" />
+            <End Role="tblOrderDetail" EntitySet="tblOrderDetail" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tblOrderDetail_tblSubCategory" Association="Self.FK_tblOrderDetail_tblSubCategory">
+            <End Role="tblSubCategory" EntitySet="tblSubCategory" />
             <End Role="tblOrderDetail" EntitySet="tblOrderDetail" />
           </AssociationSet>
           <AssociationSet Name="FK_tblSetting_tblUser" Association="Self.FK_tblSetting_tblUser">
@@ -525,17 +529,8 @@
 
           <EntitySet Name="tblSettings" EntityType="AutomatischeModel.tblSetting" />
           <EntitySet Name="tblOrders" EntityType="AutomatischeModel.tblOrder" />
-          <EntitySet Name="tblOrderDetails" EntityType="AutomatischeModel.tblOrderDetail" />
-          <AssociationSet Name="FK_tblOrderDetail_tblOrder" Association="AutomatischeModel.FK_tblOrderDetail_tblOrder">
-            <End Role="tblOrder" EntitySet="tblOrders" />
-            <End Role="tblOrderDetail" EntitySet="tblOrderDetails" />
-          </AssociationSet>
           <FunctionImport Name="SpOrderNumber" ReturnType="Collection(String)" />
           <EntitySet Name="tblComponents" EntityType="AutomatischeModel.tblComponent" />
-          <AssociationSet Name="FK_tblOrderDetail_tblComponent" Association="AutomatischeModel.FK_tblOrderDetail_tblComponent">
-            <End Role="tblComponent" EntitySet="tblComponents" />
-            <End Role="tblOrderDetail" EntitySet="tblOrderDetails" />
-          </AssociationSet>
           <EntitySet Name="tblUsers" EntityType="AutomatischeModel.tblUser" />
           <AssociationSet Name="FK_tblComponent_tblUser" Association="AutomatischeModel.FK_tblComponent_tblUser">
             <End Role="tblUser" EntitySet="tblUsers" />
@@ -577,6 +572,15 @@
             <End Role="tblCategory" EntitySet="tblCategories" />
             <End Role="tblSubCategory" EntitySet="tblSubCategories" />
           </AssociationSet>
+          <EntitySet Name="tblOrderDetails" EntityType="AutomatischeModel.tblOrderDetail" />
+          <AssociationSet Name="FK_tblOrderDetail_tblOrder" Association="AutomatischeModel.FK_tblOrderDetail_tblOrder">
+            <End Role="tblOrder" EntitySet="tblOrders" />
+            <End Role="tblOrderDetail" EntitySet="tblOrderDetails" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tblOrderDetail_tblSubCategory" Association="AutomatischeModel.FK_tblOrderDetail_tblSubCategory">
+            <End Role="tblSubCategory" EntitySet="tblSubCategories" />
+            <End Role="tblOrderDetail" EntitySet="tblOrderDetails" />
+          </AssociationSet>
           </EntityContainer>
         <EntityType Name="tblSetting">
           <Key>
@@ -610,36 +614,11 @@
           <Property Name="EditDate" Type="DateTime" Precision="3" />
           <Property Name="EditBy" Type="Int32" />
           <Property Name="isActive" Type="Boolean" />
-          <NavigationProperty Name="tblOrderDetails" Relationship="AutomatischeModel.FK_tblOrderDetail_tblOrder" FromRole="tblOrder" ToRole="tblOrderDetail" />
           <NavigationProperty Name="tblUser" Relationship="AutomatischeModel.FK_tblOrder_tblUser" FromRole="tblOrder" ToRole="tblUser" />
           <NavigationProperty Name="tblUser1" Relationship="AutomatischeModel.FK_tblOrder_tblUser1" FromRole="tblOrder" ToRole="tblUser" />
           <NavigationProperty Name="tblTransactions" Relationship="AutomatischeModel.FK_tblTransaction_tblOrder" FromRole="tblOrder" ToRole="tblTransaction" />
+          <NavigationProperty Name="tblOrderDetails" Relationship="AutomatischeModel.FK_tblOrderDetail_tblOrder" FromRole="tblOrder" ToRole="tblOrderDetail" />
         </EntityType>
-        <EntityType Name="tblOrderDetail">
-          <Key>
-            <PropertyRef Name="OrderDetailId" />
-          </Key>
-          <Property Name="OrderDetailId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="OrderId" Type="Int32" />
-          <Property Name="ComponentId" Type="Int32" />
-          <Property Name="ComponentName" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="ComponentCode" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="ComponentPrice" Type="Double" />
-          <NavigationProperty Name="tblOrder" Relationship="AutomatischeModel.FK_tblOrderDetail_tblOrder" FromRole="tblOrderDetail" ToRole="tblOrder" />
-          <NavigationProperty Name="tblComponent" Relationship="AutomatischeModel.FK_tblOrderDetail_tblComponent" FromRole="tblOrderDetail" ToRole="tblComponent" />
-        </EntityType>
-        <Association Name="FK_tblOrderDetail_tblOrder">
-          <End Type="AutomatischeModel.tblOrder" Role="tblOrder" Multiplicity="0..1" />
-          <End Type="AutomatischeModel.tblOrderDetail" Role="tblOrderDetail" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="tblOrder">
-              <PropertyRef Name="OrderId" />
-            </Principal>
-            <Dependent Role="tblOrderDetail">
-              <PropertyRef Name="OrderId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <EntityType Name="tblComponent">
           <Key>
             <PropertyRef Name="ComponentId" />
@@ -653,22 +632,9 @@
           <Property Name="EditBy" Type="Int32" />
           <Property Name="EditDate" Type="DateTime" Precision="3" />
           <Property Name="isActive" Type="Boolean" />
-          <NavigationProperty Name="tblOrderDetails" Relationship="AutomatischeModel.FK_tblOrderDetail_tblComponent" FromRole="tblComponent" ToRole="tblOrderDetail" />
           <NavigationProperty Name="tblUser" Relationship="AutomatischeModel.FK_tblComponent_tblUser" FromRole="tblComponent" ToRole="tblUser" />
           <NavigationProperty Name="tblUser1" Relationship="AutomatischeModel.FK_tblComponent_tblUser1" FromRole="tblComponent" ToRole="tblUser" />
         </EntityType>
-        <Association Name="FK_tblOrderDetail_tblComponent">
-          <End Type="AutomatischeModel.tblComponent" Role="tblComponent" Multiplicity="0..1" />
-          <End Type="AutomatischeModel.tblOrderDetail" Role="tblOrderDetail" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="tblComponent">
-              <PropertyRef Name="ComponentId" />
-            </Principal>
-            <Dependent Role="tblOrderDetail">
-              <PropertyRef Name="ComponentId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <EntityType Name="tblUser">
           <Key>
             <PropertyRef Name="UserId" />
@@ -871,6 +837,7 @@
           <Property Name="Plannercomponent" Type="Boolean" />
           <Property Name="BOMRelevant" Type="Boolean" />
           <NavigationProperty Name="tblCategory" Relationship="AutomatischeModel.FK_tblSubCategory_tblCategory" FromRole="tblSubCategory" ToRole="tblCategory" />
+          <NavigationProperty Name="tblOrderDetails" Relationship="AutomatischeModel.FK_tblOrderDetail_tblSubCategory" FromRole="tblSubCategory" ToRole="tblOrderDetail" />
         </EntityType>
         <Association Name="FK_tblSubCategory_tblCategory">
           <End Type="AutomatischeModel.tblCategory" Role="tblCategory" Multiplicity="0..1" />
@@ -881,6 +848,47 @@
             </Principal>
             <Dependent Role="tblSubCategory">
               <PropertyRef Name="CategoryID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="tblOrderDetail">
+          <Key>
+            <PropertyRef Name="OrderDetailId" />
+          </Key>
+          <Property Name="OrderDetailId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="OrderId" Type="Int32" />
+          <Property Name="SubCategoryID" Type="Int32" />
+          <Property Name="SubcategoryName" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="Price" Type="Double" />
+          <Property Name="MinAngle" Type="Double" />
+          <Property Name="MaxAngle" Type="Double" />
+          <Property Name="ThrowDistanceMax" Type="Double" />
+          <Property Name="ThrowDistanceMin" Type="Double" />
+          <NavigationProperty Name="tblOrder" Relationship="AutomatischeModel.FK_tblOrderDetail_tblOrder" FromRole="tblOrderDetail" ToRole="tblOrder" />
+          <NavigationProperty Name="tblSubCategory" Relationship="AutomatischeModel.FK_tblOrderDetail_tblSubCategory" FromRole="tblOrderDetail" ToRole="tblSubCategory" />
+          <Property Name="UniqueId" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <Association Name="FK_tblOrderDetail_tblOrder">
+          <End Type="AutomatischeModel.tblOrder" Role="tblOrder" Multiplicity="0..1" />
+          <End Type="AutomatischeModel.tblOrderDetail" Role="tblOrderDetail" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tblOrder">
+              <PropertyRef Name="OrderId" />
+            </Principal>
+            <Dependent Role="tblOrderDetail">
+              <PropertyRef Name="OrderId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tblOrderDetail_tblSubCategory">
+          <End Type="AutomatischeModel.tblSubCategory" Role="tblSubCategory" Multiplicity="0..1" />
+          <End Type="AutomatischeModel.tblOrderDetail" Role="tblOrderDetail" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tblSubCategory">
+              <PropertyRef Name="SubcategoryID" />
+            </Principal>
+            <Dependent Role="tblOrderDetail">
+              <PropertyRef Name="SubCategoryID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -970,18 +978,6 @@
                 <ScalarProperty Name="Name" ColumnName="Name" />
                 <ScalarProperty Name="OrderNumber" ColumnName="OrderNumber" />
                 <ScalarProperty Name="OrderId" ColumnName="OrderId" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="tblOrderDetails">
-            <EntityTypeMapping TypeName="AutomatischeModel.tblOrderDetail">
-              <MappingFragment StoreEntitySet="tblOrderDetail">
-                <ScalarProperty Name="ComponentPrice" ColumnName="ComponentPrice" />
-                <ScalarProperty Name="ComponentCode" ColumnName="ComponentCode" />
-                <ScalarProperty Name="ComponentName" ColumnName="ComponentName" />
-                <ScalarProperty Name="ComponentId" ColumnName="ComponentId" />
-                <ScalarProperty Name="OrderId" ColumnName="OrderId" />
-                <ScalarProperty Name="OrderDetailId" ColumnName="OrderDetailId" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -1099,6 +1095,22 @@
                 <ScalarProperty Name="SubcategoryName" ColumnName="SubcategoryName" />
                 <ScalarProperty Name="CategoryID" ColumnName="CategoryID" />
                 <ScalarProperty Name="SubcategoryID" ColumnName="SubcategoryID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tblOrderDetails">
+            <EntityTypeMapping TypeName="AutomatischeModel.tblOrderDetail">
+              <MappingFragment StoreEntitySet="tblOrderDetail">
+                <ScalarProperty Name="UniqueId" ColumnName="UniqueId" />
+                <ScalarProperty Name="ThrowDistanceMin" ColumnName="ThrowDistanceMin" />
+                <ScalarProperty Name="ThrowDistanceMax" ColumnName="ThrowDistanceMax" />
+                <ScalarProperty Name="MaxAngle" ColumnName="MaxAngle" />
+                <ScalarProperty Name="MinAngle" ColumnName="MinAngle" />
+                <ScalarProperty Name="Price" ColumnName="Price" />
+                <ScalarProperty Name="SubcategoryName" ColumnName="SubcategoryName" />
+                <ScalarProperty Name="SubCategoryID" ColumnName="SubCategoryID" />
+                <ScalarProperty Name="OrderId" ColumnName="OrderId" />
+                <ScalarProperty Name="OrderDetailId" ColumnName="OrderDetailId" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

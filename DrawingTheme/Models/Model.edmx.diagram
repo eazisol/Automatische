@@ -27,9 +27,11 @@
         <AssociationConnector Association="AutomatischeEntities.FK_tblUser_tblRole" ManuallyRouted="false" />
         <AssociationConnector Association="AutomatischeEntities.FK_tblSetting_tblUser" ManuallyRouted="false" />
         <AssociationConnector Association="AutomatischeEntities.FK_tblTransaction_tblUser" ManuallyRouted="false" />
-        <EntityTypeShape EntityType="AutomatischeModel.tblCategory" Width="1.5" PointX="0.75" PointY="0.75" />
-        <EntityTypeShape EntityType="AutomatischeModel.tblSubCategory" Width="1.5" PointX="2.75" PointY="0.75" />
+        <EntityTypeShape EntityType="AutomatischeModel.tblCategory" Width="1.5" PointX="0.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="AutomatischeModel.tblSubCategory" Width="1.5" PointX="2.75" PointY="0.75" IsExpanded="true" />
         <AssociationConnector Association="AutomatischeModel.FK_tblSubCategory_tblCategory" />
+        <EntityTypeShape EntityType="AutomatischeModel.tblOrderDetail" Width="1.5" PointX="5" PointY="3.125" />
+        <AssociationConnector Association="AutomatischeModel.FK_tblOrderDetail_tblSubCategory" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

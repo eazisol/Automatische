@@ -14,6 +14,12 @@ namespace DrawingTheme.Models
     
     public partial class tblSubCategory
     {
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
+        public tblSubCategory()
+        {
+            this.tblOrderDetails = new HashSet<tblOrderDetail>();
+        }
+    
         public int SubcategoryID { get; set; }
         public Nullable<int> CategoryID { get; set; }
         public string SubcategoryName { get; set; }
@@ -50,5 +56,7 @@ namespace DrawingTheme.Models
         public Nullable<bool> BOMRelevant { get; set; }
     
         public virtual tblCategory tblCategory { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<tblOrderDetail> tblOrderDetails { get; set; }
     }
 }
