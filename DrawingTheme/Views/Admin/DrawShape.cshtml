@@ -665,7 +665,7 @@
 
         SubCategoryID = $("#SubCatId").text();
         SubcategoryName = $("#SName").text();
-        UniqueId = $("#TapId").text();
+        UniqueId = $("#TapId").val();
         OrderId = $("#OrderId").val();
 
         $("#EndTap").hide();
@@ -808,7 +808,7 @@
 
         SubCategoryID = $("#SubCatId").text();
         SubcategoryName = $("#SName").text();
-        UniqueId = $("#ICId").text();
+        UniqueId = $("#ICId").val();
         OrderId = $("#OrderId").val();
 
         $("#EndIC").hide();
@@ -1107,13 +1107,13 @@
         //$("#Sprinkler").prop('disabled', false);
         //
 
-        SubCategoryID = $("#SubCatId").text();
-        SubcategoryName = $("#SName").text();
-        UniqueId = $("#SId").text();
-        MinAngle = $("#StartAngle").val();
-        MaxAngle = $("#SAngle").val();
-        ThrowDistanceMax = $("#SRadius").val();
-        OrderId = $("#OrderId").val();
+        var SubCategoryID = $("#SubCatId").text();
+        var SubcategoryName = $("#SName").text();
+        var UniqueId = $("#SId").val();
+        var MinAngle = $("#StartAngle").val();
+        var MaxAngle = $("#SAngle").val();
+        var ThrowDistanceMax = $("#SRadius").val();
+        var OrderId = $("#OrderId").val();
 
         $("#BtnEndsprinkler").hide();
         $("#RSPD").hide();
@@ -1153,7 +1153,7 @@
 
         SubCategoryID = $("#SubCatId").text();
         SubcategoryName = $("#SName").text();
-        UniqueId = $("#VBId").text();
+        UniqueId = $("#VBId").val();
         OrderId = $("#OrderId").val();
 
         $("#EndVB").hide();
@@ -1418,7 +1418,7 @@
 
         SubCategoryID = $("#SubCatId").text();
         SubcategoryName = $("#SName").text();
-        UniqueId = $("#SSId").text();
+        UniqueId = $("#SSId").val();
         OrderId = $("#OrderId").val();
 
         $("#BtnEndRectangularsprinkler").hide();
@@ -1941,8 +1941,7 @@
                         y2 = Index + 3
 
                         var TextId = FindDragTextId(id);
-                        consol.log(id);
-                        consol.log(TextId);
+                        
                         var EText = layer.findOne('#' + TextId[0]);
                         //console.log(EText);
 
@@ -2716,54 +2715,98 @@
 
             }
             else if (CLastId[0] == 'S' && CLastId[1] == 'p') {
-                if (CurretSprinkler!="") {
-                    CurretSprinkler = "";
-                }
+               
                 var node = layer.findOne('#' + CLastId.replace("Sprinkler", "FillCircle"));
-
-                node.destroy();
+                if (node != null) {
+                    if (CurretSprinkler != "") {
+                        CurretSprinkler = "";
+                    }
+                    $("#SName").text("");
+                    $("#RSPD").hide();
+                    node.destroy();
+                }
                 var node = layer.findOne('#' + CLastId.replace("Sprinkler", "Circle"));
-                node.destroy();
+                if (node != null) {
+                    node.destroy();
+                }
                 var node = layer.findOne('#' + CLastId.replace("Sprinkler", "Arc"));
-                node.destroy();
+                if (node != null) {
+                    node.destroy();
+                }
 
             }
             else if (CLastId[0] == 'R' && CLastId[1] == 'e') {
-                if (CurretRSprinkler != "") {
-                    CurretRSprinkler = "";
-                }
+                
                 var node = layer.findOne('#' + CLastId.replace("RectangularSprinkler", "RSCircle"));
-
-                node.destroy();
+                if (node != null) {
+                    if (CurretRSprinkler != "") {
+                        CurretRSprinkler = "";
+                    }
+                    $("#SName").text("");
+                    $("#SSPD").hide();
+                    node.destroy();
+                }
                 var node = layer.findOne('#' + CLastId.replace("RectangularSprinkler", "TRS"));
-                node.destroy();
+                if (node != null) {
+                    node.destroy();
+                }
 
             }
             else if (CLastId[0] == 'S' && CLastId[1] == 'y') {
                 var node = layer.findOne('#' + CLastId.replace("System", "TIC"));
-
-                node.destroy();
+                $("#SName").text("");
+                $("#ICPD").hide();
+                if (node != null) {
+                    if (CurretIC != "") {
+                        CurretIC = "";
+                    }
+                    $("#btn_IC *").prop('disabled', false);
+                    node.destroy();
+                }
             }
-            else if (CLastId[0] == 'V' ) {
+            else if (CLastId[0] == 'V') {
+               
+                
                 var node = layer.findOne('#' + CLastId.replace("ValveBox", "TVB"));
 
-                node.destroy();
+                $("#SName").text("");
+                $("#VBPD").hide();
+                if (node != null) {
+                    if (CurretVB != "") {
+                        CurretVB = "";
+                    }
+                    $("#btn_VB *").prop('disabled', false);
+                    node.destroy();
+                }
             }
             else if (CLastId[0] == 'T' && CLastId[1] == 'a') {
                 var node = layer.findOne('#' + CLastId.replace("Tap", "TTap"));
-
-                node.destroy();
+                $("#SName").text("");
+                $("#TapPD").hide();
+                if (node != null) {
+                    if (CurretTap != "") {
+                        CurretTap = "";
+                    }
+                    $("#btn_TAP *").prop('disabled', false);
+                    node.destroy();
+                }
             }
             var node = layer.findOne('#' + CLastId);
-            node.destroy();
+            if (node != null) {
+                node.destroy();
+            }
+
+            var UniqueId = CLastId;
+            var OrderId = $("#OrderId").val();
+
+
             UndoArray.pop();
 
 
-            @*ComponentCode = id;
-            OrderId = $("#OrderId").val();
+            
 
             var model = {
-                ComponentCode: ComponentCode,
+                UniqueId: UniqueId,
                 OrderId: OrderId,
             };
 
@@ -2777,7 +2820,7 @@
                     $("#TotalAmount").text(r);
                     $("#TotalAmountInput").val(r);
                 }
-            });*@
+            });
 
         }
 
