@@ -6,7 +6,7 @@
     //Layout = null;
 }
 
-@*<div class="block-header py-lg-2 py-2">
+<div class="block-header py-lg-2 py-2">
     <div class="container-fluid">
         <div class="row align-items-center">
             <div class="col-lg-6 col-md-4 col-sm-12">
@@ -24,88 +24,177 @@
 
         </div>
     </div>
-</div>*@
-
-
-<div class="body d-flex profile-page">
-    <div class="container-fluid">
-        <div class="row mb-2">
-            <input type="text" name="OrderId" id="OrderId" value="" hidden />
-            @foreach (DrawingTheme.Models.tblComponent Component in Model)
-            {
-                {
-                    i += 1;
-                }
-                <button id="@Component.Code" class="btn btn-primary mr-1" onclick="SaveData(@Component.ComponentId)" data-radius="30" data-Width="100" data-Height="40" data-Angle="180" data-Rotation="45">@Component.Name</button>
-                if (i == 7)
-                {
-                    <br />
-                }
-            }
-            <button id="UndoCanvas" class="btn btn-warning mr-1">Undo</button>
-            <button id="BtnTap" class="btn btn-outline-dark mr-1">Tap</button>
-            <button id="BtnSystem" class="btn btn-info mr-1">Computer System</button>
-            <button id="BtnValveBox" class="btn btn-secondary mr-1">Valve Box</button>
-            <button id="BtnEndsprinkler" style="display:none;" class="btn btn-danger mr-1">End sprinkler</button>
-            @*<button id="BtnEndRectangularsprinkler" style="display:none;">End rectangular sprinkler</button>*@
-          
-            <input type="file" id="file_input" class="" accept="image/*" name="name" value="" />
-            <br />
-          
-
-
-            @*<button id="Area" style="margin-left:2%;">Lawn</button>
-                <button id="DryArea" style="margin-left:2%;">Dry Area</button>*@
-        </div>
-        <div class="row">
-            <div class="card col-md-10">
-                <div id="container">
-                </div>
-            </div>
-            <div class="col-md-2">
-                <div class="card">
-                    <div class="card-header">
-                        <h4>Property</h4>
-                    </div>
-                    <div class="card-body">
-                        <input class="form-control" type="text" id="SId" hidden name="name" value="" />
-                        <label>Radius</label>
-                        <input class="form-control" type="number" id="SRadius" onchange="SetS(this,1)" name="name" value="" />
-                        <label>Start Angle</label>
-                        <input class="form-control" type="number" id="StartAngle" onchange="SetS(this,2)" name="name" value="" />
-                        <label>Angle</label>
-                        <input class="form-control" type="number" id="SAngle" onchange="SetS(this,3)" name="name" value="" />
-
-                        <div id="DivImageOpacityValue" style="display:none;">
-                            <label>Image opacity</label>
-                            <input type="range" id="ImageOpacityValue" min="10" max="100" value="100" />
-                        </div>
-                      
-
-
-                    </div>
-                </div>
-                <div class="card">
-                   
-                    <div class="card-body text-center">
-                        <form role="form" id="payment-form" method="POST" action="@Url.Action("PaymentWithPaypal","PayPal")">
-                            <div id="">Total Amount: <lebel id="TotalAmount"> 0</lebel></div>
-                            <input type="text" id="TotalAmountInput" name="amount" value="" hidden />
-                            <button id="save" type="button" class="btn btn-dark mb-1">Save as PDF</button> 
-                            <button class="btn btn-primary" type="submit"> Pay Amount</button>
-                        </form>
-                    </div>
-                </div>
-            </div>
-                </div>
-
-
-            </div>
 </div>
 
 
-<div class="modal fade" id="addcontact" tabindex="-1" role="dialog">
-    <div class="modal-dialog " role="document">
+
+
+<div class="row">
+    <div class="col-md-2">
+        <div class="">
+            <div class="">
+
+                @foreach (DrawingTheme.Models.tblCategory item in ViewBag.Category)
+                {
+
+                    <div class="dropdown mb-2">
+                        <button type="button" class="btn btn-secondary dropdown-toggle" data-toggle="dropdown">
+                            <i class="fe fe-calendar">@item.CategoryName</i>
+                        </button>
+                        <div class="dropdown-menu" style="will-change: transform; position: absolute; transform: translate3d(0px, 34px, 0px); top: 0px; left: 0px;" x-placement="bottom-start">
+
+                            @foreach (DrawingTheme.Models.tblSubCategory item1 in ViewBag.SubCategory)
+                            {
+                                if (@item1.CategoryID == item.CategoryID)
+                                {
+                                    <a class="dropdown-item" id="@item.Code"  href="javascript:void(0)">
+                                        @item1.SubcategoryName
+                                    </a>
+                                }
+
+
+                            }
+                        </div>
+                    </div>
+
+                }
+
+
+                @*<button id="BtnTap">Tap</button><br />
+        <button id="BtnSystem">Computer System</button><br />
+        <button id="BtnValveBox">Valve Box</button><br />
+        <button id="BtnEndsprinkler" style="display:none;">End sprinkler</button><br />*@
+            </div>
+        </div>
+    </div>
+    <div class="col-md-10">
+        <div class="">
+            <div class="">
+                <div class="body d-flex profile-page">
+                    <div class="container-fluid">
+                        @*<div>
+                    <input type="text" name="OrderId" id="OrderId" value="" hidden />
+                    @foreach (DrawingTheme.Models.tblComponent Component in Model)
+                    {
+                        {
+                            i += 1;
+                        }
+                        <button id="@Component.Code" onclick="SaveData(@Component.ComponentId)" data-radius="30" data-Width="100" data-Height="40" data-Angle="180" data-Rotation="45">@Component.Name</button>
+                        if (i == 7)
+                        {
+                            <br />
+                        }
+                    }
+                    <button id="UndoCanvas">Undo</button>
+                    <button id="BtnTap">Tap</button>
+                    <button id="BtnSystem">Computer System</button>
+                    <button id="BtnValveBox">Valve Box</button>
+                    <button id="BtnEndsprinkler" style="display:none;">End sprinkler</button>
+                    <button id="BtnEndRectangularsprinkler" style="display:none;">End rectangular sprinkler</button>
+                    <button id="save">Save as PDF</button>
+                    <input type="file" id="file_input" accept="image/*" name="name" value="" />
+                    <br />
+                    <div id="DivImageOpacityValue" style="display:none;">
+                        <label>Image opacity</label>
+                        <input type="number" id="ImageOpacityValue" min="0" max="1" value="1" />
+                    </div>
+
+
+                    <button id="Area" style="margin-left:2%;">Lawn</button>
+                    <button id="DryArea" style="margin-left:2%;">Dry Area</button>
+                </div>*@
+
+
+                        <div>
+                            <input type="text" name="OrderId" id="OrderId" value="" hidden="">
+
+
+                            <button id="Area" class="btn btn-success" onclick="SaveData(4)" data-radius="30" data-width="100" data-height="40" data-angle="180" data-rotation="45">Lawn</button>
+                            <button id="DryArea" class="btn" style="background-color: #ffe699;" onclick="SaveData(5)" data-radius="30" data-width="100" data-height="40" data-angle="180" data-rotation="45">Dry Area</button>
+                            <button id="Hedge" class="btn" style="background-color: #D2BFFF;" onclick="SaveData(6)" data-radius="30" data-width="100" data-height="40" data-angle="180" data-rotation="45">Hedge</button>
+                            <button id="GetWet" class="btn" style="background-color: rgba(111, 187, 211, .8);" onclick="SaveData(9)" data-radius="30" data-width="100" data-height="40" data-angle="180" data-rotation="45">Get Wet </button>
+                            @*<button id="Sprinkler" onclick="SaveData(7)" data-radius="30" data-width="100" data-height="40" data-angle="180" data-rotation="45">Sprinkler</button>*@
+                            @*<button id="RectangularSprinkler" onclick="SaveData(8)" data-radius="30" data-width="100" data-height="40" data-angle="180" data-rotation="45">Rectangular</button>*@
+                            <button id="UndoCanvas">Undo</button>
+
+
+                            <button class="btn btn-primary" id="save">Save as PDF</button>
+                            <input type="file" class="form-control" id="file_input" accept="image/*" name="name" value="">
+                            <div id="DivImageOpacityValue" style="display:none;">
+                                <label>Image opacity</label>
+                                <input type="number" class="form-control" id="ImageOpacityValue" min="0" max="1" value="1">
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-10">
+                                <div id="container">
+                                </div>
+                            </div>
+                            <div class="col-md-2">
+                                <div class="card">
+                                    <div class="card-header">
+                                        <h4>Property</h4>
+                                    </div>
+                                    <div class="card-body">
+                                        <input class="form-control" type="text" id="SId" hidden name="name" value="" />
+                                        <label>Radius</label>
+                                        <input class="form-control" type="number" id="SRadius" onchange="SetS(this,1)" name="name" value="" />
+                                        <label>Start Angle</label>
+                                        <input class="form-control" type="number" id="StartAngle" onchange="SetS(this,2)" name="name" value="" />
+                                        <label>Angle</label>
+                                        <input class="form-control" type="number" id="SAngle" onchange="SetS(this,3)" name="name" value="" />
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <form role="form" id="payment-form" method="POST" action="@Url.Action("PaymentWithPaypal","PayPal")">
+                            <div id="">Total Amount: <lebel id="TotalAmount"> 0</lebel></div>
+                            <input type="text" id="TotalAmountInput" name="amount" value="" hidden />
+                            <button> Save Diagram</button>
+                        </form>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+@*<div class="navigation navbar navbar-light justify-content-center px-3 px-lg-2 py-2 py-md-3  ver-menu">
+
+        <ul class="nav navbar-nav flex-row flex-lg-column flex-grow-1 justify-content-start align-items-center py-2 py-lg-0">
+         Create group
+            <li class="nav-item flex-grow-1">
+
+            </li>
+             <li class="nav-item">
+                     <a class="nav-link p-2 p-lg-3" href="#" title="Search" data-toggle="modal"
+                        data-target="#SearchModal"><i class="fa fa-search"></i></a>
+                 </li>
+                 <li class="nav-item flex-grow-1">
+                     <a class="nav-link p-2 p-lg-3" href="#" title="notifications" data-toggle="modal"
+                        data-target="#notificationsModal"><i class="fa fa-bell"></i></a>
+                 </li>
+         Menu collapse
+        <li class="nav-item">
+                    <a class="nav-link p-2 p-lg-3" href="Url.Action("Profile","User")" title="Menu collapse">
+                        <i class="fa fa-user"></i>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link p-2 p-lg-3" href="Url.Action("Login","Account")" title="Menu collapse">
+                        <i class="fa fa-sign-out"></i>
+                    </a>
+                </li>
+        </ul>
+    </div>*@
+
+
+
+<div class="modal fade" id="addcontact" tabindex="-1" role="dialog" data-backdrop="static" data-keyboard="false">
+    <div class="modal-dialog  modal-lg" role="document">
 
         <div class="modal-content">
             <div class="modal-header">
@@ -127,7 +216,7 @@
             </div>
             <div class="modal-footer">
                 <button type="submit" class="btn btn-primary" id="SaveOrder">Save Changes</button>
-                <button type="button" class="btn btn-default" data-dismiss="modal">CLOSE</button>
+                @*<button type="button" class="btn btn-default" data-dismiss="modal">CLOSE</button>*@
             </div>
         </div>
     </div>
@@ -189,15 +278,14 @@
 
 
     $(document).ready(function () {
-        $("#btnChangeImage").click(); 
-        ChangeImage();
-        $("#SideBAr").addClass("sidebar-mini");
-        $("#addcontact").modal('toggle');
+
+        //$("#addcontact").modal('toggle');
+        //$('#addcontact').modal({ backdrop: 'static', keyboard: false })
 
     });
 
-        var width = 1000;
-    var height = 500;
+        var width = window.innerWidth;
+    var height = window.innerHeight;
 
         var isDraw = false;
         var isFirst = false;
@@ -2286,11 +2374,9 @@
 
     $("body").on("change", "#ImageOpacityValue", function () {
         var node = layer.findOne('#UploadImg');
-        var val = this.value;
-        val = val / 100;
         //console.log(node);
         //console.log(this.value);
-        node.opacity(val);
+        node.opacity(this.value);
     });
 
 
