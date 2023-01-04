@@ -69,6 +69,7 @@
                                     <tr>
 
                                         <th hidden>CategoryID</th>
+                                        <th>@Resources.CODE</th>
                                         <th>@Resources.NAME</th>
                                         <th>@Resources.ACTION</th>
                                     </tr>
@@ -76,20 +77,21 @@
                                 <tbody>
                                     @foreach (DrawingTheme.Models.tblCategory Component in Model)
                                     {
-                                        <tr>
+                                    <tr>
 
-                                            
 
-                                            <td hidden> @Component.CategoryID</td>
-                                            <td>@Component.CategoryName</td>
-                                          
 
-                                            
-                                            <td>
-                                                <button type="button" class="btn btn-primary btn-sm" title="Edit" data-toggle="modal" data-target="#addcontact" id="EditComponent"><i class="fa fa-edit"></i></button>
-                                                <button type="button" class="btn btn-danger btn-sm" title="Delete" data-toggle="modal" data-target="#DeleteComponentModal" id="DeleteComponent"><i class="fa fa-trash-o"></i></button>
-                                            </td>
-                                        </tr>
+                                        <td hidden> @Component.CategoryID</td>
+                                        <td>@Component.Code</td>
+                                        <td>@Component.CategoryName</td>
+
+
+
+                                        <td>
+                                            <button type="button" class="btn btn-primary btn-sm" title="Edit" data-toggle="modal" data-target="#addcontact" id="EditComponent"><i class="fa fa-edit"></i></button>
+                                            <button type="button" class="btn btn-danger btn-sm" title="Delete" data-toggle="modal" data-target="#DeleteComponentModal" id="DeleteComponent"><i class="fa fa-trash-o"></i></button>
+                                        </td>
+                                    </tr>
 
                                     }
 
@@ -114,7 +116,12 @@
             <div class="modal-body">
 
                 <div class="row clearfix">
-                   
+                    <div class="col-6">
+                        <div class="form-group">
+                            <label>@Resources.CODE</label>
+                            <input type="text" class="form-control" id="Code" name="Code" placeholder="Code" required>
+                        </div>
+                    </div>
                     <div class="col-6">
                         <div class="form-group">
                             <label>@Resources.NAME</label>
@@ -123,7 +130,7 @@
                         </div>
                     </div>
 
-                
+
 
                 </div>
 
@@ -172,6 +179,7 @@
         //alert();
         var currentRow = $(this).closest("tr");
         $("#CategoryID").val(currentRow.find("td:eq(0)").text());
+
        /* $("#DeleteComponentModal").toggle();*/
 
     });
@@ -196,8 +204,8 @@
         $("#defaultModalLabel").text("Edit Category");
         var CategoryID = currentRow.find("td:eq(0)").text();
         $("#CategoryID").val(CategoryID);
-        $("#Name").val(currentRow.find("td:eq(1)").text());
-       
+        $("#Name").val(currentRow.find("td:eq(2)").text());
+        $("#Code").val(currentRow.find("td:eq(1)").text());
     });
 
     $(document).ready(function () {

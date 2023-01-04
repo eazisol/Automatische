@@ -33,7 +33,7 @@ namespace DrawingTheme.Controllers
                 int UserId = Int32.Parse(cookieObj["UserId"]);
                 int RoleId = Int32.Parse(cookieObj["RoleId"]);
                 //int UserId = 1;
-                if (DB.tblCategories.Select(r => r).Where(x => x.CategoryName == category.CategoryName).FirstOrDefault() == null)
+                if (DB.tblCategories.Select(r => r).Where(x => x.Code == category.Code).FirstOrDefault() == null)
                 {
                     if (category.CategoryID == 0)
                     {
@@ -41,7 +41,7 @@ namespace DrawingTheme.Controllers
                         Data = category;
                         DB.tblCategories.Add(Data);
                         DB.SaveChanges();
-                        return RedirectToAction("Index", new { Success = "Category has been add successfully." });
+                        return RedirectToAction("Index", new { Success = "Category has been added successfully." });
                     }
                     else
                     {
@@ -49,9 +49,10 @@ namespace DrawingTheme.Controllers
                         Data = DB.tblCategories.Select(r => r).Where(x => x.CategoryID == category.CategoryID).FirstOrDefault();
                         Data.CategoryID = category.CategoryID;
                         Data.CategoryName = category.CategoryName;
+                        Data.Code = category.Code;
                         DB.Entry(Data);
                         DB.SaveChanges();
-                        return RedirectToAction("Index", new { Update = "Category has been Update successfully." });
+                        return RedirectToAction("Index", new { Update = "Category has been updated successfully." });
                     } 
                 }
                 else
@@ -79,7 +80,7 @@ namespace DrawingTheme.Controllers
                 Data = DB.tblCategories.Select(r => r).Where(x => x.CategoryID == CategoryID).FirstOrDefault();
                 DB.Entry(Data).State = EntityState.Deleted;
                 DB.SaveChanges();
-                return RedirectToAction("Index", new { Delete = "Category has been delete successfully." });
+                return RedirectToAction("Index", new { Delete = "Category has been deleted successfully." });
             }
             catch (Exception ex)
             {
