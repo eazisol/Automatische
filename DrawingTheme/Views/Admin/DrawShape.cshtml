@@ -13,6 +13,7 @@
         <nav class="col-md-12  navbar navbar-expand-lg navbar-light light-primary-bg" style="display:block !important">
 
             <input type="text" name="OrderId" id="OrderId" value="" hidden="">
+            <input type="text" name="ObjUniqueId" id="ObjUniqueId" value="" hidden="">
 
 
             <button id="Area" class="btn btn-success ml-2 mr-2" onclick="SaveData(4)" data-radius="30" data-width="100" data-height="40" data-angle="180" data-rotation="45">Lawn</button>
@@ -137,9 +138,9 @@
                 <div id="SSPD" style="display:none;">
                     <input class="form-control" type="text" id="SSId" hidden name="name" value="" />
                     <label>Width</label>
-                    <input class="form-control" type="number" id="SSWidth" onchange="SetS(this,4)" name="name" value="" />
+                    <input class="form-control" type="number" id="SSWidth" onchange="SetS(this,4)" name="name" value="" disabled />
                     <label>Height</label>
-                    <input class="form-control" type="number" id="SSHeight" onchange="SetS(this,5)" name="name" value="" />
+                    <input class="form-control" type="number" id="SSHeight" onchange="SetS(this,5)" name="name" value="" disabled/>
                     <button class="btn" id="BtnEndRectangularsprinkler" style="display:none;background-color:aqua;">End rectangular sprinkler</button>
                 </div>
                 <div id="VBPD" style="display:none;">
@@ -174,6 +175,7 @@
                     <input type="range" class="form-control" id="ImageOpacityValue" min="10" max="100" value="100">
                 </div>
 
+                <button class="btn btn-danger text-center mt-1" id="DeleteObj" style="display:none;"><i class="fa fa-trash mr-1"></i>Delete</button>
                 <button class="btn btn-danger text-center mt-1"  id="UndoCanvas"><i class="fa fa-undo mr-1"></i>Undo</button>
             </div>
         </div>
@@ -270,7 +272,7 @@
 
         //$("#addcontact").modal('toggle');
         //$('#addcontact').modal({ backdrop: 'static', keyboard: false })
-    
+
         $("#btnChangeImage").click();
         ChangeImage();
         $("#SideBAr").addClass("sidebar-mini");
@@ -330,6 +332,148 @@
         //stage.on('pointerover', handleMouseOverStartPoint);
         stage.add(layer);
 
+    stage.on('click', (e) => {
+        //console.log(e.target.id());
+        $("#ObjUniqueId").val(e.target.id());
+        var UniqueId = $("#ObjUniqueId").val();
+        if (UniqueId != null && UniqueId!="") {
+            var OrderId = $("#OrderId").val();
+
+             var model = {
+                 UniqueId: UniqueId,
+                OrderId: OrderId,
+             };
+
+            $.ajax({
+                type: "POST",
+                url: "@Url.Action("GetObjOrderDetails", "Customer")",
+                data: JSON.stringify(model),
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: function (r) {
+
+                    if (r.Data!=null) {
+                        if (r.UniqueId[0] == 'L') {
+
+                        }
+                        else {
+                            if (r.Ret == 1) {
+                                $("#SName").text(r.Data.SubcategoryName);
+                                $("#SubCatId").text(r.Data.SubCategoryID);
+                            }
+                            else if (r.Ret == 2) {
+                                $("#SName").text(r.Data.SubcategoryName);
+                                $("#SubCatId").text(r.Data.SubcategoryID);
+                            }
+                        }
+
+
+
+
+
+                        if (r.UniqueId[0] == 'L') {
+
+                        }
+                        else if (r.UniqueId[0] == 'S' && r.UniqueId[1] == 'p') {
+                            $("#SId").val(r.Data.UniqueId);
+                            $("#SRadius").val(r.Data.ThrowDistanceMax);
+                            $("#StartAngle").val(r.Data.MinAngle);
+                            $("#SAngle").val(r.Data.MaxAngle);
+                            $("#RSPD").show();
+                            $("#BtnEndsprinkler").show();
+                            CurretSprinkler = r.Data.UniqueId;
+                        }
+                        else if (r.UniqueId[0] == 'R' && r.UniqueId[1] == 'e') {
+
+                            $("#SSId").val(r.UniqueId);
+                            $("#SSWidth").val(r.Data.ThrowWidth);
+                            $("#SSHeight").val(r.Data.ThrowHeight);
+
+                            $("#SSPD").show();
+                            $("#BtnEndRectangularsprinkler").show();
+                            CurretRSprinkler = r.UniqueId;
+
+                        }
+                        else if (r.UniqueId[0] == 'S' && r.UniqueId[1] == 'y') {
+
+                            $("#ICId").val(r.UniqueId);
+                            $("#ICS").text(r.Data.IrrigationComputermaxstation);
+                            if (r.Data.IrrigationComputerindoor == "True") {
+                                $("#ICID").show();
+                            }
+                            if (r.Data.IrrigationComputeroutdoor == "True") {
+                                $("#ICOD").show();
+                            }
+                            if (r.Data.IrrigationComputersmarphone == "True") {
+                                $("#ICSP").show();
+                            }
+
+                            $("#ICPD").show();
+                            $("#EndIC").show();
+                            CurretIC = r.UniqueId;
+                            $("#btn_IC *").prop('disabled', false);
+                        }
+                        else if (r.UniqueId[0] == 'V') {
+
+
+                            $("#VBId").val(r.UniqueId);
+                            if (r.Data.valveboxFilter == "True") {
+                                $("#VBF").show();
+                            }
+                            if (r.Data.drinkingwatersource == "True") {
+                                $("#VBDW").show();
+                            }
+                            if (r.Data.wellwatersource == "True") {
+                                $("#VBWW").show();
+                            }
+                            if (r.Data.rainwatersource == "True") {
+                                $("#VBRW").show();
+                            }
+
+                            $("#VBPD").show();
+                            $("#EndVB").show();
+                            CurretVB = r.UniqueId;
+                            $("#btn_VB *").prop('disabled', false);
+
+                        }
+                        else if (r.UniqueId[0] == 'T' && r.UniqueId[1] == 'a') {
+                            $("#TapId").val(r.UniqueId);
+                            $("#TapSelect").val(r.Data.SubcategoryID);
+
+                            $("#TapPD").show();
+                            $("#EndTap").show();
+                            CurretTap = r.UniqueId;
+                            $("#btn_TAP *").prop('disabled', false);
+                        }
+
+                        $("#DeleteObj").show();
+
+                    }
+                    if (r.UniqueId[0] == 'L') {
+                        var node = layer.findOne('#' + r.UniqueId);
+                        $("#SName").text(node.name());
+                        $("#DeleteObj").show();
+                    }
+                    if (r.UniqueId == 'UploadImg') {
+
+                        var node = layer.findOne('#' + r.UniqueId);
+                        $("#SName").text(node.name());
+                        $("#DeleteObj").show();
+                    }
+                       
+
+
+                }
+            });
+        }
+
+
+
+
+    });
+
+
+
 
         $("body").on("click", "#Area", function () {
             //alert(this.id);
@@ -354,13 +498,13 @@
 
             poly.on('pointerout', function () {
                 isOutArea = true;
-            console.log(isOutArea);
+            //console.log(isOutArea);
 
                 });
 
             poly.on('pointerenter', function () {
                 isOutArea = false;
-            console.log(isOutArea);
+            //console.log(isOutArea);
                 });
 
 
@@ -402,7 +546,7 @@
 
             poly.on('pointerdown', function () {
                     //alert(this.id()); //Should show 'IDofImg'
-                    //console.log("Line Dry"+" "+this.id());
+                    ////console.log("Line Dry"+" "+this.id());
                 if (this.id() == "Line1") {
                 isInArea = true;
                     }
@@ -410,13 +554,13 @@
 
             poly.on('pointerout', function () {
                 isOutArea = true;
-            console.log(isOutArea);
+            //console.log(isOutArea);
 
                 });
 
             poly.on('pointerenter', function () {
                 isOutArea = false;
-            console.log(isOutArea);
+            //console.log(isOutArea);
                 });
 
 
@@ -462,13 +606,13 @@
 
             //poly.on('pointerout', function () {
             //    isOutArea = true;
-            //console.log(isOutArea);
+            ////console.log(isOutArea);
 
             //    });
 
             //poly.on('pointerenter', function () {
             //    isOutArea = false;
-            //console.log(isOutArea);
+            ////console.log(isOutArea);
             //    });
 
 
@@ -506,13 +650,13 @@
 
             //poly.on('pointerout', function () {
             //    isOutArea = true;
-            //console.log(isOutArea);
+            ////console.log(isOutArea);
 
             //    });
 
             //poly.on('pointerenter', function () {
             //    isOutArea = false;
-            //console.log(isOutArea);
+            ////console.log(isOutArea);
             //    });
 
 
@@ -558,6 +702,33 @@
             $("#SName").text(SubName);
             $("#SubCatId").text(SubId);
             $("#TapSelect").val(SubId);
+
+
+
+            var UniqueId = CurretTap;
+
+             var OrderId = $("#OrderId").val();
+
+
+            $("#DeleteObj").hide();
+
+
+            var model = {
+                UniqueId: UniqueId,
+                OrderId: OrderId,
+            };
+
+            $.ajax({
+                type: "POST",
+                url: "@Url.Action("DeleteOrderDetails", "Customer")",
+                data: JSON.stringify(model),
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: function (r) {
+                    $("#TotalAmount").text(r);
+                    $("#TotalAmountInput").val(r);
+                }
+            });
 
         }
         else {
@@ -686,6 +857,34 @@
             if (SP == "True") {
                 $("#ICSP").show();
             }
+
+
+            var UniqueId = CurretIC;
+
+             var OrderId = $("#OrderId").val();
+
+
+            $("#DeleteObj").hide();
+
+
+            var model = {
+                UniqueId: UniqueId,
+                OrderId: OrderId,
+            };
+
+            $.ajax({
+                type: "POST",
+                url: "@Url.Action("DeleteOrderDetails", "Customer")",
+                data: JSON.stringify(model),
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: function (r) {
+                    $("#TotalAmount").text(r);
+                    $("#TotalAmountInput").val(r);
+                }
+            });
+
+
         }
         else {
 
@@ -832,6 +1031,34 @@
             if (RainWater == "True") {
                 $("#VBRW").show();
             }
+
+
+
+            var UniqueId = CurretVB;
+
+             var OrderId = $("#OrderId").val();
+
+
+            $("#DeleteObj").hide();
+
+
+            var model = {
+                UniqueId: UniqueId,
+                OrderId: OrderId,
+            };
+
+            $.ajax({
+                type: "POST",
+                url: "@Url.Action("DeleteOrderDetails", "Customer")",
+                data: JSON.stringify(model),
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: function (r) {
+                    $("#TotalAmount").text(r);
+                    $("#TotalAmountInput").val(r);
+                }
+            });
+
         }
         else {
 
@@ -854,6 +1081,9 @@
             if (RainWater == "True") {
                 $("#VBRW").show();
             }
+
+
+
 
 
             Konva.Image.fromURL(
@@ -908,6 +1138,7 @@
             var node = layer.findOne('#' + CurretSprinkler);
             var x = node.x();
             var y = node.y();
+            var UniqueId = node.id();
             node.destroy();
             var node = layer.findOne('#' + CurretSprinkler.replace("Sprinkler", "FillCircle"));
             if (node != null) {
@@ -921,6 +1152,38 @@
             if (node != null) {
                 node.destroy();
             }
+
+
+            var OrderId = $("#OrderId").val();
+
+
+            var index = UndoArray.indexOf(UniqueId);
+            if (index >= 0) {
+                UndoArray.splice(index, 1);
+            }
+
+            $("#DeleteObj").hide();
+
+
+            var model = {
+                UniqueId: UniqueId,
+                OrderId: OrderId,
+            };
+
+            $.ajax({
+                type: "POST",
+                url: "@Url.Action("DeleteOrderDetails", "Customer")",
+                data: JSON.stringify(model),
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: function (r) {
+                    $("#TotalAmount").text(r);
+                    $("#TotalAmountInput").val(r);
+                }
+            });
+
+
+
 
             var circle = new Konva.Circle({
                 x: x,
@@ -1013,12 +1276,9 @@
 
         //alert(Radius);
 
-
-
-
         CurretSprinkler = circle.id();
 
-        //console.log(UndoArray);
+        ////console.log(UndoArray);
         SprinklerName += 1;
 
 
@@ -1147,6 +1407,7 @@
             var node = layer.findOne('#' + CurretRSprinkler);
             var x = node.x();
             var y = node.y();
+            var UniqueId = node.id();
             node.destroy();
             var node = layer.findOne('#' + CurretRSprinkler.replace("RectangularSprinkler", "TRS"));
             if (node != null) {
@@ -1157,6 +1418,33 @@
                 node.destroy();
             }
 
+            var OrderId = $("#OrderId").val();
+
+
+            var index = UndoArray.indexOf(UniqueId);
+            if (index >= 0) {
+                UndoArray.splice(index, 1);
+            }
+
+            $("#DeleteObj").hide();
+
+
+            var model = {
+                UniqueId: UniqueId,
+                OrderId: OrderId,
+            };
+
+            $.ajax({
+                type: "POST",
+                url: "@Url.Action("DeleteOrderDetails", "Customer")",
+                data: JSON.stringify(model),
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: function (r) {
+                    $("#TotalAmount").text(r);
+                    $("#TotalAmountInput").val(r);
+                }
+            });
 
 
             var circle = new Konva.Rect({
@@ -1175,7 +1463,7 @@
 
             circle.on('pointerclick', (e) => {
 
-                //console.log(e.evt.button);
+                ////console.log(e.evt.button);
 
                 if (e.evt.button === 0) {
                     var TSprinkler = layer.findOne('#' + e.target.id().replace("RectangularSprinkler", "TRS"));
@@ -1204,7 +1492,7 @@
 
             cir.on('pointerclick', (e) => {
 
-                //console.log(e.evt.button);
+                ////console.log(e.evt.button);
 
                 if (e.evt.button === 0) {
                     var Sprinkler = layer.findOne('#' + e.target.id().replace("RSCircle", "RectangularSprinkler"));
@@ -1262,7 +1550,7 @@
 
             circle.on('pointerclick', (e) => {
 
-                //console.log(e.evt.button);
+                ////console.log(e.evt.button);
 
                 if (e.evt.button === 0) {
                     var TSprinkler = layer.findOne('#' + e.target.id().replace("RectangularSprinkler", "TRS"));
@@ -1291,7 +1579,7 @@
 
             cir.on('pointerclick', (e) => {
 
-                //console.log(e.evt.button);
+                ////console.log(e.evt.button);
 
                 if (e.evt.button === 0) {
                     var Sprinkler = layer.findOne('#' + e.target.id().replace("RSCircle", "RectangularSprinkler"));
@@ -1338,7 +1626,7 @@
 
         CurretRSprinkler = circle.id();
 
-        //console.log(UndoArray);
+        ////console.log(UndoArray);
         RectangularSprinklerName += 1;
         layer.add(circle);
         isOverOnStarting = false;
@@ -1406,10 +1694,10 @@
     });
 
         function MouseDownHandler() {
-            //console.log(this);
+            ////console.log(this);
             //if (this.pointerClickStartShape != undefined) {
             //    id = this.pointerClickStartShape.attrs.id;
-            //    console.log(id);
+            //    //console.log(id);
             //    //if (id[0]=="R") {
             //    //    id = FindIndex(id);
             //    //}
@@ -1440,7 +1728,7 @@
 
                         //var sprinkler = layer.findOne('#' + e.target.id().replace("Circle", "Sprinkler"));
                         //// update nodes from the new state
-                        ////console.log(e);
+                        //////console.log(e);
                         //e.target.y(sprinkler.y());
                         updateSprinkler(e.target.id());
 
@@ -1477,14 +1765,14 @@
                         //var Radius = sprinkler.radius();
 
 
-                        //console.log(Distance + " " + Radius);
+                        ////console.log(Distance + " " + Radius);
                         //if (Distance > Radius+3 || Distance < Radius-3) {
                         //    e.target.draggable(false);
                         //    e.target.x(x2 + Radius);
                         //    e.target.y(y2);
                         //}
 
-                        /*console.log(e);*/
+                        /*//console.log(e);*/
                         //updateSprinkler(e.target.id());
 
 
@@ -1504,7 +1792,7 @@
                         //var angleDeg1 = angleRad1 * 180 / Math.PI;
                         //angleDeg1 = (360 + (angleDeg1)) % 360;
 
-                        //console.log("Drag Angle " + angleDeg1);
+                        ////console.log("Drag Angle " + angleDeg1);
 
 
 
@@ -1571,7 +1859,7 @@
 
                     //cir.on('pointerclick', (e) => {
 
-                    //    //console.log(e.evt.button);
+                    //    ////console.log(e.evt.button);
 
                     //    if (e.evt.button === 0) {
                     //            var Sprinkler = layer.findOne('#' + e.target.id().replace("RSCircle", "RectangularSprinkler"));
@@ -1657,11 +1945,11 @@
                     isFinished = true;
                 }
                 else if (id[0] == 'L') {
-                    console.log(id);
+                    //console.log(id);
                     var line = layer.findOne('#' + id);
                     if (isInArea == true || (line.name() != "DryArea" && line.name() != "GetWet")) {
                         //var line = layer.findOne('#' + id);
-                        //console.log(line.id());
+                        ////console.log(line.id());
                         var points = line.points();
                         if (isStartLine == true) {
 
@@ -1675,7 +1963,7 @@
                         //Points.push(Position.x, Position.y);
                         points.push(Position.x, Position.y);
                         line.points(points);
-                        //console.log(line.points());
+                        ////console.log(line.points());
 
 
                         rect = new Konva.Rect({
@@ -1698,12 +1986,12 @@
                         Name += 1;
                         rect.on('pointerenter', function () {
                             var id = this.name();
-                            console.log(id);
+                            //console.log(id);
                             var LineId = 0;
                             if (id[0] == "R") {
                                 LineId = FindIndex(id);
                             }
-                            console.log(LineId);
+                            //console.log(LineId);
                             var line = layer.findOne('#Line' + LineId);
                             var points = line.points();
                             var pointerPos = stage.getPointerPosition();
@@ -1713,7 +2001,7 @@
                             else if (CheckFirstIndex(id)) {
                                 //var Rect1 = stage.find('.' + id);
                                 isOverOnStarting = true;
-                                //console.log(isOverOnStarting);
+                                ////console.log(isOverOnStarting);
 
                             }
 
@@ -1724,7 +2012,7 @@
 
                             if (CheckFirstIndex(this.name())) {
                                 isOverOnStarting = false;
-                                //console.log(isOverOnStarting);
+                                ////console.log(isOverOnStarting);
                                 //layer.batchDraw();
                             }
                         });
@@ -1734,7 +2022,7 @@
                         rect.on('dragmove', (e) => {
 
                             // update nodes from the new state
-                            //console.log(e);
+                            ////console.log(e);
                             updateObjects(e.target.id());
 
                         });
@@ -1746,18 +2034,18 @@
 
                         //var S = line.points();
                         var S = line.points().slice();
-                        //console.log(line.points());
+                        ////console.log(line.points());
                         //if (rect.name()=="Rect2") {
                         //    S.pop();
                         //    S.pop();
                         //}
                         S.pop();
                         S.pop();
-                        //console.log(S);
-                        //console.log(S.length - 1);
-                        //console.log(S.length - 2);
-                        //console.log(S.length - 3);
-                        //console.log(S.length - 4);
+                        ////console.log(S);
+                        ////console.log(S.length - 1);
+                        ////console.log(S.length - 2);
+                        ////console.log(S.length - 3);
+                        ////console.log(S.length - 4);
                         //alert(S[S.length - 1]+" = "+S[1]);
 
                         var x = (S[S.length - 4] + S[S.length - 2]) / 2;
@@ -1782,6 +2070,7 @@
                             y: y,
                             x: x,
                             id: "Text" + TextId + "",
+                            listening: false,
                         });
 
                         TextId += 1;
@@ -1811,8 +2100,8 @@
                 }
                 else {
                     var LineId = 0;
-                    //console.log(this.pointerClickStartShape.attrs.id);
-                    //console.log(id);
+                    ////console.log(this.pointerClickStartShape.attrs.id);
+                    ////console.log(id);
                     //if (id[0] == "R") {
                     //    LineId = FindIndex(id);
                     //}
@@ -1825,7 +2114,7 @@
                     isFinished = true;
                     line.closed(true);
                     line.listening(true);
-                    //console.log(line.name());
+                    ////console.log(line.name());
                     if (line.name() == "Area") {
                         line.fill("lightgreen");
 
@@ -1843,7 +2132,7 @@
 
 
                 //var CheckPoint = [709.6000366210938, 232.80003356933594];
-                //console.log(line.points());
+                ////console.log(line.points());
                 //inside(CheckPoint, line.points());
 
                 return;
@@ -1861,14 +2150,14 @@
                     if (id[0] == "R") {
                         LineId = FindIndex(id);
                     }
-                    //console.log(LineId);
+                    console.log(LineId);
                     var line = layer.findOne('#Line' + LineId);
                     var points = line.points();
                     //line.destroy();
                     var ID =Number(id.replace('Rect', ''));
                     var MOD = FindMOD(id);
-                    //console.log(MOD);
-                    //console.log(ID);
+                    ////console.log(MOD);
+                    ////console.log(ID);
                     if (CheckFirstIndex(id)) {
                             var Index = 0;
                         if (MOD == 0) {
@@ -1894,7 +2183,7 @@
                         var TextId = FindDragTextId(id);
 
                         var EText = layer.findOne('#' + TextId[0]);
-                        //console.log(EText);
+                        ////console.log(EText);
 
                         var S = line.points().slice();
 
@@ -1921,7 +2210,7 @@
 
                         var RectCId = TextId[1].replace('Text', '');
                         MOD = FindMOD(RectCId);
-                        //console.log(MOD);
+                        ////console.log(MOD);
                         if (MOD == 0) {
                             Index = ((RectCId * 2) - 2);
                                 }
@@ -1961,7 +2250,7 @@
                         EText.x(x);
 
 
-                            //console.log(FindDragTextId(id));
+                            ////console.log(FindDragTextId(id));
 
                      }
                     else {
@@ -1983,21 +2272,21 @@
 
                         var TextId = FindDragTextId(id);
                         var EText = layer.findOne('#' + TextId[1]);
-                        //console.log(EText);
+                        ////console.log(EText);
 
                         var S = line.points().slice();
-                                //console.log(line.points());
+                                ////console.log(line.points());
                                 //if (rect.name()=="Rect2") {
                             //    S.pop();
                             //    S.pop();
                             //}
                             //S.pop();
                             //S.pop();
-                            //console.log(EText);
-                            //console.log(S.length - 1);
-                            //console.log(S.length - 2);
-                            //console.log(S.length - 3);
-                            //console.log(S.length - 4);
+                            ////console.log(EText);
+                            ////console.log(S.length - 1);
+                            ////console.log(S.length - 2);
+                            ////console.log(S.length - 3);
+                            ////console.log(S.length - 4);
                             //alert(S[S.length - 1]+" = "+S[1]);
                             x1 = points[x1];
                         x2 = points[x2];
@@ -2005,8 +2294,8 @@
                         y2 = points[y2];
                         var x = (x2 + x1) / 2;
                         var y = (y2 + y1) / 2;
-                        //console.log(x);
-                        //console.log(y);
+                        ////console.log(x);
+                        ////console.log(y);
                         var dx = x1 - x2;
                         var dy =y1 - y2;
                         var Sumsqr = Math.pow(dx, 2);
@@ -2014,7 +2303,7 @@
                         var Distance = Math.sqrt(Sumsqr);
                         Distance /= 12;
                         Distance = Distance.toFixed(2);
-                        //console.log(Distance);
+                        ////console.log(Distance);
                         var angleRad = Math.atan(dy / dx);
                         var angleDeg = angleRad * 180 / Math.PI;
 
@@ -2034,7 +2323,7 @@
 
                         var TextId = FindDragTextId(id);
                         var EText = layer.findOne('#' + TextId[0]);
-                        //console.log(EText);
+                        ////console.log(EText);
 
                         var S = line.points().slice();
 
@@ -2062,7 +2351,7 @@
 
 
 
-                            //console.log(FindDragTextId(id));
+                            ////console.log(FindDragTextId(id));
                         }
                     line.closed(true);
                 }
@@ -2157,15 +2446,15 @@
         //var angleDeg = angleRad * 180 / Math.PI;
         //angleDeg = (360 + (angleDeg)) % 360;
 
-        //console.log(x1+ " " +x2);
-        //console.log(y1 + " " + y2);
+        ////console.log(x1+ " " +x2);
+        ////console.log(y1 + " " + y2);
 
-        //console.log("Angle " + angleDeg1);
+        ////console.log("Angle " + angleDeg1);
         var DiffRadius = Number(Distance - oldRadius).toFixed(5);
-        console.log("Diffin Radius " + DiffRadius);
-        //console.log("Sprinkler.Radius() " + Sprinkler.radius());
-        //console.log("Sprinkler.x() " + Sprinkler.x());
-        //console.log("Sprinkler.y() " + Sprinkler.y());
+        //console.log("Diffin Radius " + DiffRadius);
+        ////console.log("Sprinkler.Radius() " + Sprinkler.radius());
+        ////console.log("Sprinkler.x() " + Sprinkler.x());
+        ////console.log("Sprinkler.y() " + Sprinkler.y());
 
         if (angleDeg1 == 0) {
             if (id[0] == "C") {
@@ -2210,12 +2499,12 @@
             if (id[0] == "C") {
                 var setx = Number(FillCircle.x()) + Number(DiffRadius );
                 var sety = Number(FillCircle.y()) + Number(DiffRadius );
-                //console.log("Oldx " + FillCircle.x());
-                //console.log("Oldy " + FillCircle.y());
-                //console.log("Newx " + setx);
-                //console.log("Newy " + sety);
-                //console.log("Diffx " + (setx - FillCircle.x()));
-                //console.log("Diffy " + (sety - FillCircle.y()));
+                ////console.log("Oldx " + FillCircle.x());
+                ////console.log("Oldy " + FillCircle.y());
+                ////console.log("Newx " + setx);
+                ////console.log("Newy " + sety);
+                ////console.log("Diffx " + (setx - FillCircle.x()));
+                ////console.log("Diffy " + (sety - FillCircle.y()));
                 FillCircle.x(setx);
                 FillCircle.y(sety);
             }
@@ -2225,8 +2514,8 @@
                 circle.x(setx);
                 circle.y(sety);
             }
-            //console.log("FillCircle.x() " + FillCircle.x());
-            //console.log("FillCircle.y() " + FillCircle.y());
+            ////console.log("FillCircle.x() " + FillCircle.x());
+            ////console.log("FillCircle.y() " + FillCircle.y());
         }
         else if (angleDeg1 < 180) {
 
@@ -2295,7 +2584,7 @@
         var StartangleRad1 = Math.atan2(dy, dx);
         var StartangleDeg = StartangleRad1 * 180 / Math.PI;
         StartangleDeg = (360 + (StartangleDeg)) % 360;
-        console.log("StartangleDeg "+StartangleDeg);
+        //console.log("StartangleDeg "+StartangleDeg);
         ArcCir.rotation(StartangleDeg);
 
         x1 = circle.x();
@@ -2311,13 +2600,13 @@
         ArcCir.angle(angleDeg1);
 
         $("#SId").val(Sprinkler.id());
-        $("#SRadius").val(Sprinkler.radius().toFixed(2));
+        $("#SRadius").val(PxToM(Sprinkler.radius().toFixed(2)));
         $("#StartAngle").val(ArcCir.rotation().toFixed(2));
 
         $("#SAngle").val(ArcCir.angle().toFixed(2));
 
 
-        //console.log("FillCircle Radius " + angleDeg1);
+        ////console.log("FillCircle Radius " + angleDeg1);
 
         //FillCircle.x(Sprinkler.x() + Sprinkler.radius());
     }
@@ -2420,7 +2709,7 @@
         var StartangleRad1 = Math.atan2(dy, dx);
         var StartangleDeg = StartangleRad1 * 180 / Math.PI;
         StartangleDeg = (360 + (StartangleDeg)) % 360;
-        console.log("StartangleDeg "+StartangleDeg);
+        //console.log("StartangleDeg "+StartangleDeg);
         ArcCir.rotation(StartangleDeg);
 
         x1 = circle.x();
@@ -2465,7 +2754,7 @@
                     //if (this.mouseClickStartShape != undefined) {
 
                     //    id = this.mouseClickStartShape.attrs.id;
-                    //    console.log(id);
+                    //    //console.log(id);
                     //}
                     if (isOutArea == false) {
                         var line = layer.findOne('#' + id);
@@ -2489,24 +2778,24 @@
 
 
                         var S = line.points().slice();
-                        //console.log(line.points());
+                        ////console.log(line.points());
                         //if (rect.name()=="Rect2") {
                         //    S.pop();
                         //    S.pop();
                         //}
                         //S.pop();
                         //S.pop();
-                        //console.log(EText);
-                        //console.log(S.length - 1);
-                        //console.log(S.length - 2);
-                        //console.log(S.length - 3);
-                        //console.log(S.length - 4);
+                        ////console.log(EText);
+                        ////console.log(S.length - 1);
+                        ////console.log(S.length - 2);
+                        ////console.log(S.length - 3);
+                        ////console.log(S.length - 4);
                         //alert(S[S.length - 1]+" = "+S[1]);
 
                         var x = (Position.x + S[S.length - 2]) / 2;
                         var y = (Position.y + S[S.length - 1]) / 2;
-                        //console.log(x);
-                        //console.log(y);
+                        ////console.log(x);
+                        ////console.log(y);
                         var dx = S[S.length - 2] - Position.x;
                         var dy = S[S.length - 1] - Position.y;
                         var Sumsqr = Math.pow(dx, 2);
@@ -2514,12 +2803,12 @@
                         var Distance = Math.sqrt(Sumsqr);
                         Distance /= 12;
                         Distance = Distance.toFixed(2);
-                        //console.log(Distance);
+                        ////console.log(Distance);
                         //var angleRad = Math.atan(dy / dx);
                         var angleRad = Math.atan(dy/ dx);
                         var angleDeg = angleRad * 180 / Math.PI;
                         //angleDeg = (360 + (angleDeg)) % 360;
-                        //console.log("Angle " + angleDeg);
+                        ////console.log("Angle " + angleDeg);
                         EText.text(Distance.toString() + " m");
                         EText.rotation(angleDeg);
                         EText.y(y);
@@ -2574,10 +2863,10 @@
         var RectId = Number(id.replace('Rect', ''));
         TextIds.push("Text" + RectId);
         if (CheckFirstIndex(id)) {
-            //console.log();
+            ////console.log();
             var LastIndex = FindLastId(id)
-            console.log(id);
-            console.log(LastIndex);
+            //console.log(id);
+            //console.log(LastIndex);
             TextIds.push("Text" + LastIndex.replace('Rect', ''));
             }
         else {
@@ -2598,7 +2887,7 @@
                 if (Number(CStartRect[i]) > Number(id)) {
 
                     var RetId = "Rect" + (Number(CStartRect[i]) - 1);
-                    console.log("RetId " + RetId);
+                    //console.log("RetId " + RetId);
                      return RetId;
                 }
         RetIndex = i;
@@ -2646,9 +2935,15 @@
     $("body").on("click", "#UndoCanvas", function () {
         if (UndoArray.length > 0) {
             var CLastId = UndoArray[UndoArray.length - 1];
-            console.log(CLastId);
+            //console.log(CLastId);
             if (CLastId =="UploadImg") {
                 $("#file_input").prop('disabled', false);
+                var node = layer.findOne('#' + CLastId.replace("UploadImg", "TUploadImg"));
+                if (node != null) {
+                    
+                    node.destroy();
+                    $("#ImageOpacityValue").hide();
+                }
             }
             var FirstId = "";
             var LastId = "";
@@ -2743,6 +3038,9 @@
                 }
             }
             var node = layer.findOne('#' + CLastId);
+            if (node.name() =="Area" ) {
+                $("#Area").prop('disabled', false);
+            }
             if (node != null) {
                 node.destroy();
             }
@@ -2752,6 +3050,156 @@
 
 
             UndoArray.pop();
+
+            var model = {
+                UniqueId: UniqueId,
+                OrderId: OrderId,
+            };
+
+            $.ajax({
+                type: "POST",
+                url: "@Url.Action("DeleteOrderDetails", "Customer")",
+                data: JSON.stringify(model),
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: function (r) {
+                    $("#TotalAmount").text(r);
+                    $("#TotalAmountInput").val(r);
+                }
+            });
+
+        }
+
+    });
+
+
+
+    $("body").on("click", "#DeleteObj ", function () {
+        var ObjId = $("#ObjUniqueId").val();
+        if (ObjId != "") {
+
+            var index = UndoArray.indexOf(ObjId);
+            if (index >= 0) {
+                UndoArray.splice(index, 1);
+            }
+
+            var CLastId = ObjId;
+            if (CLastId == "UploadImg") {
+                $("#file_input").prop('disabled', false);
+                var node = layer.findOne('#' + CLastId.replace("UploadImg", "TUploadImg"));
+                if (node != null) {
+
+                    node.destroy();
+                    $("#SName").text("");
+                    $("#ImageOpacityValue").hide();
+                }
+            }
+
+
+            var FirstId = "";
+            var LastId = "";
+
+            if (CLastId[0] == 'L') {
+                var temp = Number(CLastId.replace("Line", ""));
+                FirstId = StartRect[temp - 1];
+                LastId = FindLastId(FirstId);
+                for (var i = Number(FirstId.replace("Rect", "")); i <= Number(LastId.replace("Rect", "")); i++) {
+                    var node = layer.findOne('#Rect' + i);
+                    node.destroy();
+                    node = layer.findOne('#Text' + i);
+                    node.destroy();
+                    $("#SName").text("");
+                }
+
+            }
+            else if (CLastId[0] == 'S' && CLastId[1] == 'p') {
+
+                var node = layer.findOne('#' + CLastId.replace("Sprinkler", "FillCircle"));
+                if (node != null) {
+                    if (CurretSprinkler != "") {
+                        CurretSprinkler = "";
+                    }
+
+                    $("#SName").text("");
+                    $("#RSPD").hide();
+                    node.destroy();
+                }
+                var node = layer.findOne('#' + CLastId.replace("Sprinkler", "Circle"));
+                if (node != null) {
+                    node.destroy();
+                }
+                var node = layer.findOne('#' + CLastId.replace("Sprinkler", "Arc"));
+                if (node != null) {
+                    node.destroy();
+                }
+
+            }
+            else if (CLastId[0] == 'R' && CLastId[1] == 'e') {
+
+                var node = layer.findOne('#' + CLastId.replace("RectangularSprinkler", "RSCircle"));
+                if (node != null) {
+                    if (CurretRSprinkler != "") {
+                        CurretRSprinkler = "";
+                    }
+                    $("#SName").text("");
+                    $("#SSPD").hide();
+                    node.destroy();
+                }
+                var node = layer.findOne('#' + CLastId.replace("RectangularSprinkler", "TRS"));
+                if (node != null) {
+                    node.destroy();
+                }
+
+            }
+            else if (CLastId[0] == 'S' && CLastId[1] == 'y') {
+                var node = layer.findOne('#' + CLastId.replace("System", "TIC"));
+                $("#SName").text("");
+                $("#ICPD").hide();
+                if (node != null) {
+                    if (CurretIC != "") {
+                        CurretIC = "";
+                    }
+                    $("#btn_IC *").prop('disabled', false);
+                    node.destroy();
+                }
+            }
+            else if (CLastId[0] == 'V') {
+
+
+                var node = layer.findOne('#' + CLastId.replace("ValveBox", "TVB"));
+
+                $("#SName").text("");
+                $("#VBPD").hide();
+                if (node != null) {
+                    if (CurretVB != "") {
+                        CurretVB = "";
+                    }
+                    $("#btn_VB *").prop('disabled', false);
+                    node.destroy();
+                }
+            }
+            else if (CLastId[0] == 'T' && CLastId[1] == 'a') {
+                var node = layer.findOne('#' + CLastId.replace("Tap", "TTap"));
+                $("#SName").text("");
+                $("#TapPD").hide();
+                if (node != null) {
+                    if (CurretTap != "") {
+                        CurretTap = "";
+                    }
+                    $("#btn_TAP *").prop('disabled', false);
+                    node.destroy();
+                }
+            }
+            var node = layer.findOne('#' + CLastId);
+            if (node.name() =="Area" ) {
+                $("#Area").prop('disabled', false);
+            }
+            if (node != null) {
+                node.destroy();
+            }
+
+            var UniqueId = CLastId;
+            var OrderId = $("#OrderId").val();
 
 
 
@@ -2773,6 +3221,10 @@
                 }
             });
 
+
+
+            $("#DeleteObj").hide();
+            $("#ObjUniqueId").val("");
         }
 
     });
@@ -2815,8 +3267,8 @@
                 angleDeg1 = (360 + (angleDeg1)) % 360;
 
                 var DiffRadius = Number(Distance) - Number(oldRadius);
-                console.log("Diffin Radius " + DiffRadius);
-                console.log("Diffin Radius " + angleDeg1);
+                //console.log("Diffin Radius " + DiffRadius);
+                //console.log("Diffin Radius " + angleDeg1);
 
 
                 SetWithangle(angleDeg1, DiffRadius, circle, Sprinkler);
@@ -2832,8 +3284,8 @@
                 angleRad1 = Math.atan2(dy, dx);
                 angleDeg1 = angleRad1 * 180 / Math.PI;
                 angleDeg1 = (360 + (angleDeg1)) % 360;
-                console.log("Diffin Radius " + DiffRadius);
-                //console.log("Diffin Radius " + angleDeg1);
+                //console.log("Diffin Radius " + DiffRadius);
+                ////console.log("Diffin Radius " + angleDeg1);
 
 
                 SetWithangle(angleDeg1, DiffRadius, FillCircle, Sprinkler);
@@ -2851,7 +3303,7 @@
                 //var angle = 140;
                 //var x = radius * Math.sin(Math.PI * 2 * angle / 360);
                 //var y = radius * Math.cos(Math.PI * 2 * angle / 360);
-                //console.log('Points coors are  x=' +
+                ////console.log('Points coors are  x=' +
                 //    Math.round(x * 100) / 100 + ', y=' +
                 //    Math.round(y * 100) / 100);
 
@@ -2882,7 +3334,7 @@
 
 
     function SetWithangle(angleDeg2, DiffRadius, circle1, Sprinkler) {
-        console.log("Values " + angleDeg2 + " " + DiffRadius + " " + Sprinkler.radius() + " " + circle1.x()+" " + circle1.y());
+        //console.log("Values " + angleDeg2 + " " + DiffRadius + " " + Sprinkler.radius() + " " + circle1.x()+" " + circle1.y());
         if (angleDeg2 == 0) {
             //alert(0);
             circle1.x(Sprinkler.x() + Number(Sprinkler.radius()));
@@ -2904,8 +3356,8 @@
                 var sety = Number(circle1.y()) + Number(DiffRadius);
                 circle1.x(setx);
             circle1.y(sety);
-            console.log(circle1.x());
-            console.log(circle1.y());
+            //console.log(circle1.x());
+            //console.log(circle1.y());
             }
             else if (angleDeg2 < 180) {
                 var setx = Number(circle1.x()) - Number(DiffRadius);
@@ -2978,9 +3430,9 @@
         var fileInput = $("#file_input").get(0);
         var file = fileInput.files[0];
         formData.append("file", file);
-        //console.log(file);
+        ////console.log(file);
         //formData.append("InvoiceNum",5);
-        //console.log(FormData);
+        ////console.log(FormData);
 
         $.ajax({
             type: "POST",
@@ -2992,29 +3444,63 @@
             success: function (r) {
                 FileName = r;
                 var Url = "/Uploading/" + FileName;
-                console.log(Url);
-                var imageObj = new Image();
-                imageObj.onload = function () {
-                    var yoda = new Konva.Image({
-                        x: 200,
-                        y: 100,
-                        image: imageObj,
-                        width: 350,
-                        height: 300,
-                        id:"UploadImg",
-                        draggable: true,
-                        opacity:1,
-                    });
+                //console.log(Url);
 
-                    // add the shape to the layer
-                    layer.add(yoda);
-                    UndoArray.push(yoda.id());
-                };
-                //console.log(url);
-                imageObj.src = Url;
+                Konva.Image.fromURL(
+                    Url,
+                    (img) => {
+                        img.setAttrs({
+                            x: 200,
+                            y: 100,
+                            width: 350,
+                            height: 300,
+                            id: "UploadImg",
+                            name: "Uploaded Image",
+                            draggable: true,
+                            opacity: 1,
+                        });
+                        layer.add(img);
+                        UndoArray.push(img.id());
+                        // apply default left-top crop
+                        //applyCrop('center-middle');
+
+                        const tr = new Konva.Transformer({
+                            nodes: [img],
+                            keepRatio: true,
+                            enabledAnchors: ['top-left', 'top-right', 'bottom-left', 'bottom-right'],
+                            id: "TUploadImg"
+                        });
+
+                        layer.add(tr);
+                        tr.anchorCornerRadius(10);
+                        tr.rotateEnabled(false);
+                    }
+                );
+
+
+
+                //var imageObj = new Image();
+                //imageObj.onload = function () {
+                //    var yoda = new Konva.Image({
+                //        x: 200,
+                //        y: 100,
+                //        image: imageObj,
+                //        width: 350,
+                //        height: 300,
+                //        id:"UploadImg",
+                //        draggable: true,
+                //        opacity:1,
+                //    });
+
+                //    // add the shape to the layer
+                //    layer.add(yoda);
+                //    UndoArray.push(yoda.id());
+                //};
+                //////console.log(url);
+                //imageObj.src = Url;
                 },
             error: function (r) {
-                console.log(r);
+                //console.log(r);
                 }
         });
 
@@ -3028,8 +3514,8 @@
 
     $("body").on("change", "#ImageOpacityValue", function () {
         var node = layer.findOne('#UploadImg');
-        //console.log(node);
-        //console.log(this.value);
+        ////console.log(node);
+        ////console.log(this.value);
         node.opacity(this.value);
     });
 
