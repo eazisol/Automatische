@@ -6,7 +6,13 @@
     //Layout = null;
 }
 
-
+<style>
+    #foo {
+      
+        bottom: 0;
+        right: 0;
+    }
+    </style>
 
 <div class="row mb-2">
     <div class="container-fluid bd-example">
@@ -110,8 +116,18 @@
     <div class="col-md-9">
         <div class="body d-flex profile-page">
             <div class="card container-fluid">
-                        <div class="card-body" id="container">
-                        </div>
+                <div class="" id="container" data-elem="pinchzoomer" data-options="scaleMode:proportionalInside" style="border:2px solid orange">
+
+                </div>
+                <div id="foo" class='buttons mt-2 mb-2'>
+
+                    <img class="mr-2" id='reset' src="~/assets/images/ecommerce/FullScreen.png" style="width:2%;float:right" />
+                    <img class="mr-2" id='stage2ZoomOut' src="~/assets/images/ecommerce/ZoomOut.png" style="width:2%;float:right" />
+
+                    <img class="mr-2" id='stage2ZoomIn' src="~/assets/images/ecommerce/ZoomIN.png" style="width:2%;float:right" />
+                    <img class="mr-2" id="UndoCanvas" src="~/assets/images/ecommerce/undo.png" style="width:2%;float:right" />
+
+                </div>
             </div>
         </div>
 
@@ -167,14 +183,14 @@
                     </select>
                     <button class="btn" id="EndTap" style="display:none;background-color:aqua;">End Tap</button>
                 </div>
-
-                <input type="file" class="form-control" id="file_input" accept="image/*" name="name" value="">
+                <input type="file" class="dropify form-control-file" id="file_input" accept="image/*" name="name" value="">
+                
                 <div id="DivImageOpacityValue" style="display:none;">
                     <label>Image opacity</label>
                     <input type="range" class="form-control" id="ImageOpacityValue" min="10" max="100" value="100">
                 </div>
 
-                <button class="btn btn-danger text-center mt-1"  id="UndoCanvas"><i class="fa fa-undo mr-1"></i>Undo</button>
+               
             </div>
         </div>
        
@@ -277,7 +293,7 @@
         $("#addcontact").modal('toggle');
     });
 
-        var width = 1000;
+        var width = 1027;
         var height = 500;
 
         var isDraw = false;
@@ -310,11 +326,12 @@
         var CurretRSprinkler = "";
         var CurretRectangularSprinkler = "";
         var CurretIC = "";
-    var CurretTap = "";
-    var CurretVB = "";
+        var CurretTap = "";
+        var CurretVB = "";
         var CountnueRotate = true;
-
-
+   
+        let zoomStep = 0.1;
+    let scale2 = 1;
 
         const Group = new Konva.Group();
         var stage = new Konva.Stage({
@@ -322,13 +339,175 @@
         width: width,
         height: height,
       });
+    var img = new Image();
+    img.src = "/assets/images/ecommerce/graph.jpg";
 
+    img.onload = function () {
+        var background = new Konva.Rect({
+            x: 0,
+            y: 0,
+            width: stage.width(),
+            height: stage.height(),
+            illLinearGradientStartPoint: { x: 0, y: 0 },
+            fillLinearGradientEndPoint: { x: stage.width(), y: stage.height() },
+            fillPatternImage: img,
+        });
+
+     
+        layer.add(background);
+        layer.draw();
+    }
         var layer = new Konva.Layer();
 
         stage.on('pointerdown', MouseDownHandler);
         stage.on('pointermove', MouseMoveHandler);
         //stage.on('pointerover', handleMouseOverStartPoint);
-        stage.add(layer);
+    stage.add(layer);
+
+
+
+  
+
+
+
+
+    //stage.container().style.backgroundColor = 'green';
+
+
+
+
+    //// another solution is to use rectangle shape
+    //var background = new Konva.Rect({
+    //    x: 0,
+    //    y: 0,
+    //    width: stage.width(),
+    //    height: stage.height(),
+    //    illLinearGradientStartPoint: { x: 0, y: 0 },
+    //    fillLinearGradientEndPoint: { x: stage.width(), y: stage.height() },
+    //    // gradient into transparent color, so we can see CSS styles
+    //    fillLinearGradientColorStops: [
+    //        0,
+    //        'yellow',
+    //        0.5,
+    //        'blue',
+    //        0.6,
+    //        'rgba(0, 0, 0, 0)',
+    //    ],
+    //    // remove background from hit graph for better perf
+    //    // because we don't need any events on the background
+    //    listening: false,
+    //});
+    //layer.add(background);
+    circle1 = new Konva.Circle({
+        x: 200,
+        y: 150,
+        radius: 10,
+        fill: "magenta"
+    }),
+        circle2 = circle1.clone(),
+    $("#stage1ZoomIn").on("click", function () {
+        zoomStage1(zoomStep);
+    });
+    $("#stage1ZoomOut").on("click", function () {
+        zoomStage1(-zoomStep);
+    });
+
+  
+
+
+
+
+    $("#stage2ZoomIn").on("click", function () {
+        scale2 = zoomStage2(stage, circle2.position(), scale2, zoomStep);
+    });
+    $("#stage2ZoomOut").on("click", function () {
+        scale2 = zoomStage2(stage, circle2.position(), scale2, -zoomStep);
+    });
+
+   
+
+    stage.on("wheel", function (e) {
+        e.evt.preventDefault();
+
+        var pointer = stage.getPointerPosition();
+
+        zoomInc = e.evt.deltaY > 0 ? -zoomStep : zoomStep;
+
+        scale2 = zoomStage2(stage, pointer, scale2, zoomInc);
+    });
+
+    $("#reset").on("click", function () {
+     
+        scale2 = 1;
+        stage.scale({ x: scale2, y: scale2 });
+        stage.position({ x: 0, y: 0 });
+    });
+
+   
+    function zoomStage2(stage, zoomPoint, zoomBefore, inc) {
+    
+        let oldScale = stage.scaleX();
+        var mousePointTo = {
+            x: (zoomPoint.x - stage.x()) / oldScale,
+            y: (zoomPoint.y - stage.y()) / oldScale
+        };
+        let zoomAfter = zoomBefore + inc;
+        stage.scale({ x: zoomAfter, y: zoomAfter });
+        var newPos = {
+            x: zoomPoint.x - mousePointTo.x * zoomAfter,
+            y: zoomPoint.y - mousePointTo.y * zoomAfter
+        };
+        stage.position(newPos);
+        return zoomAfter;
+    }
+
+    $("#reset").on("click", function () {
+        scale1 = 1;
+        stage.scale({ x: scale1, y: scale1 });
+
+        //scale2 = 1;
+        //stage2.scale({ x: scale1, y: scale1 });
+        //stage2.position({ x: 0, y: 0 });
+    });
+
+    /* Zoom the stage at the given position
+      Parameters:
+       stage: the stage to be zoomed.
+       zoomPoint: the (x, y) for centre of zoom.
+       zoomBefore: the zoom factor at the start of the process.
+       inc : the amount of zoom to apply.
+       returns: zoom factor after zoom completed.
+    */
+    function zoomStage2(stage, zoomPoint, zoomBefore, inc) {
+        // remember the scale before new zoom is applied - we are scaling 
+        // same in x & y so either will work
+        let oldScale = stage.scaleX();
+
+        // compute the distance to the zoom point before applying zoom
+        var mousePointTo = {
+            x: (zoomPoint.x - stage.x()) / oldScale,
+            y: (zoomPoint.y - stage.y()) / oldScale
+        };
+
+        // compute new scale
+        let zoomAfter = zoomBefore + inc;
+
+        // apply new zoom to stage
+        stage.scale({ x: zoomAfter, y: zoomAfter });
+
+        // Important - move the stage so that the zoomed point remains 
+        // visually in place
+        var newPos = {
+            x: zoomPoint.x - mousePointTo.x * zoomAfter,
+            y: zoomPoint.y - mousePointTo.y * zoomAfter
+        };
+
+        // Apply position to stage
+        stage.position(newPos);
+
+        // return the new zoom factor.
+        return zoomAfter;
+    }
 
 
         $("body").on("click", "#Area", function () {
@@ -3030,7 +3209,8 @@
         var node = layer.findOne('#UploadImg');
         //console.log(node);
         //console.log(this.value);
-        node.opacity(this.value);
+        var val = this.value / 100;
+        node.opacity(val);
     });
 
 
