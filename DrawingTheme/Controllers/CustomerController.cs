@@ -613,6 +613,7 @@ namespace DrawingTheme.Controllers
             HttpCookie cookieObj = Request.Cookies["User"];
             int UserId = Int32.Parse(cookieObj["UserId"]);
             tblOrderDetail Data = new tblOrderDetail();
+            tblOrderDetail check = new tblOrderDetail();
             List<tblOrderDetail> OrderDetailData = new List<tblOrderDetail>();
             tblSubCategory SubCategory = new tblSubCategory();
 
@@ -623,21 +624,50 @@ namespace DrawingTheme.Controllers
                 SubCategory = DB.tblSubCategories.Where(x => x.SubcategoryID == OrderDetail.SubCategoryID).FirstOrDefault();
                 if (SubCategory != null)
                 {
-                    Data = OrderDetail;
-                    Data.SubcategoryName = SubCategory.SubcategoryName;
-                    Data.Price = SubCategory.Price;
-                    DB.tblOrderDetails.Add(Data);
-                    DB.SaveChanges();
+
+                    check = DB.tblOrderDetails.Where(x => x.UniqueId == OrderDetail.UniqueId && x.OrderId == OrderDetail.OrderId).FirstOrDefault();
+                    if(check==null)
+                    {
+                        Data = OrderDetail;
+                        Data.SubcategoryName = SubCategory.SubcategoryName;
+                        Data.Price = SubCategory.Price;
+                        DB.tblOrderDetails.Add(Data);
+                        DB.SaveChanges();
+                        tblLog LogData = new tblLog();
+                        LogData.UserId = UserId;
+                        LogData.Action = "Add Order Details";
+                        LogData.CreatedDate = DateTime.Now;
+                        DB.tblLogs.Add(LogData);
+                        DB.SaveChanges();
+                    }
+                    else
+                    {
+                        Data = OrderDetail;
+                        Data.OrderId = OrderDetail.OrderId;
+                        Data.SubCategoryID = OrderDetail.SubCategoryID;
+                        Data.MinAngle = OrderDetail.MinAngle;
+                        Data.MaxAngle = OrderDetail.MaxAngle;
+                        Data.ThrowDistanceMax = OrderDetail.ThrowDistanceMax;
+                        Data.ThrowDistanceMin = OrderDetail.ThrowDistanceMin;
+                        Data.UniqueId = OrderDetail.UniqueId;
+                        Data.SubcategoryName = SubCategory.SubcategoryName;
+                        Data.Price = SubCategory.Price;
+                        DB.Entry(Data);
+                        DB.SaveChanges();
+
+                        tblLog LogData = new tblLog();
+                        LogData.UserId = UserId;
+                        LogData.Action = "Update Order Details";
+                        LogData.CreatedDate = DateTime.Now;
+                        DB.tblLogs.Add(LogData);
+                        DB.SaveChanges();
+                    }
+                    
 
 
 
 
-                    tblLog LogData = new tblLog();
-                    LogData.UserId = UserId;
-                    LogData.Action = "Add Order Details";
-                    LogData.CreatedDate = DateTime.Now;
-                    DB.tblLogs.Add(LogData);
-                    DB.SaveChanges();
+                    
                 }
                 OrderDetailData = DB.tblOrderDetails.Where(x => x.OrderId == OrderDetail.OrderId).ToList();
 
@@ -688,6 +718,43 @@ namespace DrawingTheme.Controllers
                 return Json(TotalPrice);
 
 
+            }
+            catch (Exception ex)
+            {
+
+                ViewBag.Error = ex.Message;
+                Console.WriteLine("Error" + ex.Message);
+            }
+
+            return Json(0);
+        }
+
+        [HttpPost]
+        public JsonResult GetObjOrderDetails(tblOrderDetail OrderDetail)
+        {
+            HttpCookie cookieObj = Request.Cookies["User"];
+            int UserId = Int32.Parse(cookieObj["UserId"]);
+            
+
+            try
+            {
+                DB.Configuration.ProxyCreationEnabled = false;
+                if((OrderDetail.UniqueId[0]=='S'&& OrderDetail.UniqueId[1] == 'p'))
+                {
+                    tblOrderDetail Data = new tblOrderDetail();
+                    Data = DB.tblOrderDetails.Where(x => x.UniqueId == OrderDetail.UniqueId && x.OrderId == OrderDetail.OrderId).FirstOrDefault();
+                    return Json(new { Data = Data,Ret=1, UniqueId = OrderDetail.UniqueId }, JsonRequestBehavior.AllowGet);
+                }
+                else
+                {
+                    tblSubCategory Data = new tblSubCategory();
+                    int? SubCatId= DB.tblOrderDetails.Where(x => x.UniqueId == OrderDetail.UniqueId && x.OrderId == OrderDetail.OrderId).Select(s=>s.SubCategoryID).FirstOrDefault();
+                    Data = DB.tblSubCategories.Where(x => x.SubcategoryID == SubCatId).FirstOrDefault();
+                    return Json(new { Data = Data, Ret = 2, UniqueId = OrderDetail.UniqueId }, JsonRequestBehavior.AllowGet);
+                }
+               
+
+                
             }
             catch (Exception ex)
             {
