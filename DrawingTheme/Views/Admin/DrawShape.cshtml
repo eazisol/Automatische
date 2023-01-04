@@ -6,248 +6,196 @@
     //Layout = null;
 }
 
-<div class="block-header py-lg-2 py-2">
-    <div class="container-fluid">
-        <div class="row align-items-center">
-            <div class="col-lg-6 col-md-4 col-sm-12">
-                <h4>DrawShape</h4>
-                <ul class="breadcrumb">
-                    <li class="breadcrumb-item">
-                        <a href="index.html">
-                            <i class="fa fa-dashboard"></i>
-                            Dashboard
-                        </a>
-                    </li>
-                    <li class="breadcrumb-item active">DrawShape</li>
-                </ul>
-            </div>
 
-        </div>
+
+<div class="row mb-2">
+    <div class="container-fluid bd-example">
+        <nav class="col-md-12  navbar navbar-expand-lg navbar-light light-primary-bg" style="display:block !important">
+
+            <input type="text" name="OrderId" id="OrderId" value="" hidden="">
+
+
+            <button id="Area" class="btn btn-success ml-2 mr-2" onclick="SaveData(4)" data-radius="30" data-width="100" data-height="40" data-angle="180" data-rotation="45">Lawn</button>
+            <button id="DryArea" class="btn mr-2" style="background-color: #ffe699;" onclick="SaveData(5)" data-radius="30" data-width="100" data-height="40" data-angle="180" data-rotation="45">Dry Area</button>
+            <button id="Hedge" class="btn mr-2" style="background-color: #D2BFFF;" onclick="SaveData(6)" data-radius="30" data-width="100" data-height="40" data-angle="180" data-rotation="45">Hedge</button>
+            <button id="GetWet" class="btn mr-2" style="background-color: rgba(111, 187, 211, .8);" onclick="SaveData(9)" data-radius="30" data-width="100" data-height="40" data-angle="180" data-rotation="45">Get Wet </button>
+
+           
+                <form  style="float:right" role="form" id="payment-form" method="POST" action="@Url.Action("PaymentWithPaypal","PayPal")">
+                    <span class="badge badge-warning  mr-2"> Total Amount: <label id="TotalAmount"> 0</label> €</span>
+                    <input type="text" id="TotalAmountInput" name="amount" value="" hidden />
+                    <button class="btn btn-primary " type="button" id="save"><i class="fa fa-save mr-2"></i>Save as PDF</button>
+                    <button class="btn btn-info mr-2" type="submit"><i class="fa fa-paypal mr-2"></i> Place Order</button>
+                </form>
+           
+        </nav>
     </div>
+
 </div>
 
-
-
-
 <div class="row">
-    <div class="col-md-2">
-        <div class="">
-            <div class="">
+    <div class="container-fluid   col-md-1">
+        <div class="card">
+            @foreach (DrawingTheme.Models.tblCategory item in ViewBag.Category)
+            {
+
+                <div class="dropdown " id="btn_@item.Code" style="padding:10px;">
+                    <button type="button" class="btn btn-outline-secondary " data-toggle="dropdown">
+                        <img src="@item.Component" style="width:80%" />
+                    </button>
+                    <div class="dropdown-menu" style="overflow: scroll; height: 400px; will-change: transform; position: absolute; transform: translate3d(0px, 34px, 0px); top: 0px; left: 0px;" x-placement="bottom-start">
+
+                        @foreach (DrawingTheme.Models.tblSubCategory item1 in ViewBag.SubCategory)
+                        {
+                            if (@item1.CategoryID == item.CategoryID)
+                            {
+                                <a class="dropdown-item" id="@item.Code" data-SubCatId="@item1.SubcategoryID" data-Name="@item1.SubcategoryName" data-radius="@item1.ThrowDistanceMax" data-width="@item1.ThrowWidth" data-height="@item1.ThrowHeight" data-angle="@item1.MaxAngle" data-rotation="@item1.MinAngle" data-IrrigationCircles="@item1.valveboxcircle" data-Filter="@item1.valveboxFilter" data-DrinkingWater="@item1.drinkingwatersource" data-WellWater="@item1.wellwatersource" data-RainWater="@item1.rainwatersource" data-Station="@item1.IrrigationComputermaxstation" data-Indoor="@item1.IrrigationComputerindoor" data-Outdoor="@item1.IrrigationComputeroutdoor" data-SP="@item1.IrrigationComputeroutdoor" href="javascript:void(0)">
+                                    @item1.SubcategoryName
+                                </a>
+                            }
+
+
+                        }
+                    </div>
+
+                </div>
+            }
+        </div>
+        @*<div class="navigation navbar navbar-light justify-content-center px-3 px-lg-2 py-2 py-md-3  ver-menu">
+
+            <ul class="nav navbar-nav flex-row flex-lg-column flex-grow-1 justify-content-start align-items-center py-2 py-lg-0">
 
                 @foreach (DrawingTheme.Models.tblCategory item in ViewBag.Category)
                 {
 
-                    <div class="dropdown mb-2" id="btn_@item.Code">
-                        <button type="button" class="btn btn-secondary dropdown-toggle"  data-toggle="dropdown">
-                            <i class="fe fe-calendar">@item.CategoryName</i>
-                        </button>
-                        <div class="dropdown-menu" style="will-change: transform; position: absolute; transform: translate3d(0px, 34px, 0px); top: 0px; left: 0px;" x-placement="bottom-start">
-
+                    <li class="collapsed">
+                        <a class="m-link" data-toggle="collapse" data-target="#@item.Code" href="#">
+                            <i class="" style="margin-left:4%"></i>
+                            <span>@item.CategoryName</span><span class="arrow fa fa-angle-down ml-auto text-right"></span>
+                        </a>
+                        <ul class="sub-menu collapse" id="@item.Code">
                             @foreach (DrawingTheme.Models.tblSubCategory item1 in ViewBag.SubCategory)
                             {
                                 if (@item1.CategoryID == item.CategoryID)
                                 {
-                                    <a class="dropdown-item" id="@item.Code" data-SubCatId="@item1.SubcategoryID" data-Name="@item1.SubcategoryName"  data-radius="@item1.ThrowDistanceMax" data-width="@item1.ThrowWidth" data-height="@item1.ThrowHeight" data-angle="@item1.MaxAngle" data-rotation="@item1.MinAngle" data-IrrigationCircles="@item1.valveboxcircle"  data-Filter="@item1.valveboxFilter"  data-DrinkingWater="@item1.drinkingwatersource"  data-WellWater="@item1.wellwatersource"  data-RainWater="@item1.rainwatersource"   data-Station="@item1.IrrigationComputermaxstation" data-Indoor="@item1.IrrigationComputerindoor" data-Outdoor="@item1.IrrigationComputeroutdoor" data-SP="@item1.IrrigationComputeroutdoor" href="javascript:void(0)">
-                                        @item1.SubcategoryName
-                                    </a>
+
+
+
+
+
+
+                                    <li>
+                                        <a id="@item.Code" data-SubCatId="@item1.SubcategoryID" data-Name="@item1.SubcategoryName" data-radius="@item1.ThrowDistanceMax" data-width="@item1.ThrowWidth" data-height="@item1.ThrowHeight" data-angle="@item1.MaxAngle" data-rotation="@item1.MinAngle" data-IrrigationCircles="@item1.valveboxcircle" data-Filter="@item1.valveboxFilter" data-DrinkingWater="@item1.drinkingwatersource" data-WellWater="@item1.wellwatersource" data-RainWater="@item1.rainwatersource" data-Station="@item1.IrrigationComputermaxstation" data-Indoor="@item1.IrrigationComputerindoor" data-Outdoor="@item1.IrrigationComputeroutdoor" data-SP="@item1.IrrigationComputeroutdoor" href="javascript:void(0)">
+                                            @item1.SubcategoryName
+                                        </a>
+                                    </li>
+
+
                                 }
-
-
                             }
+                        </ul>
+                    </li>
+}
+
+
+
+            </ul>
+
+        </div>*@
+
+
+
+
+    </div>
+    <div class="col-md-9">
+        <div class="body d-flex profile-page">
+            <div class="card container-fluid">
+                        <div class="card-body" id="container">
                         </div>
-                    </div>
-
-                }
-
-
-                @*<button id="BtnTap">Tap</button><br />
-        <button id="BtnSystem">Computer System</button><br />
-        <button id="BtnValveBox">Valve Box</button><br />
-        <button id="BtnEndsprinkler" style="display:none;">End sprinkler</button><br />*@
             </div>
         </div>
+
     </div>
-    <div class="col-md-10">
-        <div class="">
-            <div class="">
-                <div class="body d-flex profile-page">
-                    <div class="container-fluid">
-                        @*<div>
-                    <input type="text" name="OrderId" id="OrderId" value="" hidden />
-                    @foreach (DrawingTheme.Models.tblComponent Component in Model)
-                    {
-                        {
-                            i += 1;
-                        }
-                        <button id="@Component.Code" onclick="SaveData(@Component.ComponentId)" data-radius="30" data-Width="100" data-Height="40" data-Angle="180" data-Rotation="45">@Component.Name</button>
-                        if (i == 7)
-                        {
-                            <br />
-                        }
-                    }
-                    <button id="UndoCanvas">Undo</button>
-                    <button id="BtnTap">Tap</button>
-                    <button id="BtnSystem">Computer System</button>
-                    <button id="BtnValveBox">Valve Box</button>
-                    <button id="BtnEndsprinkler" style="display:none;">End sprinkler</button>
-                    <button id="BtnEndRectangularsprinkler" style="display:none;">End rectangular sprinkler</button>
-                    <button id="save">Save as PDF</button>
-                    <input type="file" id="file_input" accept="image/*" name="name" value="" />
-                    <br />
-                    <div id="DivImageOpacityValue" style="display:none;">
-                        <label>Image opacity</label>
-                        <input type="number" id="ImageOpacityValue" min="0" max="1" value="1" />
-                    </div>
-
-
-                    <button id="Area" style="margin-left:2%;">Lawn</button>
-                    <button id="DryArea" style="margin-left:2%;">Dry Area</button>
-                </div>*@
-
-
-                        <div>
-                            <input type="text" name="OrderId" id="OrderId" value="" hidden="">
-
-
-                            <button id="Area" class="btn btn-success" onclick="SaveData(4)" data-radius="30" data-width="100" data-height="40" data-angle="180" data-rotation="45">Lawn</button>
-                            <button id="DryArea" class="btn" style="background-color: #ffe699;" onclick="SaveData(5)" data-radius="30" data-width="100" data-height="40" data-angle="180" data-rotation="45">Dry Area</button>
-                            <button id="Hedge" class="btn" style="background-color: #D2BFFF;" onclick="SaveData(6)" data-radius="30" data-width="100" data-height="40" data-angle="180" data-rotation="45">Hedge</button>
-                            <button id="GetWet" class="btn" style="background-color: rgba(111, 187, 211, .8);" onclick="SaveData(9)" data-radius="30" data-width="100" data-height="40" data-angle="180" data-rotation="45">Get Wet </button>
-                            @*<button id="Sprinkler" onclick="SaveData(7)" data-radius="30" data-width="100" data-height="40" data-angle="180" data-rotation="45">Sprinkler</button>*@
-                            @*<button id="RectangularSprinkler" onclick="SaveData(8)" data-radius="30" data-width="100" data-height="40" data-angle="180" data-rotation="45">Rectangular</button>*@
-                            
-                            <button class="btn" style="background-color: red;" id="UndoCanvas">Undo</button>
-
-
-                            <button class="btn btn-primary" id="save">Save as PDF</button>
-                            <input type="file" class="form-control" id="file_input" accept="image/*" name="name" value="">
-                            <div id="DivImageOpacityValue" style="display:none;">
-                                <label>Image opacity</label>
-                                <input type="number" class="form-control" id="ImageOpacityValue" min="0" max="1" value="1">
-                            </div>
-                        </div>
-
-                        <div class="row">
-                            <div class="col-md-10">
-                                <div id="container">
-                                </div>
-                            </div>
-                            <div class="col-md-2">
-                                <div class="card">
-                                    <div class="card-header">
-                                        <h4>Property</h4>
-                                    </div>
-                                    <div class="card-body">
-                                            <h6 id="SName"></h6>
-                                            <h6 hidden id="SubCatId"></h6>
-                                            <div id="RSPD" style="display:none;">
-                                                <input class="form-control" type="text" id="SId" hidden name="name" value="" />
-                                                <label>Radius</label>
-                                                <input class="form-control" type="number" id="SRadius" onchange="SetS(this,1)" name="name" value="" />
-                                                <label>Start Angle</label>
-                                                <input class="form-control" type="number" id="StartAngle" onchange="SetS(this,2)" name="name" value="" />
-                                                <label>Angle</label>
-                                                <input class="form-control" type="number" id="SAngle" onchange="SetS(this,3)" name="name" value="" />
-                                                <button class="btn" id="BtnEndsprinkler" style="display:none; background-color:aqua;">End sprinkler</button>
-                                            </div>
-                                            <div id="SSPD" style="display:none;">
-                                                <input class="form-control" type="text" id="SSId" hidden name="name" value="" />
-                                                <label>Width</label>
-                                                <input class="form-control" type="number" id="SSWidth" onchange="SetS(this,4)" name="name" value="" />
-                                                <label>Height</label>
-                                                <input class="form-control" type="number" id="SSHeight" onchange="SetS(this,5)" name="name" value="" />
-                                                <button class="btn" id="BtnEndRectangularsprinkler" style="display:none;background-color:aqua;">End rectangular sprinkler</button>
-                                            </div>
-                                            <div id="VBPD" style="display:none;">
-                                                <input class="form-control" type="text" id="VBId" hidden name="name" value="" />
-                                                <label id="VBF" style="display:none;">Filter included</label>
-                                                <label id="VBDW" style="display:none;">for drinking water source</label>
-                                                <label id="VBWW" style="display:none;">for well water source</label>
-                                                <label id="VBRW" style="display:none;">for rainwater source</label>
-                                                <button class="btn" id="EndVB" style="display:none;background-color:aqua;">End Valve box</button>
-                                            </div>
-                                            <div id="ICPD" style="display:none;">
-                                                <input class="form-control" type="text" id="ICId" hidden name="name" value="" />
-                                                <label id="ICS" >Filter included</label>
-                                                <label id="ICID" style="display:none;">Indoor</label>
-                                                <label id="ICOD" style="display:none;">outdoor</label>
-                                                <label id="ICSP" style="display:none;">Smarphone</label>
-                                                <button class="btn" id="EndIC" style="display:none;background-color:aqua;">End Irrigation computer</button>
-                                            </div>
-                                            <div id="TapPD" style="display:none;">
-                                                <input class="form-control" type="text" id="TapId" hidden name="name" value="" />
-                                                <select id="TapSelect" onchange="SetS(this,6)">
-                                                    <option value="70">Drinking Water Source</option>
-                                                    <option value="71">Well Water Source</option>
-                                                    <option value="72">Rain Water Source</option>
-                                                </select>
-                                                <button class="btn" id="EndTap" style="display:none;background-color:aqua;">End Tap</button>
-                                            </div>
-                                        
-                                        
-                                        
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <form role="form" id="payment-form" method="POST" action="@Url.Action("PaymentWithPaypal","PayPal")">
-                            <div id="">Total Amount: <lebel id="TotalAmount"> 0</lebel></div>
-                            <input type="text" id="TotalAmountInput" name="amount" value="" hidden />
-                            <button> Save Diagram</button>
-                        </form>
-                    </div>
+    <div class="col-md-2">
+        <div class="card text-center">
+            <div class="card-header">
+                <h4>Property</h4>
+            </div>
+            <div class="card-body ">
+                <h6 id="SName"></h6>
+                <h6 hidden id="SubCatId"></h6>
+                <div id="RSPD" style="display:none;">
+                    <input class="form-control" type="text" id="SId" hidden name="name" value="" />
+                    <label>Radius</label>
+                    <input class="form-control" type="number" id="SRadius" onchange="SetS(this,1)" name="name" value="" />
+                    <label>Start Angle</label>
+                    <input class="form-control" type="number" id="StartAngle" onchange="SetS(this,2)" name="name" value="" />
+                    <label>Angle</label>
+                    <input class="form-control" type="number" id="SAngle" onchange="SetS(this,3)" name="name" value="" />
+                    <button class="btn" id="BtnEndsprinkler" style="display:none; background-color:aqua;">End sprinkler</button>
+                </div>
+                <div id="SSPD" style="display:none;">
+                    <input class="form-control" type="text" id="SSId" hidden name="name" value="" />
+                    <label>Width</label>
+                    <input class="form-control" type="number" id="SSWidth" onchange="SetS(this,4)" name="name" value="" />
+                    <label>Height</label>
+                    <input class="form-control" type="number" id="SSHeight" onchange="SetS(this,5)" name="name" value="" />
+                    <button class="btn" id="BtnEndRectangularsprinkler" style="display:none;background-color:aqua;">End rectangular sprinkler</button>
+                </div>
+                <div id="VBPD" style="display:none;">
+                    <input class="form-control" type="text" id="VBId" hidden name="name" value="" />
+                    <label id="VBF" style="display:none;">Filter included</label>
+                    <label id="VBDW" style="display:none;">for drinking water source</label>
+                    <label id="VBWW" style="display:none;">for well water source</label>
+                    <label id="VBRW" style="display:none;">for rainwater source</label>
+                    <button class="btn" id="EndVB" style="display:none;background-color:aqua;">End Valve box</button>
+                </div>
+                <div id="ICPD" style="display:none;">
+                    <input class="form-control" type="text" id="ICId" hidden name="name" value="" />
+                    <label id="ICS">Filter included</label>
+                    <label id="ICID" style="display:none;">Indoor</label>
+                    <label id="ICOD" style="display:none;">outdoor</label>
+                    <label id="ICSP" style="display:none;">Smarphone</label>
+                    <button class="btn" id="EndIC" style="display:none;background-color:aqua;">End Irrigation computer</button>
+                </div>
+                <div id="TapPD" style="display:none;">
+                    <input class="form-control" type="text" id="TapId" hidden name="name" value="" />
+                    <select id="TapSelect" onchange="SetS(this,6)">
+                        <option value="70">Drinking Water Source</option>
+                        <option value="71">Well Water Source</option>
+                        <option value="72">Rain Water Source</option>
+                    </select>
+                    <button class="btn" id="EndTap" style="display:none;background-color:aqua;">End Tap</button>
                 </div>
 
+                <input type="file" class="form-control" id="file_input" accept="image/*" name="name" value="">
+                <div id="DivImageOpacityValue" style="display:none;">
+                    <label>Image opacity</label>
+                    <input type="range" class="form-control" id="ImageOpacityValue" min="10" max="100" value="100">
+                </div>
+
+                <button class="btn btn-danger text-center mt-1"  id="UndoCanvas"><i class="fa fa-undo mr-1"></i>Undo</button>
             </div>
         </div>
+       
     </div>
-</div>
+    </div>
 
-@*<div class="navigation navbar navbar-light justify-content-center px-3 px-lg-2 py-2 py-md-3  ver-menu">
-
-        <ul class="nav navbar-nav flex-row flex-lg-column flex-grow-1 justify-content-start align-items-center py-2 py-lg-0">
-         Create group
-            <li class="nav-item flex-grow-1">
-
-            </li>
-             <li class="nav-item">
-                     <a class="nav-link p-2 p-lg-3" href="#" title="Search" data-toggle="modal"
-                        data-target="#SearchModal"><i class="fa fa-search"></i></a>
-                 </li>
-                 <li class="nav-item flex-grow-1">
-                     <a class="nav-link p-2 p-lg-3" href="#" title="notifications" data-toggle="modal"
-                        data-target="#notificationsModal"><i class="fa fa-bell"></i></a>
-                 </li>
-         Menu collapse
-        <li class="nav-item">
-                    <a class="nav-link p-2 p-lg-3" href="Url.Action("Profile","User")" title="Menu collapse">
-                        <i class="fa fa-user"></i>
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link p-2 p-lg-3" href="Url.Action("Login","Account")" title="Menu collapse">
-                        <i class="fa fa-sign-out"></i>
-                    </a>
-                </li>
-        </ul>
-    </div>*@
 
 
 
 <div class="modal fade" id="addcontact" tabindex="-1" role="dialog" data-backdrop="static" data-keyboard="false">
-    <div class="modal-dialog  modal-lg" role="document">
+    <div class="modal-dialog " role="document">
 
         <div class="modal-content">
             <div class="modal-header">
-                <h4 class="title" id="defaultModalLabel">Please enter order name</h4>
+                <h4 class="title" id="defaultModalLabel">Enter order name</h4>
             </div>
             <div class="modal-body">
 
                 <div class="row clearfix">
-                    <div class="col-6">
+                    <div class="col-12">
                         <div class="form-group">
-                            @*<input type="text" hidden class="form-control" id="OrderId" name="OrderId" placeholder="First Name">*@
                             <input type="text" class="form-control" id="ModalName" name="Name" placeholder="Order Name" required>
                         </div>
                     </div>
@@ -258,7 +206,6 @@
             </div>
             <div class="modal-footer">
                 <button type="submit" class="btn btn-primary" id="SaveOrder">Save Changes</button>
-                @*<button type="button" class="btn btn-default" data-dismiss="modal">CLOSE</button>*@
             </div>
         </div>
     </div>
@@ -321,13 +268,17 @@
 
     $(document).ready(function () {
 
+        //$("#addcontact").modal('toggle');
+        //$('#addcontact').modal({ backdrop: 'static', keyboard: false })
+    
+        $("#btnChangeImage").click();
+        ChangeImage();
+        $("#SideBAr").addClass("sidebar-mini");
         $("#addcontact").modal('toggle');
-        $('#addcontact').modal({ backdrop: 'static', keyboard: false })
-
     });
 
-        var width = window.innerWidth;
-        var height = window.innerHeight;
+        var width = 1000;
+        var height = 500;
 
         var isDraw = false;
         var isFirst = false;
@@ -607,11 +558,11 @@
             $("#SName").text(SubName);
             $("#SubCatId").text(SubId);
             $("#TapSelect").val(SubId);
-            
+
         }
         else {
 
-           
+
             var SubName = $(this).attr("data-Name");
             var SubId = $(this).attr("data-SubCatId");
             $("#TapSelect").val(SubId);
@@ -665,7 +616,7 @@
 
         SubCategoryID = $("#SubCatId").text();
         SubcategoryName = $("#SName").text();
-        UniqueId = $("#TapId").text();
+        UniqueId = $("#TapId").val();
         OrderId = $("#OrderId").val();
 
         $("#EndTap").hide();
@@ -737,7 +688,7 @@
             }
         }
         else {
-           
+
             var Station = $(this).attr("data-Station");
             var InDoor = $(this).attr("data-InDoor");
             var OutDoor = $(this).attr("data-OutDoor");
@@ -795,7 +746,7 @@
         $("#ICPD").show();
         $("#EndIC").show();
 
-        
+
 
 
     });
@@ -808,7 +759,7 @@
 
         SubCategoryID = $("#SubCatId").text();
         SubcategoryName = $("#SName").text();
-        UniqueId = $("#ICId").text();
+        UniqueId = $("#ICId").val();
         OrderId = $("#OrderId").val();
 
         $("#EndIC").hide();
@@ -1107,13 +1058,13 @@
         //$("#Sprinkler").prop('disabled', false);
         //
 
-        SubCategoryID = $("#SubCatId").text();
-        SubcategoryName = $("#SName").text();
-        UniqueId = $("#SId").text();
-        MinAngle = $("#StartAngle").val();
-        MaxAngle = $("#SAngle").val();
-        ThrowDistanceMax = $("#SRadius").val();
-        OrderId = $("#OrderId").val();
+        var SubCategoryID = $("#SubCatId").text();
+        var SubcategoryName = $("#SName").text();
+        var UniqueId = $("#SId").val();
+        var MinAngle = $("#StartAngle").val();
+        var MaxAngle = $("#SAngle").val();
+        var ThrowDistanceMax = $("#SRadius").val();
+        var OrderId = $("#OrderId").val();
 
         $("#BtnEndsprinkler").hide();
         $("#RSPD").hide();
@@ -1153,7 +1104,7 @@
 
         SubCategoryID = $("#SubCatId").text();
         SubcategoryName = $("#SName").text();
-        UniqueId = $("#VBId").text();
+        UniqueId = $("#VBId").val();
         OrderId = $("#OrderId").val();
 
         $("#EndVB").hide();
@@ -1418,7 +1369,7 @@
 
         SubCategoryID = $("#SubCatId").text();
         SubcategoryName = $("#SName").text();
-        UniqueId = $("#SSId").text();
+        UniqueId = $("#SSId").val();
         OrderId = $("#OrderId").val();
 
         $("#BtnEndRectangularsprinkler").hide();
@@ -1941,8 +1892,7 @@
                         y2 = Index + 3
 
                         var TextId = FindDragTextId(id);
-                        consol.log(id);
-                        consol.log(TextId);
+
                         var EText = layer.findOne('#' + TextId[0]);
                         //console.log(EText);
 
@@ -2716,54 +2666,98 @@
 
             }
             else if (CLastId[0] == 'S' && CLastId[1] == 'p') {
-                if (CurretSprinkler!="") {
-                    CurretSprinkler = "";
-                }
-                var node = layer.findOne('#' + CLastId.replace("Sprinkler", "FillCircle"));
 
-                node.destroy();
+                var node = layer.findOne('#' + CLastId.replace("Sprinkler", "FillCircle"));
+                if (node != null) {
+                    if (CurretSprinkler != "") {
+                        CurretSprinkler = "";
+                    }
+                    $("#SName").text("");
+                    $("#RSPD").hide();
+                    node.destroy();
+                }
                 var node = layer.findOne('#' + CLastId.replace("Sprinkler", "Circle"));
-                node.destroy();
+                if (node != null) {
+                    node.destroy();
+                }
                 var node = layer.findOne('#' + CLastId.replace("Sprinkler", "Arc"));
-                node.destroy();
+                if (node != null) {
+                    node.destroy();
+                }
 
             }
             else if (CLastId[0] == 'R' && CLastId[1] == 'e') {
-                if (CurretRSprinkler != "") {
-                    CurretRSprinkler = "";
-                }
-                var node = layer.findOne('#' + CLastId.replace("RectangularSprinkler", "RSCircle"));
 
-                node.destroy();
+                var node = layer.findOne('#' + CLastId.replace("RectangularSprinkler", "RSCircle"));
+                if (node != null) {
+                    if (CurretRSprinkler != "") {
+                        CurretRSprinkler = "";
+                    }
+                    $("#SName").text("");
+                    $("#SSPD").hide();
+                    node.destroy();
+                }
                 var node = layer.findOne('#' + CLastId.replace("RectangularSprinkler", "TRS"));
-                node.destroy();
+                if (node != null) {
+                    node.destroy();
+                }
 
             }
             else if (CLastId[0] == 'S' && CLastId[1] == 'y') {
                 var node = layer.findOne('#' + CLastId.replace("System", "TIC"));
-
-                node.destroy();
+                $("#SName").text("");
+                $("#ICPD").hide();
+                if (node != null) {
+                    if (CurretIC != "") {
+                        CurretIC = "";
+                    }
+                    $("#btn_IC *").prop('disabled', false);
+                    node.destroy();
+                }
             }
-            else if (CLastId[0] == 'V' ) {
+            else if (CLastId[0] == 'V') {
+
+
                 var node = layer.findOne('#' + CLastId.replace("ValveBox", "TVB"));
 
-                node.destroy();
+                $("#SName").text("");
+                $("#VBPD").hide();
+                if (node != null) {
+                    if (CurretVB != "") {
+                        CurretVB = "";
+                    }
+                    $("#btn_VB *").prop('disabled', false);
+                    node.destroy();
+                }
             }
             else if (CLastId[0] == 'T' && CLastId[1] == 'a') {
                 var node = layer.findOne('#' + CLastId.replace("Tap", "TTap"));
-
-                node.destroy();
+                $("#SName").text("");
+                $("#TapPD").hide();
+                if (node != null) {
+                    if (CurretTap != "") {
+                        CurretTap = "";
+                    }
+                    $("#btn_TAP *").prop('disabled', false);
+                    node.destroy();
+                }
             }
             var node = layer.findOne('#' + CLastId);
-            node.destroy();
+            if (node != null) {
+                node.destroy();
+            }
+
+            var UniqueId = CLastId;
+            var OrderId = $("#OrderId").val();
+
+
             UndoArray.pop();
 
 
-            @*ComponentCode = id;
-            OrderId = $("#OrderId").val();
+
 
             var model = {
-                ComponentCode: ComponentCode,
+                UniqueId: UniqueId,
                 OrderId: OrderId,
             };
 
@@ -2777,7 +2771,7 @@
                     $("#TotalAmount").text(r);
                     $("#TotalAmountInput").val(r);
                 }
-            });*@
+            });
 
         }
 
@@ -2882,7 +2876,7 @@
         {
             $("#SubCatId").text(obj.value);
             $("#SName").text(obj.options[obj.selectedIndex].text);
-           
+
         }
     }
 

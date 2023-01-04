@@ -113,7 +113,7 @@ namespace DrawingTheme.Controllers
             List<tblComponent> Data = new List<tblComponent>();
             try
             {
-                ViewBag.Category = DB.tblCategories.ToList();
+                ViewBag.Category = DB.tblCategories.Where(x=>x.IsPlanner==true).ToList();
                 ViewBag.SubCategory = DB.tblSubCategories.Where(x=>x.Plannercomponent==true).ToList();
                 Data = DB.tblComponents.Select(r => r).Where(x => x.isActive == true).ToList();
                 

@@ -13,7 +13,7 @@ namespace DrawingTheme.Controllers
         AutomatischeEntities DB = new AutomatischeEntities();
         public ActionResult Index(string Success, string Update, string Delete, string Error)
         {
-            List<tblSubCategory> subcategoryList = DB.tblSubCategories.ToList();
+            List<tblSubCategory> subcategoryList = DB.tblSubCategories.OrderBy(x=>x.CategoryID).ToList();
 
             ViewBag.Success = Success;
             ViewBag.Update = Update;

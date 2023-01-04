@@ -621,22 +621,24 @@ namespace DrawingTheme.Controllers
                 double? TotalPrice = 0;
 
                 SubCategory = DB.tblSubCategories.Where(x => x.SubcategoryID == OrderDetail.SubCategoryID).FirstOrDefault();
-                Data = OrderDetail;
-                Data.SubcategoryName = SubCategory.SubcategoryName;
-                Data.Price= SubCategory.Price;
-                DB.tblOrderDetails.Add(Data);
-                DB.SaveChanges();
+                if (SubCategory != null)
+                {
+                    Data = OrderDetail;
+                    Data.SubcategoryName = SubCategory.SubcategoryName;
+                    Data.Price = SubCategory.Price;
+                    DB.tblOrderDetails.Add(Data);
+                    DB.SaveChanges();
 
 
 
 
-                tblLog LogData = new tblLog();
-                LogData.UserId = UserId;
-                LogData.Action = "Add Order Details";
-                LogData.CreatedDate = DateTime.Now;
-                DB.tblLogs.Add(LogData);
-                DB.SaveChanges();
-
+                    tblLog LogData = new tblLog();
+                    LogData.UserId = UserId;
+                    LogData.Action = "Add Order Details";
+                    LogData.CreatedDate = DateTime.Now;
+                    DB.tblLogs.Add(LogData);
+                    DB.SaveChanges();
+                }
                 OrderDetailData = DB.tblOrderDetails.Where(x => x.OrderId == OrderDetail.OrderId).ToList();
 
                 TotalPrice=OrderDetailData.Sum(S => S.Price);
@@ -655,7 +657,47 @@ namespace DrawingTheme.Controllers
             return Json(0);
         }
 
+        [HttpPost]
+        public JsonResult DeleteOrderDetails(tblOrderDetail OrderDetail)
+        {
+            HttpCookie cookieObj = Request.Cookies["User"];
+            int UserId = Int32.Parse(cookieObj["UserId"]);
+            tblOrderDetail Data = new tblOrderDetail();
+            List<tblOrderDetail> OrderDetailData = new List<tblOrderDetail>();
+            tblSubCategory SubCategory = new tblSubCategory();
 
+            try
+            {
+                double? TotalPrice = 0;
+
+                Data = DB.tblOrderDetails.Where(x => x.UniqueId == OrderDetail.UniqueId && x.OrderId == OrderDetail.OrderId).FirstOrDefault();
+                DB.Entry(Data).State = EntityState.Deleted;
+                DB.SaveChanges();
+
+                tblLog LogData = new tblLog();
+                LogData.UserId = UserId;
+                LogData.Action = "Delete Order Details";
+                LogData.CreatedDate = DateTime.Now;
+                DB.tblLogs.Add(LogData);
+                DB.SaveChanges();
+
+                OrderDetailData = DB.tblOrderDetails.Where(x => x.OrderId == OrderDetail.OrderId).ToList();
+
+                TotalPrice = OrderDetailData.Sum(S => S.Price);
+
+                return Json(TotalPrice);
+
+
+            }
+            catch (Exception ex)
+            {
+
+                ViewBag.Error = ex.Message;
+                Console.WriteLine("Error" + ex.Message);
+            }
+
+            return Json(0);
+        }
 
         public ActionResult Transactions(string Success, string Update, string Delete, string Error)
         {
