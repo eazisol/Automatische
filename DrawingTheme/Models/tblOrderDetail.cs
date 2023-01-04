@@ -16,12 +16,16 @@ namespace DrawingTheme.Models
     {
         public int OrderDetailId { get; set; }
         public Nullable<int> OrderId { get; set; }
-        public Nullable<int> ComponentId { get; set; }
-        public string ComponentName { get; set; }
-        public string ComponentCode { get; set; }
-        public Nullable<double> ComponentPrice { get; set; }
+        public Nullable<int> SubCategoryID { get; set; }
+        public string SubcategoryName { get; set; }
+        public Nullable<double> Price { get; set; }
+        public Nullable<double> MinAngle { get; set; }
+        public Nullable<double> MaxAngle { get; set; }
+        public Nullable<double> ThrowDistanceMax { get; set; }
+        public Nullable<double> ThrowDistanceMin { get; set; }
+        public string UniqueId { get; set; }
     
         public virtual tblOrder tblOrder { get; set; }
-        public virtual tblComponent tblComponent { get; set; }
+        public virtual tblSubCategory tblSubCategory { get; set; }
     }
 }

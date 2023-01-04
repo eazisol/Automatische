@@ -17,8 +17,8 @@ namespace DrawingTheme.Models
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public tblOrder()
         {
-            this.tblOrderDetails = new HashSet<tblOrderDetail>();
             this.tblTransactions = new HashSet<tblTransaction>();
+            this.tblOrderDetails = new HashSet<tblOrderDetail>();
         }
     
         public int OrderId { get; set; }
@@ -32,11 +32,11 @@ namespace DrawingTheme.Models
         public Nullable<int> EditBy { get; set; }
         public Nullable<bool> isActive { get; set; }
     
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<tblOrderDetail> tblOrderDetails { get; set; }
         public virtual tblUser tblUser { get; set; }
         public virtual tblUser tblUser1 { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<tblTransaction> tblTransactions { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<tblOrderDetail> tblOrderDetails { get; set; }
     }
 }
