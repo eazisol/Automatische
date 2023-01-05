@@ -19,6 +19,7 @@
 
             <input type="text" name="OrderId" id="OrderId" value="" hidden="">
             <input type="text" name="ObjUniqueId" id="ObjUniqueId" value="" hidden="">
+            <input type="text" name="VBCircle" id="VBCircle" value="" hidden="">
 
 
             <button id="Area" class="btn btn-success ml-2 mr-2" onclick="SaveData(4)" data-radius="30" data-width="100" data-height="40" data-angle="180" data-rotation="45">Lawn</button>
@@ -188,6 +189,12 @@
                     <input class="form-control" type="number" id="IWL"  name="name" value="0" disabled />
                     <button class="btn" id="EndIW" style="background-color:aqua;">End Irrigation wiring</button>
                 </div>
+                <div id="PEPD" style="display:none;">
+                    <input class="form-control" type="text" id="PEId" hidden name="name" value="" />
+                    <label>Total length: </label>
+                    <input class="form-control" type="number" id="PEL"  name="name" value="0" disabled />
+                    <button class="btn" id="EndPE" style="background-color:aqua;">End PE Pipeline</button>
+                </div>
 
                 <input type="file" class="form-control" id="file_input" accept="image/*" name="name" value="">
                 <div id="DivImageOpacityValue" style="display:none;">
@@ -300,7 +307,7 @@
         console.log($(".IW12"));
         //$(".IW12").prop('disabled', true);
         //$(".IW12").off("click");
-       
+
     });
 
     var width = 1027;
@@ -440,12 +447,12 @@
         scale1 = 1;
         stage.scale({ x: scale1, y: scale1 });
 
-      
+
     });
 
 
     function zoomStage2(stage, zoomPoint, zoomBefore, inc) {
-       
+
         let oldScale = stage.scaleX();
 
         var mousePointTo = {
@@ -453,13 +460,13 @@
             y: (zoomPoint.y - stage.y()) / oldScale
         };
 
-       
+
         let zoomAfter = zoomBefore + inc;
 
-        
+
         stage.scale({ x: zoomAfter, y: zoomAfter });
 
-        
+
         var newPos = {
             x: zoomPoint.x - mousePointTo.x * zoomAfter,
             y: zoomPoint.y - mousePointTo.y * zoomAfter
@@ -510,8 +517,16 @@
                         if (r.UniqueId[0] == 'L') {
                             $("#IWId").val(r.Data.UniqueId);
                             $("#IWL").val(r.Data.IWLength);
-                            $("#IWPD").show();
-                            $("#EndIW").hide();
+                            var node = layer.findOne('#' + r.UniqueId);
+                            if (node.name() == "Irrigation Wiring") {
+                                $("#IWPD").show();
+                                $("#EndIW").hide();
+                            }
+                            else {
+                                $("#PEPD").show();
+                                $("#EndPE").hide();
+                            }
+                            
                         }
                         else if (r.UniqueId[0] == 'S' && r.UniqueId[1] == 'p') {
                             $("#SId").val(r.Data.UniqueId);
@@ -599,7 +614,7 @@
                         $("#SName").text(node.name());
                         $("#DeleteObj").show();
                     }
-                       
+
 
 
                 }
@@ -803,6 +818,126 @@
 
         UndoArray.push(poly.id());
     });
+
+
+
+    $("body").on("click", "#PE", function () {
+        var SubName = $(this).attr("data-Name");
+        var SubId = $(this).attr("data-SubCatId");
+        $("#SName").text(SubName);
+        $("#SubCatId").text(SubId);
+
+
+        var VBCircle = $("#VBCircle").val();
+        //alert(this.id);
+        poly = new Konva.Line({
+            points: [0, 0],
+            stroke: 'black',
+            strokeWidth: 3,
+            lineCap: 'round',
+            lineJoin: 'round',
+            id: "Line" + PolyName + "",
+            //listening: false,
+            name: "PE Pipeline",
+        });
+
+        if (VBCircle == 1) {
+            poly.stroke("yellow");
+        }
+        else if (VBCircle == 2) {
+            poly.stroke("red");
+        }
+        else if (VBCircle == 3) {
+            poly.stroke("purple");
+        }
+        else if (VBCircle == 4) {
+            poly.stroke("blue");
+        }
+        else if (VBCircle == 5) {
+            poly.stroke("darkgreen");
+        }
+        else if (VBCircle == 6) {
+            poly.stroke("grey");
+        }
+        else if (VBCircle == 7) {
+            poly.stroke("pink");
+        }
+        else if (VBCircle == 8) {
+            poly.stroke("lightblue");
+        }
+        else if (VBCircle == 9) {
+            poly.stroke("green");
+        }
+        else if (VBCircle == 10) {
+            poly.stroke("black");
+        }
+
+        PolyName += 1;
+        layer.add(poly);
+        isOverOnStarting = false;
+        isStartLine = true;
+        isFinished = false;
+        isFirstMouseMove = true;
+        CurrentObjId = poly.name();
+        id = poly.id();
+
+        $("#PEId").val(poly.id());
+        $("#PEPD").show();
+        $("#EndPE").show();
+
+        UndoArray.push(poly.id());
+    });
+
+    $("body").on("click", "#EndPE", function () {
+
+        var SubCategoryID = $("#SubCatId").text();
+        var SubcategoryName = $("#SName").text();
+        var UniqueId = $("#PEId").val();
+        var OrderId = $("#OrderId").val();
+        var PELength = $("#PEL").val();
+
+        //$("#EndPE").hide();
+        $("#PEPD").hide();
+        $("#SName").text("");
+        $("#SubCatId").text("");
+        $("#btn_PE *").prop('disabled', true);
+
+        var model = {
+            UniqueId: UniqueId,
+            SubCategoryID: SubCategoryID,
+            SubcategoryName: SubcategoryName,
+            OrderId: OrderId,
+            PELength: PELength,
+        };
+
+        $.ajax({
+            type: "POST",
+            url: "@Url.Action("AddOrderDetails", "Customer")",
+            data: JSON.stringify(model),
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            success: function (r) {
+                $("#TotalAmount").text(r);
+                $("#TotalAmountInput").val(r);
+            }
+        });
+        $("#DeleteObj").hide();
+        var node = layer.findOne('#' + UniqueId);
+        var SI = Number(UniqueId.replace("Line", ""));
+        var SRect = StartRect[SI-1];
+        var ERect = FindLastId(SRect);
+        var Ltext = ERect.replace("Rect", "Text");
+        var Points = node.points();
+        Points.pop();
+        Points.pop();
+        node.points(Points);
+        isDraw = false;
+        isFinished = true;
+        var node = layer.findOne('#' + Ltext);
+        node.destroy();
+        $("#EndPE").hide();
+    });
+
 
     $("body").on("click", "#GetWet", function () {
             //alert(this.id);
@@ -1139,7 +1274,7 @@
             else {
                 $(".IW" + Station).show();
             }
-            
+
             $("#ICS").text(Station);
             if (InDoor == "True") {
                 $("#ICID").show();
@@ -1264,6 +1399,8 @@
             var RainWater = $(this).attr("data-RainWater");
             var SubName = $(this).attr("data-Name");
             var SubId = $(this).attr("data-SubCatId");
+            var VBCircle = $(this).attr("data-IrrigationCircles");
+            $("#VBCircle").val(VBCircle);
             $("#SName").text(SubName);
             $("#SubCatId").text(SubId);
             if (Filter == "True") {
@@ -1314,6 +1451,8 @@
             var DrinkingWater = $(this).attr("data-DrinkingWater");
             var WellWater = $(this).attr("data-WellWater");
             var RainWater = $(this).attr("data-RainWater");
+            var VBCircle = $(this).attr("data-IrrigationCircles");
+            $("#VBCircle").val(VBCircle);
             var SubName = $(this).attr("data-Name");
             var SubId = $(this).attr("data-SubCatId");
             if (Filter == "True") {
@@ -2332,6 +2471,12 @@
                         }
                         
 
+                        if (line.name() == "PE Pipeline") {
+                            $("#PEL").val(Number($("#PEL").val()) + Number(Distance));
+                            rect.draggable(false);
+                        }
+
+
                         //poly.moveToBottom();
                         if (CheckFirstIndex(rect.name())) {
                             Rect1 = layer.findOne('.' + rect.name());
@@ -2366,12 +2511,12 @@
                     //}
                     var line = layer.findOne('#' + id);
                     console.log(line);
-                    if (line.name() != "Irrigation Wiring") {
-                    isDraw = false;
-                    isFinished = true;
+                    if (line.name() != "Irrigation Wiring" && line.name() != "PE Pipeline") {
+                        isDraw = false;
+                        isFinished = true;
                         line.closed(true);
                     }
-                    
+
                     line.listening(true);
                     ////console.log(line.name());
                     if (line.name() == "Area") {
@@ -2407,12 +2552,12 @@
                     var x2 = 0;
                     var y2 = 0;
             var node = layer.findOne('#' + id);
-           
+
                 if (id[0] == "R") {
                     LineId = FindIndex(id);
                 }
             var line = layer.findOne('#Line' + LineId);
-            if (line.name() != "Irrigation Wiring") {
+            if (line.name() != "Irrigation Wiring" && line.name() != "PE Pipeline") {
                 var points = line.points();
                 //line.destroy();
                 var ID = Number(id.replace('Rect', ''));
@@ -2616,7 +2761,7 @@
                 }
                 line.closed(true);
             }
-                    
+
                 }
 
 
@@ -3020,7 +3165,7 @@
                     //    //console.log(id);
                     //}
                         var line = layer.findOne('#' + id);
-                    if (isOutArea == false || line.name() == "Hedge" || line.name() =="Irrigation Wiring") {
+                    if (isOutArea == false || line.name() == "Hedge" || line.name() == "Irrigation Wiring" || line.name() == "PE Pipeline") {
 
                         //console.log(id);
                         var points = line.points();
@@ -3205,7 +3350,7 @@
                 $("#file_input").prop('disabled', false);
                 var node = layer.findOne('#' + CLastId.replace("UploadImg", "TUploadImg"));
                 if (node != null) {
-                    
+
                     node.destroy();
                     $("#ImageOpacityValue").hide();
                 }
@@ -3221,8 +3366,13 @@
                 for (var i = Number(FirstId.replace("Rect", "")); i <= Number(LastId.replace("Rect", "")); i++) {
                     var node = layer.findOne('#Rect' + i);
                     node.destroy();
+                    
                     if (CheckId.name() == "Irrigation Wiring" && i == Number(LastId.replace("Rect", ""))) {
                         $("#btn_IW *").prop('disabled', false);
+                    }
+                    else if (CheckId.name() == "PE Pipeline" && i == Number(LastId.replace("Rect", "")))
+                    {
+                        $("#btn_PE *").prop('disabled', false);
                     }
                     else {
                         node = layer.findOne('#Text' + i);
@@ -3230,7 +3380,7 @@
                     }
 
                 }
-                
+
 
             }
             else if (CLastId[0] == 'S' && CLastId[1] == 'p') {
@@ -3381,7 +3531,7 @@
                 //    node.destroy();
                 //    node = layer.findOne('#Text' + i);
                 //    node.destroy();
-                    
+
                 //}
 
                 var CheckId = layer.findOne('#' + CLastId);
@@ -3390,6 +3540,11 @@
                     node.destroy();
                     if (CheckId.name() == "Irrigation Wiring" && i == Number(LastId.replace("Rect", ""))) {
                         $("#btn_IW *").prop('disabled', false);
+                        $("#IWPD").hide();
+                    }
+                    else if (CheckId.name() == "PE Pipeline" && i == Number(LastId.replace("Rect", ""))) {
+                        $("#btn_PE *").prop('disabled', false);
+                        $("#PEPD").hide();
                     }
                     else {
                         node = layer.findOne('#Text' + i);
@@ -3397,7 +3552,7 @@
                     }
                 }
                 $("#SName").text("");
-                $("#IWPD").hide();
+                
             }
             else if (CLastId[0] == 'S' && CLastId[1] == 'p') {
 

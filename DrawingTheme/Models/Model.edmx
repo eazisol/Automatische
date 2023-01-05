@@ -102,6 +102,10 @@
           <Property Name="ThrowDistanceMin" Type="float" />
           <Property Name="UniqueId" Type="nvarchar" MaxLength="500" />
           <Property Name="IWLength" Type="float" />
+          <Property Name="PELength" Type="float" />
+          <Property Name="PEHPipe" Type="int" />
+          <Property Name="PEFPipe" Type="int" />
+          <Property Name="PETPipe" Type="int" />
         </EntityType>
         <EntityType Name="tblRole">
           <Key>
@@ -873,6 +877,10 @@
           <NavigationProperty Name="tblSubCategory" Relationship="AutomatischeModel.FK_tblOrderDetail_tblSubCategory" FromRole="tblOrderDetail" ToRole="tblSubCategory" />
           <Property Name="UniqueId" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
           <Property Name="IWLength" Type="Double" />
+          <Property Name="PELength" Type="Double" />
+          <Property Name="PEHPipe" Type="Int32" />
+          <Property Name="PEFPipe" Type="Int32" />
+          <Property Name="PETPipe" Type="Int32" />
         </EntityType>
         <Association Name="FK_tblOrderDetail_tblOrder">
           <End Type="AutomatischeModel.tblOrder" Role="tblOrder" Multiplicity="0..1" />
@@ -1109,6 +1117,10 @@
           <EntitySetMapping Name="tblOrderDetails">
             <EntityTypeMapping TypeName="AutomatischeModel.tblOrderDetail">
               <MappingFragment StoreEntitySet="tblOrderDetail">
+                <ScalarProperty Name="PETPipe" ColumnName="PETPipe" />
+                <ScalarProperty Name="PEFPipe" ColumnName="PEFPipe" />
+                <ScalarProperty Name="PEHPipe" ColumnName="PEHPipe" />
+                <ScalarProperty Name="PELength" ColumnName="PELength" />
                 <ScalarProperty Name="IWLength" ColumnName="IWLength" />
                 <ScalarProperty Name="UniqueId" ColumnName="UniqueId" />
                 <ScalarProperty Name="ThrowDistanceMin" ColumnName="ThrowDistanceMin" />

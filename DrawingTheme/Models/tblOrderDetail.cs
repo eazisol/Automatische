@@ -25,6 +25,10 @@ namespace DrawingTheme.Models
         public Nullable<double> ThrowDistanceMin { get; set; }
         public string UniqueId { get; set; }
         public Nullable<double> IWLength { get; set; }
+        public Nullable<double> PELength { get; set; }
+        public Nullable<int> PEHPipe { get; set; }
+        public Nullable<int> PEFPipe { get; set; }
+        public Nullable<int> PETPipe { get; set; }
     
         public virtual tblOrder tblOrder { get; set; }
         public virtual tblSubCategory tblSubCategory { get; set; }

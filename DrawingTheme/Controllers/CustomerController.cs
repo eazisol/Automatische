@@ -630,7 +630,72 @@ namespace DrawingTheme.Controllers
                     {
                         Data = OrderDetail;
                         Data.SubcategoryName = SubCategory.SubcategoryName;
-                        Data.Price = SubCategory.Price;
+                        if(OrderDetail.IWLength!=null&& OrderDetail.IWLength != 0)
+                        {
+                            Data.Price = SubCategory.Price*(OrderDetail.IWLength+3);
+                        }
+                        else if(OrderDetail.PELength != null && OrderDetail.PELength != 0)
+                        {
+                            double? Length = OrderDetail.PELength;
+                            int H = 0;
+                            int F = 0;
+                            int T = 0;
+                            int D = 0;
+                            int M = 0;
+                            while (Length>0)
+                            {
+                                if (Length>50)
+                                {
+                                    D = Convert.ToInt32(Decimal.Truncate(Convert.ToDecimal(Length) / 100));
+                                    if(D>0)
+                                    {
+                                        H = H + D;
+                                    }
+                                    else
+                                    {
+                                        H = H + 1;
+                                    }
+                                    Length = Length % 100;
+                                }
+                                else if(Length > 25)
+                                {
+                                    D = Convert.ToInt32(Decimal.Truncate(Convert.ToDecimal(Length) / 50));
+                                    if (D > 0)
+                                    {
+                                        F = F + D;
+                                    }
+                                    else
+                                    {
+                                        F = F + 1;
+                                    }
+                                    Length = Length % 100;
+                                }
+                                else if(Length > 0)
+                                {
+                                    D = Convert.ToInt32(Decimal.Truncate(Convert.ToDecimal(Length) / 25));
+                                    if (D > 0)
+                                    {
+                                        T = T + D;
+                                    }
+                                    else
+                                    {
+                                        T = T + 1;
+                                    }
+                                    Length = Length % 100;
+                                }
+                            }
+
+                            Data.PEHPipe = H;
+                            Data.PEFPipe = F;
+                            Data.PETPipe = T;
+
+                            Data.Price = (H * 99) + (F * 59) + (T * 39);
+                        }
+                        else
+                        {
+                            Data.Price = SubCategory.Price;
+                        }
+                        
                         DB.tblOrderDetails.Add(Data);
                         DB.SaveChanges();
                         tblLog LogData = new tblLog();
@@ -651,8 +716,16 @@ namespace DrawingTheme.Controllers
                         Data.ThrowDistanceMin = OrderDetail.ThrowDistanceMin;
                         Data.UniqueId = OrderDetail.UniqueId;
                         Data.SubcategoryName = SubCategory.SubcategoryName;
-                        Data.Price = SubCategory.Price;
+                        if (OrderDetail.IWLength != null && OrderDetail.IWLength != 0)
+                        {
+                            Data.Price = SubCategory.Price * (OrderDetail.IWLength + 3);
+                        }
+                        else
+                        {
+                            Data.Price = SubCategory.Price;
+                        }
                         Data.IWLength = OrderDetail.IWLength;
+                        Data.PELength = OrderDetail.PELength;
                         DB.Entry(Data);
                         DB.SaveChanges();
 
