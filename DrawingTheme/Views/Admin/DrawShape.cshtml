@@ -55,7 +55,7 @@
                         {
                             if (@item1.CategoryID == item.CategoryID)
                             {
-                                <a class="dropdown-item" id="@item.Code" data-SubCatId="@item1.SubcategoryID" data-Name="@item1.SubcategoryName" data-radius="@item1.ThrowDistanceMax" data-width="@item1.ThrowWidth" data-height="@item1.ThrowHeight" data-angle="@item1.MaxAngle" data-rotation="@item1.MinAngle" data-IrrigationCircles="@item1.valveboxcircle" data-Filter="@item1.valveboxFilter" data-DrinkingWater="@item1.drinkingwatersource" data-WellWater="@item1.wellwatersource" data-RainWater="@item1.rainwatersource" data-Station="@item1.IrrigationComputermaxstation" data-Indoor="@item1.IrrigationComputerindoor" data-Outdoor="@item1.IrrigationComputeroutdoor" data-SP="@item1.IrrigationComputeroutdoor" href="javascript:void(0)">
+                                <a class="dropdown-item @item.Code@item1.IrrigationWiringMaxStation" id="@item.Code" data-SubCatId="@item1.SubcategoryID" data-Name="@item1.SubcategoryName" data-radius="@item1.ThrowDistanceMax" data-width="@item1.ThrowWidth" data-height="@item1.ThrowHeight" data-angle="@item1.MaxAngle" data-rotation="@item1.MinAngle" data-IrrigationCircles="@item1.valveboxcircle" data-Filter="@item1.valveboxFilter" data-DrinkingWater="@item1.drinkingwatersource" data-WellWater="@item1.wellwatersource" data-RainWater="@item1.rainwatersource" data-Station="@item1.IrrigationComputermaxstation" data-Indoor="@item1.IrrigationComputerindoor" data-Outdoor="@item1.IrrigationComputeroutdoor" data-SP="@item1.IrrigationComputeroutdoor" href="javascript:void(0)">
                                     @item1.SubcategoryName
                                 </a>
                             }
@@ -182,6 +182,12 @@
                     </select>
                     <button class="btn" id="EndTap" style="display:none;background-color:aqua;">End Tap</button>
                 </div>
+                <div id="IWPD" style="display:none;">
+                    <input class="form-control" type="text" id="IWId" hidden name="name" value="" />
+                    <label>Total length: </label>
+                    <input class="form-control" type="number" id="IWL"  name="name" value="0" disabled />
+                    <button class="btn" id="EndIW" style="background-color:aqua;">End Irrigation wiring</button>
+                </div>
 
                 <input type="file" class="form-control" id="file_input" accept="image/*" name="name" value="">
                 <div id="DivImageOpacityValue" style="display:none;">
@@ -200,7 +206,7 @@
 
 
 
-<div class="modal fade" id="addcontact" tabindex="-1" role="dialog" data-backdrop="static" data-keyboard="false">
+<div class="modal fade" id="addcontact" tabindex="-1" role="dialog" @*data-backdrop="static" data-keyboard="false"*@>
     <div class="modal-dialog " role="document">
 
         <div class="modal-content">
@@ -291,6 +297,10 @@
         ChangeImage();
         $("#SideBAr").addClass("sidebar-mini");
         $("#addcontact").modal('toggle');
+        console.log($(".IW12"));
+        //$(".IW12").prop('disabled', true);
+        //$(".IW12").off("click");
+       
     });
 
     var width = 1027;
@@ -479,9 +489,11 @@
                 dataType: "json",
                 success: function (r) {
 
-                    if (r.Data!=null) {
+                    if (r.Data != null) {
+                        console.log(r.Data);
                         if (r.UniqueId[0] == 'L') {
-
+                            $("#SName").text(r.Data.SubcategoryName);
+                            $("#SubCatId").text(r.Data.SubCategoryID);
                         }
                         else {
                             if (r.Ret == 1) {
@@ -495,11 +507,11 @@
                         }
 
 
-
-
-
                         if (r.UniqueId[0] == 'L') {
-
+                            $("#IWId").val(r.Data.UniqueId);
+                            $("#IWL").val(r.Data.IWLength);
+                            $("#IWPD").show();
+                            $("#EndIW").hide();
                         }
                         else if (r.UniqueId[0] == 'S' && r.UniqueId[1] == 'p') {
                             $("#SId").val(r.Data.UniqueId);
@@ -756,6 +768,42 @@
      });
 
 
+
+    $("body").on("click", "#IW", function () {
+        var SubName = $(this).attr("data-Name");
+        var SubId = $(this).attr("data-SubCatId");
+        $("#SName").text(SubName);
+        $("#SubCatId").text(SubId);
+        //alert(this.id);
+        poly = new Konva.Line({
+            points: [0, 0],
+            stroke: 'black',
+            strokeWidth: 3,
+            lineCap: 'round',
+            lineJoin: 'round',
+            id: "Line" + PolyName + "",
+            //listening: false,
+            name: "Irrigation Wiring",
+            dash: [15, 10],
+        });
+
+
+        PolyName += 1;
+        layer.add(poly);
+        isOverOnStarting = false;
+        isStartLine = true;
+        isFinished = false;
+        isFirstMouseMove = true;
+        CurrentObjId = poly.name();
+        id = poly.id();
+
+        $("#IWId").val(poly.id());
+        $("#IWPD").show();
+        $("#EndIW").show();
+
+        UndoArray.push(poly.id());
+    });
+
     $("body").on("click", "#GetWet", function () {
             //alert(this.id);
             poly = new Konva.Line({
@@ -941,6 +989,58 @@
                 $("#TotalAmountInput").val(r);
             }
         });
+        $("#DeleteObj").hide();
+    });
+
+
+    $("body").on("click", "#EndIW", function () {
+
+        var SubCategoryID = $("#SubCatId").text();
+        var SubcategoryName = $("#SName").text();
+        var UniqueId = $("#IWId").val();
+        var OrderId = $("#OrderId").val();
+        var IWLength = $("#IWL").val();
+
+        //$("#EndIW").hide();
+        $("#IWPD").hide();
+        $("#SName").text("");
+        $("#SubCatId").text("");
+        $("#btn_IW *").prop('disabled', true);
+
+        var model = {
+            UniqueId: UniqueId,
+            SubCategoryID: SubCategoryID,
+            SubcategoryName: SubcategoryName,
+            OrderId: OrderId,
+            IWLength: IWLength,
+        };
+
+        $.ajax({
+            type: "POST",
+            url: "@Url.Action("AddOrderDetails", "Customer")",
+            data: JSON.stringify(model),
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            success: function (r) {
+                $("#TotalAmount").text(r);
+                $("#TotalAmountInput").val(r);
+            }
+        });
+        $("#DeleteObj").hide();
+        var node = layer.findOne('#' + UniqueId);
+        var SI = Number(UniqueId.replace("Line", ""));
+        var SRect = StartRect[SI-1];
+        var ERect = FindLastId(SRect);
+        var Ltext = ERect.replace("Rect", "Text");
+        var Points = node.points();
+        Points.pop();
+        Points.pop();
+        node.points(Points);
+        isDraw = false;
+        isFinished = true;
+        var node = layer.findOne('#' + Ltext);
+        node.destroy();
+        $("#EndIW").hide();
     });
 
 
@@ -965,6 +1065,12 @@
         //};
         //imageObj.src = '/assets/images/ecommerce/System.png';
 
+        $(".IW2").hide();
+        $(".IW4").hide();
+        $(".IW6").hide();
+        $(".IW8").hide();
+        $(".IW12").hide();
+
         if (CurretIC != "") {
             var Station = $(this).attr("data-Station");
             var InDoor = $(this).attr("data-InDoor");
@@ -972,6 +1078,12 @@
             var SP = $(this).attr("data-SP");
             var SubName = $(this).attr("data-Name");
             var SubId = $(this).attr("data-SubCatId");
+            if (Station == "14") {
+                $(".IW" + "12").show();
+            }
+            else {
+                $(".IW" + Station).show();
+            }
             $("#SName").text(SubName);
             $("#SubCatId").text(SubId);
             $("#ICS").text(Station);
@@ -1021,6 +1133,13 @@
             var SP = $(this).attr("data-SP");
             var SubName = $(this).attr("data-Name");
             var SubId = $(this).attr("data-SubCatId");
+            if (Station == "14") {
+                $(".IW" + "12").show();
+            }
+            else {
+                $(".IW" + Station).show();
+            }
+            
             $("#ICS").text(Station);
             if (InDoor == "True") {
                 $("#ICID").show();
@@ -1114,6 +1233,7 @@
                 $("#TotalAmountInput").val(r);
             }
         });
+        $("#DeleteObj").hide();
     });
 
 
@@ -1480,6 +1600,7 @@
                 $("#TotalAmountInput").val(r);
             }
         });
+        $("#DeleteObj").hide();
 
 
     });
@@ -1520,6 +1641,7 @@
                 $("#TotalAmountInput").val(r);
             }
         });
+        $("#DeleteObj").hide();
     });
 
 
@@ -1812,7 +1934,7 @@
             }
         });
 
-
+        $("#DeleteObj").hide();
     });
 
 
@@ -2078,7 +2200,7 @@
                         //var line = layer.findOne('#' + id);
                         ////console.log(line.id());
                         var points = line.points();
-                        if (isStartLine == true) {
+                        if (isStartLine == true ) {
 
                             points.pop();
                             points.pop();
@@ -2118,7 +2240,8 @@
                             if (id[0] == "R") {
                                 LineId = FindIndex(id);
                             }
-                            //console.log(LineId);
+                            console.log(id);
+                            console.log(LineId);
                             var line = layer.findOne('#Line' + LineId);
                             var points = line.points();
                             var pointerPos = stage.getPointerPosition();
@@ -2203,12 +2326,18 @@
                         TextId += 1;
                         layer.add(Text);
 
+                        if (line.name() =="Irrigation Wiring") {
+                            $("#IWL").val(Number($("#IWL").val()) + Number(Distance));
+                            rect.draggable(false);
+                        }
+                        
+
                         //poly.moveToBottom();
                         if (CheckFirstIndex(rect.name())) {
                             Rect1 = layer.findOne('.' + rect.name());
                             //rect.moveToTop();
+                            Rect1.moveToTop();
                         }
-                        Rect1.moveToTop();
                         isInArea = false;
                     }
 
@@ -2236,10 +2365,13 @@
                     //    LineId = id[4];
                     //}
                     var line = layer.findOne('#' + id);
+                    console.log(line);
+                    if (line.name() != "Irrigation Wiring") {
                     isDraw = false;
-
                     isFinished = true;
-                    line.closed(true);
+                        line.closed(true);
+                    }
+                    
                     line.listening(true);
                     ////console.log(line.name());
                     if (line.name() == "Area") {
@@ -2267,220 +2399,224 @@
 
         }
 
+    //Update on Rect Drag
         function updateObjects(id) {
                     var LineId = 0;
                     var x1 = 0;
                     var y1 = 0;
                     var x2 = 0;
                     var y2 = 0;
-                    var node = layer.findOne('#' + id);
-                    if (id[0] == "R") {
-                        LineId = FindIndex(id);
+            var node = layer.findOne('#' + id);
+           
+                if (id[0] == "R") {
+                    LineId = FindIndex(id);
+                }
+            var line = layer.findOne('#Line' + LineId);
+            if (line.name() != "Irrigation Wiring") {
+                var points = line.points();
+                //line.destroy();
+                var ID = Number(id.replace('Rect', ''));
+                var MOD = FindMOD(id);
+                ////console.log(MOD);
+                ////console.log(ID);
+                if (CheckFirstIndex(id)) {
+                    var Index = 0;
+                    if (MOD == 0) {
+                        Index = ((ID * 2) - 2);
                     }
-                    console.log(LineId);
-                    var line = layer.findOne('#Line' + LineId);
-                    var points = line.points();
-                    //line.destroy();
-                    var ID =Number(id.replace('Rect', ''));
-                    var MOD = FindMOD(id);
-                    ////console.log(MOD);
-                    ////console.log(ID);
-                    if (CheckFirstIndex(id)) {
-                            var Index = 0;
-                        if (MOD == 0) {
-                            Index = ((ID * 2) - 2) ;
-                                }
-                        else {
-                            Index = ((ID * 2) - 2) % MOD;
-                                }
-                        line.closed(false);
-                        points[Index] = node.x() + 5;
-                        points[Index + 1] = node.y() + 5;
-                        points[points.length - 2] = node.x() + 5;
-                        points[points.length - 1] = node.y() + 5;
-
-
-
-
-                        x1 = Index
-                        y1 = Index + 1
-                        x2 = Index + 2
-                        y2 = Index + 3
-
-                        var TextId = FindDragTextId(id);
-
-                        var EText = layer.findOne('#' + TextId[0]);
-                        ////console.log(EText);
-
-                        var S = line.points().slice();
-
-                        x1 = points[x1];
-                        x2 = points[x2];
-                        y1 = points[y1];
-                        y2 = points[y2];
-                        var x = (x2 + x1) / 2;
-                        var y = (y2 + y1) / 2;
-                        var dx = x1 - x2;
-                        var dy = y1 - y2;
-                        var Sumsqr = Math.pow(dx, 2);
-                        Sumsqr += Math.pow(dy, 2);
-                        var Distance = Math.sqrt(Sumsqr);
-                        Distance /= 12;
-                        Distance = Distance.toFixed(2);
-                        var angleRad = Math.atan(dy / dx);
-                        var angleDeg = angleRad * 180 / Math.PI;
-
-                        EText.text(Distance.toString() + " m");
-                        EText.rotation(angleDeg);
-                        EText.y(y);
-                        EText.x(x);
-
-                        var RectCId = TextId[1].replace('Text', '');
-                        MOD = FindMOD(RectCId);
-                        ////console.log(MOD);
-                        if (MOD == 0) {
-                            Index = ((RectCId * 2) - 2);
-                                }
-                        else {
-                            Index = ((RectCId * 2) - 2) % MOD;
-                                }
-                        //Index = ((RectCId * 2) - 2) % MOD;
-
-                        var EText = layer.findOne('#' + TextId[1]);
-
-                        x1 = Index
-                        y1 = Index + 1
-                        x2 = Index + 2
-                        y2 = Index + 3
-
-                        var S = line.points().slice();
-
-                        x1 = points[x1];
-                        x2 = points[x2];
-                        y1 = points[y1];
-                        y2 = points[y2];
-                        var x = (x2 + x1) / 2;
-                        var y = (y2 + y1) / 2;
-                        var dx = x1 - x2;
-                        var dy = y1 - y2;
-                        var Sumsqr = Math.pow(dx, 2);
-                        Sumsqr += Math.pow(dy, 2);
-                        var Distance = Math.sqrt(Sumsqr);
-                        Distance /= 12;
-                        Distance = Distance.toFixed(2);
-                        var angleRad = Math.atan(dy / dx);
-                        var angleDeg = angleRad * 180 / Math.PI;
-
-                        EText.text(Distance.toString() + " m");
-                        EText.rotation(angleDeg);
-                        EText.y(y);
-                        EText.x(x);
-
-
-                            ////console.log(FindDragTextId(id));
-
-                     }
                     else {
-                            var Index = 0;
-                        if (MOD == 0) {
-                            Index = ((ID * 2) - 2);
-                                }
-                        else {
-                            Index = ((ID * 2) - 2) % MOD;
-                                }
-                        line.closed(false);
-                        points[Index] = node.x() + 5;
-                        points[Index + 1] = node.y() + 5;
-
-                        x1=Index-2
-                        y1=Index-1
-                        x2=Index
-                        y2=Index+1
-
-                        var TextId = FindDragTextId(id);
-                        var EText = layer.findOne('#' + TextId[1]);
-                        ////console.log(EText);
-
-                        var S = line.points().slice();
-                                ////console.log(line.points());
-                                //if (rect.name()=="Rect2") {
-                            //    S.pop();
-                            //    S.pop();
-                            //}
-                            //S.pop();
-                            //S.pop();
-                            ////console.log(EText);
-                            ////console.log(S.length - 1);
-                            ////console.log(S.length - 2);
-                            ////console.log(S.length - 3);
-                            ////console.log(S.length - 4);
-                            //alert(S[S.length - 1]+" = "+S[1]);
-                            x1 = points[x1];
-                        x2 = points[x2];
-                        y1 = points[y1];
-                        y2 = points[y2];
-                        var x = (x2 + x1) / 2;
-                        var y = (y2 + y1) / 2;
-                        ////console.log(x);
-                        ////console.log(y);
-                        var dx = x1 - x2;
-                        var dy =y1 - y2;
-                        var Sumsqr = Math.pow(dx, 2);
-                        Sumsqr += Math.pow(dy, 2);
-                        var Distance = Math.sqrt(Sumsqr);
-                        Distance /= 12;
-                        Distance = Distance.toFixed(2);
-                        ////console.log(Distance);
-                        var angleRad = Math.atan(dy / dx);
-                        var angleDeg = angleRad * 180 / Math.PI;
-
-                        EText.text(Distance.toString() + " m");
-                        EText.rotation(angleDeg);
-                        EText.y(y);
-                        EText.x(x);
+                        Index = ((ID * 2) - 2) % MOD;
+                    }
+                    line.closed(false);
+                    points[Index] = node.x() + 5;
+                    points[Index + 1] = node.y() + 5;
+                    points[points.length - 2] = node.x() + 5;
+                    points[points.length - 1] = node.y() + 5;
 
 
 
 
+                    x1 = Index
+                    y1 = Index + 1
+                    x2 = Index + 2
+                    y2 = Index + 3
 
-                        x1 = Index
-                        y1 = Index+1
-                        x2 = Index+2
-                        y2 = Index + 3
+                    var TextId = FindDragTextId(id);
 
-                        var TextId = FindDragTextId(id);
-                        var EText = layer.findOne('#' + TextId[0]);
-                        ////console.log(EText);
+                    var EText = layer.findOne('#' + TextId[0]);
+                    ////console.log(EText);
 
-                        var S = line.points().slice();
+                    var S = line.points().slice();
 
-                        x1 = points[x1];
-                        x2 = points[x2];
-                        y1 = points[y1];
-                        y2 = points[y2];
-                        var x = (x2 + x1) / 2;
-                        var y = (y2 + y1) / 2;
-                        var dx = x1 - x2;
-                        var dy = y1 - y2;
-                        var Sumsqr = Math.pow(dx, 2);
-                        Sumsqr += Math.pow(dy, 2);
-                        var Distance = Math.sqrt(Sumsqr);
-                        Distance /= 12;
-                        Distance = Distance.toFixed(2);
-                        var angleRad = Math.atan(dy / dx);
-                        var angleDeg = angleRad * 180 / Math.PI;
+                    x1 = points[x1];
+                    x2 = points[x2];
+                    y1 = points[y1];
+                    y2 = points[y2];
+                    var x = (x2 + x1) / 2;
+                    var y = (y2 + y1) / 2;
+                    var dx = x1 - x2;
+                    var dy = y1 - y2;
+                    var Sumsqr = Math.pow(dx, 2);
+                    Sumsqr += Math.pow(dy, 2);
+                    var Distance = Math.sqrt(Sumsqr);
+                    Distance /= 12;
+                    Distance = Distance.toFixed(2);
+                    var angleRad = Math.atan(dy / dx);
+                    var angleDeg = angleRad * 180 / Math.PI;
 
-                        EText.text(Distance.toString() + " m");
-                        EText.rotation(angleDeg);
-                        EText.y(y);
-                        EText.x(x);
+                    EText.text(Distance.toString() + " m");
+                    EText.rotation(angleDeg);
+                    EText.y(y);
+                    EText.x(x);
+
+                    var RectCId = TextId[1].replace('Text', '');
+                    MOD = FindMOD(RectCId);
+                    ////console.log(MOD);
+                    if (MOD == 0) {
+                        Index = ((RectCId * 2) - 2);
+                    }
+                    else {
+                        Index = ((RectCId * 2) - 2) % MOD;
+                    }
+                    //Index = ((RectCId * 2) - 2) % MOD;
+
+                    var EText = layer.findOne('#' + TextId[1]);
+
+                    x1 = Index
+                    y1 = Index + 1
+                    x2 = Index + 2
+                    y2 = Index + 3
+
+                    var S = line.points().slice();
+
+                    x1 = points[x1];
+                    x2 = points[x2];
+                    y1 = points[y1];
+                    y2 = points[y2];
+                    var x = (x2 + x1) / 2;
+                    var y = (y2 + y1) / 2;
+                    var dx = x1 - x2;
+                    var dy = y1 - y2;
+                    var Sumsqr = Math.pow(dx, 2);
+                    Sumsqr += Math.pow(dy, 2);
+                    var Distance = Math.sqrt(Sumsqr);
+                    Distance /= 12;
+                    Distance = Distance.toFixed(2);
+                    var angleRad = Math.atan(dy / dx);
+                    var angleDeg = angleRad * 180 / Math.PI;
+
+                    EText.text(Distance.toString() + " m");
+                    EText.rotation(angleDeg);
+                    EText.y(y);
+                    EText.x(x);
+
+
+                    ////console.log(FindDragTextId(id));
+
+                }
+                else {
+                    var Index = 0;
+                    if (MOD == 0) {
+                        Index = ((ID * 2) - 2);
+                    }
+                    else {
+                        Index = ((ID * 2) - 2) % MOD;
+                    }
+                    line.closed(false);
+                    points[Index] = node.x() + 5;
+                    points[Index + 1] = node.y() + 5;
+
+                    x1 = Index - 2
+                    y1 = Index - 1
+                    x2 = Index
+                    y2 = Index + 1
+
+                    var TextId = FindDragTextId(id);
+                    var EText = layer.findOne('#' + TextId[1]);
+                    ////console.log(EText);
+
+                    var S = line.points().slice();
+                    ////console.log(line.points());
+                    //if (rect.name()=="Rect2") {
+                    //    S.pop();
+                    //    S.pop();
+                    //}
+                    //S.pop();
+                    //S.pop();
+                    ////console.log(EText);
+                    ////console.log(S.length - 1);
+                    ////console.log(S.length - 2);
+                    ////console.log(S.length - 3);
+                    ////console.log(S.length - 4);
+                    //alert(S[S.length - 1]+" = "+S[1]);
+                    x1 = points[x1];
+                    x2 = points[x2];
+                    y1 = points[y1];
+                    y2 = points[y2];
+                    var x = (x2 + x1) / 2;
+                    var y = (y2 + y1) / 2;
+                    ////console.log(x);
+                    ////console.log(y);
+                    var dx = x1 - x2;
+                    var dy = y1 - y2;
+                    var Sumsqr = Math.pow(dx, 2);
+                    Sumsqr += Math.pow(dy, 2);
+                    var Distance = Math.sqrt(Sumsqr);
+                    Distance /= 12;
+                    Distance = Distance.toFixed(2);
+                    ////console.log(Distance);
+                    var angleRad = Math.atan(dy / dx);
+                    var angleDeg = angleRad * 180 / Math.PI;
+
+                    EText.text(Distance.toString() + " m");
+                    EText.rotation(angleDeg);
+                    EText.y(y);
+                    EText.x(x);
 
 
 
 
-                            ////console.log(FindDragTextId(id));
-                        }
-                    line.closed(true);
+
+                    x1 = Index
+                    y1 = Index + 1
+                    x2 = Index + 2
+                    y2 = Index + 3
+
+                    var TextId = FindDragTextId(id);
+                    var EText = layer.findOne('#' + TextId[0]);
+                    ////console.log(EText);
+
+                    var S = line.points().slice();
+
+                    x1 = points[x1];
+                    x2 = points[x2];
+                    y1 = points[y1];
+                    y2 = points[y2];
+                    var x = (x2 + x1) / 2;
+                    var y = (y2 + y1) / 2;
+                    var dx = x1 - x2;
+                    var dy = y1 - y2;
+                    var Sumsqr = Math.pow(dx, 2);
+                    Sumsqr += Math.pow(dy, 2);
+                    var Distance = Math.sqrt(Sumsqr);
+                    Distance /= 12;
+                    Distance = Distance.toFixed(2);
+                    var angleRad = Math.atan(dy / dx);
+                    var angleDeg = angleRad * 180 / Math.PI;
+
+                    EText.text(Distance.toString() + " m");
+                    EText.rotation(angleDeg);
+                    EText.y(y);
+                    EText.x(x);
+
+
+
+
+                    ////console.log(FindDragTextId(id));
+                }
+                line.closed(true);
+            }
+                    
                 }
 
 
@@ -2883,8 +3019,10 @@
                     //    id = this.mouseClickStartShape.attrs.id;
                     //    //console.log(id);
                     //}
-                    if (isOutArea == false) {
                         var line = layer.findOne('#' + id);
+                    if (isOutArea == false || line.name() == "Hedge" || line.name() =="Irrigation Wiring") {
+
+                        //console.log(id);
                         var points = line.points();
                         if (isFirstMouseMove == false) {
                             points.pop();
@@ -3028,8 +3166,8 @@
 
 
         function FindIndex(id) {
+        var id = id.replace('Rect', '');
             var RetIndex = 0;
-        id = id.replace('Rect', '');
         var CStartRect = StartRect.slice();
         for (var i = 0; i < StartRect.length; i++) {
             CStartRect[i] = CStartRect[i].replace('Rect', '');
@@ -3079,12 +3217,20 @@
                 var temp = Number(CLastId.replace("Line", ""));
                 FirstId = StartRect[temp - 1];
                 LastId = FindLastId(FirstId);
+                var CheckId = layer.findOne('#' + CLastId);
                 for (var i = Number(FirstId.replace("Rect", "")); i <= Number(LastId.replace("Rect", "")); i++) {
                     var node = layer.findOne('#Rect' + i);
                     node.destroy();
-                    node = layer.findOne('#Text' + i);
-                    node.destroy();
+                    if (CheckId.name() == "Irrigation Wiring" && i == Number(LastId.replace("Rect", ""))) {
+                        $("#btn_IW *").prop('disabled', false);
+                    }
+                    else {
+                        node = layer.findOne('#Text' + i);
+                        node.destroy();
+                    }
+
                 }
+                
 
             }
             else if (CLastId[0] == 'S' && CLastId[1] == 'p') {
@@ -3230,14 +3376,28 @@
                 var temp = Number(CLastId.replace("Line", ""));
                 FirstId = StartRect[temp - 1];
                 LastId = FindLastId(FirstId);
+                //for (var i = Number(FirstId.replace("Rect", "")); i <= Number(LastId.replace("Rect", "")); i++) {
+                //    var node = layer.findOne('#Rect' + i);
+                //    node.destroy();
+                //    node = layer.findOne('#Text' + i);
+                //    node.destroy();
+                    
+                //}
+
+                var CheckId = layer.findOne('#' + CLastId);
                 for (var i = Number(FirstId.replace("Rect", "")); i <= Number(LastId.replace("Rect", "")); i++) {
                     var node = layer.findOne('#Rect' + i);
                     node.destroy();
-                    node = layer.findOne('#Text' + i);
-                    node.destroy();
-                    $("#SName").text("");
+                    if (CheckId.name() == "Irrigation Wiring" && i == Number(LastId.replace("Rect", ""))) {
+                        $("#btn_IW *").prop('disabled', false);
+                    }
+                    else {
+                        node = layer.findOne('#Text' + i);
+                        node.destroy();
+                    }
                 }
-
+                $("#SName").text("");
+                $("#IWPD").hide();
             }
             else if (CLastId[0] == 'S' && CLastId[1] == 'p') {
 

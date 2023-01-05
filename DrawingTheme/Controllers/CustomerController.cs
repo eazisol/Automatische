@@ -652,6 +652,7 @@ namespace DrawingTheme.Controllers
                         Data.UniqueId = OrderDetail.UniqueId;
                         Data.SubcategoryName = SubCategory.SubcategoryName;
                         Data.Price = SubCategory.Price;
+                        Data.IWLength = OrderDetail.IWLength;
                         DB.Entry(Data);
                         DB.SaveChanges();
 
@@ -739,7 +740,7 @@ namespace DrawingTheme.Controllers
             try
             {
                 DB.Configuration.ProxyCreationEnabled = false;
-                if((OrderDetail.UniqueId[0]=='S'&& OrderDetail.UniqueId[1] == 'p'))
+                if((OrderDetail.UniqueId[0]=='S'&& OrderDetail.UniqueId[1] == 'p')|| OrderDetail.UniqueId[0] == 'L')
                 {
                     tblOrderDetail Data = new tblOrderDetail();
                     Data = DB.tblOrderDetails.Where(x => x.UniqueId == OrderDetail.UniqueId && x.OrderId == OrderDetail.OrderId).FirstOrDefault();
