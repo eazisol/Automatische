@@ -654,6 +654,7 @@ namespace DrawingTheme.Controllers
                                     else
                                     {
                                         H = H + 1;
+                                        break;
                                     }
                                     Length = Length % 100;
                                 }
@@ -667,6 +668,7 @@ namespace DrawingTheme.Controllers
                                     else
                                     {
                                         F = F + 1;
+                                        break;
                                     }
                                     Length = Length % 100;
                                 }
@@ -680,6 +682,7 @@ namespace DrawingTheme.Controllers
                                     else
                                     {
                                         T = T + 1;
+                                        break;
                                     }
                                     Length = Length % 100;
                                 }
