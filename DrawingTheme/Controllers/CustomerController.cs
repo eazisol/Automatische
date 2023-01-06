@@ -670,7 +670,7 @@ namespace DrawingTheme.Controllers
                                         F = F + 1;
                                         break;
                                     }
-                                    Length = Length % 100;
+                                    Length = Length % 50;
                                 }
                                 else if(Length > 0)
                                 {
@@ -684,7 +684,7 @@ namespace DrawingTheme.Controllers
                                         T = T + 1;
                                         break;
                                     }
-                                    Length = Length % 100;
+                                    Length = Length % 25;
                                 }
                             }
 
