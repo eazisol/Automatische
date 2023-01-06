@@ -480,6 +480,7 @@
         //console.log(e.target.id());
         $("#ObjUniqueId").val(e.target.id());
         var UniqueId = $("#ObjUniqueId").val();
+        //alert(UniqueId);
         if (UniqueId != null && UniqueId!="") {
             var OrderId = $("#OrderId").val();
 
@@ -1538,6 +1539,10 @@
             if (node != null) {
                 node.destroy();
             }
+            var node = layer.findOne('#' + CurretSprinkler.replace("Sprinkler", "MoveCircle"));
+            if (node != null) {
+                node.destroy();
+            }
 
 
             var OrderId = $("#OrderId").val();
@@ -1637,12 +1642,32 @@
 
             layer.add(ArcCir);
 
+            var cirMove = new Konva.Circle({
+                x: x,
+                y: y,
+                radius: 5,
+                //fill: 'red',
+                stroke: 'black',
+                strokeWidth: 1,
+                id: circle.id().replace("Sprinkler", "MoveCircle"),
+                draggable: true,
+                listening: true,
+            });
+
+            cirMove.on('dragmove', (e) => {
+                MovCir = layer.findOne('#' + id);
+                updateSprinklerMove(e.target.id(), MovCir.x(), MovCir.y());
+            });
+
+            layer.add(cirMove);
+            cirMove.moveToTop();
+
 
         }
         else {
             var circle = new Konva.Circle({
-                x:-100,
-                y: -100 ,
+                x:100,
+                y:100 ,
                 radius: Radius,
                 //fill: 'red',
                 stroke: 'black',
@@ -1652,11 +1677,92 @@
 
             });
 
+            var cir = new Konva.Circle({
+                x: 100 - circle.radius(),
+                y: 100,
+                radius: 5,
+                //fill: 'red',
+                stroke: 'black',
+                strokeWidth: 1,
+                id: circle.id().replace("Sprinkler", "Circle"),
+                draggable: true,
+            });
+
+            cir.on('dragmove', (e) => {
+
+                updateSprinkler(e.target.id());
+
+            });
+
+            layer.add(cir);
+
+            var cirFill = new Konva.Circle({
+                x: 100 + circle.radius(),
+                y: 100,
+                radius: 5,
+                //fill: 'red',
+                stroke: 'black',
+                strokeWidth: 1,
+                id: circle.id().replace("Sprinkler", "FillCircle"),
+                draggable: true,
+            });
+
+            cirFill.on('dragmove', (e) => {
+
+                updateSprinkler(e.target.id());
+            });
+
+            layer.add(cirFill);
+
+
+            
+
+
+            var ArcCir = new Konva.Arc({
+                x: 100,
+                y: 100,
+                innerRadius: circle.radius(),
+                angle: Angle - Rotation,
+                fill: 'lightblue',
+                stroke: 'black',
+                strokeWidth: 0,
+                id: circle.id().replace("Sprinkler", "Arc"),
+                //draggable: true,
+                listening: false,
+                rotation: Rotation,
+            });
+
+
+            layer.add(ArcCir);
+
+
+            var cirMove = new Konva.Circle({
+                x: 100 ,
+                y: 100 ,
+                radius: 5,
+                //fill: 'red',
+                stroke: 'black',
+                strokeWidth: 1,
+                id: circle.id().replace("Sprinkler", "MoveCircle"),
+                draggable: true,
+                listening: true,
+            });
+
+            cirMove.on('dragmove', (e) => {
+                MovCir = layer.findOne('#' + id);
+                updateSprinklerMove(e.target.id(), MovCir.x(), MovCir.y());
+            });
+
+            layer.add(cirMove);
+            cirMove.moveToTop();
+
 
             isOverOnStarting = false;
             isStartLine = true;
             isFinished = false;
             isFirstMouseMove = true;
+
+            isFinished = true;
 
         }
 
@@ -1685,6 +1791,7 @@
 
         //$("#Sprinkler").prop('disabled', true);
         $("#BtnEndsprinkler").show();
+        cirMove.moveToTop();
     });
 
     function PxToM(Val) {
@@ -2544,7 +2651,7 @@
 
         }
 
-    //Update on Rect Drag
+    
         function updateObjects(id) {
                     var LineId = 0;
                     var x1 = 0;
@@ -2765,6 +2872,49 @@
                 }
 
 
+    function updateSprinklerMove(id,x,y) {
+        var x1 = 0;
+        var y1 = 0;
+        var MovCir = null;
+
+        var Sprinkler = null;
+        var FillCir = null;
+        var Cir= null;
+        var ArcCir= null;
+        MovCir = layer.findOne('#' + id);
+        Sprinkler = layer.findOne('#' + id.replace("MoveCircle", "Sprinkler"));
+        Cir = layer.findOne('#' + id.replace("MoveCircle", "Circle"));
+        FillCir = layer.findOne('#' + id.replace("MoveCircle", "FillCircle"));
+        ArcCir = layer.findOne('#' + id.replace("MoveCircle", "Arc"));
+        
+        //MovCir.x(100);
+        //MovCir.y(100);
+        x1 = MovCir.x();
+        y1 = MovCir.y();
+        Sprinkler.x(x1);
+        Sprinkler.y(y1);
+        ArcCir.x(x1);
+        ArcCir.y(y1);
+        var DifX = Number(MovCir.x())- Number(x)
+        var DifY = Number(MovCir.y())- Number(y)
+        console.log(DifX+" - "+DifY);
+        if (DifX == 0) {
+            Cir.y(Cir.y() + DifY);
+            FillCir.y(FillCir.y() + DifY);
+        }
+        else if (DifY == 0) {
+            Cir.x(Cir.x() + DifX);
+            FillCir.x(FillCir.x() + DifX);
+        }
+        else {
+            Cir.y(Cir.y() + DifY);
+            FillCir.y(FillCir.y() + DifY);
+            Cir.x(Cir.x() + DifX);
+            FillCir.x(FillCir.x() + DifX);
+        }
+
+        
+    }
     function updateSprinkler(id) {
         var LineId = 0;
         var x1 = 0;
@@ -3402,6 +3552,10 @@
                 if (node != null) {
                     node.destroy();
                 }
+                var node = layer.findOne('#' + CLastId.replace("Sprinkler", "MoveCircle"));
+                if (node != null) {
+                    node.destroy();
+                }
 
             }
             else if (CLastId[0] == 'R' && CLastId[1] == 'e') {
@@ -3571,6 +3725,10 @@
                     node.destroy();
                 }
                 var node = layer.findOne('#' + CLastId.replace("Sprinkler", "Arc"));
+                if (node != null) {
+                    node.destroy();
+                }
+                var node = layer.findOne('#' + CLastId.replace("Sprinkler", "MoveCircle"));
                 if (node != null) {
                     node.destroy();
                 }
