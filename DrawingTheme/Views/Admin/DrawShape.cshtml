@@ -323,9 +323,11 @@
         var isOutArea = false;
         var poly = null;
         var rect =  null;
+        var Srect =  null;
         const Points = [];
         const StartRect = [];
         var Name = 1;
+        var SRName = 1;
         var TextId = 1;
         var Rect1;
         var PolyName = 1;
@@ -1893,11 +1895,28 @@
 
 
     $("body").on("click", "#SSP", function () {
+        var RCPX = 0;
+        var RCPY = 0;
         $("#SSPD").show();
         var SubName = $(this).attr("data-Name");
         var Width = MToPx(Number($(this).attr("data-Width")));
         var Height = MToPx(Number($(this).attr("data-Height")));
         var SubId = $(this).attr("data-SubCatId");
+
+
+        if (SubName == "MPLCS 515") {
+            RCPY = Height;
+            RCPX = 0;
+        }
+        else if (SubName == "MPRCS 515") {
+            RCPY = Height ;
+            RCPX = Width;
+        }
+        else if (SubName == "MPSS 530") {
+            RCPY = Height;
+            RCPX = (Width / 2);
+        }
+
         if (CurretRSprinkler != "") {
             var node = layer.findOne('#' + CurretRSprinkler);
             var x = node.x();
@@ -1952,6 +1971,7 @@
                 strokeWidth: 1,
                 id: "RectangularSprinkler" + RectangularSprinklerName + "",
                 name: "RectangularSprinkler",
+                draggable: true,
 
             });
 
@@ -1972,15 +1992,29 @@
                 }
 
             });
+            circle.on('mouseenter', function () {
+                stage.container().style.cursor = 'move';
+            });
 
+            circle.on('mouseleave', function () {
+                stage.container().style.cursor = 'default';
+            });
+
+            circle.on('dragmove', (e) => {
+                //updateRSSprinkler(e.target.id());
+
+                var rsc = layer.findOne('#' + e.target.id().replace("RectangularSprinkler", "RSCircle"));
+                rsc.x(e.target.x() + RCPX);
+                rsc.y(e.target.y() + RCPY);
+            });
 
             var cir = new Konva.Circle({
-                x: x,
-                y: y,
+                x: x + RCPX,
+                y: y + RCPY,
                 radius: 5,
                 //fill: 'red',
                 stroke: 'black',
-                strokeWidth: 1,
+                strokeWidth: 0,
                 id: circle.id().replace("RectangularSprinkler", "RSCircle"),
                 draggable: true,
             });
@@ -2002,18 +2036,27 @@
 
             });
 
-            cir.on('dragmove', (e) => {
-                //updateRSSprinkler(e.target.id());
+            //cir.on('dragmove', (e) => {
+            //    //updateRSSprinkler(e.target.id());
 
-                var Sprinkler = layer.findOne('#' + e.target.id().replace("RSCircle", "RectangularSprinkler"));
-                Sprinkler.x(e.target.x());
-                Sprinkler.y(e.target.y());
+            //    var Sprinkler = layer.findOne('#' + e.target.id().replace("RSCircle", "RectangularSprinkler"));
+            //    Sprinkler.x(e.target.x());
+            //    Sprinkler.y(e.target.y());
+            //});
+
+            cir.on('rotationChange', (e) => {
+                //updateRSSprinkler(e.target.id());
+                var rsid = e.currentTarget.id().replace("RSCircle", "RectangularSprinkler");
+                var rs = layer.findOne('#' + rsid);
+                rotateAroundPoint(rs, 2, { x: e.currentTarget.x(), y: e.currentTarget.y() });
+                //rs.rotation(e.currentTarget.rotation());
+                console.log(rsid);
             });
 
             layer.add(cir);
 
             var transformer = new Konva.Transformer({
-                nodes: [circle, cir],
+                nodes: [ cir],
                 rotateAnchorOffset: 60,
                 enabledAnchors: ['top-left', 'top-right', 'bottom-left', 'bottom-right'],
                 id: circle.id().replace("RectangularSprinkler", "TRS")
@@ -2023,7 +2066,9 @@
             transformer.anchorCornerRadius(10);
             transformer.borderEnabled(false);
             transformer.resizeEnabled(false);
-            transformer.rotateAnchorOffset(0);
+            transformer.rotateAnchorOffset(-5);
+            transformer.anchorStroke('balck');
+
 
 
         }
@@ -2039,7 +2084,25 @@
                 strokeWidth: 1,
                 id: "RectangularSprinkler" + RectangularSprinklerName + "",
                 name: "RectangularSprinkler",
+                draggable: true,
 
+            });
+
+            circle.on('mouseenter', function () {
+                stage.container().style.cursor = 'move';
+            });
+
+            circle.on('mouseleave', function () {
+                stage.container().style.cursor = 'default';
+            });
+
+
+            circle.on('dragmove', (e) => {
+                //updateRSSprinkler(e.target.id());
+
+                var rsc = layer.findOne('#' + e.target.id().replace("RectangularSprinkler", "RSCircle"));
+                rsc.x(e.target.x() + RCPX);
+                rsc.y(e.target.y() + RCPY);
             });
 
 
@@ -2062,8 +2125,8 @@
 
 
             var cir = new Konva.Circle({
-                x: 50,
-                y: 50,
+                x: 50 + RCPX,
+                y: 50 + RCPY,
                 radius: 5,
                 //fill: 'red',
                 stroke: 'black',
@@ -2089,19 +2152,28 @@
 
             });
 
-            cir.on('dragmove', (e) => {
-                //updateRSSprinkler(e.target.id());
+            //cir.on('dragmove', (e) => {
+            //    //updateRSSprinkler(e.target.id());
 
-                var Sprinkler = layer.findOne('#' + e.target.id().replace("RSCircle", "RectangularSprinkler"));
-                Sprinkler.x(e.target.x());
-                Sprinkler.y(e.target.y());
+            //    var Sprinkler = layer.findOne('#' + e.target.id().replace("RSCircle", "RectangularSprinkler"));
+            //    Sprinkler.x(e.target.x());
+            //    Sprinkler.y(e.target.y());
+            //});
+
+            cir.on('rotationChange', (e) => {
+                //updateRSSprinkler(e.target.id());
+                var rsid = e.currentTarget.id().replace("RSCircle", "RectangularSprinkler");
+                var rs = layer.findOne('#' + rsid);
+                rotateAroundPoint(rs, 2, { x: e.currentTarget.x(), y: e.currentTarget.y() });
+                //rs.rotation(e.currentTarget.rotation());
+                console.log(rsid);
             });
 
             layer.add(cir);
 
             var transformer = new Konva.Transformer({
-                nodes: [circle, cir],
-                rotateAnchorOffset: 60,
+                nodes: [ cir],
+                //rotateAnchorOffset: 0,
                 enabledAnchors: ['top-left', 'top-right', 'bottom-left', 'bottom-right'],
                 id: circle.id().replace("RectangularSprinkler", "TRS")
             });
@@ -2110,12 +2182,32 @@
             transformer.anchorCornerRadius(10);
             transformer.borderEnabled(false);
             transformer.resizeEnabled(false);
-            transformer.rotateAnchorOffset(0);
-
+            transformer.rotateAnchorOffset(-5);
+            transformer.anchorStroke('balck');
+            //transformer.anchorStrokeWidth(0);
+            //transformer.offsetX(0);
+            
+            //var EditLine = layer.findOne('.rotater_anchor');
+            //console.log(EditLine);
         }
 
 
+        function rotateAroundPoint(shape, angleDegrees, point) {
+            let angleRadians = angleDegrees * Math.PI / 180; // sin + cos require radians
 
+            const x =
+                point.x +
+                (shape.x() - point.x) * Math.cos(angleRadians) -
+                (shape.y() - point.y) * Math.sin(angleRadians);
+            const y =
+                point.y +
+                (shape.x() - point.x) * Math.sin(angleRadians) +
+                (shape.y() - point.y) * Math.cos(angleRadians);
+
+            shape.position({ x: x, y: y });  // move the rotated shape in relation to the rotation point.
+            shape.rotation(shape.rotation() + angleDegrees); // rotate the shape in place around its natural rotation point
+
+        }
 
 
 
@@ -2188,7 +2280,8 @@
         e.evt.preventDefault();
     });
 
-        function MouseDownHandler() {
+    function MouseDownHandler(e) {
+        //console.log(e.target.offsetX(50));
             ////console.log(this);
             //if (this.pointerClickStartShape != undefined) {
             //    id = this.pointerClickStartShape.attrs.id;
@@ -2476,6 +2569,62 @@
                         if (isStartLine == true) {
                             StartRect.push(rect.id());
                             isStartLine = false;
+
+
+                            Srect = new Konva.Rect({
+                                x: Position.x - 25,
+                                y: Position.y - 25,
+                                width: 50,
+                                height: 50,
+                                name: "SRect" + SRName + "",
+                                id: "SRect" + SRName + "",
+                                //fill: 'green',
+                                stroke: 'red',
+                                strokeWidth: 0,
+                                draggable: true,
+                            });
+                            SRName += 1;
+                            Srect.on('pointerenter', function () {
+                                var LineId = this.id().replace('SRect', 'Line');
+                                var EditLine = layer.findOne('#' + LineId);
+
+                                var points = EditLine.points();
+                                if ( points.length < 6) {
+                                    return;
+                                }
+                                else {
+                                    isOverOnStarting = true;
+
+                                }
+
+
+                                EditLine.closed(true);
+
+                            });
+                            Srect.on('pointerout', function () {
+                                var LineId = this.id().replace('SRect', 'Line');
+                                var EditLine = layer.findOne('#' + LineId);
+                                EditLine.closed(false);
+                                isOverOnStarting = false;
+                                //EditLine.listening(true);
+                                ////console.log(line.name());
+                                if (EditLine.name() == "Area") {
+                                    EditLine.fill("lightgreen");
+
+                                }
+                                else if (EditLine.name() == "DryArea") {
+                                    EditLine.fill("#ffe699");
+                                }
+                                else if (EditLine.name() == "Hedge") {
+                                    EditLine.fill("#D2BFFF");
+                                }
+                                else if (EditLine.name() == "GetWet") {
+                                    EditLine.fill("rgba(111, 187, 211, .8)");
+                                }
+
+                            });
+
+                            layer.add(Srect);
                         }
 
                         Name += 1;
@@ -2497,6 +2646,9 @@
                             else if (CheckFirstIndex(id)) {
                                 //var Rect1 = stage.find('.' + id);
                                 isOverOnStarting = true;
+                                var LineId = this.id().replace('Rect', 'Line');
+                                var EditLine = layer.findOne('#' + LineId);
+                                EditLine.closed(true);
                                 ////console.log(isOverOnStarting);
 
                             }
@@ -2508,6 +2660,9 @@
 
                             if (CheckFirstIndex(this.name())) {
                                 isOverOnStarting = false;
+                                var LineId = this.id().replace('Rect', 'Line');
+                                var EditLine = layer.findOne('#' + LineId);
+                                EditLine.closed(false);
                                 ////console.log(isOverOnStarting);
                                 //layer.batchDraw();
                             }
@@ -2617,6 +2772,8 @@
                     //    LineId = id[4];
                     //}
                     var line = layer.findOne('#' + id);
+                    //line.points().pop();
+                    //line.points().pop();
                     console.log(line);
                     if (line.name() != "Irrigation Wiring" && line.name() != "PE Pipeline") {
                         isDraw = false;
@@ -2624,6 +2781,10 @@
                         line.closed(true);
                     }
 
+                    var SRect = layer.findOne('#' + id.replace("Line", "SRect"));
+                    if (SRect!=null) {
+                        SRect.destroy();
+                    }
                     line.listening(true);
                     ////console.log(line.name());
                     if (line.name() == "Area") {
@@ -3314,7 +3475,7 @@
                     //    id = this.mouseClickStartShape.attrs.id;
                     //    //console.log(id);
                     //}
-                        var line = layer.findOne('#' + id);
+                    var line = layer.findOne('#' + id);
                     if (isOutArea == false || line.name() == "Hedge" || line.name() == "Irrigation Wiring" || line.name() == "PE Pipeline") {
 
                         //console.log(id);
@@ -3442,15 +3603,15 @@
             var RetIndex = 0;
         id = id.replace('Rect', '');
         var CStartRect = StartRect.slice();
-        for (var i = 0; i < StartRect.length; i++) {
-            CStartRect[i] = CStartRect[i].replace('Rect', '');
+            for (var i = 0; i < StartRect.length; i++) {
+                CStartRect[i] = CStartRect[i].replace('Rect', '');
                 if (Number(CStartRect[i]) > Number(id)) {
 
                     var RetId = "Rect" + (Number(CStartRect[i]) - 1);
                     //console.log("RetId " + RetId);
                      return RetId;
                 }
-        RetIndex = i;
+                RetIndex = i;
             }
         var RetId = "Rect" + (Name - 1);
             //alert(Name);
@@ -3460,28 +3621,39 @@
 
 
 
-        function FindIndex(id) {
-        var id = id.replace('Rect', '');
+    function FindIndex(id) {
+        var ID = '';
+        if (id[0] == "R") {
+            ID = id.replace('Rect', '');
+        }
+        else {
+            ID = id.replace('SRect', '');
+        }
+           
             var RetIndex = 0;
-        var CStartRect = StartRect.slice();
-        for (var i = 0; i < StartRect.length; i++) {
-            CStartRect[i] = CStartRect[i].replace('Rect', '');
-        if (Number(CStartRect[i]) == Number(id)) {
+            var CStartRect = StartRect.slice();
+            for (var i = 0; i < StartRect.length; i++) {
+                CStartRect[i] = CStartRect[i].replace('Rect', '');
+                if (Number(CStartRect[i]) == Number(ID)) {
 
                     return i + 1;
                 }
-        else {
-                    if (Number(id) > Number(CStartRect[i]))
-        {
-            RetIndex = i + 1;
+                else {
+                    if (Number(ID) > Number(CStartRect[i]))
+                    {
+                        RetIndex = i + 1;
                     }
                 }
             }
-        return RetIndex;
+            return RetIndex;
         }
 
 
-        function CheckFirstIndex(id) {
+    function CheckFirstIndex(id) {
+        //console.log("AAA "+id);
+        if (id[0]=="S") {
+            id=id.replace('SRect', 'Rect');
+        }
             for (var i = 0; i < StartRect.length; i++) {
                 if (StartRect[i] == id) {
                     return true;
