@@ -607,6 +607,32 @@ namespace DrawingTheme.Controllers
             return Json(0);
         }
 
+
+        [HttpPost]
+        public JsonResult CheckSpriDis(double? Distance)
+        {
+            string SubCategory = "";
+            try
+            {
+                HttpCookie cookieObj = Request.Cookies["User"];
+                int UserId = Int32.Parse(cookieObj["UserId"]);
+                int RoleId = Int32.Parse(cookieObj["RoleId"]);
+                //int UserId = 1;
+                SubCategory = DB.tblSubCategories.Where(x => x.ThrowDistanceMin<= Distance && x.ThrowDistanceMax>=Distance ).Select(s=>s.SubcategoryName).FirstOrDefault();
+
+
+
+            }
+            catch (Exception ex)
+            {
+
+                ViewBag.Error = ex.Message;
+                Console.WriteLine("Error" + ex.Message);
+            }
+
+            return Json(SubCategory);
+        }
+
         [HttpPost]
         public JsonResult AddOrderDetails(tblOrderDetail OrderDetail)
         {
