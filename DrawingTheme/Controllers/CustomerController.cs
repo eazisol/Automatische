@@ -609,7 +609,7 @@ namespace DrawingTheme.Controllers
 
 
         [HttpPost]
-        public JsonResult CheckSpriDis(double? Distance)
+        public JsonResult CheckSpriDis(double? Distance, double? MinAngle, double? MaxAngle)
         {
             string SubCategory = "";
             try
@@ -618,7 +618,7 @@ namespace DrawingTheme.Controllers
                 int UserId = Int32.Parse(cookieObj["UserId"]);
                 int RoleId = Int32.Parse(cookieObj["RoleId"]);
                 //int UserId = 1;
-                SubCategory = DB.tblSubCategories.Where(x => x.ThrowDistanceMin<= Distance && x.ThrowDistanceMax>=Distance ).Select(s=>s.SubcategoryName).FirstOrDefault();
+                SubCategory = DB.tblSubCategories.Where(x => x.ThrowDistanceMax>=Distance && x.MaxAngle >= MaxAngle && x.MinAngle <= MinAngle).Select(s=>s.SubcategoryName).FirstOrDefault();
 
 
 

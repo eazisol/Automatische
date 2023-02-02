@@ -488,7 +488,8 @@
     }
     stage.on('click', (e) => {
         //console.log(e.target.id());
-        $("#ObjUniqueId").val(e.target.id());
+        //alert(e.target.id());
+        $("#ObjUniqueId").val(e.target.id().replace("Arc","Sprinkler"));
         var UniqueId = $("#ObjUniqueId").val();
         //alert(UniqueId);
         if (UniqueId != null && UniqueId!="") {
@@ -531,11 +532,11 @@
                             var node = layer.findOne('#' + r.UniqueId);
                             if (node.name() == "Irrigation Wiring") {
                                 $("#IWPD").show();
-                                $("#EndIW").hide();
+                                //$("#EndIW").hide();
                             }
                             else {
                                 $("#PEPD").show();
-                                $("#EndPE").hide();
+                                //$("#EndPE").hide();
                             }
 
                         }
@@ -1003,7 +1004,37 @@
             name: "Irrigation Wiring",
             dash: [15, 10],
         });
-
+        var VBC = $("#VBCircle").val();
+        if (VBC = 1) {
+            poly.stroke("#FFD966");
+        }
+        else if (VBC = 2) {
+            poly.stroke("#FF0000");
+        }
+        else if (VBC = 3) {
+            poly.stroke("#7030A0");
+        }
+        else if (VBC = 4) {
+            poly.stroke("#5B9BD5");
+        }
+        else if (VBC = 5) {
+            poly.stroke("#00B050");
+        }
+        else if (VBC = 6) {
+            poly.stroke("#7C7C7C");
+        }
+        else if (VBC = 7) {
+            poly.stroke("#D22EB3");
+        }
+        else if (VBC = 8) {
+            poly.stroke("#37C2C9");
+        }
+        else if (VBC = 9) {
+            poly.stroke("#1EF20E");
+        }
+        else if (VBC = 10) {
+            poly.stroke("#3F3B3D");
+        }
 
         PolyName += 1;
         layer.add(poly);
@@ -2210,6 +2241,28 @@
         var MaxAngle = $("#SAngle").val();
         var ThrowDistanceMax = $("#SRadius").val();
         var OrderId = $("#OrderId").val();
+
+        var node = layer.findOne('#' + UniqueId);
+        if (node != null) {
+            node.hide();
+        }
+        var node = layer.findOne('#' + UniqueId.replace("Sprinkler", "FillCircle"));
+        if (node != null) {
+            node.hide();
+        }
+        var node = layer.findOne('#' + UniqueId.replace("Sprinkler", "Circle"));
+        if (node != null) {
+            node.hide();
+        }
+        var node = layer.findOne('#' + UniqueId.replace("Sprinkler", "MoveCircle"));
+        if (node != null) {
+            node.hide();
+        } var node = layer.findOne('#' + UniqueId.replace("Sprinkler", "Arc"));
+        if (node != null) {
+            node.listening(true);
+        }
+
+
 
         $("#BtnEndsprinkler").hide();
         $("#RSPD").hide();
@@ -3659,24 +3712,9 @@
         //Distance = Distance.toFixed(2);
         var oldRadius = Sprinkler.radius();
 
-         var model = {
-             Distance: PxToM(Distance),
-            };
-
-            $.ajax({
-                type: "POST",
-                url: "@Url.Action("CheckSpriDis", "Customer")",
-                data: JSON.stringify(model),
-                contentType: "application/json; charset=utf-8",
-                dataType: "json",
-                success: function (r) {
-                    $("#SName").text(r);
-                    $("#SprinklerTypeDropID").val(r);
-                }
-            });
 
 
-        console.log(PxToM(Distance));
+        //console.log(PxToM(Distance));
         if (PxToM(Distance) >= 2.3 && PxToM(Distance) <= 10.8) {
             Sprinkler.radius(Distance);
 
@@ -3859,16 +3897,37 @@
             angleRad1 = Math.atan2(dy, dx);
             angleDeg1 = angleRad1 * 180 / Math.PI;
             angleDeg1 = (360 + (angleDeg1)) % 360;
+            var maxangle = angleDeg1;
             angleDeg1 = angleDeg1 - StartangleDeg;
 
             ArcCir.innerRadius(Distance);
             ArcCir.angle(angleDeg1);
 
+             var model = {
+                 Distance: PxToM(Distance),
+                 MinAngle: ArcCir.rotation().toFixed(2),
+                 MaxAngle: maxangle,
+            };
+
+            $.ajax({
+                type: "POST",
+                url: "@Url.Action("CheckSpriDis", "Customer")",
+                data: JSON.stringify(model),
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: function (r) {
+                    $("#SName").text(r);
+                    $("#SprinklerTypeDropID").val(r);
+                }
+            });
+
+
+
             $("#SId").val(Sprinkler.id());
             $("#SRadius").val(PxToM(Sprinkler.radius().toFixed(2)));
             $("#StartAngle").val(ArcCir.rotation().toFixed(2));
 
-            $("#SAngle").val(ArcCir.angle().toFixed(2));
+            $("#SAngle").val(maxangle);
 
 
             ////console.log("FillCircle Radius " + angleDeg1);
