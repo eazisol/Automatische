@@ -38,10 +38,6 @@ namespace DrawingTheme.Controllers
             return View(user);
         }
 
-
-
-
-
         [HttpPost]
         public ActionResult ChangePassword(int id, string OldPassword, string NewPassword, string ConfirmPassword, string Email)
         {
@@ -724,7 +720,7 @@ namespace DrawingTheme.Controllers
                         {
                             Data.Price = SubCategory.Price;
                         }
-                        
+                        Data.Qty = 1;
                         DB.tblOrderDetails.Add(Data);
                         DB.SaveChanges();
                         tblLog LogData = new tblLog();
@@ -755,6 +751,7 @@ namespace DrawingTheme.Controllers
                         }
                         Data.IWLength = OrderDetail.IWLength;
                         Data.PELength = OrderDetail.PELength;
+                        Data.Qty = 1;
                         DB.Entry(Data);
                         DB.SaveChanges();
 
@@ -891,6 +888,7 @@ namespace DrawingTheme.Controllers
             ViewBag.Error = Error;
             return View(Transactions);
         }
+        
 
     }
 }

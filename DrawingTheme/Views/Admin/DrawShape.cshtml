@@ -32,6 +32,7 @@
                     <span class="badge badge-warning  mr-2"> Total Amount: <label id="TotalAmount"> 0</label> €</span>
                     <input type="text" id="TotalAmountInput" name="amount" value="" hidden />
                     <button class="btn btn-primary " type="button" id="save"><i class="fa fa-save mr-2"></i>Save as PDF</button>
+                    <button class="btn btn-primary " type="button" id="ProceedToAccesoires"><i class="fa fa-save mr-2"></i>Proceed</button>
                     <button class="btn btn-info mr-2" type="submit"><i class="fa fa-paypal mr-2"></i> Place Order</button>
                 </form>
            
@@ -3097,10 +3098,10 @@
 
 
                             Srect = new Konva.Rect({
-                                x: Position.x - 25,
-                                y: Position.y - 25,
-                                width: 50,
-                                height: 50,
+                                x: Position.x - 10,
+                                y: Position.y - 10,
+                                width: 20,
+                                height: 20,
                                 name: "SRect" + SRName + "",
                                 id: "SRect" + SRName + "",
                                 //fill: 'green',
@@ -4908,6 +4909,13 @@
         ////console.log(node);
         ////console.log(this.value);
         node.opacity(this.value);
+    });
+
+    $("body").on("click", "#ProceedToAccesoires", function () {
+        var OrderID = $("#OrderId").val();
+        var Url = '@Url.Action("AddAccesoires", "Admin")?OrderId=' + OrderID + '';
+        alert(Url);
+        window.location = Url;
     });
 
 

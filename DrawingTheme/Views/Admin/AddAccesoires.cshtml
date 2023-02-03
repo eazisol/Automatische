@@ -1,0 +1,173 @@
+﻿@model IEnumerable<DrawingTheme.Models.Sp_GetAccesoires_Result>
+@{
+    ViewBag.Title = "AddAccesoires";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    Double? GrandTotal = 0.0;
+}
+
+<div class="body d-flex profile-page">
+    <div class="container-fluid">
+        <div class="row clearfix">
+            <div class="col-lg-12">
+
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="card-title">Accesoires</h3>
+                    </div>
+                    <div class="card-body pt-0">
+
+                        <input type="text" hidden="" class="form-control" id="OrderId" name="OrderId" value="@ViewBag.OrderId" placeholder="OrderId">
+                        @foreach (DrawingTheme.Models.Sp_GetAccesoires_Result item in Model)
+                        {
+                            <div class="row clearfix">
+                                <div class="col-3">
+                                    <input type="text" hidden class="form-control" id="SCId" name="SCId" placeholder="SCId" value="@item.SCId">
+                                    <label class="SCName">@item.SCName</label>
+                                </div>
+                                <div class="col-2">
+                                    <label class="SCPrice">@item.SCPrice</label>
+                                </div>
+                                @*<div class="col-3">
+                                    <button type="button" id="AddCart" onclick="AddCart(this)">Add to cart</button>
+                                </div>*@
+                                <div class="col-2">
+                                    @if (@item.Qty != null)
+                                    {
+                                        <input type="number" class="form-control" id="Qty" name="Qty" placeholder="Qty" min="0" value="@item.Qty">
+                                    }
+                                    else
+                                    {
+                                        <input type="number" class="form-control" style="display:none;" id="Qty" name="Qty" min="0" placeholder="Qty" value="0">
+                                    }
+                                </div>
+                                @*<div class="col-2">
+                                    <button type="button" id="Remove" onclick="Remove(this)">Remove</button>
+                                </div>*@
+                            </div>
+
+                        }
+                        <button id="save">Updaet BOM</button>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="card-title">BOM</h3>
+                    </div>
+                    <div class="card-body pt-0">
+                        <div class="table-responsive table_e2">
+                            <table class="table table-hover table-vcenter text-nowrap mb-0" id="ScrapperList">
+                                <thead>
+                                    <tr>
+                                        <th>Item name</th>
+                                        <th>Item ID</th>
+                                        <th>Quantity</th>
+                                        <th>Price per unit</th>
+                                        <th>Total</th>
+                                        <th>VAT</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach (DrawingTheme.Models.Sp_GetBOMData_Result item in ViewBag.BomData)
+                                    {
+                                        {
+                                            GrandTotal += item.TotalPrice;
+                                        }
+                                        <tr>
+                                            <td>@item.subCategoryName</td>
+                                            <td>
+                                                @item.SubCategoryID
+                                            </td>
+                                            <td>
+                                                @item.Qty
+                                            </td>
+                                            <td>
+                                                @item.Price
+                                            </td>
+                                            <td>
+                                                @item.TotalPrice
+                                            </td>
+                                            <td>
+                                            </td>
+                                        </tr>
+
+                                    }
+                                    <tr>
+                                        <td colspan="4">Total</td>
+
+                                        <td><label id="GrandTVal">@GrandTotal</label> €</td>
+                                        <td>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<script src="~/assets/js/jquery-3.2.1.min.js"></script>
+
+<script>
+
+    function AddCart(Btn) {
+        //console.log($(Btn).closest("div.row").find("input[name='Qty']").val());
+        $(Btn).closest("div.row").find("input[id='Qty']").val(0);
+        $(Btn).closest("div.row").find("input[id='Qty']").show();
+    }
+
+
+
+    function Remove(Btn) {
+        //console.log($(Btn).closest("div.row").find("input[name='Qty']").val());
+        $(Btn).closest("div.row").find("input[id='Qty']").val(0);
+        $(Btn).closest("div.row").find("input[id='Qty']").hide();
+    }
+
+    $(document).on("click", "#save", function () {
+        var MainDiv = $(this).closest("div.card-body");
+        var OrderId = MainDiv.find("input[id='OrderId']").val();
+        window.location.href = "@Url.Action("AddAccesoires", "Admin")?OrderId=" + OrderId + "";
+    });
+
+
+    $(document).on("click", "#Qty", function () {
+        var MainDiv = $(this).closest("div.card-body");
+        var OrderId = MainDiv.find("input[id='OrderId']").val();
+
+        //var GTV = Number($("#GrandTVal").text()).toFixed(2);
+
+        var LoopDiv = MainDiv.find("div.row");
+        var Datas = [];
+        LoopDiv.each(function (index, value) {
+            //GTV = Number(Number(GTV).toFixed(2)) + Number(Number($(value).find('label.SCPrice').text()).toFixed(2));
+            Datas.push({ OrderId: OrderId, SCName: $(value).find('label.SCName').text(), SCPrice: $(value).find('label.SCPrice').text(), Qty: $(value).find('input[id="Qty"]').val(), SCId: $(value).find('input[id="SCId"]').val() });
+        });
+        //$("#GrandTVal").text(GTV);
+
+        var model = {
+            Datas: Datas,
+        };
+        console.log(model);
+
+
+        //Send the JSON array to Controller using AJAX.
+        $.ajax({
+            type: "POST",
+            url: "@Url.Action("AddAccesoires", "Admin")",
+            data: JSON.stringify(model),
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            success: function (r) {
+
+                //window.location.href = "@Url.Action("AddAccesoires", "Admin")?OrderId=" + OrderId + "";
+            }
+        });
+
+    });
+
+</script>

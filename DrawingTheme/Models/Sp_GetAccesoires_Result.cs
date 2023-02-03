@@ -10,11 +10,13 @@
 namespace DrawingTheme.Models
 {
     using System;
-    using System.Collections.Generic;
     
-    public partial class tblOrderDetail
+    public partial class Sp_GetAccesoires_Result
     {
-        public int OrderDetailId { get; set; }
+        public Nullable<double> SCPrice { get; set; }
+        public string SCName { get; set; }
+        public int SCId { get; set; }
+        public Nullable<int> OrderDetailId { get; set; }
         public Nullable<int> OrderId { get; set; }
         public Nullable<int> SubCategoryID { get; set; }
         public string SubcategoryName { get; set; }
@@ -30,8 +32,5 @@ namespace DrawingTheme.Models
         public Nullable<int> PEFPipe { get; set; }
         public Nullable<int> PETPipe { get; set; }
         public Nullable<int> Qty { get; set; }
-    
-        public virtual tblOrder tblOrder { get; set; }
-        public virtual tblSubCategory tblSubCategory { get; set; }
     }
 }

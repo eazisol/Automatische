@@ -1,6 +1,7 @@
 ﻿using DrawingTheme.Models;
 using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.IO;
 using System.Linq;
 using System.Web;
@@ -131,5 +132,99 @@ namespace DrawingTheme.Controllers
 
             return View(Data);
         }
+
+        public ActionResult AddAccesoires(int OrderId=0)
+        {
+            HttpCookie cookieObj = Request.Cookies["User"];
+            int UserId = Int32.Parse(cookieObj["UserId"]);
+            int RoleId = Int32.Parse(cookieObj["RoleId"]);
+            List<Sp_GetAccesoires_Result> Data = new List<Sp_GetAccesoires_Result>();
+            try
+            {
+                ViewBag.OrderId = OrderId;
+                Data = DB.Sp_GetAccesoires(OrderId).ToList();
+                ViewBag.BomData = DB.Sp_GetBOMData(OrderId).ToList();
+            }
+            catch (Exception ex)
+            {
+
+                ViewBag.Error = ex.Message;
+                Console.WriteLine("Error" + ex.Message);
+            }
+
+            return View(Data);
+        }
+
+
+        [HttpPost]
+        public JsonResult AddAccesoires(List<Sp_GetAccesoires_Result> Datas)
+        {
+            HttpCookie cookieObj = Request.Cookies["User"];
+            int UserId = Int32.Parse(cookieObj["UserId"]);
+            int RoleId = Int32.Parse(cookieObj["RoleId"]);
+            //List<Sp_GetAccesoires_Result> Data = new List<Sp_GetAccesoires_Result>();
+            tblOrderDetail Check = new tblOrderDetail();
+            try
+            {
+
+                foreach (var item in Datas)
+                {
+                    Check = DB.tblOrderDetails.Where(x => x.OrderId == item.OrderId && x.SubCategoryID == item.SCId).FirstOrDefault();
+                    if(Check!=null)
+                    {
+                        DB.Entry(Check).State = EntityState.Deleted;
+                        DB.SaveChanges();
+                    }
+                    
+
+                    tblOrderDetail Data = new tblOrderDetail();
+                    Data.OrderId = item.OrderId;
+                    Data.SubCategoryID = item.SCId;
+                    Data.SubcategoryName = item.SCName;
+                    Data.Price = item.SCPrice*item.Qty;
+                    Data.Qty = item.Qty;
+                    DB.tblOrderDetails.Add(Data);
+                    DB.SaveChanges();
+                }
+               
+                tblLog LogData = new tblLog();
+                LogData.UserId = UserId;
+                LogData.Action = "Add Accesoires Order Details";
+                LogData.CreatedDate = DateTime.Now;
+                DB.tblLogs.Add(LogData);
+                DB.SaveChanges();
+            }
+            catch (Exception ex)
+            {
+
+                ViewBag.Error = ex.Message;
+                Console.WriteLine("Error" + ex.Message);
+            }
+
+            return Json(1);
+        }
+
+
+        public ActionResult BOMView(int OrderId = 0)
+        {
+            HttpCookie cookieObj = Request.Cookies["User"];
+            int UserId = Int32.Parse(cookieObj["UserId"]);
+            int RoleId = Int32.Parse(cookieObj["RoleId"]);
+            List<Sp_GetAccesoires_Result> Data = new List<Sp_GetAccesoires_Result>();
+            try
+            {
+                ViewBag.OrderId = OrderId;
+                Data = DB.Sp_GetAccesoires(OrderId).ToList();
+            }
+            catch (Exception ex)
+            {
+
+                ViewBag.Error = ex.Message;
+                Console.WriteLine("Error" + ex.Message);
+            }
+
+            return View(Data);
+        }
+
     }
 }

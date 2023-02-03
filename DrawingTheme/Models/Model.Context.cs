@@ -44,5 +44,23 @@ namespace DrawingTheme.Models
         {
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<string>("SpOrderNumber");
         }
+    
+        public virtual ObjectResult<Sp_GetAccesoires_Result> Sp_GetAccesoires(Nullable<int> iD)
+        {
+            var iDParameter = iD.HasValue ?
+                new ObjectParameter("ID", iD) :
+                new ObjectParameter("ID", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<Sp_GetAccesoires_Result>("Sp_GetAccesoires", iDParameter);
+        }
+    
+        public virtual ObjectResult<Sp_GetBOMData_Result> Sp_GetBOMData(Nullable<int> iD)
+        {
+            var iDParameter = iD.HasValue ?
+                new ObjectParameter("ID", iD) :
+                new ObjectParameter("ID", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<Sp_GetBOMData_Result>("Sp_GetBOMData", iDParameter);
+        }
     }
 }
