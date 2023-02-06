@@ -32,7 +32,7 @@
                     <span class="badge badge-warning  mr-2"> Total Amount: <label id="TotalAmount"> 0</label> €</span>
                     <input type="text" id="TotalAmountInput" name="amount" value="" hidden />
                     <button class="btn btn-primary " type="button" id="save"><i class="fa fa-save mr-2"></i>Save as PDF</button>
-                    <button class="btn btn-primary " type="button" id="ProceedToAccesoires"><i class="fa fa-save mr-2"></i>Proceed</button>
+                    <button class="btn btn-secondary " type="button" id="ProceedToAccesoires"><i class="fa fa-save mr-2"></i>Proceed</button>
                     <button class="btn btn-info mr-2" type="submit"><i class="fa fa-paypal mr-2"></i> Place Order</button>
                 </form>
            
@@ -117,7 +117,7 @@
     </div>
     <div class="col-md-9">
         <div class="body d-flex profile-page">
-            <div class="card container-fluid">
+            <div class="card">
                 <div  id="container" data-options="scaleMode:proportionalInside" style="border:2px solid orange">
                 </div>
                 <div id="foo" class='buttons mt-2 mb-2'>
@@ -139,7 +139,7 @@
                 <h4>Property</h4>
             </div>
             <div class="card-body ">
-                <h6 id="SName"></h6>
+                <h6 id="SName" class="badge badge-success bg-success text-white"></h6>
                 <h6 hidden id="SubCatId"></h6>
                 <div id="RSPD" style="display:none;">
                     <input class="form-control" type="text" id="SId" hidden name="name" value="" />
@@ -156,7 +156,7 @@
                     <input class="form-control" type="number" id="StartAngle" onchange="SetS(this,2)" name="name" value="" />
                     <label>Angle</label>
                     <input class="form-control" type="number" id="SAngle" onchange="SetS(this,3)" name="name" value="" />
-                    <button class="btn" id="BtnEndsprinkler" style="display:none; background-color:aqua;">End sprinkler</button>
+                    <button class="btn btn-sm btn-secondary" id="BtnEndsprinkler" style="display:none;">End sprinkler</button>
                 </div>
                 <div id="SSPD" style="display:none;">
                     <input class="form-control" type="text" id="SSId" hidden name="name" value="" />
@@ -164,7 +164,7 @@
                     <input class="form-control" type="number" id="SSWidth" onchange="SetS(this,4)" name="name" value="" disabled />
                     <label>Height</label>
                     <input class="form-control" type="number" id="SSHeight" onchange="SetS(this,5)" name="name" value="" disabled/>
-                    <button class="btn" id="BtnEndRectangularsprinkler" style="display:none;background-color:aqua;">End rectangular sprinkler</button>
+                    <button class="btn btn-sm btn-secondary" id="BtnEndRectangularsprinkler" style="display:none;">End rectangular sprinkler</button>
                 </div>
                 <div id="VBPD" style="display:none;">
                     <input class="form-control" type="text" id="VBId" hidden name="name" value="" />
@@ -172,7 +172,7 @@
                     <label id="VBDW" style="display:none;">for drinking water source</label>
                     <label id="VBWW" style="display:none;">for well water source</label>
                     <label id="VBRW" style="display:none;">for rainwater source</label>
-                    <button class="btn" id="EndVB" style="display:none;background-color:aqua;">End Valve box</button>
+                    <button class="btn btn-sm btn-secondary" id="EndVB" style="display:none;">End Valve box</button>
                 </div>
                 <div id="ICPD" style="display:none;">
                     <input class="form-control" type="text" id="ICId" hidden name="name" value="" />
@@ -180,7 +180,7 @@
                     <label id="ICID" style="display:none;">Indoor</label>
                     <label id="ICOD" style="display:none;">outdoor</label>
                     <label id="ICSP" style="display:none;">Smarphone</label>
-                    <button class="btn" id="EndIC" style="display:none;background-color:aqua;">End Irrigation computer</button>
+                    <button class="btn btn-sm btn-secondary" id="EndIC" style="display:none;">End Irrigation computer</button>
                 </div>
                 <div id="TapPD" style="display:none;">
                     <input class="form-control" type="text" id="TapId" hidden name="name" value="" />
@@ -189,19 +189,19 @@
                         <option value="71">Well Water Source</option>
                         <option value="72">Rain Water Source</option>
                     </select>
-                    <button class="btn" id="EndTap" style="display:none;background-color:aqua;">End Tap</button>
+                    <button class="btn btn-sm btn-secondary" id="EndTap" style="display:none;">End Tap</button>
                 </div>
                 <div id="IWPD" style="display:none;">
                     <input class="form-control" type="text" id="IWId" hidden name="name" value="" />
                     <label>Total length: </label>
                     <input class="form-control" type="number" id="IWL"  name="name" value="0" disabled />
-                    <button class="btn" id="EndIW" style="background-color:aqua;">End Irrigation wiring</button>
+                    <button class="btn btn-sm btn-secondary" id="EndIW" >End Irrigation wiring</button>
                 </div>
                 <div id="PEPD" style="display:none;">
                     <input class="form-control" type="text" id="PEId" hidden name="name" value="" />
                     <label>Total length: </label>
                     <input class="form-control" type="number" id="PEL"  name="name" value="0" disabled />
-                    <button class="btn" id="EndPE" style="background-color:aqua;">End PE Pipeline</button>
+                    <button class="btn btn-sm btn-secondary" id="EndPE" >End PE Pipeline</button>
                 </div>
 
                 <input type="file" class="form-control" id="file_input" accept="image/*" name="name" value="">
@@ -210,7 +210,7 @@
                     <input type="range" class="form-control" id="ImageOpacityValue" min="10" max="100" value="100">
                 </div>
 
-                <button class="btn btn-danger text-center mt-1" id="DeleteObj" style="display:none;"><i class="fa fa-trash mr-1"></i>Delete</button>
+                <button class="btn btn-danger btn-sm text-center mt-1" id="DeleteObj" style="display:none;"><i class="fa fa-trash mr-1"></i>Delete</button>
                 @*<button class="btn btn-danger text-center mt-1"  id="UndoCanvas"><i class="fa fa-undo mr-1"></i>Undo</button>*@
             </div>
         </div>
@@ -221,7 +221,7 @@
 
 
 
-<div class="modal fade" id="addcontact" tabindex="-1" role="dialog" @*data-backdrop="static" data-keyboard="false"*@>
+<div class="modal fade" id="addcontact" tabindex="-1" role="dialog" data-backdrop="static" data-keyboard="false">
     <div class="modal-dialog " role="document">
 
         <div class="modal-content">
@@ -234,6 +234,7 @@
                     <div class="col-12">
                         <div class="form-group">
                             <input type="text" class="form-control" id="ModalName" name="Name" placeholder="Order Name" required>
+                            <h6 id="OrderError" style="color:red; display:none" >*Enter Order Name</h6>
                         </div>
                     </div>
 
@@ -286,20 +287,25 @@
         var model = {
             Name: Name,
         };
+        if (Name == "" || Name == null) {
+            $("#OrderError").fadeIn();
+        }
+        else {
 
+            $("#OrderError").fadeOut();
 
-        $.ajax({
-            type: "POST",
-            url: "@Url.Action("AjaxAddOrder", "Customer")",
-            data: JSON.stringify(model),
-            contentType: "application/json; charset=utf-8",
-            dataType: "json",
-            success: function (r) {
-                $("#OrderId").val(r);
-                $("#addcontact").modal('toggle');
-            }
-        });
-
+            $.ajax({
+                type: "POST",
+                url: "@Url.Action("AjaxAddOrder", "Customer")",
+                data: JSON.stringify(model),
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: function (r) {
+                    $("#OrderId").val(r);
+                    $("#addcontact").modal('toggle');
+                }
+            });
+        }
 
     });
 
@@ -319,7 +325,7 @@
 
     });
 
-    var width = 1027;
+    var width = 1058;
     var height = 500;
 
         var isDraw = false;
