@@ -21,7 +21,7 @@ namespace DrawingTheme.Controllers
             {
                 if (status == "" || status == null)
                 {
-                    Orders = DB.tblOrders.ToList();
+                    Orders = DB.tblOrders.Where(x => x.Status == 0 || x.Status == null).ToList();
                 }
                 if (status == "Pending")
                 {
@@ -36,7 +36,7 @@ namespace DrawingTheme.Controllers
             {
                 if (status == "" || status == null)
                 {
-                    Orders = DB.tblOrders.Where(x => x.CreatedBy == UserId).ToList();
+                    Orders = DB.tblOrders.Where(x => x.CreatedBy == UserId && x.Status == 0 || x.Status == null).ToList();
                 }
                 if (status == "Pending")
                 {

@@ -65,6 +65,7 @@
                                         <th>@Resources.PAYMENTSTATUS</th>
                                       
                                         <th hidden>Status</th>
+                                        <th>@Resources.ACTION</th>
 
                                     </tr>
                                 </thead>
@@ -100,7 +101,9 @@
                                         <td hidden>
                                             <span>@Order.isActive</span>
                                         </td>
-                                     
+                                        <td>
+                                            <a href="@Url.Action("BOMView","Customer",new {OrderID=@Order.OrderId })"><button type="button" class="btn btn-primary btn-sm" title="View"><i class="fa fa-paypal"></i> View</button></a>
+                                        </td>
                                     </tr>
 
                                     }

@@ -105,9 +105,9 @@
                                                 }
                                                 else
                                                 {
-                                                    <a href="@Url.Action("PaymentWithPaypal","Paypal",new {UserId=@Order.CreatedBy,OrderID=@Order.OrderId })"><button type="button" class="btn btn-primary btn-sm" title="Edit"><i class="fa fa-paypal"></i> Pay</button></a>
+                                                    <a href="@Url.Action("AddAccesoires","Admin",new {OrderID=@Order.OrderId })"><button type="button" class="btn btn-primary btn-sm" title="View"><i class="fa fa-paypal"></i> View</button></a>
                                                 }
-
+                                                <button type="button" class="btn btn-danger btn-sm" title="Delete" id="DeleteOrder" data-toggle="modal" data-target="#DeleteOrderModal"><i class="fa fa-paypal"></i> Delete</button>
                                             </td>
                                         </tr>
 
@@ -181,7 +181,7 @@
 
 <div class="modal fade" id="DeleteOrderModal" tabindex="-1" role="dialog">
     <div class="modal-dialog  modal-lg" role="document">
-        @using (Html.BeginForm("DeleteOrder", "Order", FormMethod.Post, new { enctype = "multipart/form-data" }))
+        @using (Html.BeginForm("DeleteOrder", "Customer", FormMethod.Post, new { enctype = "multipart/form-data" }))
         {@Html.AntiForgeryToken()
         <div class="modal-content">
             <div class="modal-header">
@@ -295,7 +295,7 @@
         //});
 
         $(".nav1 li").removeClass("active");
-        $('#Order').addClass('active');
+        $('#Plans').addClass('active');
 
     });
 </script>

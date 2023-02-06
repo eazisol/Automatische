@@ -141,6 +141,7 @@ namespace DrawingTheme.Controllers
             List<Sp_GetAccesoires_Result> Data = new List<Sp_GetAccesoires_Result>();
             try
             {
+                ViewBag.UserId = UserId;
                 ViewBag.OrderId = OrderId;
                 Data = DB.Sp_GetAccesoires(OrderId).ToList();
                 ViewBag.BomData = DB.Sp_GetBOMData(OrderId).ToList();

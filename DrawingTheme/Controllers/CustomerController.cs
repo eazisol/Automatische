@@ -371,7 +371,7 @@ namespace DrawingTheme.Controllers
             {
                 if (status == "" || status == null)
                 {
-                    Orders = DB.tblOrders.ToList();
+                    Orders = DB.tblOrders.Where(x => x.Status == 1).ToList();
                 }
                 if (status == "Pending" )
                 {
@@ -386,7 +386,7 @@ namespace DrawingTheme.Controllers
             {
                 if (status == "" || status == null)
                 {
-                    Orders = DB.tblOrders.Where(x => x.CreatedBy == UserId).ToList();
+                    Orders = DB.tblOrders.Where(x => x.CreatedBy == UserId && x.Status == 1).ToList();
                 }
                 if (status == "Pending")
                 {
@@ -512,11 +512,23 @@ namespace DrawingTheme.Controllers
         public ActionResult DeleteOrder(int OrderId)
         {
             tblOrder Data = new tblOrder();
+            List<tblOrderDetail> DataDetails = new List<tblOrderDetail>();
             HttpCookie cookieObj = Request.Cookies["User"];
             int CUserId = Int32.Parse(cookieObj["UserId"]);
             //int CUserId = 1;
             try
             {
+                DataDetails = DB.tblOrderDetails.Where(x => x.OrderId == OrderId).ToList();
+
+                foreach (var item in DataDetails)
+                {
+                    if (item != null)
+                    {
+                        DB.Entry(item).State = EntityState.Deleted;
+                        DB.SaveChanges();
+                    }
+                }
+
                 Data = DB.tblOrders.Select(r => r).Where(x => x.OrderId == OrderId).FirstOrDefault();
                 DB.Entry(Data).State = EntityState.Deleted;
                 DB.SaveChanges();
@@ -527,7 +539,7 @@ namespace DrawingTheme.Controllers
                 LogData.CreatedDate = DateTime.Now;
                 DB.tblLogs.Add(LogData);
                 DB.SaveChanges();
-                return RedirectToAction("Orders", new { Delete = "Order has been delete successfully." });
+                return RedirectToAction("Index","Plans", new { Delete = "Order has been delete successfully." });
             }
             catch (Exception ex)
             {
@@ -538,6 +550,30 @@ namespace DrawingTheme.Controllers
 
             return Json(0);
         }
+
+        public ActionResult BOMView(int OrderId = 0)
+        {
+            HttpCookie cookieObj = Request.Cookies["User"];
+            int UserId = Int32.Parse(cookieObj["UserId"]);
+            int RoleId = Int32.Parse(cookieObj["RoleId"]);
+            List<Sp_GetAccesoires_Result> Data = new List<Sp_GetAccesoires_Result>();
+            try
+            {
+                ViewBag.UserId = UserId;
+                ViewBag.OrderId = OrderId;
+                ViewBag.Date = DB.tblTransactions.Where(x => x.OrderId == OrderId).Select(s => s.PaymentDateTime).FirstOrDefault();
+                ViewBag.BomData = DB.Sp_GetBOMData(OrderId).ToList();
+            }
+            catch (Exception ex)
+            {
+
+                ViewBag.Error = ex.Message;
+                Console.WriteLine("Error" + ex.Message);
+            }
+
+            return View();
+        }
+
 
 
         [HttpPost]

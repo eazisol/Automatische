@@ -1,0 +1,234 @@
+﻿
+@{
+    ViewBag.Title = "BOMView";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    Double? GrandTotal = 0.0;
+    int Index = 0;
+    DateTime? Date = ViewBag.Date;
+}
+
+<div class="body d-flex profile-page">
+    <div class="container-fluid">
+
+        <div class="row justify-content-center mt-5">
+            <div class="col-lg-8 col-md-12">
+                <div class="card p-1">
+                    <div class="card-body">
+                        <div class="mb-3 pb-3 border-bottom">
+                            Invoice
+                            <strong>@Date.Value.ToString("dd/MMM/yyyy")</strong>
+                            <span class="float-right">
+                                <strong>Status:</strong>
+                                Paid
+                            </span>
+                        </div>
+
+                        @*<div class="row mb-4">
+                            <div class="col-sm-6">
+                                <h6 class="mb-3">From:</h6>
+                                <div><strong>Webz Poland</strong></div>
+                                <div>Madalinskiego 8</div>
+                                <div>71-101 Szczecin, Poland</div>
+                                <div>Email: info@webz.com.pl</div>
+                                <div>Phone: +48 444 666 3333</div>
+                            </div>
+
+                            <div class="col-sm-6">
+                                <h6 class="mb-3">To:</h6>
+                                <div><strong>Bob Mart</strong></div>
+                                <div>Attn: Daniel Marek</div>
+                                <div>43-190 Mikolow, Poland</div>
+                                <div>Email: marek@daniel.com</div>
+                                <div>Phone: +48 123 456 789</div>
+                            </div>
+                        </div>*@ <!-- Row end  -->
+
+                        <div class="table-responsive-sm">
+                            <table class="table table-striped">
+                                <thead>
+                                    <tr>
+                                        @*<th class="text-center">#</th>
+                                        <th>Item</th>
+                                        <th>Description</th>
+                                        <th class="text-right">Unit Cost</th>
+                                        <th class="text-center">Qty</th>
+                                        <th class="text-right">Total</th>*@
+
+                                        <th class="text-center">#</th>
+                                        <th>Item name</th>
+                                        <th>Item ID</th>
+                                        <th>Quantity</th>
+                                        <th>Price per unit</th>
+                                        <th class="text-right">Total</th>
+
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach (DrawingTheme.Models.Sp_GetBOMData_Result item in ViewBag.BomData)
+                                    {
+                                        {
+                                            GrandTotal += item.TotalPrice;
+                                            Index += 1;
+                                        }
+                                    <tr>
+                                        <td>@Index</td>
+                                        <td>@item.subCategoryName</td>
+                                        <td>
+                                            @item.SubCategoryID
+                                        </td>
+                                        <td>
+                                            @item.Qty
+                                        </td>
+                                        <td>
+                                            @item.Price
+                                        </td>
+                                        <td class="text-right">
+                                            @item.TotalPrice
+                                        </td>
+                                        <td>
+                                        </td>
+                                    </tr>
+
+                                    }
+                                    @*<tr>
+                                        <td class="text-center">1</td>
+                                        <td>Origin License</td>
+                                        <td>Extended License</td>
+                                        <td class="text-right">$999,00</td>
+                                        <td class="text-center">1</td>
+                                        <td class="text-right">$999,00</td>
+                                    </tr>*@
+                                   
+                                </tbody>
+                            </table>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-lg-4 col-sm-5">
+
+                            </div>
+
+                            <div class="col-lg-4 col-sm-5 ml-auto">
+                                <table class="table table-clear">
+                                    <tbody>
+                                        <tr>
+                                            <td><strong>Subtotal</strong></td>
+                                            <td class="text-right">@GrandTotal €</td>
+                                        </tr>
+                                        @*<tr>
+                                            <td><strong>VAT (10%)</strong></td>
+                                            <td class="text-right">$679,76</td>
+                                        </tr>*@
+                                        <tr>
+                                            <td><strong>Total</strong></td>
+                                            <td class="text-right">
+                                                <strong>@GrandTotal €</strong>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div> <!-- Row end  -->
+
+                        <div class="row">
+                            <div class="col-lg-12">
+                                <h6>Terms &amp; Condition</h6>
+                                <p class="text-muted">
+                                    You know, being a test pilot isn't
+                                    always the healthiest business
+                                    in the world. We predict too much for the next year and
+                                    yet far
+                                    too little for the next 10.
+                                </p>
+                            </div>
+                            @*<div class="col-lg-12 text-right">
+                                <button type="button" class="btn btn-outline-secondary btn-lg my-1"><i class="fa fa-print"></i> Print</button>
+                                <button type="button" class="btn btn-info btn-lg my-1">
+                                    <i class="fa fa-paper-plane-o"></i> Send
+                                    Invoice
+                                </button>
+                            </div>*@
+                        </div> <!-- Row end  -->
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+       
+    </div>
+</div>
+
+<script src="~/assets/js/jquery-3.2.1.min.js"></script>
+
+<script>
+
+    function AddCart(Btn) {
+        //console.log($(Btn).closest("div.row").find("input[name='Qty']").val());
+        $(Btn).closest("div.row").find("input[id='Qty']").val(0);
+        $(Btn).closest("div.row").find("input[id='Qty']").show();
+    }
+
+
+
+    function Remove(Btn) {
+        //console.log($(Btn).closest("div.row").find("input[name='Qty']").val());
+        $(Btn).closest("div.row").find("input[id='Qty']").val(0);
+        $(Btn).closest("div.row").find("input[id='Qty']").hide();
+    }
+
+    $(document).on("click", "#save", function () {
+        var MainDiv = $(this).closest("div.card-body");
+        var OrderId = MainDiv.find("input[id='OrderId']").val();
+        window.location.href = "@Url.Action("AddAccesoires", "Admin")?OrderId=" + OrderId + "";
+    });
+
+
+    $(document).on("click", "#Qty", function () {
+        var MainDiv = $(this).closest("div.card-body");
+        var OrderId = MainDiv.find("input[id='OrderId']").val();
+
+        //var GTV = Number($("#GrandTVal").text()).toFixed(2);
+
+        var LoopDiv = MainDiv.find("div.row");
+        var Datas = [];
+        LoopDiv.each(function (index, value) {
+            //GTV = Number(Number(GTV).toFixed(2)) + Number(Number($(value).find('label.SCPrice').text()).toFixed(2));
+            Datas.push({ OrderId: OrderId, SCName: $(value).find('label.SCName').text(), SCPrice: $(value).find('label.SCPrice').text(), Qty: $(value).find('input[id="Qty"]').val(), SCId: $(value).find('input[id="SCId"]').val() });
+        });
+        //$("#GrandTVal").text(GTV);
+
+        var model = {
+            Datas: Datas,
+        };
+        console.log(model);
+
+
+        //Send the JSON array to Controller using AJAX.
+        $.ajax({
+            type: "POST",
+            url: "@Url.Action("AddAccesoires", "Admin")",
+            data: JSON.stringify(model),
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            success: function (r) {
+
+                //window.location.href = "@Url.Action("AddAccesoires", "Admin")?OrderId=" + OrderId + "";
+            }
+        });
+
+    });
+
+
+    $(document).ready(function () {
+        var GT = $("#GrandTVal").text();
+        //console.log(GT);
+        $("#TotalAmountInput").val(GT);
+        $("#TotalAmount").text(GT);
+
+        //var OrderId = MainDiv.find("input[id='OrderId']").val();
+        //$("#OrderId").val(OrderId);
+
+    });
+
+</script>

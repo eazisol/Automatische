@@ -33,7 +33,7 @@
                     <input type="text" id="TotalAmountInput" name="amount" value="" hidden />
                     <button class="btn btn-primary " type="button" id="save"><i class="fa fa-save mr-2"></i>Save as PDF</button>
                     <button class="btn btn-secondary " type="button" id="ProceedToAccesoires"><i class="fa fa-save mr-2"></i>Proceed</button>
-                    <button class="btn btn-info mr-2" type="submit"><i class="fa fa-paypal mr-2"></i> Place Order</button>
+                    <button class="btn btn-info mr-2" type="submit" hidden><i class="fa fa-paypal mr-2"></i> Place Order</button>
                 </form>
            
         </nav>
@@ -4792,7 +4792,7 @@
                 angle: -text.getAbsoluteRotation(),
             });
         });
-
+        //return;
         // then put image on top of texts (so texts are not visible)
         pdf.addImage(
             stage.toDataURL({ pixelRatio: 2 }),
@@ -4801,8 +4801,9 @@
             stage.width(),
             stage.height()
         );
-
+        console.log(pdf.addImage());
         pdf.save('canvas.pdf');
+        //pdf.save('D:\Test.pdf');
     });
 
 
@@ -4920,7 +4921,7 @@
     $("body").on("click", "#ProceedToAccesoires", function () {
         var OrderID = $("#OrderId").val();
         var Url = '@Url.Action("AddAccesoires", "Admin")?OrderId=' + OrderID + '';
-        alert(Url);
+        //alert(Url);
         window.location = Url;
     });
 
