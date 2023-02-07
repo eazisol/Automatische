@@ -147,11 +147,11 @@ namespace DrawingTheme.Controllers
                     body1 += "<tbody><tr><td></td><td style='text-align: center;width:100%;'><table class='w-100' style='width: 100% !important;'>";
                     body1 += "<tbody><tr><td style='text-align: center;'><h2 style='font-size: 2rem;font-weight: 500;margin: 0%;'>" + order.TotalPrice + " € Paid</h2></td></tr><tr><td class='pb-3 pt-3 text-center' style='padding-bottom: 1rem !important; padding-top: 1rem !important; text-align: center !important;'><h4 style='font-size: 1.5rem;font-weight: 500;margin: 0%;'>Thanks for using Automatische. Inc.</h4></td></tr>";
                     body1 += "<tr><td class='pb-3 pt-3' style='padding-bottom: 1rem !important; padding-top: 1rem !important; '><table class='w-100' style='width: 100% !important;'><tbody>";
-                    body1 += "<tr><td>Attn:Order #:" + Data.tblOrder.OrderNumber + "<br></td></tr>";
+                    body1 += "<tr><td>Order #:" + Data.tblOrder.OrderNumber + "<br></td></tr>";
                     body1 += "<tr><td style='padding-top: 40px;'><table class='table table-bordered' style='border: 1px solid #dee2e6; width: 100%; margin-bottom: 1rem; color: #212529; color: #555555; border-collapse: collapse; '><tbody>";
                     body1 += " <tr>";
                     body1 += "<td style='text-align: left; border-color: #ebebeb !important; border: 1px solid #dee2e6; padding: 0.75rem; vertical-align: top; border-top: 1px solid #dee2e6; '>ITEM NAME</td>";
-                    body1 += "<td style='text-align: left; border-color: #ebebeb !important; border: 1px solid #dee2e6; padding: 0.75rem; vertical-align: top; border-top: 1px solid #dee2e6; '>ITEM ID</td>";
+                    //body1 += "<td style='text-align: left; border-color: #ebebeb !important; border: 1px solid #dee2e6; padding: 0.75rem; vertical-align: top; border-top: 1px solid #dee2e6; '>ITEM ID</td>";
                     body1 += "<td style='text-align: left; border-color: #ebebeb !important; border: 1px solid #dee2e6; padding: 0.75rem; vertical-align: top; border-top: 1px solid #dee2e6; '>QTY</td>";
                     body1 += "<td style='text-align: left; border-color: #ebebeb !important; border: 1px solid #dee2e6; padding: 0.75rem; vertical-align: top; border-top: 1px solid #dee2e6; '>UNIT PRICE</td>";
                     body1 += "<td style='text-align: right; border-color: #ebebeb !important; border: 1px solid #dee2e6; padding: 0.75rem; vertical-align: top; border-top: 1px solid #dee2e6; '>TOTAL PRICE</td>";
@@ -167,8 +167,8 @@ namespace DrawingTheme.Controllers
                         body1 += "</tr>";
                     }
                    
-                    body1 += "<tr><td style='text-align: right; border-color: #ebebeb !important; border: 1px solid #dee2e6; padding: 0.75rem; vertical-align: top; border-top: 1px solid #dee2e6; '><strong>Total</strong> </td>";
-                    body1 += "<td style='text-align: right; border-color: #ebebeb !important; border: 1px solid #dee2e6; padding: 0.75rem; vertical-align: top; border-top: 1px solid #dee2e6; 'colspan='4'>" + GT + " €</td></tr>";
+                    body1 += "<tr><td style='text-align: right; border-color: #ebebeb !important; border: 1px solid #dee2e6; padding: 0.75rem; vertical-align: top; border-top: 1px solid #dee2e6; '  colspan='3'><strong>Total</strong> </td>";
+                    body1 += "<td style='text-align: right; border-color: #ebebeb !important; border: 1px solid #dee2e6; padding: 0.75rem; vertical-align: top; border-top: 1px solid #dee2e6; '>" + GT + " €</td></tr>";
                     body1 += "</tbody></table>";
                     body1 += " </td></tr></tbody></table></td></tr>";
                     body1 += "</tbody> </table></td><td></td></tr></tbody></table></div>";
@@ -196,11 +196,11 @@ namespace DrawingTheme.Controllers
                         body1 += "<tbody><tr><td></td><td style='text-align: center;width:100%;'><table class='w-100' style='width: 100% !important;'>";
                         body1 += "<tbody><tr><td style='text-align: center;'><h2 style='font-size: 2rem;font-weight: 500;margin: 0%;'>" + order.TotalPrice + " € Paid</h2></td></tr><tr><td class='pb-3 pt-3 text-center' style='padding-bottom: 1rem !important; padding-top: 1rem !important; text-align: center !important;'><h4 style='font-size: 1.5rem;font-weight: 500;margin: 0%;'>New order recieved.</h4></td></tr>";
                         body1 += "<tr><td class='pb-3 pt-3' style='padding-bottom: 1rem !important; padding-top: 1rem !important; '><table class='w-100' style='width: 100% !important;'><tbody>";
-                        body1 += "<tr><td>Attn:Order #:"+Data.tblOrder.OrderNumber+"<br>Name: "+ UserData.FirstName+ "<br>Email: " + UserData.Email + "</td></tr>";
+                        body1 += "<tr><td>Order #:"+Data.tblOrder.OrderNumber+"<br>Name: "+ UserData.FirstName+ "<br>Email: " + UserData.Email + "</td></tr>";
                         body1 += "<tr><td style='padding-top: 40px;'><table class='table table-bordered' style='border: 1px solid #dee2e6; width: 100%; margin-bottom: 1rem; color: #212529; color: #555555; border-collapse: collapse; '><tbody>";
                         body1 += " <tr>";
                         body1 += "<td style='text-align: left; border-color: #ebebeb !important; border: 1px solid #dee2e6; padding: 0.75rem; vertical-align: top; border-top: 1px solid #dee2e6; '>ITEM NAME</td>";
-                        body1 += "<td style='text-align: left; border-color: #ebebeb !important; border: 1px solid #dee2e6; padding: 0.75rem; vertical-align: top; border-top: 1px solid #dee2e6; '>ITEM ID</td>";
+                        //body1 += "<td style='text-align: left; border-color: #ebebeb !important; border: 1px solid #dee2e6; padding: 0.75rem; vertical-align: top; border-top: 1px solid #dee2e6; '>ITEM ID</td>";
                         body1 += "<td style='text-align: left; border-color: #ebebeb !important; border: 1px solid #dee2e6; padding: 0.75rem; vertical-align: top; border-top: 1px solid #dee2e6; '>QTY</td>";
                         body1 += "<td style='text-align: left; border-color: #ebebeb !important; border: 1px solid #dee2e6; padding: 0.75rem; vertical-align: top; border-top: 1px solid #dee2e6; '>UNIT PRICE</td>";
                         body1 += "<td style='text-align: right; border-color: #ebebeb !important; border: 1px solid #dee2e6; padding: 0.75rem; vertical-align: top; border-top: 1px solid #dee2e6; '>TOTAL PRICE</td>";
@@ -216,8 +216,8 @@ namespace DrawingTheme.Controllers
                             body1 += "</tr>";
                         }
 
-                        body1 += "<tr><td style='text-align: right; border-color: #ebebeb !important; border: 1px solid #dee2e6; padding: 0.75rem; vertical-align: top; border-top: 1px solid #dee2e6; '><strong>Total</strong> </td>";
-                        body1 += "<td style='text-align: right; border-color: #ebebeb !important; border: 1px solid #dee2e6; padding: 0.75rem; vertical-align: top; border-top: 1px solid #dee2e6; ' colspan='4'>" + GT + " €</td></tr>";
+                        body1 += "<tr><td style='text-align: right; border-color: #ebebeb !important; border: 1px solid #dee2e6; padding: 0.75rem; vertical-align: top; border-top: 1px solid #dee2e6; ' colspan='3'><strong>Total</strong> </td>";
+                        body1 += "<td style='text-align: right; border-color: #ebebeb !important; border: 1px solid #dee2e6; padding: 0.75rem; vertical-align: top; border-top: 1px solid #dee2e6; ' >" + GT + " €</td></tr>";
                         body1 += "</tbody></table>";
                         body1 += " </td></tr></tbody></table></td></tr>";
                         body1 += "</tbody> </table></td><td></td></tr></tbody></table></div>";

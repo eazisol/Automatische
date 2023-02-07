@@ -652,8 +652,6 @@ namespace DrawingTheme.Controllers
                 //int UserId = 1;
                 SubCategory = DB.tblSubCategories.Where(x => x.ThrowDistanceMax>=Distance && x.MaxAngle >= MaxAngle && x.MinAngle <= MinAngle).Select(s=>s.SubcategoryName).FirstOrDefault();
 
-
-
             }
             catch (Exception ex)
             {
@@ -694,7 +692,7 @@ namespace DrawingTheme.Controllers
                         }
                         else if(OrderDetail.PELength != null && OrderDetail.PELength != 0)
                         {
-                            double? Length = OrderDetail.PELength;
+                            double? Length = OrderDetail.PELength+3;
                             int H = 0;
                             int F = 0;
                             int T = 0;
@@ -785,8 +783,8 @@ namespace DrawingTheme.Controllers
                         {
                             Data.Price = SubCategory.Price;
                         }
-                        Data.IWLength = OrderDetail.IWLength;
-                        Data.PELength = OrderDetail.PELength;
+                        Data.IWLength = OrderDetail.IWLength+3;
+                        Data.PELength = OrderDetail.PELength+3;
                         Data.Qty = 1;
                         DB.Entry(Data);
                         DB.SaveChanges();
@@ -809,7 +807,7 @@ namespace DrawingTheme.Controllers
 
                 TotalPrice=OrderDetailData.Sum(S => S.Price);
 
-                return Json(TotalPrice);
+                return Json(TotalPrice.Value.ToString("0.00"));
 
 
             }
@@ -835,6 +833,7 @@ namespace DrawingTheme.Controllers
             try
             {
                 double? TotalPrice = 0;
+                string STotalPrice = "";
 
                 Data = DB.tblOrderDetails.Where(x => x.UniqueId == OrderDetail.UniqueId && x.OrderId == OrderDetail.OrderId).FirstOrDefault();
                 DB.Entry(Data).State = EntityState.Deleted;
@@ -851,7 +850,7 @@ namespace DrawingTheme.Controllers
 
                 TotalPrice = OrderDetailData.Sum(S => S.Price);
 
-                return Json(TotalPrice);
+                return Json(TotalPrice.Value.ToString("0.00"));
 
 
             }
