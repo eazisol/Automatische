@@ -539,7 +539,7 @@ namespace DrawingTheme.Controllers
                 LogData.CreatedDate = DateTime.Now;
                 DB.tblLogs.Add(LogData);
                 DB.SaveChanges();
-                return RedirectToAction("Index","Plans", new { Delete = "Order has been delete successfully." });
+                return RedirectToAction("Index","Plans", new { Delete = "Plan has been deleted successfully." });
             }
             catch (Exception ex)
             {
@@ -557,11 +557,12 @@ namespace DrawingTheme.Controllers
             int UserId = Int32.Parse(cookieObj["UserId"]);
             int RoleId = Int32.Parse(cookieObj["RoleId"]);
             List<Sp_GetAccesoires_Result> Data = new List<Sp_GetAccesoires_Result>();
+            tblTransaction transaction = new tblTransaction();
             try
             {
                 ViewBag.UserId = UserId;
                 ViewBag.OrderId = OrderId;
-                ViewBag.Date = DB.tblTransactions.Where(x => x.OrderId == OrderId).Select(s => s.PaymentDateTime).FirstOrDefault();
+                transaction = DB.tblTransactions.Where(x => x.OrderId == OrderId).FirstOrDefault();
                 ViewBag.BomData = DB.Sp_GetBOMData(OrderId).ToList();
             }
             catch (Exception ex)
@@ -571,7 +572,7 @@ namespace DrawingTheme.Controllers
                 Console.WriteLine("Error" + ex.Message);
             }
 
-            return View();
+            return View(transaction);
         }
 
 

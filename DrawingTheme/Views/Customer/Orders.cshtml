@@ -60,7 +60,7 @@
                                         <th hidden>Order Id</th>
                                         <th>@Resources.ORDERNUMBER</th>
                                         <th>@Resources.Plan</th>
-                                        <th>@Resources.TOTALPRICE</th>
+                                        <th>@Resources.TOTALPRICE (€)</th>
                                         <th>@Resources.DATE</th>
                                         <th>@Resources.PAYMENTSTATUS</th>
                                       
@@ -74,12 +74,12 @@
                                     {
                                     <tr>
                                         <td hidden>@Order.OrderId</td>
-                                        <td>@Order.OrderNumber</td>
+                                        <td> <a href="@Url.Action("BOMView","Customer",new {OrderID=@Order.OrderId })">@Order.OrderNumber</a></td>
                                         <td>
                                             @Order.Name
                                         </td>
 
-                                        <td>$ @Order.TotalPrice</td>
+                                        <td> <i class="fa fa-euro mr-2"></i> @Order.TotalPrice</td>
 
                                         <td>
                                             <span class="phone">
@@ -102,7 +102,7 @@
                                             <span>@Order.isActive</span>
                                         </td>
                                         <td>
-                                            <a href="@Url.Action("BOMView","Customer",new {OrderID=@Order.OrderId })"><button type="button" class="btn btn-primary btn-sm" title="View"><i class="fa fa-paypal"></i> View</button></a>
+                                            <a href="@Url.Action("BOMView","Customer",new {OrderID=@Order.OrderId })"><button type="button" class="btn btn-info btn-sm" title="View"><i class="fa fa-eye"></i> View</button></a>
                                         </td>
                                     </tr>
 

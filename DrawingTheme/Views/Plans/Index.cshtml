@@ -105,9 +105,9 @@
                                                 }
                                                 else
                                                 {
-                                                    <a href="@Url.Action("AddAccesoires","Admin",new {OrderID=@Order.OrderId })"><button type="button" class="btn btn-primary btn-sm" title="View"><i class="fa fa-paypal"></i> View</button></a>
+                                                    <a href="@Url.Action("AddAccesoires","Admin",new {OrderID=@Order.OrderId })"><button type="button" class="btn btn-primary btn-sm" title="View"><i class="fa fa-paypal"></i> Pay</button></a>
                                                 }
-                                                <button type="button" class="btn btn-danger btn-sm" title="Delete" id="DeleteOrder" data-toggle="modal" data-target="#DeleteOrderModal"><i class="fa fa-paypal"></i> Delete</button>
+                                                <button type="button" class="btn btn-danger btn-sm" title="Delete" id="DeleteOrder" data-toggle="modal" data-target="#DeleteOrderModal"><i class="fa fa-trash"></i> Delete</button>
                                             </td>
                                         </tr>
 
@@ -180,17 +180,17 @@
 
 
 <div class="modal fade" id="DeleteOrderModal" tabindex="-1" role="dialog">
-    <div class="modal-dialog  modal-lg" role="document">
+    <div class="modal-dialog  modal-md" role="document">
         @using (Html.BeginForm("DeleteOrder", "Customer", FormMethod.Post, new { enctype = "multipart/form-data" }))
         {@Html.AntiForgeryToken()
         <div class="modal-content">
             <div class="modal-header">
-                <h4 class="title" id="defaultModalLabel">Delete Order</h4>
+                <h6 class="title" id="defaultModalLabel">Delete Plan</h6>
             </div>
             <div class="modal-body text-center">
                 <img src="~/assets/images/sent.png" alt="" width="50" height="46">
                 <input class="form-control" type="text" name="OrderId" id="DeleteOrderId" hidden>
-                <h5>Are you sure want to delete this Order information?</h5>
+                <p>Are you sure want to delete this plan information?</p>
 
             </div>
             <div class="modal-footer">

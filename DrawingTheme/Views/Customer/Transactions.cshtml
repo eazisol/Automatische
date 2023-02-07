@@ -84,12 +84,12 @@
                                         <td hidden>@Transaction.Id</td>
                                         <td>@Transaction.PaypalPaymentId</td>
                                         <td>
-                                            <span>@Transaction.tblUser.FirstName</span>
+                                            <span>@Transaction.tblUser.FirstName @Transaction.tblUser.LastName (@Transaction.tblUser.Email)</span>
                                         </td>
-                                        <td>@Transaction.tblOrder.OrderNumber</td>
+                                        <td><a href="@Url.Action("BOMView","Customer",new {OrderID=@Transaction.tblOrder.OrderId})" target="_blank">@Transaction.tblOrder.OrderNumber</a></td>
                                         <td>@Transaction.tblOrder.Name</td>
                                       
-                                        <td>  @Convert.ToString(string.Format("{0:dd/MM/yyyy}", @Transaction.PaymentDateTime))</td>
+                                        <td> <i class="fa fa-calendar mr-2"></i>  @Convert.ToString(string.Format("{0:dd/MM/yyyy}", @Transaction.PaymentDateTime))</td>
                                         <td>
 
                                             @if (@Transaction.Status == "Successfull")
