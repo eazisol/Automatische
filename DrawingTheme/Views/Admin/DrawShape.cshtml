@@ -495,15 +495,15 @@
 
         return zoomAfter;
     }
-    stage.on('dblclick', (e) => {
+    //stage.on('dblclick', (e) => {
 
-        alert(CurrentObjId);
-        if (CurrentObjId[0]=='I') {
+    //    alert(CurrentObjId);
+    //    if (CurrentObjId[0]=='I') {
 
-        }
+    //    }
 
 
-    });
+    //});
     var container = stage.container();
 
     // make it focusable
@@ -562,55 +562,62 @@
                 var node = layer.findOne('#' + Ltext);
                 node.destroy();
                 $("#EndIW").hide();
+
+                var node = layer.findOne('#' + UniqueId.replace("Line", "SRect"));
+                node.destroy();
+
             }
             else if (CurrentObjId[0] == "P") {
-            var SubCategoryID = $("#SubCatId").text();
-            var SubcategoryName = $("#SName").text();
-            var UniqueId = $("#PEId").val();
-            var OrderId = $("#OrderId").val();
-            var PELength = $("#PEL").val();
+                var SubCategoryID = $("#SubCatId").text();
+                var SubcategoryName = $("#SName").text();
+                var UniqueId = $("#PEId").val();
+                var OrderId = $("#OrderId").val();
+                var PELength = $("#PEL").val();
 
-            //$("#EndPE").hide();
-            $("#PEPD").hide();
-            $("#SName").text("");
-            $("#SubCatId").text("");
-            $("#btn_PE *").prop('disabled', true);
+                //$("#EndPE").hide();
+                $("#PEPD").hide();
+                $("#SName").text("");
+                $("#SubCatId").text("");
+                $("#btn_PE *").prop('disabled', true);
 
-            var model = {
-                UniqueId: UniqueId,
-                SubCategoryID: SubCategoryID,
-                SubcategoryName: SubcategoryName,
-                OrderId: OrderId,
-                PELength: PELength,
-            };
+                var model = {
+                    UniqueId: UniqueId,
+                    SubCategoryID: SubCategoryID,
+                    SubcategoryName: SubcategoryName,
+                    OrderId: OrderId,
+                    PELength: PELength,
+                };
 
-            $.ajax({
-                type: "POST",
-                url: "@Url.Action("AddOrderDetails", "Customer")",
-                data: JSON.stringify(model),
-                contentType: "application/json; charset=utf-8",
-                dataType: "json",
-                success: function (r) {
-                    $("#TotalAmount").text(r);
-                    $("#TotalAmountInput").val(r);
-                }
-            });
-            $("#DeleteObj").hide();
-            var node = layer.findOne('#' + UniqueId);
-            var SI = Number(UniqueId.replace("Line", ""));
-            var SRect = StartRect[SI-1];
-            var ERect = FindLastId(SRect);
-            var Ltext = ERect.replace("Rect", "Text");
-            var Points = node.points();
-            Points.pop();
-            Points.pop();
-            node.points(Points);
-            isDraw = false;
-            isFinished = true;
-            var node = layer.findOne('#' + Ltext);
-            node.destroy();
-            $("#EndPE").hide();
-        }
+                $.ajax({
+                    type: "POST",
+                    url: "@Url.Action("AddOrderDetails", "Customer")",
+                    data: JSON.stringify(model),
+                    contentType: "application/json; charset=utf-8",
+                    dataType: "json",
+                    success: function (r) {
+                        $("#TotalAmount").text(r);
+                        $("#TotalAmountInput").val(r);
+                    }
+                });
+                $("#DeleteObj").hide();
+                var node = layer.findOne('#' + UniqueId);
+                var SI = Number(UniqueId.replace("Line", ""));
+                var SRect = StartRect[SI-1];
+                var ERect = FindLastId(SRect);
+                var Ltext = ERect.replace("Rect", "Text");
+                var Points = node.points();
+                Points.pop();
+                Points.pop();
+                node.points(Points);
+                isDraw = false;
+                isFinished = true;
+                var node = layer.findOne('#' + Ltext);
+                node.destroy();
+                $("#EndPE").hide();
+
+                var node = layer.findOne('#' + UniqueId.replace("Line", "SRect"));
+                node.destroy();
+            }
         }
 
         e.preventDefault();
@@ -626,8 +633,8 @@
             var OrderId = $("#OrderId").val();
 
              var model = {
-                 UniqueId: UniqueId,
-                OrderId: OrderId,
+                    UniqueId: UniqueId,
+                    OrderId: OrderId,
              };
 
             $.ajax({
@@ -678,6 +685,28 @@
                             $("#RSPD").show();
                             $("#BtnEndsprinkler").show();
                             CurretSprinkler = r.Data.UniqueId;
+
+                            var node = layer.findOne('#' + r.UniqueId);
+                            if (node != null) {
+                                node.show();
+                            }
+                            var node = layer.findOne('#' + r.UniqueId.replace("Sprinkler", "FillCircle"));
+                            if (node != null) {
+                                node.show();
+                            }
+                            var node = layer.findOne('#' + r.UniqueId.replace("Sprinkler", "Circle"));
+                            if (node != null) {
+                                node.show();
+                            }
+                            var node = layer.findOne('#' + r.UniqueId.replace("Sprinkler", "MoveCircle"));
+                            if (node != null) {
+                                node.show();
+                            } var node = layer.findOne('#' + r.UniqueId.replace("Sprinkler", "Arc"));
+                            if (node != null) {
+                                node.listening(true);
+                            }
+
+
                         }
                         else if (r.UniqueId[0] == 'R' && r.UniqueId[1] == 'e') {
 
@@ -708,6 +737,10 @@
                             $("#EndIC").show();
                             CurretIC = r.UniqueId;
                             $("#btn_IC *").prop('disabled', false);
+                            node = layer.findOne('#' + r.UniqueId);
+                            node.draggable(true);
+                            node = layer.findOne('#' + r.UniqueId.replace("System", "TIC"));
+                            node.show();
                         }
                         else if (r.UniqueId[0] == 'V') {
 
@@ -730,6 +763,10 @@
                             $("#EndVB").show();
                             CurretVB = r.UniqueId;
                             $("#btn_VB *").prop('disabled', false);
+                            node = layer.findOne('#' + r.UniqueId);
+                            node.draggable(true);
+                            node = layer.findOne('#' + r.UniqueId.replace("ValveBox", "TVB"));
+                            node.show();
 
                         }
                         else if (r.UniqueId[0] == 'T' && r.UniqueId[1] == 'a') {
@@ -740,6 +777,10 @@
                             $("#EndTap").show();
                             CurretTap = r.UniqueId;
                             $("#btn_TAP *").prop('disabled', false);
+                            node = layer.findOne('#' + r.UniqueId);
+                            node.draggable(true);
+                            node = layer.findOne('#' + r.UniqueId.replace("Tap", "TTap"));
+                            node.show();
                         }
 
                         $("#DeleteObj").show();
@@ -758,6 +799,11 @@
                         $("#SName").text(node.name());
                         $("#DeleteObj").show();
                         $("#CancleDeleteObj").show();
+                        $("#DivImageOpacityValue").show();
+                        node = layer.findOne('#' + r.UniqueId);
+                        node.draggable(true);
+                        node = layer.findOne('#' + r.UniqueId.replace("UploadImg", "TUploadImg"));
+                        node.show();
                     }
 
 
@@ -1511,6 +1557,7 @@
         }
 
         $("#DeleteObj").hide();
+        $("#CancleDeleteObj").hide();
     });
 
 
@@ -1548,6 +1595,7 @@
             }
         });
         $("#DeleteObj").hide();
+        $("#CancleDeleteObj").hide();
         var node = layer.findOne('#' + UniqueId);
         var SI = Number(UniqueId.replace("Line", ""));
         var SRect = StartRect[SI-1];
@@ -1763,6 +1811,7 @@
             node.hide();
         }
         $("#DeleteObj").hide();
+        $("#CancleDeleteObj").hide();
     });
 
 
@@ -2453,7 +2502,7 @@
             }
         });
         $("#DeleteObj").hide();
-
+        $("#CancleDeleteObj").hide();
 
     });
 
@@ -2502,8 +2551,8 @@
             node.hide();
         }
         $("#DeleteObj").hide();
+        $("#CancleDeleteObj").hide();
     });
-
 
 
     $("body").on("click", "#SSP", function () {
@@ -2967,6 +3016,7 @@
         });
 
         $("#DeleteObj").hide();
+        $("#CancleDeleteObj").hide();
     });
 
 
@@ -4435,9 +4485,9 @@
                 $("#file_input").prop('disabled', false);
                 var node = layer.findOne('#' + CLastId.replace("UploadImg", "TUploadImg"));
                 if (node != null) {
-
                     node.destroy();
                     $("#DivImageOpacityValue").hide();
+                    $("#file_input").val("");
                 }
             }
             var FirstId = "";
@@ -4606,6 +4656,7 @@
 
                     node.destroy();
                     $("#SName").text("");
+                    $("#file_input").val("");
                     $("#DivImageOpacityValue").hide();
                 }
             }
@@ -4782,6 +4833,10 @@
             if (CLastId == "UploadImg") {
                 $("#SName").text("");
                 $("#DivImageOpacityValue").hide();
+                node = layer.findOne('#' + CLastId);
+                node.draggable(false);
+                node = layer.findOne('#' + CLastId.replace("UploadImg", "TUploadImg"));
+                node.hide();
             }
 
 
@@ -4798,6 +4853,27 @@
                 if (CurretSprinkler != "") {
                     CurretSprinkler = "";
                 }
+
+                var node = layer.findOne('#' + CLastId);
+                if (node != null) {
+                    node.hide();
+                }
+                var node = layer.findOne('#' + CLastId.replace("Sprinkler", "FillCircle"));
+                if (node != null) {
+                    node.hide();
+                }
+                var node = layer.findOne('#' + CLastId.replace("Sprinkler", "Circle"));
+                if (node != null) {
+                    node.hide();
+                }
+                var node = layer.findOne('#' + CLastId.replace("Sprinkler", "MoveCircle"));
+                if (node != null) {
+                    node.hide();
+                } var node = layer.findOne('#' + CLastId.replace("Sprinkler", "Arc"));
+                if (node != null) {
+                    node.listening(true);
+                }
+
 
                 $("#SName").text("");
                 $("#RSPD").hide();
@@ -4817,6 +4893,10 @@
                 }
                 $("#SName").text("");
                 $("#ICPD").hide();
+                node = layer.findOne('#' + CLastId);
+                node.draggable(false);
+                node = layer.findOne('#' + CLastId.replace("System", "TIC"));
+                node.hide();
             }
             else if (CLastId[0] == 'V') {
                 if (CurretVB != "") {
@@ -4824,6 +4904,10 @@
                 }
                 $("#SName").text("");
                 $("#VBPD").hide();
+                node = layer.findOne('#' + CLastId);
+                node.draggable(false);
+                node = layer.findOne('#' + CLastId.replace("ValveBox", "TVB"));
+                node.hide();
             }
             else if (CLastId[0] == 'T' && CLastId[1] == 'a') {
                 if (CurretTap != "") {
@@ -4831,6 +4915,10 @@
                 }
                 $("#SName").text("");
                 $("#TapPD").hide();
+                node = layer.findOne('#' + CLastId);
+                node.draggable(false);
+                node = layer.findOne('#' + CLastId.replace("Tap", "TTap"));
+                node.hide();
             }
             var node = layer.findOne('#' + CLastId);
             if (node.name() =="Area" ) {
@@ -5142,12 +5230,16 @@
         node.opacity(this.value/100);
     });
 
-     $("body").on("click", "#EndImageOpacity", function () {
+    $("body").on("click", "#EndImageOpacity", function () {
+        node = layer.findOne('#UploadImg');
+        node.draggable(false);
          var node = layer.findOne('#TUploadImg');
          if (node != null) {
              node.hide();
          }
          $("#DivImageOpacityValue").hide();
+         $("#DeleteObj").hide();
+         $("#CancleDeleteObj").hide();
     });
 
     $("body").on("click", "#ProceedToAccesoires", function () {
