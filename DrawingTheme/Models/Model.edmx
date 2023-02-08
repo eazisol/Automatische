@@ -81,6 +81,7 @@
           <Property Name="Name" Type="nvarchar(max)" />
           <Property Name="TotalPrice" Type="float" />
           <Property Name="Status" Type="int" />
+          <Property Name="ImgPath" Type="nvarchar" MaxLength="500" />
           <Property Name="CreatedDate" Type="datetime" />
           <Property Name="CreatedBy" Type="int" />
           <Property Name="EditDate" Type="datetime" />
@@ -599,7 +600,7 @@
           <Parameter Name="ID" Mode="In" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="Sp_GetBOMData" ReturnType="Collection(AutomatischeModel.Sp_GetBOMData_Result)">
-            <Parameter Name="ID" Mode="In" Type="Int32" />
+          <Parameter Name="ID" Mode="In" Type="Int32" />
           </FunctionImport>
           </EntityContainer>
         <EntityType Name="tblSetting">
@@ -638,6 +639,7 @@
           <NavigationProperty Name="tblUser1" Relationship="AutomatischeModel.FK_tblOrder_tblUser1" FromRole="tblOrder" ToRole="tblUser" />
           <NavigationProperty Name="tblTransactions" Relationship="AutomatischeModel.FK_tblTransaction_tblOrder" FromRole="tblOrder" ToRole="tblTransaction" />
           <NavigationProperty Name="tblOrderDetails" Relationship="AutomatischeModel.FK_tblOrderDetail_tblOrder" FromRole="tblOrder" ToRole="tblOrderDetail" />
+          <Property Name="ImgPath" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
         </EntityType>
         <EntityType Name="tblComponent">
           <Key>
@@ -1024,6 +1026,7 @@
           <EntitySetMapping Name="tblOrders">
             <EntityTypeMapping TypeName="AutomatischeModel.tblOrder">
               <MappingFragment StoreEntitySet="tblOrder">
+                <ScalarProperty Name="ImgPath" ColumnName="ImgPath" />
                 <ScalarProperty Name="isActive" ColumnName="isActive" />
                 <ScalarProperty Name="EditBy" ColumnName="EditBy" />
                 <ScalarProperty Name="EditDate" ColumnName="EditDate" />

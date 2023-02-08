@@ -70,46 +70,48 @@
                                 <tbody>
                                     @foreach (DrawingTheme.Models.tblOrder Order in Model)
                                     {
-                                        <tr>
-                                            <td hidden>@Order.OrderId</td>
-                                            <td>
-                                                @Order.Name
-                                            </td>
+                                    <tr>
+                                        <td hidden>@Order.OrderId</td>
+                                        <td>
+                                            @Order.Name
+                                        </td>
 
-                                            <td>$ @Order.TotalPrice</td>
+                                        <td>$ @Order.TotalPrice</td>
 
-                                            <td>
-                                                <span class="phone">
-                                                    <i class="fa fa-calendar mr-2"></i>
-                                                    @Convert.ToString(string.Format("{0:dd/MM/yyyy}", @Order.CreatedDate))
-                                                </span>
-                                            </td>
-                                            <td>
-                                                @if (Order.Status == 1)
-                                                {
-                                                    <span class="badge badge-success">@Resources.Paid</span>
-                                                }
-                                                else
-                                                {
-                                                    <span class="badge badge-danger">@Resources.UnPaid</span>
-                                                }
+                                        <td>
+                                            <span class="phone">
+                                                <i class="fa fa-calendar mr-2"></i>
+                                                @Convert.ToString(string.Format("{0:dd/MM/yyyy}", @Order.CreatedDate))
+                                            </span>
+                                        </td>
+                                        <td>
+                                            @if (Order.Status == 1)
+                                            {
+                                                <span class="badge badge-success">@Resources.Paid</span>
+                                            }
+                                            else
+                                            {
+                                                <span class="badge badge-danger">@Resources.UnPaid</span>
+                                            }
 
-                                            </td>
-                                            <td hidden>
-                                                <span>@Order.isActive</span>
-                                            </td>
-                                            <td>
-                                                @if (Order.Status == 1)
-                                                {
+                                        </td>
+                                        <td hidden>
+                                            <span>@Order.isActive</span>
+                                        </td>
+                                        <td>
+                                            @if (Order.Status == 1)
+                                            {
 
-                                                }
-                                                else
-                                                {
-                                                    <a href="@Url.Action("AddAccesoires","Admin",new {OrderID=@Order.OrderId })"><button type="button" class="btn btn-primary btn-sm" title="View"><i class="fa fa-paypal"></i> Pay</button></a>
-                                                }
-                                                <button type="button" class="btn btn-danger btn-sm" title="Delete" id="DeleteOrder" data-toggle="modal" data-target="#DeleteOrderModal"><i class="fa fa-trash"></i> Delete</button>
-                                            </td>
-                                        </tr>
+                                            }
+                                            else
+                                            {
+                                                <a href="@Url.Action("AddAccesoires","Admin",new {OrderID=@Order.OrderId })"><button type="button" class="btn btn-primary btn-sm" title="View"><i class="fa fa-paypal"></i> Pay</button></a>
+                                            }
+                                            <a href="@Order.ImgPath" target="_blank"><button type="button" class="btn btn-secondary btn-sm" title="View" id="" ><i class="fa fa-eye"></i> View</button></a>
+                                            <button type="button" class="btn btn-danger btn-sm" title="Delete" id="DeleteOrder" data-toggle="modal" data-target="#DeleteOrderModal"><i class="fa fa-trash"></i> Delete</button>
+                                        
+                                        </td>
+                                    </tr>
 
                                     }
 

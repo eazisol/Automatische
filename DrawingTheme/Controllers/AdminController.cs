@@ -2,6 +2,8 @@
 using System;
 using System.Collections.Generic;
 using System.Data.Entity;
+using System.Drawing;
+using System.Drawing.Imaging;
 using System.IO;
 using System.Linq;
 using System.Web;
@@ -31,6 +33,59 @@ namespace DrawingTheme.Controllers
 
             return View(Data);
         }
+
+        [HttpPost]
+        public ActionResult SavePdf(string pdfFile,int OrderID=0)
+        {
+            string Data = null;
+            try
+            {
+                //pdfFile = "data:image/(png|jpeg|jpg);base64," + pdfFile;
+                byte[] bytes = Convert.FromBase64String(pdfFile);
+
+                Image image;
+                using (MemoryStream ms = new MemoryStream(bytes))
+                {
+                    image = Image.FromStream(ms);
+                }
+                //HttpPostedFileBase file ;
+                //var OrderID = Request.QueryString["pdfData"];   
+                //var file1 = Request.Files;
+                string folder = Server.MapPath(string.Format("~/{0}/", "Uploading"));
+                if (!Directory.Exists(folder))
+                {
+                    Directory.CreateDirectory(folder);
+                }
+
+                //string path = Path.Combine(Server.MapPath("~/Uploading"), Path.GetFileName(OrderID));
+                string path = Path.Combine(Server.MapPath("~/Uploading"), OrderID+".png");
+                string DBpath = Path.Combine("/Uploading", OrderID+".png");
+                //string path = Path.Combine(Server.MapPath("~/Uploading"));
+                    image.Save(path);
+
+                tblOrder OrderData= DB.tblOrders.Where(x => x.OrderId == OrderID).FirstOrDefault();
+                OrderData.ImgPath = DBpath;
+                DB.Entry(OrderData);
+                DB.SaveChanges();
+
+                //file.SaveAs(path);
+                //path = Path.Combine("\\Uploading", Path.GetFileName(file.FileName));
+                //Data = file.FileName;
+
+            }
+            catch (Exception ex)
+            {
+
+                ViewBag.Error = ex.Message;
+                Console.WriteLine("Error" + ex.Message);
+            }
+
+
+
+            return Json(Data);
+        }
+
+
         [HttpPost]
         public JsonResult UploadDesignImg(HttpPostedFileBase file)
         {
@@ -133,7 +188,7 @@ namespace DrawingTheme.Controllers
             return View(Data);
         }
 
-        public ActionResult AddAccesoires(int OrderId=0)
+        public ActionResult AddAccesoires(string pdfData,int OrderId=0)
         {
             HttpCookie cookieObj = Request.Cookies["User"];
             int UserId = Int32.Parse(cookieObj["UserId"]);

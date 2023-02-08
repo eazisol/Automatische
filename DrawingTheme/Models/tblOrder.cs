@@ -31,6 +31,7 @@ namespace DrawingTheme.Models
         public Nullable<System.DateTime> EditDate { get; set; }
         public Nullable<int> EditBy { get; set; }
         public Nullable<bool> isActive { get; set; }
+        public string ImgPath { get; set; }
     
         public virtual tblUser tblUser { get; set; }
         public virtual tblUser tblUser1 { get; set; }

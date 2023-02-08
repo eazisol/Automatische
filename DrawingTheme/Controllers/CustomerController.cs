@@ -808,6 +808,11 @@ namespace DrawingTheme.Controllers
 
                 TotalPrice=OrderDetailData.Sum(S => S.Price);
 
+                tblOrder OrderData= DB.tblOrders.Where(x => x.OrderId == OrderDetail.OrderId).FirstOrDefault();
+                OrderData.TotalPrice = TotalPrice;
+                DB.Entry(OrderData);
+                DB.SaveChanges();
+
                 return Json(TotalPrice.Value.ToString("0.00"));
 
 
@@ -850,6 +855,11 @@ namespace DrawingTheme.Controllers
                 OrderDetailData = DB.tblOrderDetails.Where(x => x.OrderId == OrderDetail.OrderId).ToList();
 
                 TotalPrice = OrderDetailData.Sum(S => S.Price);
+
+                tblOrder OrderData = DB.tblOrders.Where(x => x.OrderId == OrderDetail.OrderId).FirstOrDefault();
+                OrderData.TotalPrice = TotalPrice;
+                DB.Entry(OrderData);
+                DB.SaveChanges();
 
                 return Json(TotalPrice.Value.ToString("0.00"));
 

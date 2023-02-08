@@ -1120,7 +1120,7 @@
             //        //alert(poly.name() + this.id);
             //}
             UndoArray.push(poly.id());
-            
+
         });
 
 
@@ -5111,10 +5111,43 @@
             stage.width(),
             stage.height()
         );
-        console.log(pdf.addImage());
+
+        var dataURL = stage.toDataURL();
+        var dataURL = dataURL.replace(/^data:image\/(png|jpeg|jpg);base64,/, "");
+
+        // Get the PDF data as a base64-encoded string
+
+        var OrderID = $("#OrderId").val();
+            $.ajax({
+                type: "POST",
+                url: "@Url.Action("SavePdf", "Admin")",
+                data: { pdfFile: dataURL, OrderID: OrderID },
+                dataType: "json",
+                success: function (r) {
+
+                }
+            });
+
+
+
+
+        //console.log(pdf.addImage());
         pdf.save('canvas.pdf');
         //pdf.save('D:\Test.pdf');
     });
+
+    function getBase64Image(img) {
+        var canvas = document.createElement("canvas");
+        canvas.width = img.width;
+        canvas.height = img.height;
+
+        var ctx = canvas.getContext("2d");
+        ctx.drawImage(img, 0, 0);
+
+        var dataURL = canvas.toDataURL("image/jpeg");
+
+        return dataURL.replace(/^data:image\/(png|jpeg|jpg);base64,/, "");
+    }
 
 
     function angle(cx, cy, ex, ey) {
@@ -5243,7 +5276,46 @@
     });
 
     $("body").on("click", "#ProceedToAccesoires", function () {
+
+        var pdf = new jsPDF('l', 'px', [stage.width(), stage.height()+300]);
+        pdf.setTextColor('#000000');
+        // first add texts
+        stage.find('Text').forEach((text) => {
+            const size = text.fontSize() / 0.75; // convert pixels to points
+            pdf.setFontSize(size);
+            pdf.text(text.text(), text.x(), text.y(), {
+                baseline: 'top',
+                angle: -text.getAbsoluteRotation(),
+            });
+        });
+        //return;
+        // then put image on top of texts (so texts are not visible)
+        pdf.addImage(
+            stage.toDataURL({ pixelRatio: 2 }),
+            0,
+            0,
+            stage.width(),
+            stage.height()
+        );
+
+        var dataURL = stage.toDataURL();
+        var dataURL = dataURL.replace(/^data:image\/(png|jpeg|jpg);base64,/, "");
+
+        // Get the PDF data as a base64-encoded string
+
         var OrderID = $("#OrderId").val();
+            $.ajax({
+                type: "POST",
+                url: "@Url.Action("SavePdf", "Admin")",
+                data: { pdfFile: dataURL, OrderID: OrderID },
+                dataType: "json",
+                success: function (r) {
+
+                }
+            });
+
+
+        //var OrderID = $("#OrderId").val();
         var Url = '@Url.Action("AddAccesoires", "Admin")?OrderId=' + OrderID + '';
         //alert(Url);
         window.location = Url;
