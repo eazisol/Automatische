@@ -355,7 +355,9 @@
         var SprinklerName=1;
         var RectangularSprinklerName=1;
         var id = "";
-        var CurrentObjId = "Line1";
+        var CurrentObjName = "Line1";
+        var CurrentObjId = "";
+        var OldCurrentObjId = "";
         var FillCirFirstTime = true;
         var EndSprinkler = true;
         var CurretSprinkler = "";
@@ -497,8 +499,8 @@
     }
     //stage.on('dblclick', (e) => {
 
-    //    alert(CurrentObjId);
-    //    if (CurrentObjId[0]=='I') {
+    //    alert(CurrentObjName);
+    //    if (CurrentObjName[0]=='I') {
 
     //    }
 
@@ -515,7 +517,7 @@
     container.addEventListener('keydown', function (e) {
             //alert(e.keyCode)
         if (e.keyCode === 27) {
-            if (CurrentObjId[0] == "I") {
+            if (CurrentObjName[0] == "I") {
                 var SubCategoryID = $("#SubCatId").text();
                 var SubcategoryName = $("#SName").text();
                 var UniqueId = $("#IWId").val();
@@ -566,8 +568,10 @@
                 var node = layer.findOne('#' + UniqueId.replace("Line", "SRect"));
                 node.destroy();
 
+                CurrentObjId = "";
+
             }
-            else if (CurrentObjId[0] == "P") {
+            else if (CurrentObjName[0] == "P") {
                 var SubCategoryID = $("#SubCatId").text();
                 var SubcategoryName = $("#SName").text();
                 var UniqueId = $("#PEId").val();
@@ -617,6 +621,8 @@
 
                 var node = layer.findOne('#' + UniqueId.replace("Line", "SRect"));
                 node.destroy();
+
+                CurrentObjId = "";
             }
         }
 
@@ -625,9 +631,21 @@
 
      stage.on('click', (e) => {
         //console.log(e.target.id());
-        //alert(e.target.id());
+         //alert(e.target.id());
+         console.log(OldCurrentObjId);
+         if (CurrentObjId != null && CurrentObjId != "") {
+             UnSelectObjOnNew(CurrentObjId);
+         }
+         else {
+             if (OldCurrentObjId != null && OldCurrentObjId != "" ) {
+                 UnSelectObj(OldCurrentObjId);
+             }
+         }
+
+
         $("#ObjUniqueId").val(e.target.id().replace("Arc","Sprinkler"));
-        var UniqueId = $("#ObjUniqueId").val();
+         var UniqueId = $("#ObjUniqueId").val();
+         OldCurrentObjId = UniqueId;
         //alert(UniqueId);
         if (UniqueId != null && UniqueId!="") {
             var OrderId = $("#OrderId").val();
@@ -822,7 +840,9 @@
 
     $("body").on("change", "#SprinklerTypeDropID", function () {
         let element = document.getElementById("SprinklerTypeDropID");
-
+        if (CurrentObjId != "" &&CurrentObjId[0] != "S" && CurrentObjId[1] != "p") {
+            UnSelectObjOnNew(CurrentObjId);
+        }
 
         $("#RSPD").show();
         var Radius = MToPx(Number(element.options[element.selectedIndex].getAttribute("data-radius")));
@@ -990,7 +1010,8 @@
 
         //alert(poly.name());
         id = circle.id();
-        CurrentObjId = circle.name();
+        CurrentObjName = circle.name();
+        CurrentObjId = circle.id();
         //$("#Area").prop('disabled', true);
         UndoArray.push(circle.id());
 
@@ -1051,7 +1072,8 @@
             isFinished = false;
             isFirstMouseMove = true;
 
-            CurrentObjId = poly.name();
+            CurrentObjName = poly.name();
+            CurrentObjId = poly.id();
 
             id = poly.id();
             //alert(poly.name());
@@ -1109,7 +1131,8 @@
             isFinished = false;
             isFirstMouseMove = true;
 
-            CurrentObjId = poly.name();
+            CurrentObjName = poly.name();
+            CurrentObjId = poly.id();
 
                 id = poly.id();
             //if (this.id == "Area") {
@@ -1161,7 +1184,8 @@
             isStartLine = true;
             isFinished = false;
             isFirstMouseMove = true;
-        CurrentObjId = poly.name();
+        CurrentObjName = poly.name();
+        CurrentObjId = poly.id();
         id = poly.id();
 
         UndoArray.push(poly.id());
@@ -1170,6 +1194,7 @@
 
 
     $("body").on("click", "#IW", function () {
+        UnSelectObjOnNew(CurrentObjId);
         var SubName = $(this).attr("data-Name");
         var SubId = $(this).attr("data-SubCatId");
         $("#SName").text(SubName);
@@ -1231,7 +1256,8 @@
         isStartLine = true;
         isFinished = false;
         isFirstMouseMove = true;
-        CurrentObjId = poly.name();
+        CurrentObjName = poly.name();
+        CurrentObjId = poly.id();
         id = poly.id();
 
         $("#IWId").val(poly.id());
@@ -1244,6 +1270,7 @@
 
 
     $("body").on("click", "#PE", function () {
+        UnSelectObjOnNew(CurrentObjId);
         var SubName = $(this).attr("data-Name");
         var SubId = $(this).attr("data-SubCatId");
         $("#SName").text(SubName);
@@ -1300,7 +1327,8 @@
         isStartLine = true;
         isFinished = false;
         isFirstMouseMove = true;
-        CurrentObjId = poly.name();
+        CurrentObjName = poly.name();
+        CurrentObjId = poly.id();
         id = poly.id();
 
         $("#PEId").val(poly.id());
@@ -1358,6 +1386,8 @@
         var node = layer.findOne('#' + Ltext);
         node.destroy();
         $("#EndPE").hide();
+
+        CurrentObjId = "";
     });
 
 
@@ -1399,7 +1429,8 @@
             isFinished = false;
             isFirstMouseMove = true;
 
-        CurrentObjId = poly.name();
+        CurrentObjName = poly.name();
+        CurrentObjId = poly.id();
 
 
         id = poly.id();
@@ -1427,6 +1458,7 @@
         //    UndoArray.push(yoda.id());
         //};
         //imageObj.src = '/assets/images/ecommerce/Tap.png';
+        UnSelectObjOnNew(CurrentObjId);
 
         if (CurretTap != "") {
             var SubName = $(this).attr("data-Name");
@@ -1488,7 +1520,8 @@
                     $("#SName").text(SubName);
                     $("#SubCatId").text(SubId);
                     $("#TapId").val(img.id());
-                    CurretTap=img.id();
+                    CurretTap = img.id();
+                    CurrentObjId = img.id();
                     // apply default left-top crop
                     //applyCrop('center-middle');
 
@@ -1558,6 +1591,8 @@
 
         $("#DeleteObj").hide();
         $("#CancleDeleteObj").hide();
+
+        CurrentObjId = "";
     });
 
 
@@ -1610,6 +1645,8 @@
         var node = layer.findOne('#' + Ltext);
         node.destroy();
         $("#EndIW").hide();
+
+        CurrentObjId = "";
     });
 
 
@@ -1633,7 +1670,7 @@
         //    UndoArray.push(yoda.id());
         //};
         //imageObj.src = '/assets/images/ecommerce/System.png';
-
+        UnSelectObjOnNew(CurrentObjId);
         $(".IW2").hide();
         $(".IW4").hide();
         $(".IW6").hide();
@@ -1740,6 +1777,7 @@
                     $("#SubCatId").text(SubId);
                     $("#ICId").val(img.id());
                     CurretIC = img.id();
+                    CurrentObjId = img.id();
                     // apply default left-top crop
                     //applyCrop('center-middle');
 
@@ -1812,6 +1850,8 @@
         }
         $("#DeleteObj").hide();
         $("#CancleDeleteObj").hide();
+
+        CurrentObjId = "";
     });
 
 
@@ -1833,7 +1873,7 @@
         //    UndoArray.push(yoda.id());
         //};
         //imageObj.src = '/assets/images/ecommerce/ValveBox.png';
-
+        UnSelectObjOnNew(CurrentObjId);
 
         if (CurretVB != "") {
             var Filter = $(this).attr("data-Filter");
@@ -1933,6 +1973,7 @@
                     $("#SubCatId").text(SubId);
                     $("#VBId").val(img.id());
                     CurretVB = img.id();
+                    CurrentObjId = img.id();
                     // apply default left-top crop
                     //applyCrop('center-middle');
 
@@ -1957,6 +1998,9 @@
 
 
     $("body").on("click", "#RSP,#Sprinkler1,#Sprinkler2", function () {
+        if (CurrentObjId != "" && CurrentObjId[0] != "S" && CurrentObjId[1] != "p") {
+            UnSelectObjOnNew(CurrentObjId);
+        }
         $("#RSPD").show();
         var Radius = MToPx(Number($(this).attr("data-radius")));
         var Angle = Number($(this).attr("data-Angle"));
@@ -2000,6 +2044,7 @@
             }
 
             $("#DeleteObj").hide();
+            $("#CancleDeleteObj").hide();
 
 
             var model = {
@@ -2033,6 +2078,9 @@
                 name: "Sprinkler",
 
             });
+
+
+            CurretSprinkler = circle.id();
 
             var cir = new Konva.Circle({
                 x: x - circle.radius(),
@@ -2411,7 +2459,8 @@
 
         //alert(poly.name());
         id = circle.id();
-        CurrentObjId = circle.name();
+        CurrentObjName = circle.name();
+        CurrentObjId = circle.id();
         //$("#Area").prop('disabled', true);
         UndoArray.push(circle.id());
 
@@ -2504,6 +2553,8 @@
         $("#DeleteObj").hide();
         $("#CancleDeleteObj").hide();
 
+        CurrentObjId = "";
+
     });
 
     $("body").on("click", "#EndVB", function () {
@@ -2552,10 +2603,13 @@
         }
         $("#DeleteObj").hide();
         $("#CancleDeleteObj").hide();
+
+        CurrentObjId = "";
     });
 
 
     $("body").on("click", "#SSP", function () {
+        UnSelectObjOnNew(CurrentObjId);
         var RCPX = 0;
         var RCPY = 0;
         $("#SSPD").show();
@@ -2947,7 +3001,8 @@
         isFirstMouseMove = true;
 
         id = circle.id();
-        CurrentObjId = circle.name();
+        CurrentObjName = circle.name();
+        CurrentObjId = circle.id();
         UndoArray.push(circle.id());
 
         $("#SSId").val(circle.id());
@@ -3017,6 +3072,8 @@
 
         $("#DeleteObj").hide();
         $("#CancleDeleteObj").hide();
+
+        CurrentObjId = "";
     });
 
 
@@ -3035,7 +3092,7 @@
             //    //}
             //}
             if (isOverOnStarting == false && isFinished == false) {
-                if (CurrentObjId == "Sprinkler") {
+                if (CurrentObjName == "Sprinkler") {
                     var circle = layer.findOne('#' + id);
 
                     var Position = stage.getPointerPosition();
@@ -3170,7 +3227,7 @@
 
                     isFinished = true;
                 }
-                else if (CurrentObjId == "RectangularSprinkler")
+                else if (CurrentObjName == "RectangularSprinkler")
                 {
                     //var circle = layer.findOne('#' + id);
 
@@ -3488,7 +3545,7 @@
 
             }
             else {
-                if (CurrentObjId == "Sprinkler" || CurrentObjId == "RectangularSprinkler") {
+                if (CurrentObjName == "Sprinkler" || CurrentObjName == "RectangularSprinkler") {
                     //var circle = layer.findOne('#' + id);
                     //var Position = stage.getPointerPosition();
                     //circle.x(Position.x);
@@ -4478,6 +4535,7 @@
 
 
     $("body").on("click", "#UndoCanvas", function () {
+        
         if (UndoArray.length > 0) {
             var CLastId = UndoArray[UndoArray.length - 1];
             //console.log(CLastId);
@@ -4633,6 +4691,9 @@
             $("#CancleDeleteObj").hide();
             $("#SName").text("");
             $("#ObjUniqueId").val("");
+
+            OldCurrentObjId = "";
+            CurrentObjId = "";
         }
 
     });
@@ -4640,6 +4701,12 @@
 
 
     $("body").on("click", "#DeleteObj ", function () {
+        //if (OldCurrentObjId != null && OldCurrentObjId != "") {
+        //    UnSelectObj(OldCurrentObjId);
+        //}
+        //if (CurrentObjId != null && CurrentObjId != "") {
+        //    UnSelectObjOnNew(CurrentObjId);
+        //}
         var ObjId = $("#ObjUniqueId").val();
         if (ObjId != "") {
 
@@ -4818,6 +4885,10 @@
             $("#DeleteObj").hide();
             $("#CancleDeleteObj").hide();
             $("#ObjUniqueId").val("");
+
+            OldCurrentObjId = "";
+            CurrentObjId = "";
+
         }
 
     });
@@ -4929,6 +5000,7 @@
             $("#CancleDeleteObj").hide();
             $("#ObjUniqueId").val("");
             $("#SName").text("");
+            OldCurrentObjId = "";
         }
 
 
@@ -5203,6 +5275,7 @@
                         });
                         layer.add(img);
                         UndoArray.push(img.id());
+                        CurrentObjId = img.id();
                         // apply default left-top crop
                         //applyCrop('center-middle');
 
@@ -5322,6 +5395,390 @@
     });
 
 
+    function SelectObj(ObjID) {
+
+    }
+
+
+    function UnSelectObjOnNew(ObjID) {
+        if (OldCurrentObjId != null && OldCurrentObjId != "") {
+            UnSelectObj(OldCurrentObjId);
+        }
+        if (ObjID != "") {
+            //alert(ObjID);
+
+            var CLastId = ObjID;
+            if (CLastId == "UploadImg") {
+                node = layer.findOne('#UploadImg');
+                node.draggable(false);
+                var node = layer.findOne('#TUploadImg');
+                if (node != null) {
+                    node.hide();
+                }
+                $("#DivImageOpacityValue").hide();
+                $("#DeleteObj").hide();
+                $("#CancleDeleteObj").hide();
+            }
+            
+            if (CLastId[0] == 'L') {
+
+                $("#SName").text("");
+                $("#IWPD").hide();
+                $("#PEPD").hide();
+                isOutArea = false;
+                var node = layer.findOne('#' + CLastId);
+                if (node.name() == "Area") {
+                    $("#Area").prop('disabled', false);
+                }
+
+            }
+            else if (CLastId[0] == 'S' && CLastId[1] == 'p') {
+               
+                var SubCategoryID = $("#SubCatId").text();
+                var SubcategoryName = $("#SName").text();
+                var UniqueId = $("#SId").val();
+                var MinAngle = $("#StartAngle").val();
+                var MaxAngle = $("#SAngle").val();
+                var ThrowDistanceMax = $("#SRadius").val();
+                var OrderId = $("#OrderId").val();
+
+                var node = layer.findOne('#' + UniqueId);
+                if (node != null) {
+                    node.hide();
+                }
+                var node = layer.findOne('#' + UniqueId.replace("Sprinkler", "FillCircle"));
+                if (node != null) {
+                    node.hide();
+                }
+                var node = layer.findOne('#' + UniqueId.replace("Sprinkler", "Circle"));
+                if (node != null) {
+                    node.hide();
+                }
+                var node = layer.findOne('#' + UniqueId.replace("Sprinkler", "MoveCircle"));
+                if (node != null) {
+                    node.hide();
+                } var node = layer.findOne('#' + UniqueId.replace("Sprinkler", "Arc"));
+                if (node != null) {
+                    node.listening(true);
+                }
+
+
+
+                $("#BtnEndsprinkler").hide();
+                $("#RSPD").hide();
+                $("#SName").text("");
+                CurretSprinkler = "";
+
+
+                var model = {
+                    UniqueId: UniqueId,
+                    SubCategoryID: SubCategoryID,
+                    SubcategoryName: SubcategoryName,
+                    MinAngle: MinAngle,
+                    MaxAngle: MaxAngle,
+                    ThrowDistanceMax: ThrowDistanceMax,
+                    OrderId: OrderId,
+                };
+
+                $.ajax({
+                    type: "POST",
+                    url: "@Url.Action("AddOrderDetails", "Customer")",
+                    data: JSON.stringify(model),
+                    contentType: "application/json; charset=utf-8",
+                    dataType: "json",
+                    success: function (r) {
+                        $("#TotalAmount").text(r);
+                        $("#TotalAmountInput").val(r);
+                    }
+                });
+                $("#DeleteObj").hide();
+                $("#CancleDeleteObj").hide();
+
+            }
+            else if (CLastId[0] == 'R' && CLastId[1] == 'e') {
+                SubCategoryID = $("#SubCatId").text();
+                SubcategoryName = $("#SName").text();
+                UniqueId = $("#SSId").val();
+                OrderId = $("#OrderId").val();
+
+                $("#BtnEndRectangularsprinkler").hide();
+                $("#SSPD").hide();
+                $("#SName").text("");
+                CurretRSprinkler = "";
+
+
+                var model = {
+                    UniqueId: UniqueId,
+                    SubCategoryID: SubCategoryID,
+                    SubcategoryName: SubcategoryName,
+                    OrderId: OrderId,
+                };
+
+                $.ajax({
+                    type: "POST",
+                    url: "@Url.Action("AddOrderDetails", "Customer")",
+                    data: JSON.stringify(model),
+                    contentType: "application/json; charset=utf-8",
+                    dataType: "json",
+                    success: function (r) {
+                        $("#TotalAmount").text(r);
+                        $("#TotalAmountInput").val(r);
+                    }
+                });
+
+                $("#DeleteObj").hide();
+                $("#CancleDeleteObj").hide();
+
+            }
+            else if (CLastId[0] == 'S' && CLastId[1] == 'y') {
+                SubCategoryID = $("#SubCatId").text();
+                SubcategoryName = $("#SName").text();
+                UniqueId = $("#ICId").val();
+                OrderId = $("#OrderId").val();
+
+                $("#EndIC").hide();
+                $("#ICPD").hide();
+                $("#SName").text("");
+                $("#SubCatId").text("");
+                //$("#btn_IC").prop("disabled", true);
+                $("#btn_IC *").prop('disabled', true);
+
+
+                var model = {
+                    UniqueId: UniqueId,
+                    SubCategoryID: SubCategoryID,
+                    SubcategoryName: SubcategoryName,
+                    OrderId: OrderId,
+                };
+
+                $.ajax({
+                    type: "POST",
+                    url: "@Url.Action("AddOrderDetails", "Customer")",
+                    data: JSON.stringify(model),
+                    contentType: "application/json; charset=utf-8",
+                    dataType: "json",
+                    success: function (r) {
+                        $("#TotalAmount").text(r);
+                        $("#TotalAmountInput").val(r);
+                    }
+                });
+                var node = layer.findOne('#' + UniqueId);
+                if (node != null) {
+                    node.draggable(false);
+                }
+                var node = layer.findOne('#' + UniqueId.replace("System", "TIC"));
+                if (node != null) {
+                    node.hide();
+                }
+                $("#DeleteObj").hide();
+                $("#CancleDeleteObj").hide();
+            }
+            else if (CLastId[0] == 'V') {
+                SubCategoryID = $("#SubCatId").text();
+                SubcategoryName = $("#SName").text();
+                UniqueId = $("#VBId").val();
+                OrderId = $("#OrderId").val();
+
+                $("#EndVB").hide();
+                $("#VBPD").hide();
+                $("#SName").text("");
+                $("#SubCatId").text("");
+                //CurretSprinkler = "";
+                $("#btn_VB *").prop('disabled', true);
+
+
+                var model = {
+                    UniqueId: UniqueId,
+                    SubCategoryID: SubCategoryID,
+                    SubcategoryName: SubcategoryName,
+                    OrderId: OrderId,
+                };
+
+                $.ajax({
+                    type: "POST",
+                    url: "@Url.Action("AddOrderDetails", "Customer")",
+                    data: JSON.stringify(model),
+                    contentType: "application/json; charset=utf-8",
+                    dataType: "json",
+                    success: function (r) {
+                        $("#TotalAmount").text(r);
+                        $("#TotalAmountInput").val(r);
+                    }
+                });
+                var node = layer.findOne('#' + UniqueId);
+                if (node != null) {
+                    node.draggable(false);
+                }
+                var node = layer.findOne('#' + UniqueId.replace("ValveBox", "TVB"));
+                if (node != null) {
+                    node.hide();
+                }
+                $("#DeleteObj").hide();
+                $("#CancleDeleteObj").hide();
+            }
+            else if (CLastId[0] == 'T' && CLastId[1] == 'a') {
+                SubCategoryID = $("#SubCatId").text();
+                SubcategoryName = $("#SName").text();
+                UniqueId = $("#TapId").val();
+                OrderId = $("#OrderId").val();
+
+                $("#EndTap").hide();
+                $("#TapPD").hide();
+                $("#SName").text("");
+                $("#SubCatId").text("");
+                $("#btn_TAP *").prop('disabled', true);
+
+                var model = {
+                    UniqueId: UniqueId,
+                    SubCategoryID: SubCategoryID,
+                    SubcategoryName: SubcategoryName,
+                    OrderId: OrderId,
+                };
+
+                $.ajax({
+                    type: "POST",
+                    url: "@Url.Action("AddOrderDetails", "Customer")",
+                    data: JSON.stringify(model),
+                    contentType: "application/json; charset=utf-8",
+                    dataType: "json",
+                    success: function (r) {
+                        $("#TotalAmount").text(r);
+                        $("#TotalAmountInput").val(r);
+                    }
+                });
+
+                var node = layer.findOne('#' + UniqueId);
+                if (node != null) {
+                    node.draggable(false);
+                }
+                var node = layer.findOne('#' + UniqueId.replace("Tap", "TTap"));
+                if (node != null) {
+                    node.hide();
+                }
+
+                $("#DeleteObj").hide();
+                $("#CancleDeleteObj").hide();
+            }
+
+
+            $("#DeleteObj").hide();
+            $("#CancleDeleteObj").hide();
+            $("#ObjUniqueId").val("");
+            $("#SName").text("");
+            CurrentObjId = "";
+
+        }
+    }
+
+
+    function UnSelectObj(ObjID) {
+
+        if (ObjID != "") {
+
+
+            var CLastId = ObjID;
+            if (CLastId == "UploadImg") {
+                $("#SName").text("");
+                $("#DivImageOpacityValue").hide();
+                node = layer.findOne('#' + CLastId);
+                node.draggable(false);
+                node = layer.findOne('#' + CLastId.replace("UploadImg", "TUploadImg"));
+                node.hide();
+            }
+
+
+            if (CLastId[0] == 'L') {
+
+                $("#SName").text("");
+                $("#IWPD").hide();
+                $("#PEPD").hide();
+                isOutArea = false;
+
+            }
+            else if (CLastId[0] == 'S' && CLastId[1] == 'p') {
+
+                if (CurretSprinkler != "") {
+                    CurretSprinkler = "";
+                }
+
+                var node = layer.findOne('#' + CLastId);
+                if (node != null) {
+                    node.hide();
+                }
+                var node = layer.findOne('#' + CLastId.replace("Sprinkler", "FillCircle"));
+                if (node != null) {
+                    node.hide();
+                }
+                var node = layer.findOne('#' + CLastId.replace("Sprinkler", "Circle"));
+                if (node != null) {
+                    node.hide();
+                }
+                var node = layer.findOne('#' + CLastId.replace("Sprinkler", "MoveCircle"));
+                if (node != null) {
+                    node.hide();
+                } var node = layer.findOne('#' + CLastId.replace("Sprinkler", "Arc"));
+                if (node != null) {
+                    node.listening(true);
+                }
+
+
+                $("#SName").text("");
+                $("#RSPD").hide();
+
+            }
+            else if (CLastId[0] == 'R' && CLastId[1] == 'e') {
+                if (CurretRSprinkler != "") {
+                    CurretRSprinkler = "";
+                }
+                $("#SName").text("");
+                $("#SSPD").hide();
+
+            }
+            else if (CLastId[0] == 'S' && CLastId[1] == 'y') {
+                if (CurretIC != "") {
+                    CurretIC = "";
+                }
+                $("#SName").text("");
+                $("#ICPD").hide();
+                node = layer.findOne('#' + CLastId);
+                node.draggable(false);
+                node = layer.findOne('#' + CLastId.replace("System", "TIC"));
+                node.hide();
+            }
+            else if (CLastId[0] == 'V') {
+                if (CurretVB != "") {
+                    CurretVB = "";
+                }
+                $("#SName").text("");
+                $("#VBPD").hide();
+                node = layer.findOne('#' + CLastId);
+                node.draggable(false);
+                node = layer.findOne('#' + CLastId.replace("ValveBox", "TVB"));
+                node.hide();
+            }
+            else if (CLastId[0] == 'T' && CLastId[1] == 'a') {
+                if (CurretTap != "") {
+                    CurretTap = "";
+                }
+                $("#SName").text("");
+                $("#TapPD").hide();
+                node = layer.findOne('#' + CLastId);
+                node.draggable(false);
+                node = layer.findOne('#' + CLastId.replace("Tap", "TTap"));
+                node.hide();
+            }
+            var node = layer.findOne('#' + CLastId);
+            if (node.name() =="Area" ) {
+                $("#Area").prop('disabled', false);
+            }
+
+            $("#DeleteObj").hide();
+            $("#CancleDeleteObj").hide();
+            $("#ObjUniqueId").val("");
+            $("#SName").text("");
+            OldCurrentObjId = "";
+        }
+    }
 
 
     $(document).ready(function () {
