@@ -12,6 +12,9 @@
         bottom: 0;
         right: 0;
     }
+    .badge-success:empty {
+        display: none !important;
+    }
 </style>
 <div class="row mb-2">
     <div class="container-fluid bd-example">
@@ -29,10 +32,10 @@
 
            
                 <form  style="float:right" role="form" id="payment-form" method="POST" action="@Url.Action("PaymentWithPaypal","PayPal")">
-                    <span class="badge badge-warning  mr-2"> Total Amount: <label id="TotalAmount"> 0</label> €</span>
+                    <span class="badge badge-warning  mr-2"> <label id="TotalAmount"> 0</label> €</span>
                     <input type="text" id="TotalAmountInput" name="amount" value="" hidden />
                     <button class="btn btn-primary " type="button" id="save"><i class="fa fa-save mr-2"></i>Save as PDF</button>
-                    <button class="btn btn-secondary " type="button" id="ProceedToAccesoires"><i class="fa fa-save mr-2"></i>Proceed</button>
+                    <button class="btn btn-secondary " type="button" id="ProceedToAccesoires"><i class="fa fa-forward  mr-2"></i>Proceed</button>
                     <button class="btn btn-info mr-2" type="submit" hidden><i class="fa fa-paypal mr-2"></i> Place Order</button>
                 </form>
            
@@ -57,7 +60,7 @@
                         {
                             if (@item1.CategoryID == item.CategoryID)
                             {
-                                <a class="dropdown-item @item.Code@item1.IrrigationWiringMaxStation" id="@item.Code" data-SubCatId="@item1.SubcategoryID" data-Name="@item1.SubcategoryName" data-radius="@item1.ThrowDistanceMax" data-width="@item1.ThrowWidth" data-height="@item1.ThrowHeight" data-angle="@item1.MaxAngle" data-rotation="@item1.MinAngle" data-IrrigationCircles="@item1.valveboxcircle" data-Filter="@item1.valveboxFilter" data-DrinkingWater="@item1.drinkingwatersource" data-WellWater="@item1.wellwatersource" data-RainWater="@item1.rainwatersource" data-Station="@item1.IrrigationComputermaxstation" data-Indoor="@item1.IrrigationComputerindoor" data-Outdoor="@item1.IrrigationComputeroutdoor" data-SP="@item1.IrrigationComputeroutdoor" href="javascript:void(0)">
+                                <a class="dropdown-item @item.Code@item1.IrrigationWiringMaxStation.ToString().Replace(",",".")" id="@item.Code.ToString().Replace(",",".")" data-SubCatId="@item1.SubcategoryID.ToString().Replace(",",".")" data-Name="@item1.SubcategoryName.ToString().Replace(",",".")" data-radius="@item1.ThrowDistanceMax.ToString().Replace(",",".")" data-width="@item1.ThrowWidth.ToString().Replace(",",".")" data-height="@item1.ThrowHeight.ToString().Replace(",",".")" data-angle="@item1.MaxAngle.ToString().Replace(",",".")" data-rotation="@item1.MinAngle.ToString().Replace(",",".")" data-IrrigationCircles="@item1.valveboxcircle.ToString().Replace(",",".")" data-Filter="@item1.valveboxFilter" data-DrinkingWater="@item1.drinkingwatersource.ToString().Replace(",",".")" data-WellWater="@item1.wellwatersource" data-RainWater="@item1.rainwatersource.ToString().Replace(",",".")" data-Station="@item1.IrrigationComputermaxstation.ToString().Replace(",",".")" data-Indoor="@item1.IrrigationComputerindoor.ToString().Replace(",",".")" data-Outdoor="@item1.IrrigationComputeroutdoor.ToString().Replace(",",".")" data-SP="@item1.IrrigationComputeroutdoor.ToString().Replace(",",".")" href="javascript:void(0)">
                                     @item1.SubcategoryName
                                 </a>
                             }
@@ -68,6 +71,13 @@
 
                 </div>
             }
+            <div class="dropdown " @*id="btn_@item.Code"*@ style="padding:10px;">
+                <button type="button" class="btn btn-outline-secondary " data-toggle="dropdown" title="Image Upload" onclick="open_file()">
+                    <img src="~/assets/images/ecommerce/pngtree-file-upload-icon-image_1344393.jpg" style="width:80%" />
+                </button>
+                
+
+            </div>
         </div>
         @*<div class="navigation navbar navbar-light justify-content-center px-3 px-lg-2 py-2 py-md-3  ver-menu">
 
@@ -134,20 +144,20 @@
 
     </div>
     <div class="col-md-2">
-        <div class="card text-center">
-            <div class="card-header">
+        <div class="card free-card text-center">
+            <div class="btn btn-lg" style=" background-color: #333333 !important; color: white;">
                 <h4>Property</h4>
             </div>
-            <div class="card-body ">
-                <h6 id="SName" class="badge badge-success bg-success text-white"></h6>
+            <div class="card-body">
+                <h6 id="SName" class="badge-success bg-success text-white" style="display: inline-block; padding: 0.25em 0.4em; font-weight: 700;  text-align: center; border-radius: 0.25rem; transition: color .15s ease-in-out,background-color .15s ease-in-out,border-color .15s ease-in-out,box-shadow .15s ease-in-out;"></h6><br />
                 <h6 hidden id="SubCatId"></h6>
-                <div id="RSPD" style="display:none;">
+                <div id="RSPD" class="RSPD" style="display:none;">
                     <input class="form-control" type="text" id="SId" hidden name="name" value="" />
                     <label>Sprinkler type</label>
-                    <select class="form-control" id="SprinklerTypeDropID" >
-                        @foreach (var item in ViewBag.Sprinkler)
+                    <select class="form-control" id="SprinklerTypeDropID">
+                        @foreach (DrawingTheme.Models.tblSubCategory item in ViewBag.Sprinkler)
                         {
-                            <option value="@item.SubcategoryName"  data-SubCatId="@item.SubcategoryID" data-Name="@item.SubcategoryName" data-radius="@item.ThrowDistanceMax" data-width="@item.ThrowWidth" data-height="@item.ThrowHeight" data-angle="@item.MaxAngle" data-rotation="@item.MinAngle" data-IrrigationCircles="@item.valveboxcircle" data-Filter="@item.valveboxFilter" data-DrinkingWater="@item.drinkingwatersource" data-WellWater="@item.wellwatersource" data-RainWater="@item.rainwatersource" data-Station="@item.IrrigationComputermaxstation" data-Indoor="@item.IrrigationComputerindoor" data-Outdoor="@item.IrrigationComputeroutdoor" data-SP="@item.IrrigationComputeroutdoor">@item.SubcategoryName</option>
+                            <option value="@item.SubcategoryName.ToString().Replace(",",".")" data-SubCatId="@item.SubcategoryID.ToString().Replace(",",".")" data-Name="@item.SubcategoryName.ToString().Replace(",",".")" data-radius="@item.ThrowDistanceMax.ToString().Replace(",",".")" data-width="@item.ThrowWidth.ToString().Replace(",",".")" data-height="@item.ThrowHeight.ToString().Replace(",",".")" data-angle="@item.MaxAngle.ToString().Replace(",",".")" data-rotation="@item.MinAngle.ToString().Replace(",",".")" data-IrrigationCircles="@item.valveboxcircle.ToString().Replace(",",".")" data-Filter="@item.valveboxFilter.ToString().Replace(",",".")" data-DrinkingWater="@item.drinkingwatersource.ToString().Replace(",",".")" data-WellWater="@item.wellwatersource.ToString().Replace(",",".")" data-RainWater="@item.rainwatersource.ToString().Replace(",",".")" data-Station="@item.IrrigationComputermaxstation.ToString().Replace(",",".")" data-Indoor="@item.IrrigationComputerindoor.ToString().Replace(",",".")" data-Outdoor="@item.IrrigationComputeroutdoor.ToString().Replace(",",".")" data-SP="@item.IrrigationComputeroutdoor.ToString().Replace(",",".")">@item.SubcategoryName</option>
                         }
                     </select>
                     <label>Radius</label>
@@ -156,63 +166,74 @@
                     <input class="form-control" type="number" id="StartAngle" onchange="SetS(this,2)" name="name" value="" />
                     <label>Angle</label>
                     <input class="form-control" type="number" id="SAngle" onchange="SetS(this,3)" name="name" value="" />
-                    <button class="btn btn-sm btn-secondary" id="BtnEndsprinkler" style="display:none;">End sprinkler</button>
+                    @*<button class="btn btn-sm btn-secondary fa fa-lock" id="BtnEndsprinkler" style="display:none;">End sprinkler</button>*@
+
                 </div>
-                <div id="SSPD" style="display:none;">
+                <div id="SSPD" class="SSPD" style="display:none;">
                     <input class="form-control" type="text" id="SSId" hidden name="name" value="" />
                     <label>Width</label>
                     <input class="form-control" type="number" id="SSWidth" onchange="SetS(this,4)" name="name" value="" disabled />
                     <label>Height</label>
-                    <input class="form-control" type="number" id="SSHeight" onchange="SetS(this,5)" name="name" value="" disabled/>
-                    <button class="btn btn-sm btn-secondary" id="BtnEndRectangularsprinkler" style="display:none;">End rectangular sprinkler</button>
+                    <input class="form-control" type="number" id="SSHeight" onchange="SetS(this,5)" name="name" value="" disabled />
+                    @*<button class="btn btn-sm btn-secondary fa fa-lock" id="BtnEndRectangularsprinkler" style="display:none;">End rectangular sprinkler</button>*@
                 </div>
-                <div id="VBPD" style="display:none;">
+                <div id="VBPD" class="VBPD" style="display:none;">
                     <input class="form-control" type="text" id="VBId" hidden name="name" value="" />
                     <label id="VBF" style="display:none;">Filter included</label>
                     <label id="VBDW" style="display:none;">for drinking water source</label>
                     <label id="VBWW" style="display:none;">for well water source</label>
                     <label id="VBRW" style="display:none;">for rainwater source</label>
-                    <button class="btn btn-sm btn-secondary" id="EndVB" style="display:none;">End Valve box</button>
+                    @*<button class="btn btn-sm btn-secondary fa fa-lock" id="EndVB" style="display:none;">End Valve box</button>*@
                 </div>
-                <div id="ICPD" style="display:none;">
+                <div id="ICPD" class="ICPD" style="display:none;">
                     <input class="form-control" type="text" id="ICId" hidden name="name" value="" />
                     <label id="ICS">Filter included</label>
                     <label id="ICID" style="display:none;">Indoor</label>
                     <label id="ICOD" style="display:none;">outdoor</label>
                     <label id="ICSP" style="display:none;">Smarphone</label>
-                    <button class="btn btn-sm btn-secondary" id="EndIC" style="display:none;">End Irrigation computer</button>
+                    @*<button class="btn btn-sm btn-secondary fa fa-lock" id="EndIC" style="display:none;">End Irrigation computer</button>*@
                 </div>
-                <div id="TapPD" style="display:none;">
+                <div id="TapPD" class="TapPD" style="display:none;">
                     <input class="form-control" type="text" id="TapId" hidden name="name" value="" />
                     <select id="TapSelect" class="form-control" onchange="SetS(this,6)">
                         <option value="70">Drinking Water Source</option>
                         <option value="71">Well Water Source</option>
                         <option value="72">Rain Water Source</option>
                     </select>
-                    <button class="btn btn-sm btn-secondary" id="EndTap" style="display:none;">End Tap</button>
+                    @*<button class="btn btn-sm btn-secondary fa fa-lock" id="EndTap" style="display:none;">End Tap</button>*@
                 </div>
-                <div id="IWPD" style="display:none;">
+                <div id="IWPD" class="IWPD" style="display:none;">
                     <input class="form-control" type="text" id="IWId" hidden name="name" value="" />
                     <label>Total length: </label>
-                    <input class="form-control" type="number" id="IWL"  name="name" value="0" disabled />
-                    <button class="btn btn-sm btn-secondary" id="EndIW" >End Irrigation wiring</button>
+                    <input class="form-control" type="number" id="IWL" name="name" value="0" disabled />
+                    @*<button class="btn btn-sm btn-secondary fa fa-lock" id="EndIW" >End Irrigation wiring</button>*@
                 </div>
-                <div id="PEPD" style="display:none;">
+                <div id="PEPD" class="PEPD" style="display:none;">
                     <input class="form-control" type="text" id="PEId" hidden name="name" value="" />
                     <label>Total length: </label>
-                    <input class="form-control" type="number" id="PEL"  name="name" value="0" disabled />
-                    <button class="btn btn-sm btn-secondary" id="EndPE" >End PE Pipeline</button>
+                    <input class="form-control" type="number" id="PEL" name="name" value="0" disabled />
+                    @*<button class="btn btn-sm btn-secondary fa fa-lock" id="EndPE" >End PE Pipeline</button>*@
                 </div>
-
-                <input type="file" class="form-control" id="file_input" accept="image/*" name="name" value="">
-                <div id="DivImageOpacityValue" style="display:none;">
+                @*<button class="btn btn-warning btn-icon btn-icon-mini btn-round" onclick="open_file()"><i class="fa fa-camera" aria-hidden="true"></i></button>*@
+                <input type="file" class="" id="file_input" accept="image/*" name="name" value="" hidden>
+                <div id="DivImageOpacityValue" class="DivImageOpacityValue" style="display:none;">
                     <label>Image opacity</label>
                     <input type="range" class="form-control" id="ImageOpacityValue" min="10" max="100" value="100">
-                    <button class="btn btn-sm btn-secondary" id="EndImageOpacity">End Image</button>
+                    @*<button class="btn btn-sm btn-secondary fa fa-lock" id="EndImageOpacity">End Image</button>*@
                 </div>
 
-                <button class="btn btn-danger btn-sm text-center mt-1" id="DeleteObj" style="display:none;"><i class="fa fa-trash mr-1"></i>Delete</button>
-                <button class="btn btn-info btn-sm text-center mt-1" id="CancleDeleteObj" style="display:none;"><i class="fa fa-close mr-1"></i>Cancel</button>
+                @*<button class="btn btn-danger btn-sm text-center mt-1" id="DeleteObj" style="display:none;"><i class="fa fa-trash mr-1"></i>Delete</button>
+        <button class="btn btn-info btn-sm text-center mt-1" id="CancleDeleteObj" style="display:none;"><i class="fa fa-close mr-1"></i>Cancel</button>*@
+                <button class="btn btn-sm btn-secondary btn-sm text-center mt-1 fa fa-lock  mr-1 RSPD" id="BtnEndsprinkler" style="display: none; font-size: 20px !important;"></button>
+                    <button class="btn btn-sm btn-secondary btn-sm text-center mt-1 fa fa-lock  mr-1 SSPD" id="BtnEndRectangularsprinkler" style="display: none; font-size: 20px !important;"></button>
+                    <button class="btn btn-sm btn-secondary btn-sm text-center mt-1 fa fa-lock  mr-1 VBPD" id="EndVB" style="display: none; font-size: 20px !important;"></button>
+                    <button class="btn btn-sm btn-secondary btn-sm text-center mt-1 fa fa-lock  mr-1 ICPD" id="EndIC" style="display: none; font-size: 20px !important;"></button>
+                    <button class="btn btn-sm btn-secondary btn-sm text-center mt-1 fa fa-lock  mr-1 TapPD" id="EndTap" style="display: none; font-size: 20px !important;"></button>
+                    <button class="btn btn-sm btn-secondary btn-sm text-center mt-1 fa fa-lock  mr-1 IWPD" id="EndIW" style="display: none; font-size: 20px !important;"></button>
+                    <button class="btn btn-sm btn-secondary btn-sm text-center mt-1 fa fa-lock  mr-1 PEPD" id="EndPE" style="display: none; font-size: 20px !important;"></button>
+                    <button class="btn btn-sm btn-secondary btn-sm text-center mt-1 fa fa-lock  mr-1 DivImageOpacityValue" id="EndImageOpacity" style="display: none; font-size: 20px !important;"></button>
+                <button class="btn btn-danger btn-sm text-center mt-1" id="DeleteObj" style="display:none;"><i class="fa fa-trash mr-1"></i></button>
+                <button class="btn btn-info btn-sm text-center mt-1" id="CancleDeleteObj" style="display:none;"><i class="fa fa-close mr-1"></i></button>
                 @*<button class="btn btn-danger text-center mt-1"  id="UndoCanvas"><i class="fa fa-undo mr-1"></i>Undo</button>*@
             </div>
         </div>
@@ -257,6 +278,10 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.5.3/jspdf.debug.js" integrity="sha384-NaWTHo/8YCBYJ59830LTz/P4aQZK1sS0SneOgAvhsIl3zBu8r9RevNg5lHCHAuQ/" crossorigin="anonymous"></script>
 <script src="~/assets/js/jquery-3.2.1.min.js"></script>
 <script>
+    function open_file() {
+        document.getElementById('file_input').click();
+    }
+
 
     function SaveData(id) {
         ComponentId = id;
@@ -517,6 +542,7 @@
     container.addEventListener('keydown', function (e) {
             //alert(e.keyCode)
         if (e.keyCode === 27) {
+            UnSelectObj(CurrentObjId);
             if (CurrentObjName[0] == "I") {
                 var SubCategoryID = $("#SubCatId").text();
                 var SubcategoryName = $("#SName").text();
@@ -525,7 +551,7 @@
                 var IWLength = $("#IWL").val();
 
                 //$("#EndIW").hide();
-                $("#IWPD").hide();
+                $(".IWPD").hide();
                 $("#SName").text("");
                 $("#SubCatId").text("");
                 $("#btn_IW *").prop('disabled', true);
@@ -569,9 +595,11 @@
                 node.destroy();
 
                 CurrentObjId = "";
+                CurrentObjName = "";
 
             }
             else if (CurrentObjName[0] == "P") {
+                UnSelectObj(CurrentObjId);
                 var SubCategoryID = $("#SubCatId").text();
                 var SubcategoryName = $("#SName").text();
                 var UniqueId = $("#PEId").val();
@@ -579,7 +607,7 @@
                 var PELength = $("#PEL").val();
 
                 //$("#EndPE").hide();
-                $("#PEPD").hide();
+                $(".PEPD").hide();
                 $("#SName").text("");
                 $("#SubCatId").text("");
                 $("#btn_PE *").prop('disabled', true);
@@ -623,6 +651,7 @@
                 node.destroy();
 
                 CurrentObjId = "";
+                CurrentObjName = "";
             }
         }
 
@@ -645,9 +674,11 @@
 
         $("#ObjUniqueId").val(e.target.id().replace("Arc","Sprinkler"));
          var UniqueId = $("#ObjUniqueId").val();
+         
          OldCurrentObjId = UniqueId;
         //alert(UniqueId);
-        if (UniqueId != null && UniqueId!="") {
+         if (UniqueId != null && UniqueId != "") {
+             //console.log(UniqueId);
             var OrderId = $("#OrderId").val();
 
              var model = {
@@ -685,14 +716,46 @@
                             $("#IWId").val(r.Data.UniqueId);
                             $("#IWL").val(r.Data.IWLength);
                             var node = layer.findOne('#' + r.UniqueId);
-                            if (node.name() == "Irrigation Wiring") {
-                                $("#IWPD").show();
-                                //$("#EndIW").hide();
+                            //if (node.name() == "Irrigation Wiring") {
+                            //    $(".IWPD").show();
+                            //    $("#EndIW").hide();
+                            //    //$("#EndIW").hide();
+                            //}
+                            //else if (node.name() == "PE Pipeline") {
+                            //    $(".PEPD").show();
+                            //    $("#EndPE").hide();
+                            //    //$("#EndPE").hide();
+                            //}
+                           
+                            OldCurrentObjId = r.Data.UniqueId;
+
+                            var temp = Number(r.Data.UniqueId.replace("Line", ""));
+                            FirstId = StartRect[temp - 1];
+                            LastId = FindLastId(FirstId);
+
+
+                            var CheckId = layer.findOne('#' + r.Data.UniqueId);
+                            for (var i = Number(FirstId.replace("Rect", "")); i <= Number(LastId.replace("Rect", "")); i++) {
+                                var node = layer.findOne('#Rect' + i);
+                                node.show();
+                                if (CheckId.name() == "Irrigation Wiring" && i == Number(LastId.replace("Rect", ""))) {
+                                    $(".IWPD").show();
+                                    $("#EndIW").hide();
+                                }
+                                else if (CheckId.name() == "PE Pipeline" && i == Number(LastId.replace("Rect", ""))) {
+
+                                    $(".PEPD").show();
+                                    $("#EndPE").hide();
+                                }
+                                else {
+                                    node = layer.findOne('#Text' + i);
+                                    node.show();
+                                }
                             }
-                            else {
-                                $("#PEPD").show();
-                                //$("#EndPE").hide();
-                            }
+                            $("#SName").text("");
+                            isOutArea = false;
+
+
 
                         }
                         else if (r.UniqueId[0] == 'S' && r.UniqueId[1] == 'p') {
@@ -700,7 +763,7 @@
                             $("#SRadius").val(r.Data.ThrowDistanceMax);
                             $("#StartAngle").val(r.Data.MinAngle);
                             $("#SAngle").val(r.Data.MaxAngle);
-                            $("#RSPD").show();
+                            $(".RSPD").show();
                             $("#BtnEndsprinkler").show();
                             CurretSprinkler = r.Data.UniqueId;
 
@@ -732,7 +795,7 @@
                             $("#SSWidth").val(r.Data.ThrowWidth);
                             $("#SSHeight").val(r.Data.ThrowHeight);
 
-                            $("#SSPD").show();
+                            $(".SSPD").show();
                             $("#BtnEndRectangularsprinkler").show();
                             CurretRSprinkler = r.UniqueId;
 
@@ -751,7 +814,7 @@
                                 $("#ICSP").show();
                             }
 
-                            $("#ICPD").show();
+                            $(".ICPD").show();
                             $("#EndIC").show();
                             CurretIC = r.UniqueId;
                             $("#btn_IC *").prop('disabled', false);
@@ -777,7 +840,7 @@
                                 $("#VBRW").show();
                             }
 
-                            $("#VBPD").show();
+                            $(".VBPD").show();
                             $("#EndVB").show();
                             CurretVB = r.UniqueId;
                             $("#btn_VB *").prop('disabled', false);
@@ -791,7 +854,7 @@
                             $("#TapId").val(r.UniqueId);
                             $("#TapSelect").val(r.Data.SubcategoryID);
 
-                            $("#TapPD").show();
+                            $(".TapPD").show();
                             $("#EndTap").show();
                             CurretTap = r.UniqueId;
                             $("#btn_TAP *").prop('disabled', false);
@@ -806,6 +869,35 @@
 
                     }
                     if (r.UniqueId[0] == 'L') {
+
+                        OldCurrentObjId = r.UniqueId;
+
+                        var temp = Number(r.UniqueId.replace("Line", ""));
+                        FirstId = StartRect[temp - 1];
+                        LastId = FindLastId(FirstId);
+
+
+                        var CheckId = layer.findOne('#' + r.UniqueId);
+                        for (var i = Number(FirstId.replace("Rect", "")); i <= Number(LastId.replace("Rect", "")); i++) {
+                            var node = layer.findOne('#Rect' + i);
+                            node.show();
+                            if (CheckId.name() == "Irrigation Wiring" && i == Number(LastId.replace("Rect", ""))) {
+                                $(".IWPD").show();
+                                $("#EndIW").hide();
+                            }
+                            else if (CheckId.name() == "PE Pipeline" && i == Number(LastId.replace("Rect", ""))) {
+
+                                $(".PEPD").show();
+                                $("#EndPE").hide();
+                            }
+                            else {
+                                node = layer.findOne('#Text' + i);
+                                node.show();
+                            }
+                        }
+                        isOutArea = false;
+
+
                         var node = layer.findOne('#' + r.UniqueId);
                         $("#SName").text(node.name());
                         $("#DeleteObj").show();
@@ -817,7 +909,7 @@
                         $("#SName").text(node.name());
                         $("#DeleteObj").show();
                         $("#CancleDeleteObj").show();
-                        $("#DivImageOpacityValue").show();
+                        $(".DivImageOpacityValue").show();
                         node = layer.findOne('#' + r.UniqueId);
                         node.draggable(true);
                         node = layer.findOne('#' + r.UniqueId.replace("UploadImg", "TUploadImg"));
@@ -844,7 +936,7 @@
             UnSelectObjOnNew(CurrentObjId);
         }
 
-        $("#RSPD").show();
+        $(".RSPD").show();
         var Radius = MToPx(Number(element.options[element.selectedIndex].getAttribute("data-radius")));
         var Angle = Number(element.options[element.selectedIndex].getAttribute("data-Angle"));
         var Rotation = Number(element.options[element.selectedIndex].getAttribute("data-Rotation"));
@@ -1032,7 +1124,15 @@
 
     });
 
-        $("body").on("click", "#Area", function () {
+    $("body").on("click", "#Area", function () {
+        if (CurrentObjId != null && CurrentObjId != "") {
+            UnSelectObjOnNew(CurrentObjId);
+        }
+        else {
+            if (OldCurrentObjId != null && OldCurrentObjId != "") {
+                UnSelectObj(OldCurrentObjId);
+            }
+        }
             //alert(this.id);
             poly = new Konva.Line({
                 points: [0, 0],
@@ -1089,7 +1189,15 @@
         });
 
 
-        $("body").on("click", "#DryArea", function () {
+    $("body").on("click", "#DryArea", function () {
+        if (CurrentObjId != null && CurrentObjId != "") {
+            UnSelectObjOnNew(CurrentObjId);
+        }
+        else {
+            if (OldCurrentObjId != null && OldCurrentObjId != "") {
+                UnSelectObj(OldCurrentObjId);
+            }
+        }
             //alert(this.id);
             var poly = new Konva.Line({
                 points: [0, 0],
@@ -1148,6 +1256,14 @@
 
 
     $("body").on("click", "#Hedge", function () {
+        if (CurrentObjId != null && CurrentObjId != "") {
+            UnSelectObjOnNew(CurrentObjId);
+        }
+        else {
+            if (OldCurrentObjId != null && OldCurrentObjId != "") {
+                UnSelectObj(OldCurrentObjId);
+            }
+        }
             //alert(this.id);
             poly = new Konva.Line({
                 points: [0, 0],
@@ -1261,7 +1377,7 @@
         id = poly.id();
 
         $("#IWId").val(poly.id());
-        $("#IWPD").show();
+        $(".IWPD").show();
         $("#EndIW").show();
 
         UndoArray.push(poly.id());
@@ -1332,13 +1448,14 @@
         id = poly.id();
 
         $("#PEId").val(poly.id());
-        $("#PEPD").show();
+        $(".PEPD").show();
         $("#EndPE").show();
 
         UndoArray.push(poly.id());
     });
 
     $("body").on("click", "#EndPE", function () {
+        UnSelectObj(CurrentObjId);
 
         var SubCategoryID = $("#SubCatId").text();
         var SubcategoryName = $("#SName").text();
@@ -1347,7 +1464,7 @@
         var PELength = $("#PEL").val();
 
         //$("#EndPE").hide();
-        $("#PEPD").hide();
+        $(".PEPD").hide();
         $("#SName").text("");
         $("#SubCatId").text("");
         $("#btn_PE *").prop('disabled', true);
@@ -1387,11 +1504,21 @@
         node.destroy();
         $("#EndPE").hide();
 
+
         CurrentObjId = "";
+        OldCurrentObjId = "";
     });
 
 
     $("body").on("click", "#GetWet", function () {
+        if (CurrentObjId != null && CurrentObjId != "") {
+            UnSelectObjOnNew(CurrentObjId);
+        }
+        else {
+            if (OldCurrentObjId != null && OldCurrentObjId != "") {
+                UnSelectObj(OldCurrentObjId);
+            }
+        }
             //alert(this.id);
             poly = new Konva.Line({
                 points: [0, 0],
@@ -1539,7 +1666,7 @@
             );
         }
 
-        $("#TapPD").show();
+        $(".TapPD").show();
         $("#EndTap").show();
 
     });
@@ -1556,7 +1683,7 @@
         OrderId = $("#OrderId").val();
 
         $("#EndTap").hide();
-        $("#TapPD").hide();
+        $(".TapPD").hide();
         $("#SName").text("");
         $("#SubCatId").text("");
         $("#btn_TAP *").prop('disabled', true);
@@ -1597,6 +1724,7 @@
 
 
     $("body").on("click", "#EndIW", function () {
+        UnSelectObj(CurrentObjId);
 
         var SubCategoryID = $("#SubCatId").text();
         var SubcategoryName = $("#SName").text();
@@ -1605,7 +1733,7 @@
         var IWLength = $("#IWL").val();
 
         //$("#EndIW").hide();
-        $("#IWPD").hide();
+        $(".IWPD").hide();
         $("#SName").text("");
         $("#SubCatId").text("");
         $("#btn_IW *").prop('disabled', true);
@@ -1647,6 +1775,7 @@
         $("#EndIW").hide();
 
         CurrentObjId = "";
+        OldCurrentObjId = "";
     });
 
 
@@ -1795,7 +1924,7 @@
             );
         }
 
-        $("#ICPD").show();
+        $(".ICPD").show();
         $("#EndIC").show();
 
 
@@ -1815,7 +1944,7 @@
         OrderId = $("#OrderId").val();
 
         $("#EndIC").hide();
-        $("#ICPD").hide();
+        $(".ICPD").hide();
         $("#SName").text("");
         $("#SubCatId").text("");
         //$("#btn_IC").prop("disabled", true);
@@ -1991,17 +2120,18 @@
             );
         }
 
-        $("#VBPD").show();
+        $(".VBPD").show();
         $("#EndVB").show();
 
     });
 
 
     $("body").on("click", "#RSP,#Sprinkler1,#Sprinkler2", function () {
-        if (CurrentObjId != "" && CurrentObjId[0] != "S" && CurrentObjId[1] != "p") {
+        console.log(CurrentObjId);
+        if (CurrentObjId != "" || (CurrentObjId[0] != "S" && CurrentObjId[1] != "p")) {
             UnSelectObjOnNew(CurrentObjId);
         }
-        $("#RSPD").show();
+        $(".RSPD").show();
         var Radius = MToPx(Number($(this).attr("data-radius")));
         var Angle = Number($(this).attr("data-Angle"));
         var Rotation = Number($(this).attr("data-Rotation"));
@@ -2524,7 +2654,7 @@
 
 
         $("#BtnEndsprinkler").hide();
-        $("#RSPD").hide();
+        $(".RSPD").hide();
         $("#SName").text("");
         CurretSprinkler = "";
 
@@ -2568,7 +2698,7 @@
         OrderId = $("#OrderId").val();
 
         $("#EndVB").hide();
-        $("#VBPD").hide();
+        $(".VBPD").hide();
         $("#SName").text("");
         $("#SubCatId").text("");
         //CurretSprinkler = "";
@@ -2612,7 +2742,7 @@
         UnSelectObjOnNew(CurrentObjId);
         var RCPX = 0;
         var RCPY = 0;
-        $("#SSPD").show();
+        $(".SSPD").show();
         var SubName = $(this).attr("data-Name");
         var Width = MToPx(Number($(this).attr("data-Width")));
         var Height = MToPx(Number($(this).attr("data-Height")));
@@ -3046,7 +3176,7 @@
         OrderId = $("#OrderId").val();
 
         $("#BtnEndRectangularsprinkler").hide();
-        $("#SSPD").hide();
+        $(".SSPD").hide();
         $("#SName").text("");
         CurretRSprinkler = "";
 
@@ -3538,6 +3668,8 @@
                             Rect1.moveToTop();
                         }
                         isInArea = false;
+
+
                     }
 
                 }
@@ -3554,6 +3686,7 @@
 
                 }
                 else {
+                    UnSelectObj(CurrentObjId);
                     var LineId = 0;
                     //if (id[0] == "R") {
                     //    LineId = FindIndex(id);
@@ -4535,7 +4668,7 @@
 
 
     $("body").on("click", "#UndoCanvas", function () {
-        
+
         if (UndoArray.length > 0) {
             var CLastId = UndoArray[UndoArray.length - 1];
             //console.log(CLastId);
@@ -4544,7 +4677,7 @@
                 var node = layer.findOne('#' + CLastId.replace("UploadImg", "TUploadImg"));
                 if (node != null) {
                     node.destroy();
-                    $("#DivImageOpacityValue").hide();
+                    $(".DivImageOpacityValue").hide();
                     $("#file_input").val("");
                 }
             }
@@ -4584,7 +4717,7 @@
                         CurretSprinkler = "";
                     }
                     $("#SName").text("");
-                    $("#RSPD").hide();
+                    $(".RSPD").hide();
                     node.destroy();
                 }
                 var node = layer.findOne('#' + CLastId.replace("Sprinkler", "Circle"));
@@ -4609,7 +4742,7 @@
                         CurretRSprinkler = "";
                     }
                     $("#SName").text("");
-                    $("#SSPD").hide();
+                    $(".SSPD").hide();
                     node.destroy();
                 }
                 var node = layer.findOne('#' + CLastId.replace("RectangularSprinkler", "TRS"));
@@ -4621,7 +4754,7 @@
             else if (CLastId[0] == 'S' && CLastId[1] == 'y') {
                 var node = layer.findOne('#' + CLastId.replace("System", "TIC"));
                 $("#SName").text("");
-                $("#ICPD").hide();
+                $(".ICPD").hide();
                 if (node != null) {
                     if (CurretIC != "") {
                         CurretIC = "";
@@ -4636,7 +4769,7 @@
                 var node = layer.findOne('#' + CLastId.replace("ValveBox", "TVB"));
 
                 $("#SName").text("");
-                $("#VBPD").hide();
+                $(".VBPD").hide();
                 if (node != null) {
                     if (CurretVB != "") {
                         CurretVB = "";
@@ -4648,7 +4781,7 @@
             else if (CLastId[0] == 'T' && CLastId[1] == 'a') {
                 var node = layer.findOne('#' + CLastId.replace("Tap", "TTap"));
                 $("#SName").text("");
-                $("#TapPD").hide();
+                $(".TapPD").hide();
                 if (node != null) {
                     if (CurretTap != "") {
                         CurretTap = "";
@@ -4724,7 +4857,7 @@
                     node.destroy();
                     $("#SName").text("");
                     $("#file_input").val("");
-                    $("#DivImageOpacityValue").hide();
+                    $(".DivImageOpacityValue").hide();
                 }
             }
 
@@ -4752,11 +4885,11 @@
                     node.destroy();
                     if (CheckId.name() == "Irrigation Wiring" && i == Number(LastId.replace("Rect", ""))) {
                         $("#btn_IW *").prop('disabled', false);
-                        $("#IWPD").hide();
+                        $(".IWPD").hide();
                     }
                     else if (CheckId.name() == "PE Pipeline" && i == Number(LastId.replace("Rect", ""))) {
                         $("#btn_PE *").prop('disabled', false);
-                        $("#PEPD").hide();
+                        $(".PEPD").hide();
                     }
                     else {
                         node = layer.findOne('#Text' + i);
@@ -4776,7 +4909,7 @@
                     }
 
                     $("#SName").text("");
-                    $("#RSPD").hide();
+                    $(".RSPD").hide();
                     node.destroy();
                 }
                 var node = layer.findOne('#' + CLastId.replace("Sprinkler", "Circle"));
@@ -4801,7 +4934,7 @@
                         CurretRSprinkler = "";
                     }
                     $("#SName").text("");
-                    $("#SSPD").hide();
+                    $(".SSPD").hide();
                     node.destroy();
                 }
                 var node = layer.findOne('#' + CLastId.replace("RectangularSprinkler", "TRS"));
@@ -4813,7 +4946,7 @@
             else if (CLastId[0] == 'S' && CLastId[1] == 'y') {
                 var node = layer.findOne('#' + CLastId.replace("System", "TIC"));
                 $("#SName").text("");
-                $("#ICPD").hide();
+                $(".ICPD").hide();
                 if (node != null) {
                     if (CurretIC != "") {
                         CurretIC = "";
@@ -4828,7 +4961,7 @@
                 var node = layer.findOne('#' + CLastId.replace("ValveBox", "TVB"));
 
                 $("#SName").text("");
-                $("#VBPD").hide();
+                $(".VBPD").hide();
                 if (node != null) {
                     if (CurretVB != "") {
                         CurretVB = "";
@@ -4840,7 +4973,7 @@
             else if (CLastId[0] == 'T' && CLastId[1] == 'a') {
                 var node = layer.findOne('#' + CLastId.replace("Tap", "TTap"));
                 $("#SName").text("");
-                $("#TapPD").hide();
+                $(".TapPD").hide();
                 if (node != null) {
                     if (CurretTap != "") {
                         CurretTap = "";
@@ -4903,7 +5036,7 @@
             var CLastId = ObjId;
             if (CLastId == "UploadImg") {
                 $("#SName").text("");
-                $("#DivImageOpacityValue").hide();
+                $(".DivImageOpacityValue").hide();
                 node = layer.findOne('#' + CLastId);
                 node.draggable(false);
                 node = layer.findOne('#' + CLastId.replace("UploadImg", "TUploadImg"));
@@ -4913,9 +5046,30 @@
 
             if (CLastId[0] == 'L') {
 
+
+
+                var temp = Number(CLastId.replace("Line", ""));
+                FirstId = StartRect[temp - 1];
+                LastId = FindLastId(FirstId);
+
+
+                var CheckId = layer.findOne('#' + CLastId);
+                for (var i = Number(FirstId.replace("Rect", "")); i <= Number(LastId.replace("Rect", "")); i++) {
+                    var node = layer.findOne('#Rect' + i);
+                    node.hide();
+                    if (CheckId.name() == "Irrigation Wiring" && i == Number(LastId.replace("Rect", ""))) {
+                        $(".IWPD").hide();
+                    }
+                    else if (CheckId.name() == "PE Pipeline" && i == Number(LastId.replace("Rect", ""))) {
+
+                        $(".PEPD").hide();
+                    }
+                    else {
+                        node = layer.findOne('#Text' + i);
+                        node.hide();
+                    }
+                }
                 $("#SName").text("");
-                $("#IWPD").hide();
-                $("#PEPD").hide();
                 isOutArea = false;
 
             }
@@ -4947,7 +5101,7 @@
 
 
                 $("#SName").text("");
-                $("#RSPD").hide();
+                $(".RSPD").hide();
 
             }
             else if (CLastId[0] == 'R' && CLastId[1] == 'e') {
@@ -4955,7 +5109,7 @@
                     CurretRSprinkler = "";
                 }
                 $("#SName").text("");
-                $("#SSPD").hide();
+                $(".SSPD").hide();
 
             }
             else if (CLastId[0] == 'S' && CLastId[1] == 'y') {
@@ -4963,7 +5117,7 @@
                     CurretIC = "";
                 }
                 $("#SName").text("");
-                $("#ICPD").hide();
+                $(".ICPD").hide();
                 node = layer.findOne('#' + CLastId);
                 node.draggable(false);
                 node = layer.findOne('#' + CLastId.replace("System", "TIC"));
@@ -4974,7 +5128,7 @@
                     CurretVB = "";
                 }
                 $("#SName").text("");
-                $("#VBPD").hide();
+                $(".VBPD").hide();
                 node = layer.findOne('#' + CLastId);
                 node.draggable(false);
                 node = layer.findOne('#' + CLastId.replace("ValveBox", "TVB"));
@@ -4985,7 +5139,7 @@
                     CurretTap = "";
                 }
                 $("#SName").text("");
-                $("#TapPD").hide();
+                $(".TapPD").hide();
                 node = layer.findOne('#' + CLastId);
                 node.draggable(false);
                 node = layer.findOne('#' + CLastId.replace("Tap", "TTap"));
@@ -5237,7 +5391,7 @@
         //var url = URL.createObjectURL(e.target.files[0]);
         //var img = new Image();
         //img.src = url;
-
+        UnSelectObjOnNew(CurrentObjId);
         var FileName = "";
 
         var formData = new FormData();
@@ -5322,7 +5476,7 @@
         //$("#checkimg").src("/assets/images/ecommerce/ValveBox.png");
         /* $("#checkimg").attr("src", url);*/
         $("#file_input").prop('disabled', true);
-        $("#DivImageOpacityValue").show();
+        $(".DivImageOpacityValue").show();
 
 
     });
@@ -5343,7 +5497,7 @@
          if (node != null) {
              node.hide();
          }
-         $("#DivImageOpacityValue").hide();
+         $(".DivImageOpacityValue").hide();
          $("#DeleteObj").hide();
          $("#CancleDeleteObj").hide();
     });
@@ -5415,25 +5569,140 @@
                 if (node != null) {
                     node.hide();
                 }
-                $("#DivImageOpacityValue").hide();
+                $(".DivImageOpacityValue").hide();
                 $("#DeleteObj").hide();
                 $("#CancleDeleteObj").hide();
             }
-            
+
             if (CLastId[0] == 'L') {
 
-                $("#SName").text("");
-                $("#IWPD").hide();
-                $("#PEPD").hide();
-                isOutArea = false;
-                var node = layer.findOne('#' + CLastId);
-                if (node.name() == "Area") {
-                    $("#Area").prop('disabled', false);
+                var temp = Number(CLastId.replace("Line", ""));
+                FirstId = StartRect[temp - 1];
+                LastId = FindLastId(FirstId);
+
+
+                var CheckId = layer.findOne('#' + CLastId);
+                for (var i = Number(FirstId.replace("Rect", "")); i <= Number(LastId.replace("Rect", "")); i++) {
+                    var node = layer.findOne('#Rect' + i);
+                    node.hide();
+                    if (CheckId.name() == "Irrigation Wiring" && i == Number(LastId.replace("Rect", ""))) {
+                        //$(".IWPD").hide();
+                        var SubCategoryID = $("#SubCatId").text();
+                        var SubcategoryName = $("#SName").text();
+                        var UniqueId = $("#IWId").val();
+                        var OrderId = $("#OrderId").val();
+                        var IWLength = $("#IWL").val();
+
+                        //$("#EndIW").hide();
+                        $(".IWPD").hide();
+                        $("#SName").text("");
+                        $("#SubCatId").text("");
+                        $("#btn_IW *").prop('disabled', true);
+
+                        var model = {
+                            UniqueId: UniqueId,
+                            SubCategoryID: SubCategoryID,
+                            SubcategoryName: SubcategoryName,
+                            OrderId: OrderId,
+                            IWLength: IWLength,
+                        };
+
+                        $.ajax({
+                            type: "POST",
+                            url: "@Url.Action("AddOrderDetails", "Customer")",
+                            data: JSON.stringify(model),
+                            contentType: "application/json; charset=utf-8",
+                            dataType: "json",
+                            success: function (r) {
+                                $("#TotalAmount").text(r);
+                                $("#TotalAmountInput").val(r);
+                            }
+                        });
+                        $("#DeleteObj").hide();
+                        $("#CancleDeleteObj").hide();
+                        var node = layer.findOne('#' + UniqueId);
+                        var SI = Number(UniqueId.replace("Line", ""));
+                        var SRect = StartRect[SI-1];
+                        var ERect = FindLastId(SRect);
+                        var Ltext = ERect.replace("Rect", "Text");
+                        var Points = node.points();
+                        Points.pop();
+                        Points.pop();
+                        node.points(Points);
+                        isDraw = false;
+                        isFinished = true;
+                        var node = layer.findOne('#' + Ltext);
+                        node.destroy();
+                        $("#EndIW").hide();
+
+                        CurrentObjId = "";
+                        //OldCurrentObjId = "";
+                    }
+                    else if (CheckId.name() == "PE Pipeline" && i == Number(LastId.replace("Rect", ""))) {
+
+                        //$(".PEPD").hide();
+                        var SubCategoryID = $("#SubCatId").text();
+                        var SubcategoryName = $("#SName").text();
+                        var UniqueId = $("#PEId").val();
+                        var OrderId = $("#OrderId").val();
+                        var PELength = $("#PEL").val();
+
+                        //$("#EndPE").hide();
+                        $(".PEPD").hide();
+                        $("#SName").text("");
+                        $("#SubCatId").text("");
+                        $("#btn_PE *").prop('disabled', true);
+
+                        var model = {
+                            UniqueId: UniqueId,
+                            SubCategoryID: SubCategoryID,
+                            SubcategoryName: SubcategoryName,
+                            OrderId: OrderId,
+                            PELength: PELength,
+                        };
+
+                        $.ajax({
+                            type: "POST",
+                            url: "@Url.Action("AddOrderDetails", "Customer")",
+                            data: JSON.stringify(model),
+                            contentType: "application/json; charset=utf-8",
+                            dataType: "json",
+                            success: function (r) {
+                                $("#TotalAmount").text(r);
+                                $("#TotalAmountInput").val(r);
+                            }
+                        });
+                        $("#DeleteObj").hide();
+                        var node = layer.findOne('#' + UniqueId);
+                        var SI = Number(UniqueId.replace("Line", ""));
+                        var SRect = StartRect[SI-1];
+                        var ERect = FindLastId(SRect);
+                        var Ltext = ERect.replace("Rect", "Text");
+                        var Points = node.points();
+                        Points.pop();
+                        Points.pop();
+                        node.points(Points);
+                        isDraw = false;
+                        isFinished = true;
+                        var node = layer.findOne('#' + Ltext);
+                        node.destroy();
+                        $("#EndPE").hide();
+
+
+                        CurrentObjId = "";
+                        //OldCurrentObjId = "";
+                    }
+                    else {
+                        node = layer.findOne('#Text' + i);
+                        node.hide();
+                    }
                 }
+                $("#SName").text("");
+                isOutArea = true;
 
             }
             else if (CLastId[0] == 'S' && CLastId[1] == 'p') {
-               
+
                 var SubCategoryID = $("#SubCatId").text();
                 var SubcategoryName = $("#SName").text();
                 var UniqueId = $("#SId").val();
@@ -5465,7 +5734,7 @@
 
 
                 $("#BtnEndsprinkler").hide();
-                $("#RSPD").hide();
+                $(".RSPD").hide();
                 $("#SName").text("");
                 CurretSprinkler = "";
 
@@ -5502,7 +5771,7 @@
                 OrderId = $("#OrderId").val();
 
                 $("#BtnEndRectangularsprinkler").hide();
-                $("#SSPD").hide();
+                $(".SSPD").hide();
                 $("#SName").text("");
                 CurretRSprinkler = "";
 
@@ -5537,7 +5806,7 @@
                 OrderId = $("#OrderId").val();
 
                 $("#EndIC").hide();
-                $("#ICPD").hide();
+                $(".ICPD").hide();
                 $("#SName").text("");
                 $("#SubCatId").text("");
                 //$("#btn_IC").prop("disabled", true);
@@ -5580,7 +5849,7 @@
                 OrderId = $("#OrderId").val();
 
                 $("#EndVB").hide();
-                $("#VBPD").hide();
+                $(".VBPD").hide();
                 $("#SName").text("");
                 $("#SubCatId").text("");
                 //CurretSprinkler = "";
@@ -5623,7 +5892,7 @@
                 OrderId = $("#OrderId").val();
 
                 $("#EndTap").hide();
-                $("#TapPD").hide();
+                $(".TapPD").hide();
                 $("#SName").text("");
                 $("#SubCatId").text("");
                 $("#btn_TAP *").prop('disabled', true);
@@ -5666,7 +5935,7 @@
             $("#ObjUniqueId").val("");
             $("#SName").text("");
             CurrentObjId = "";
-
+            OldCurrentObjId = "";
         }
     }
 
@@ -5679,7 +5948,7 @@
             var CLastId = ObjID;
             if (CLastId == "UploadImg") {
                 $("#SName").text("");
-                $("#DivImageOpacityValue").hide();
+                $(".DivImageOpacityValue").hide();
                 node = layer.findOne('#' + CLastId);
                 node.draggable(false);
                 node = layer.findOne('#' + CLastId.replace("UploadImg", "TUploadImg"));
@@ -5689,10 +5958,31 @@
 
             if (CLastId[0] == 'L') {
 
+
+                var temp = Number(CLastId.replace("Line", ""));
+                FirstId = StartRect[temp - 1];
+                LastId = FindLastId(FirstId);
+
+
+                var CheckId = layer.findOne('#' + CLastId);
+                for (var i = Number(FirstId.replace("Rect", "")); i <= Number(LastId.replace("Rect", "")); i++) {
+                    var node = layer.findOne('#Rect' + i);
+                    node.hide();
+                    if (CheckId.name() == "Irrigation Wiring" && i == Number(LastId.replace("Rect", ""))) {
+                        $(".IWPD").hide();
+                    }
+                    else if (CheckId.name() == "PE Pipeline" && i == Number(LastId.replace("Rect", ""))) {
+
+                        $(".PEPD").hide();
+                    }
+                    else {
+                        node = layer.findOne('#Text' + i);
+                        node.hide();
+                    }
+                }
                 $("#SName").text("");
-                $("#IWPD").hide();
-                $("#PEPD").hide();
-                isOutArea = false;
+                isOutArea = true;
+                CurrentObjId = "";
 
             }
             else if (CLastId[0] == 'S' && CLastId[1] == 'p') {
@@ -5723,7 +6013,7 @@
 
 
                 $("#SName").text("");
-                $("#RSPD").hide();
+                $(".RSPD").hide();
 
             }
             else if (CLastId[0] == 'R' && CLastId[1] == 'e') {
@@ -5731,7 +6021,7 @@
                     CurretRSprinkler = "";
                 }
                 $("#SName").text("");
-                $("#SSPD").hide();
+                $(".SSPD").hide();
 
             }
             else if (CLastId[0] == 'S' && CLastId[1] == 'y') {
@@ -5739,7 +6029,7 @@
                     CurretIC = "";
                 }
                 $("#SName").text("");
-                $("#ICPD").hide();
+                $(".ICPD").hide();
                 node = layer.findOne('#' + CLastId);
                 node.draggable(false);
                 node = layer.findOne('#' + CLastId.replace("System", "TIC"));
@@ -5750,7 +6040,7 @@
                     CurretVB = "";
                 }
                 $("#SName").text("");
-                $("#VBPD").hide();
+                $(".VBPD").hide();
                 node = layer.findOne('#' + CLastId);
                 node.draggable(false);
                 node = layer.findOne('#' + CLastId.replace("ValveBox", "TVB"));
@@ -5761,21 +6051,22 @@
                     CurretTap = "";
                 }
                 $("#SName").text("");
-                $("#TapPD").hide();
+                $(".TapPD").hide();
                 node = layer.findOne('#' + CLastId);
                 node.draggable(false);
                 node = layer.findOne('#' + CLastId.replace("Tap", "TTap"));
                 node.hide();
             }
             var node = layer.findOne('#' + CLastId);
-            if (node.name() =="Area" ) {
-                $("#Area").prop('disabled', false);
+            if (node.name() == "Area") {
+                $("#Area").prop('disabled', true);
             }
 
             $("#DeleteObj").hide();
             $("#CancleDeleteObj").hide();
             $("#ObjUniqueId").val("");
             $("#SName").text("");
+           
             OldCurrentObjId = "";
         }
     }
