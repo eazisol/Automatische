@@ -73,7 +73,7 @@
             }
             <div class="dropdown " @*id="btn_@item.Code"*@ style="padding:10px;">
                 <button type="button" class="btn btn-outline-secondary " data-toggle="dropdown" title="Image Upload" onclick="open_file()">
-                    <img src="~/assets/images/ecommerce/pngtree-file-upload-icon-image_1344393.jpg" style="width:80%" />
+                    <img src="~/assets/images/ecommerce/uploadImage.jpg" style="width:80%" />
                 </button>
                 
 
@@ -128,7 +128,7 @@
     <div class="col-md-9">
         <div class="body d-flex profile-page">
             <div class="card">
-                <div  id="container" data-options="scaleMode:proportionalInside" style="border:2px solid orange">
+                <div  id="container" data-options="scaleMode:proportionalInside" style="border:1px solid">
                 </div>
                 <div id="foo" class='buttons mt-2 mb-2'>
 
@@ -244,7 +244,7 @@
 
 
 
-<div class="modal fade" id="addcontact" tabindex="-1" role="dialog" @*data-backdrop="static" data-keyboard="false"*@>
+<div class="modal fade" id="addcontact" tabindex="-1" role="dialog" data-backdrop="static" data-keyboard="false">
     <div class="modal-dialog " role="document">
 
         <div class="modal-content">
@@ -932,7 +932,7 @@
 
     $("body").on("change", "#SprinklerTypeDropID", function () {
         let element = document.getElementById("SprinklerTypeDropID");
-        if (CurrentObjId != "" &&CurrentObjId[0] != "S" && CurrentObjId[1] != "p") {
+        if (CurrentObjId != "" && CurrentObjId[0] != "S" && CurrentObjId[1] != "p") {
             UnSelectObjOnNew(CurrentObjId);
         }
 
@@ -2128,7 +2128,7 @@
 
     $("body").on("click", "#RSP,#Sprinkler1,#Sprinkler2", function () {
         console.log(CurrentObjId);
-        if (CurrentObjId != "" || (CurrentObjId[0] != "S" && CurrentObjId[1] != "p")) {
+        if (CurrentObjId != "" && (CurrentObjId[0] != "S" && CurrentObjId[1] != "p")) {
             UnSelectObjOnNew(CurrentObjId);
         }
         $(".RSPD").show();
