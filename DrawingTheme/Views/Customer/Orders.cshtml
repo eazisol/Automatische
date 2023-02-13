@@ -65,7 +65,7 @@
                                         <th>@Resources.PAYMENTSTATUS</th>
                                       
                                         <th hidden>Status</th>
-                                        <th>@Resources.ACTION</th>
+                                        <th>@Resources.Action</th>
 
                                     </tr>
                                 </thead>
@@ -102,8 +102,8 @@
                                             <span>@Order.isActive</span>
                                         </td>
                                         <td>
-                                            <a href="@Url.Action("BOMView","Customer",new {OrderID=@Order.OrderId })"><button type="button" class="btn btn-info btn-sm" title="View"><i class="fa fa-eye"></i> Preview</button></a>
-                                            <a href="@Order.ImgPath" target="_blank"><button type="button" class="btn btn-secondary btn-sm" title="View" id=""><i class="fa fa-eye"></i> View</button></a>
+                                            <a href="@Url.Action("BOMView","Customer",new {OrderID=@Order.OrderId })"><button type="button" class="btn btn-info btn-sm" title="View"><i class="fa fa-eye"></i> @Resources.Preview</button></a>
+                                            <a href="@Order.ImgPath" target="_blank"><button type="button" class="btn btn-secondary btn-sm" title="View" id=""><i class="fa fa-eye"></i> @Resources.View</button></a>
                                         </td>
                                     </tr>
 

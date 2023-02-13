@@ -10,16 +10,16 @@
         <div class="row clearfix">
             <div class="col-lg-12 mt-2">
                 <form class=" mb-2" style="float:right" role="form" id="payment-form" method="POST" action="@Url.Action("PaymentWithPaypal","PayPal",new {UserId=@ViewBag.UserId,OrderID=@ViewBag.OrderId })">
-                    <span class="badge badge-warning  mr-2"> Total Amount: <label id="TotalAmount"> 0</label> €</span>
+                    <span class="badge badge-warning  mr-2"> <label id="TotalAmount"> 0</label> €</span>
                     <input type="text" id="TotalAmountInput" name="amount" value="" hidden />
-                    <button class="btn btn-info mr-2" type="submit"><i class="fa fa-paypal mr-2"></i> Place Order</button>
+                    <button class="btn btn-info mr-2" type="submit"><i class="fa fa-paypal mr-2"></i>@Resources.PlaceOrder</button>
 
                    
                 </form>
                 <div class="card" style="display:none" id="Accesories">
                     <div class="row card-header">
                         <div class="col-md-6">
-                        <h3 class="card-title">Accesoires</h3>
+                            <h3 class="card-title">@Resources.Accesoires</h3>
                             </div>
                       
                     </div>
@@ -30,14 +30,14 @@
                         <div class="row">
                             <div class="col-9">
 
-                                <label class="text-center"><strong>Item</strong></label>
+                                <label class="text-center"><strong>@Resources.Item</strong></label>
                             </div>
                             <div class="col-2">
-                                <label class="text-center"><strong>Price (€)</strong></label>
+                                <label class="text-center"><strong>@Resources.PRICE (€)</strong></label>
                             </div>
 
                             <div class="col-1">
-                                <label class="text-center"><strong>QTY</strong></label>
+                                <label class="text-center"><strong>@Resources.QTY</strong></label>
                             </div>
 
                         </div>
@@ -71,8 +71,8 @@
 
                         }
                         <div class="col-md-12 mt-2">
-                            <button id="save" class="btn btn-success " style="float:right"><i class="fa fa-reorder mr-2"></i>Updaet BOM</button>
-                            <button class="btn btn-secondary mr-2" type="button" onclick="HideAccessories()" style="float:right"><i class="fa fa-close mr-2"></i>Close</button>
+                            <button id="save" class="btn btn-success " style="float:right"><i class="fa fa-reorder mr-2"></i>@Resources.UpdateBOM</button>
+                            <button class="btn btn-secondary mr-2" type="button" onclick="HideAccessories()" style="float:right"><i class="fa fa-close mr-2"></i>@Resources.Close</button>
                         </div>
 
                     </div>
@@ -80,10 +80,10 @@
                 <div class="card">
                     <div class="row card-header">
                         <div class="col-md-6">
-                            <h3 class="card-title">BOM</h3>
+                            <h3 class="card-title">@Resources.BOM</h3>
                         </div>
                         <div class="col-md-6">
-                            <button class="btn btn-primary" type="button" onclick="showAccessories()" style="float:right"><i class="fa fa-plus mr-2"></i> Add Accesoires</button>
+                            <button class="btn btn-primary" type="button" onclick="showAccessories()" style="float:right"><i class="fa fa-plus mr-2"></i> @Resources.AddAccesoires</button>
                             </div>
                         </div>
                         <div class="card-body pt-0">
@@ -91,12 +91,12 @@
                                 <table class="table table-hover table-vcenter text-nowrap mb-0" id="ScrapperList">
                                     <thead>
                                         <tr>
-                                            <th>Item name</th>
+                                            <th>@Resources.Itemname </th>
                                             <th hidden>Item ID</th>
-                                            <th>Quantity</th>
-                                            <th>Price per unit</th>
-                                            <th>Total</th>
-                                            <th>VAT</th>
+                                            <th>@Resources.QUANTITY</th>
+                                            <th>@Resources.Priceperunit</th>
+                                            <th>@Resources.Total</th>
+                                            <th>@Resources.VAT</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -125,7 +125,7 @@
 
                                         }
                                         <tr>
-                                            <td colspan="3">Total</td>
+                                            <td colspan="3">@Resources.Total</td>
 
                                             <td><label id="GrandTVal">@GrandTotal</label> €</td>
                                             <td>

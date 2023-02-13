@@ -117,17 +117,23 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="Accesoires" xml:space="preserve">
+    <value>Accesoires</value>
+  </data>
   <data name="Account" xml:space="preserve">
     <value>Account</value>
   </data>
   <data name="Account Settings" xml:space="preserve">
     <value>Account Settings</value>
   </data>
-  <data name="ACTION" xml:space="preserve">
+  <data name="Action" xml:space="preserve">
     <value>ACTION</value>
   </data>
   <data name="Active" xml:space="preserve">
     <value>Active</value>
+  </data>
+  <data name="AddAccesoires" xml:space="preserve">
+    <value>Add Accesoires</value>
   </data>
   <data name="AddCategory" xml:space="preserve">
     <value>Add Category</value>
@@ -162,11 +168,17 @@
   <data name="AddUser" xml:space="preserve">
     <value>Add User</value>
   </data>
+  <data name="Angle" xml:space="preserve">
+    <value>Angle</value>
+  </data>
   <data name="Areyousurewanttodeletethisinformation" xml:space="preserve">
     <value>Are you sure want to delete this  information</value>
   </data>
   <data name="Backtosignin" xml:space="preserve">
     <value>Back to sign in</value>
+  </data>
+  <data name="BOM" xml:space="preserve">
+    <value>BOM</value>
   </data>
   <data name="BOMRelevant" xml:space="preserve">
     <value>BOM Relevant</value>
@@ -240,6 +252,9 @@
   <data name="drinkingwatersource" xml:space="preserve">
     <value>Drinking Water Source</value>
   </data>
+  <data name="DryArea" xml:space="preserve">
+    <value>Dry Area</value>
+  </data>
   <data name="EditComponent" xml:space="preserve">
     <value>Edit Component</value>
   </data>
@@ -255,11 +270,20 @@
   <data name="EmailSettings" xml:space="preserve">
     <value>Email Settings</value>
   </data>
+  <data name="Enterordername" xml:space="preserve">
+    <value>Enter order name</value>
+  </data>
   <data name="Entertheemailaddressyouusedwhenyoujoinedandwe'llsendyouinstructionstoresetyourpassword." xml:space="preserve">
     <value>Enter the email address you used when you joined and we'll send you instructions to reset your password.</value>
   </data>
+  <data name="Filterincluded" xml:space="preserve">
+    <value>Filter included</value>
+  </data>
   <data name="FirstName" xml:space="preserve">
     <value>First Name</value>
+  </data>
+  <data name="fordrinkingwatersource" xml:space="preserve">
+    <value>for drinking water source</value>
   </data>
   <data name="Forgotpassword" xml:space="preserve">
     <value>Forgot password</value>
@@ -267,8 +291,29 @@
   <data name="ForgotPassword?" xml:space="preserve">
     <value>Forgot Password?</value>
   </data>
+  <data name="forrainwatersource" xml:space="preserve">
+    <value>for rainwater source</value>
+  </data>
+  <data name="forwellwatersource" xml:space="preserve">
+    <value>for well water source</value>
+  </data>
+  <data name="GetWet" xml:space="preserve">
+    <value>Get Wet</value>
+  </data>
+  <data name="Hedge" xml:space="preserve">
+    <value>Hedge</value>
+  </data>
+  <data name="Height" xml:space="preserve">
+    <value>Height</value>
+  </data>
+  <data name="Imageopacity" xml:space="preserve">
+    <value>Image opacity</value>
+  </data>
   <data name="InActive" xml:space="preserve">
     <value>InActive</value>
+  </data>
+  <data name="Indoor" xml:space="preserve">
+    <value>Indoor</value>
   </data>
   <data name="IrrigationComputerindoor" xml:space="preserve">
     <value>Irrigation Computer Indoor</value>
@@ -288,11 +333,20 @@
   <data name="IsAdminReceived" xml:space="preserve">
     <value>Send emails to admin?</value>
   </data>
+  <data name="Item" xml:space="preserve">
+    <value>Item</value>
+  </data>
+  <data name="Itemname" xml:space="preserve">
+    <value>Item Name</value>
+  </data>
   <data name="language" xml:space="preserve">
     <value>Language</value>
   </data>
   <data name="LastName" xml:space="preserve">
     <value>Last Name</value>
+  </data>
+  <data name="Lawn" xml:space="preserve">
+    <value>Lawn</value>
   </data>
   <data name="LOGIN" xml:space="preserve">
     <value>LOGIN</value>
@@ -354,6 +408,9 @@
   <data name="ORDERNUMBER" xml:space="preserve">
     <value>ORDER NUMBER</value>
   </data>
+  <data name="outdoor" xml:space="preserve">
+    <value>outdoor</value>
+  </data>
   <data name="Paid" xml:space="preserve">
     <value>Paid</value>
   </data>
@@ -381,6 +438,9 @@
   <data name="PipelineMaxLength" xml:space="preserve">
     <value>Pipeline Max Length</value>
   </data>
+  <data name="PlaceOrder" xml:space="preserve">
+    <value>Place Order</value>
+  </data>
   <data name="Plan" xml:space="preserve">
     <value>Plan</value>
   </data>
@@ -393,14 +453,35 @@
   <data name="Port" xml:space="preserve">
     <value>Port</value>
   </data>
+  <data name="Preview" xml:space="preserve">
+    <value>Pre View</value>
+  </data>
   <data name="PRICE" xml:space="preserve">
     <value>PRICE</value>
+  </data>
+  <data name="Priceperunit" xml:space="preserve">
+    <value>Price per unit</value>
+  </data>
+  <data name="Proceed" xml:space="preserve">
+    <value>Proceed</value>
   </data>
   <data name="Profile" xml:space="preserve">
     <value>Profile</value>
   </data>
   <data name="Profile1" xml:space="preserve">
     <value>Profile</value>
+  </data>
+  <data name="Property" xml:space="preserve">
+    <value>Property</value>
+  </data>
+  <data name="QTY" xml:space="preserve">
+    <value>QTY</value>
+  </data>
+  <data name="QUANTITY" xml:space="preserve">
+    <value>QUANTITY</value>
+  </data>
+  <data name="Radius" xml:space="preserve">
+    <value>Radius</value>
   </data>
   <data name="rainwatersource" xml:space="preserve">
     <value>Rain Water Source</value>
@@ -419,6 +500,9 @@
   </data>
   <data name="RolesManagement" xml:space="preserve">
     <value>Roles Management</value>
+  </data>
+  <data name="SaveasPDF" xml:space="preserve">
+    <value>Save as PDF</value>
   </data>
   <data name="SaveChanges" xml:space="preserve">
     <value>Save Changes</value>
@@ -456,6 +540,9 @@
   <data name="SignUP" xml:space="preserve">
     <value>Sign UP</value>
   </data>
+  <data name="Smarphone" xml:space="preserve">
+    <value>Smarphone</value>
+  </data>
   <data name="SMTP" xml:space="preserve">
     <value>SMTP</value>
   </data>
@@ -464,6 +551,9 @@
   </data>
   <data name="SSL" xml:space="preserve">
     <value>SSL</value>
+  </data>
+  <data name="StartAngle" xml:space="preserve">
+    <value>Start Angle</value>
   </data>
   <data name="Status" xml:space="preserve">
     <value>Status</value>
@@ -492,11 +582,17 @@
   <data name="ThrowWidth" xml:space="preserve">
     <value>Throw Width</value>
   </data>
+  <data name="Total" xml:space="preserve">
+    <value>Total</value>
+  </data>
   <data name="TotalComponents" xml:space="preserve">
     <value>Total Components</value>
   </data>
   <data name="TotalCustomers" xml:space="preserve">
     <value>Total Customers</value>
+  </data>
+  <data name="Totallength" xml:space="preserve">
+    <value>Total length</value>
   </data>
   <data name="TOTALPRICE" xml:space="preserve">
     <value>TOTAL PRICE</value>
@@ -515,6 +611,9 @@
   </data>
   <data name="UnPaid" xml:space="preserve">
     <value>Un Paid</value>
+  </data>
+  <data name="UpdateBOM" xml:space="preserve">
+    <value>Update BOM</value>
   </data>
   <data name="UploadProfileImage" xml:space="preserve">
     <value>Upload Profile Image</value>
@@ -540,7 +639,16 @@
   <data name="valveboxFilter" xml:space="preserve">
     <value>Valvebox Filter</value>
   </data>
+  <data name="VAT" xml:space="preserve">
+    <value>VAT</value>
+  </data>
+  <data name="View" xml:space="preserve">
+    <value>View</value>
+  </data>
   <data name="wellwatersource" xml:space="preserve">
     <value>Well Water Source</value>
+  </data>
+  <data name="Width" xml:space="preserve">
+    <value>Width</value>
   </data>
 </root>

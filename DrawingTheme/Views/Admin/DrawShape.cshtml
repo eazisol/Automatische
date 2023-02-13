@@ -25,18 +25,18 @@
             <input type="text" name="VBCircle" id="VBCircle" value="" hidden="">
 
 
-            <button id="Area" class="btn btn-success ml-2 mr-2" onclick="SaveData(4)" data-radius="30" data-width="100" data-height="40" data-angle="180" data-rotation="45">Lawn</button>
-            <button id="DryArea" class="btn mr-2" style="background-color: #ffe699;" onclick="SaveData(5)" data-radius="30" data-width="100" data-height="40" data-angle="180" data-rotation="45">Dry Area</button>
-            <button id="Hedge" class="btn mr-2" style="background-color: #D2BFFF;" onclick="SaveData(6)" data-radius="30" data-width="100" data-height="40" data-angle="180" data-rotation="45">Hedge</button>
-            <button id="GetWet" class="btn mr-2" style="background-color: rgba(111, 187, 211, .8);" onclick="SaveData(9)" data-radius="30" data-width="100" data-height="40" data-angle="180" data-rotation="45">Get Wet </button>
+            <button id="Area" class="btn btn-success ml-2 mr-2" onclick="SaveData(4)" data-radius="30" data-width="100" data-height="40" data-angle="180" data-rotation="45">@Resources.Lawn</button>
+            <button id="DryArea" class="btn mr-2" style="background-color: #ffe699;" onclick="SaveData(5)" data-radius="30" data-width="100" data-height="40" data-angle="180" data-rotation="45">@Resources.DryArea</button>
+            <button id="Hedge" class="btn mr-2" style="background-color: #D2BFFF;" onclick="SaveData(6)" data-radius="30" data-width="100" data-height="40" data-angle="180" data-rotation="45">@Resources.Hedge</button>
+            <button id="GetWet" class="btn mr-2" style="background-color: rgba(111, 187, 211, .8);" onclick="SaveData(9)" data-radius="30" data-width="100" data-height="40" data-angle="180" data-rotation="45">@Resources.GetWet </button>
 
            
                 <form  style="float:right" role="form" id="payment-form" method="POST" action="@Url.Action("PaymentWithPaypal","PayPal")">
                     <span class="badge badge-warning  mr-2"> <label id="TotalAmount"> 0</label> €</span>
                     <input type="text" id="TotalAmountInput" name="amount" value="" hidden />
-                    <button class="btn btn-primary " type="button" id="save"><i class="fa fa-save mr-2"></i>Save as PDF</button>
-                    <button class="btn btn-secondary " type="button" id="ProceedToAccesoires"><i class="fa fa-forward  mr-2"></i>Proceed</button>
-                    <button class="btn btn-info mr-2" type="submit" hidden><i class="fa fa-paypal mr-2"></i> Place Order</button>
+                    <button class="btn btn-primary " type="button" id="save"><i class="fa fa-save mr-2"></i>@Resources.SaveasPDF</button>
+                    <button class="btn btn-secondary " type="button" id="ProceedToAccesoires"><i class="fa fa-forward  mr-2"></i>@Resources.Proceed</button>
+                    <button class="btn btn-info mr-2" type="submit" hidden><i class="fa fa-paypal mr-2"></i>@Resources.PlaceOrder</button>
                 </form>
            
         </nav>
@@ -146,71 +146,71 @@
     <div class="col-md-2">
         <div class="card free-card text-center">
             <div class="btn btn-lg" style=" background-color: #333333 !important; color: white;">
-                <h4>Property</h4>
+                <h4>@Resources.Property </h4>
             </div>
             <div class="card-body">
                 <h6 id="SName" class="badge-success bg-success text-white" style="display: inline-block; padding: 0.25em 0.4em; font-weight: 700;  text-align: center; border-radius: 0.25rem; transition: color .15s ease-in-out,background-color .15s ease-in-out,border-color .15s ease-in-out,box-shadow .15s ease-in-out;"></h6><br />
                 <h6 hidden id="SubCatId"></h6>
                 <div id="RSPD" class="RSPD" style="display:none;">
                     <input class="form-control" type="text" id="SId" hidden name="name" value="" />
-                    <label>Sprinkler type</label>
+                    <label>@Resources.SprinklerType</label>
                     <select class="form-control" id="SprinklerTypeDropID">
                         @foreach (DrawingTheme.Models.tblSubCategory item in ViewBag.Sprinkler)
                         {
                             <option value="@item.SubcategoryName.ToString().Replace(",",".")" data-SubCatId="@item.SubcategoryID.ToString().Replace(",",".")" data-Name="@item.SubcategoryName.ToString().Replace(",",".")" data-radius="@item.ThrowDistanceMax.ToString().Replace(",",".")" data-width="@item.ThrowWidth.ToString().Replace(",",".")" data-height="@item.ThrowHeight.ToString().Replace(",",".")" data-angle="@item.MaxAngle.ToString().Replace(",",".")" data-rotation="@item.MinAngle.ToString().Replace(",",".")" data-IrrigationCircles="@item.valveboxcircle.ToString().Replace(",",".")" data-Filter="@item.valveboxFilter.ToString().Replace(",",".")" data-DrinkingWater="@item.drinkingwatersource.ToString().Replace(",",".")" data-WellWater="@item.wellwatersource.ToString().Replace(",",".")" data-RainWater="@item.rainwatersource.ToString().Replace(",",".")" data-Station="@item.IrrigationComputermaxstation.ToString().Replace(",",".")" data-Indoor="@item.IrrigationComputerindoor.ToString().Replace(",",".")" data-Outdoor="@item.IrrigationComputeroutdoor.ToString().Replace(",",".")" data-SP="@item.IrrigationComputeroutdoor.ToString().Replace(",",".")">@item.SubcategoryName</option>
                         }
                     </select>
-                    <label>Radius</label>
+                    <label>@Resources.Radius</label>
                     <input class="form-control" type="number" id="SRadius" onchange="SetS(this,1)" name="name" value="" />
-                    <label>Start Angle</label>
+                    <label>@Resources.StartAngle</label>
                     <input class="form-control" type="number" id="StartAngle" onchange="SetS(this,2)" name="name" value="" />
-                    <label>Angle</label>
+                    <label>@Resources.Angle</label>
                     <input class="form-control" type="number" id="SAngle" onchange="SetS(this,3)" name="name" value="" />
                     @*<button class="btn btn-sm btn-secondary fa fa-lock" id="BtnEndsprinkler" style="display:none;">End sprinkler</button>*@
 
                 </div>
                 <div id="SSPD" class="SSPD" style="display:none;">
                     <input class="form-control" type="text" id="SSId" hidden name="name" value="" />
-                    <label>Width</label>
+                    <label>@Resources.Width</label>
                     <input class="form-control" type="number" id="SSWidth" onchange="SetS(this,4)" name="name" value="" disabled />
-                    <label>Height</label>
+                    <label>@Resources.Height</label>
                     <input class="form-control" type="number" id="SSHeight" onchange="SetS(this,5)" name="name" value="" disabled />
                     @*<button class="btn btn-sm btn-secondary fa fa-lock" id="BtnEndRectangularsprinkler" style="display:none;">End rectangular sprinkler</button>*@
                 </div>
                 <div id="VBPD" class="VBPD" style="display:none;">
                     <input class="form-control" type="text" id="VBId" hidden name="name" value="" />
-                    <label id="VBF" style="display:none;">Filter included</label>
-                    <label id="VBDW" style="display:none;">for drinking water source</label>
-                    <label id="VBWW" style="display:none;">for well water source</label>
-                    <label id="VBRW" style="display:none;">for rainwater source</label>
+                    <label id="VBF" style="display:none;">@Resources.Filterincluded</label>
+                    <label id="VBDW" style="display:none;">@Resources.fordrinkingwatersource</label>
+                    <label id="VBWW" style="display:none;">@Resources.forwellwatersource</label>
+                    <label id="VBRW" style="display:none;">@Resources.forrainwatersource</label>
                     @*<button class="btn btn-sm btn-secondary fa fa-lock" id="EndVB" style="display:none;">End Valve box</button>*@
                 </div>
                 <div id="ICPD" class="ICPD" style="display:none;">
                     <input class="form-control" type="text" id="ICId" hidden name="name" value="" />
                     <label id="ICS">Filter included</label>
-                    <label id="ICID" style="display:none;">Indoor</label>
-                    <label id="ICOD" style="display:none;">outdoor</label>
-                    <label id="ICSP" style="display:none;">Smarphone</label>
+                    <label id="ICID" style="display:none;">@Resources.Indoor</label>
+                    <label id="ICOD" style="display:none;">@Resources.outdoor</label>
+                    <label id="ICSP" style="display:none;">@Resources.Smarphone</label>
                     @*<button class="btn btn-sm btn-secondary fa fa-lock" id="EndIC" style="display:none;">End Irrigation computer</button>*@
                 </div>
                 <div id="TapPD" class="TapPD" style="display:none;">
                     <input class="form-control" type="text" id="TapId" hidden name="name" value="" />
                     <select id="TapSelect" class="form-control" onchange="SetS(this,6)">
-                        <option value="70">Drinking Water Source</option>
-                        <option value="71">Well Water Source</option>
-                        <option value="72">Rain Water Source</option>
+                        <option value="70">@Resources.drinkingwatersource</option>
+                        <option value="71">@Resources.wellwatersource</option>
+                        <option value="72">@Resources.rainwatersource</option>
                     </select>
                     @*<button class="btn btn-sm btn-secondary fa fa-lock" id="EndTap" style="display:none;">End Tap</button>*@
                 </div>
                 <div id="IWPD" class="IWPD" style="display:none;">
                     <input class="form-control" type="text" id="IWId" hidden name="name" value="" />
-                    <label>Total length: </label>
+                    <label>@Resources.Totallength: </label>
                     <input class="form-control" type="number" id="IWL" name="name" value="0" disabled />
                     @*<button class="btn btn-sm btn-secondary fa fa-lock" id="EndIW" >End Irrigation wiring</button>*@
                 </div>
                 <div id="PEPD" class="PEPD" style="display:none;">
                     <input class="form-control" type="text" id="PEId" hidden name="name" value="" />
-                    <label>Total length: </label>
+                    <label>@Resources.Totallength: </label>
                     <input class="form-control" type="number" id="PEL" name="name" value="0" disabled />
                     @*<button class="btn btn-sm btn-secondary fa fa-lock" id="EndPE" >End PE Pipeline</button>*@
                 </div>
@@ -249,15 +249,15 @@
 
         <div class="modal-content">
             <div class="modal-header">
-                <h4 class="title" id="defaultModalLabel">Enter order name</h4>
+                <h4 class="title" id="defaultModalLabel">@Resources.Enterordername</h4>
             </div>
             <div class="modal-body">
 
                 <div class="row clearfix">
                     <div class="col-12">
                         <div class="form-group">
-                            <input type="text" class="form-control" id="ModalName" name="Name" placeholder="Order Name" required>
-                            <h6 id="OrderError" style="color:red; display:none" >*Enter Order Name</h6>
+                            <input type="text" class="form-control" id="ModalName" name="Name" placeholder="@Resources.Enterordername" required>
+                            <h6 id="OrderError" style="color:red; display:none">*@Resources.Enterordername</h6>
                         </div>
                     </div>
 
@@ -266,7 +266,7 @@
 
             </div>
             <div class="modal-footer">
-                <button type="submit" class="btn btn-primary" id="SaveOrder">Save Changes</button>
+                <button type="submit" class="btn btn-primary" id="SaveOrder">@Resources.SaveChanges</button>
             </div>
         </div>
     </div>
@@ -674,7 +674,7 @@
 
         $("#ObjUniqueId").val(e.target.id().replace("Arc","Sprinkler"));
          var UniqueId = $("#ObjUniqueId").val();
-         
+
          OldCurrentObjId = UniqueId;
         //alert(UniqueId);
          if (UniqueId != null && UniqueId != "") {
@@ -726,7 +726,7 @@
                             //    $("#EndPE").hide();
                             //    //$("#EndPE").hide();
                             //}
-                           
+
                             OldCurrentObjId = r.Data.UniqueId;
 
                             var temp = Number(r.Data.UniqueId.replace("Line", ""));
@@ -819,6 +819,11 @@
                             CurretIC = r.UniqueId;
                             $("#btn_IC *").prop('disabled', false);
                             node = layer.findOne('#' + r.UniqueId);
+                            node.off('mouseover');
+
+                            node.on('mouseover', (e) => {
+                                stage.container().style.cursor = 'move';
+                            });
                             node.draggable(true);
                             node = layer.findOne('#' + r.UniqueId.replace("System", "TIC"));
                             node.show();
@@ -845,6 +850,11 @@
                             CurretVB = r.UniqueId;
                             $("#btn_VB *").prop('disabled', false);
                             node = layer.findOne('#' + r.UniqueId);
+                            node.off('mouseover');
+
+                            node.on('mouseover', (e) => {
+                                stage.container().style.cursor = 'move';
+                            });
                             node.draggable(true);
                             node = layer.findOne('#' + r.UniqueId.replace("ValveBox", "TVB"));
                             node.show();
@@ -859,6 +869,11 @@
                             CurretTap = r.UniqueId;
                             $("#btn_TAP *").prop('disabled', false);
                             node = layer.findOne('#' + r.UniqueId);
+                            node.off('mouseover');
+
+                            node.on('mouseover', (e) => {
+                                stage.container().style.cursor = 'move';
+                            });
                             node.draggable(true);
                             node = layer.findOne('#' + r.UniqueId.replace("Tap", "TTap"));
                             node.show();
@@ -925,6 +940,39 @@
 
 
 
+     });
+
+
+
+    stage.on('mouseover', (e) => {
+        
+        
+        var UniqueId = e.target.id().replace("Arc", "Sprinkler");
+
+         
+        //alert(UniqueId);
+         if (UniqueId != null && UniqueId != "") {
+             console.log(UniqueId);
+             if (UniqueId[0] == 'S' && UniqueId[1] == 'y') {
+
+                 node = layer.findOne('#' + UniqueId);
+                 
+                 node.draggable(true);
+             }
+             else if (UniqueId[0] == 'V') {
+
+
+                 node = layer.findOne('#' + UniqueId);
+
+                 node.draggable(true);
+
+             }
+             else if (UniqueId[0] == 'T' && UniqueId[1] == 'a') {
+                 node = layer.findOne('#' + UniqueId);
+
+                 node.draggable(true);
+             }
+        }
     });
 
 
@@ -1024,9 +1072,63 @@
                 draggable: true,
             });
 
-            cir.on('dragmove', (e) => {
 
-                updateSprinkler(e.target.id());
+            cir.on('mouseover', (e) => {
+                stage.container().style.cursor = 'pointer';
+            });
+
+            cir.on('mouseout', (e) => {
+                stage.container().style.cursor = 'default';
+            });
+
+            cir.on('dragmove', (e) => {
+                var node = layer.findOne('#' + CurretSprinkler);
+                var x = node.x();
+                var y = node.y();
+
+
+                const pos = cir.absolutePosition();
+                var x2 = e.target.x();
+                var y2 = e.target.y();
+
+                var dx = x - x2;
+                var dy = y - y2;
+                var Sumsqr = Math.pow(dx, 2);
+                Sumsqr += Math.pow(dy, 2);
+                var Distance = Math.sqrt(Sumsqr);
+
+                //console.log(PxToM(Distance) + "--- " + scale);
+                if (PxToM(Distance) > 2.1) {
+                    var radius = 132;
+                    var scale = radius / Math.sqrt(Math.pow(pos.x - x, 2) + Math.pow(pos.y - y, 2));
+                    if (scale < 1) {
+
+
+                        cir.x(Math.round((pos.x - x) * scale + x));
+                        cir.y(Math.round((pos.y - y) * scale + y));
+
+                    }
+                    else {
+                        updateSprinkler(e.target.id());
+                    }
+                }
+                else {
+                    var radius = 26;
+
+                    var scale = radius / Math.sqrt(Math.pow(pos.x - x, 2) + Math.pow(pos.y - y, 2));
+                    if (scale > 1) {
+
+
+                        cir.x(Math.round((pos.x - x) * scale + x));
+                        cir.y(Math.round((pos.y - y) * scale + y));
+
+                    }
+                    else {
+                        updateSprinkler(e.target.id());
+                    }
+                }
+
+                cir.moveToTop();
 
             });
 
@@ -1043,9 +1145,66 @@
                 draggable: true,
             });
 
+            cirFill.on('mouseover', (e) => {
+                stage.container().style.cursor = 'pointer';
+            });
+
+            cirFill.on('mouseout', (e) => {
+                stage.container().style.cursor = 'default';
+            });
+
+
             cirFill.on('dragmove', (e) => {
 
-                updateSprinkler(e.target.id());
+
+
+                var node = layer.findOne('#' + CurretSprinkler);
+                var x = node.x();
+                var y = node.y();
+
+
+                const pos = cirFill.absolutePosition();
+                var x2 = e.target.x();
+                var y2 = e.target.y();
+
+                var dx = x - x2;
+                var dy = y - y2;
+                var Sumsqr = Math.pow(dx, 2);
+                Sumsqr += Math.pow(dy, 2);
+                var Distance = Math.sqrt(Sumsqr);
+
+                //console.log(PxToM(Distance) + "--- " + scale);
+                if (PxToM(Distance) > 2.1) {
+                    var radius = 132;
+                    var scale = radius / Math.sqrt(Math.pow(pos.x - x, 2) + Math.pow(pos.y - y, 2));
+                    if (scale < 1) {
+
+
+                        cirFill.x(Math.round((pos.x - x) * scale + x));
+                        cirFill.y(Math.round((pos.y - y) * scale + y));
+
+                    }
+                    else {
+                        updateSprinkler(e.target.id());
+                    }
+                }
+                else {
+                    var radius = 26;
+
+                    var scale = radius / Math.sqrt(Math.pow(pos.x - x, 2) + Math.pow(pos.y - y, 2));
+                    if (scale > 1) {
+
+
+                        cirFill.x(Math.round((pos.x - x) * scale + x));
+                        cirFill.y(Math.round((pos.y - y) * scale + y));
+
+                    }
+                    else {
+                        updateSprinkler(e.target.id());
+                    }
+                }
+
+                cirFill.moveToTop();
             });
 
             layer.add(cirFill);
@@ -1077,6 +1236,14 @@
                 id: circle.id().replace("Sprinkler", "MoveCircle"),
                 draggable: true,
                 listening: true,
+            });
+
+            cirMove.on('mouseover', (e) => {
+                stage.container().style.cursor = 'move';
+            });
+
+            cirMove.on('mouseout', (e) => {
+                stage.container().style.cursor = 'default';
             });
 
             cirMove.on('dragmove', (e) => {
@@ -1116,6 +1283,8 @@
 
         //$("#Sprinkler").prop('disabled', true);
         $("#BtnEndsprinkler").show();
+        cir.moveToTop();
+        cirFill.moveToTop();
         cirMove.moveToTop();
 
 
@@ -1144,6 +1313,15 @@
                 listening: false,
                 name: "Area",
             });
+
+        poly.on('mouseover', (e) => {
+            stage.container().style.cursor = 'pointer';
+        });
+
+        poly.on('mouseout', (e) => {
+            stage.container().style.cursor = 'default';
+        });
+
 
             poly.on('pointerdown', function () {
                 //alert(this.id()); //Should show 'IDofImg'
@@ -1209,6 +1387,14 @@
                 listening: false,
                 name: "DryArea",
             });
+
+        poly.on('mouseover', (e) => {
+            stage.container().style.cursor = 'pointer';
+        });
+
+        poly.on('mouseout', (e) => {
+            stage.container().style.cursor = 'default';
+        });
 
             poly.on('pointerdown', function () {
                     //alert(this.id()); //Should show 'IDofImg'
@@ -1276,6 +1462,14 @@
                 name: "Hedge",
             });
 
+        poly.on('mouseover', (e) => {
+            stage.container().style.cursor = 'pointer';
+        });
+
+        poly.on('mouseout', (e) => {
+            stage.container().style.cursor = 'default';
+        });
+
             //poly.on('pointerdown', function () {
             //    if (this.id() == "Line1") {
             //    isInArea = true;
@@ -1328,7 +1522,13 @@
             dash: [15, 10],
         });
 
+        poly.on('mouseover', (e) => {
+            stage.container().style.cursor = 'pointer';
+        });
 
+        poly.on('mouseout', (e) => {
+            stage.container().style.cursor = 'default';
+        });
         //poly.on('dblclick', function () {
         //    console.log(this);
 
@@ -1404,6 +1604,10 @@
             id: "Line" + PolyName + "",
             //listening: false,
             name: "PE Pipeline",
+        });
+
+        poly.on('mouseover', (e) => {
+            stage.container().style.cursor = 'pointer';
         });
 
         if (VBCircle == 1) {
@@ -1531,6 +1735,15 @@
                 name: "GetWet",
             });
 
+
+        poly.on('mouseover', (e) => {
+            stage.container().style.cursor = 'pointer';
+        });
+
+        poly.on('mouseout', (e) => {
+            stage.container().style.cursor = 'default';
+        });
+
             //poly.on('pointerdown', function () {
             //    if (this.id() == "Line1") {
             //    isInArea = true;
@@ -1642,6 +1855,14 @@
                         id: "Tap" + TapName,
                         draggable: true,
                     });
+
+                    img.on('mouseover', (e) => {
+                        stage.container().style.cursor = 'move';
+                    });
+
+                    img.on('mouseout', (e) => {
+                        stage.container().style.cursor = 'default';
+                    });
                     layer.add(img);
                     UndoArray.push(img.id());
                     $("#SName").text(SubName);
@@ -1709,6 +1930,10 @@
 
         var node = layer.findOne('#' + UniqueId);
         if (node != null) {
+            node.off('mouseover');
+            node.on('mouseover', (e) => {
+                stage.container().style.cursor = 'pointer';
+            });
             node.draggable(false);
         }
         var node = layer.findOne('#' + UniqueId.replace("Tap", "TTap"));
@@ -1910,11 +2135,18 @@
                     // apply default left-top crop
                     //applyCrop('center-middle');
 
-                    const tr = new Konva.Transformer({
+                    var tr = new Konva.Transformer({
                         nodes: [img],
                         keepRatio: true,
                         enabledAnchors: ['top-left', 'top-right', 'bottom-left', 'bottom-right'],
                         id: img.id().replace("System", "TIC")
+                    });
+                    img.on('mouseover', (e) => {
+                        stage.container().style.cursor = 'move';
+                    });
+
+                    img.on('mouseout', (e) => {
+                        stage.container().style.cursor = 'default';
                     });
 
                     layer.add(tr);
@@ -1971,6 +2203,10 @@
         });
         var node = layer.findOne('#' + UniqueId);
         if (node != null) {
+            node.off('mouseover');
+            node.on('mouseover', (e) => {
+                stage.container().style.cursor = 'pointer';
+            });
             node.draggable(false);
         }
         var node = layer.findOne('#' + UniqueId.replace("System", "TIC"));
@@ -2095,6 +2331,13 @@
                         id: "ValveBox" + ValveBoxName,
                         draggable: true,
                     });
+                    img.on('mouseover', (e) => {
+                        stage.container().style.cursor = 'move';
+                    });
+
+                    img.on('mouseout', (e) => {
+                        stage.container().style.cursor = 'default';
+                    });
                     layer.add(img);
                     UndoArray.push(img.id());
 
@@ -2127,7 +2370,7 @@
 
 
     $("body").on("click", "#RSP,#Sprinkler1,#Sprinkler2", function () {
-        console.log(CurrentObjId);
+        //console.log(CurrentObjId);
         if (CurrentObjId != "" && (CurrentObjId[0] != "S" && CurrentObjId[1] != "p")) {
             UnSelectObjOnNew(CurrentObjId);
         }
@@ -2223,6 +2466,14 @@
                 draggable: true,
             });
 
+            cir.on('mouseover', (e) => {
+                stage.container().style.cursor = 'pointer';
+            });
+
+            cir.on('mouseout', (e) => {
+                stage.container().style.cursor = 'default';
+            });
+
             cir.on('dragmove', (e) => {
                 var node = layer.findOne('#' + CurretSprinkler);
                 var x = node.x();
@@ -2287,7 +2538,13 @@
                 draggable: true,
             });
 
+            cirFill.on('mouseover', (e) => {
+                stage.container().style.cursor = 'pointer';
+            });
 
+            cirFill.on('mouseout', (e) => {
+                stage.container().style.cursor = 'default';
+            });
 
 
             cirFill.on('dragmove', (e) => {
@@ -2371,10 +2628,21 @@
                 listening: true,
             });
 
+
+            cirMove.on('mouseover', (e) => {
+                stage.container().style.cursor = 'move';
+            });
+
+            cirMove.on('mouseout', (e) => {
+                stage.container().style.cursor = 'default';
+            });
+
+
             cirMove.on('dragmove', (e) => {
                 MovCir = layer.findOne('#' + id);
                 updateSprinklerMove(e.target.id(), MovCir.x(), MovCir.y());
             });
+
 
             layer.add(cirMove);
             cirMove.moveToTop();
@@ -2403,6 +2671,14 @@
                 strokeWidth: 1,
                 id: circle.id().replace("Sprinkler", "Circle"),
                 draggable: true,
+            });
+
+            cir.on('mouseover', (e) => {
+                stage.container().style.cursor = 'pointer';
+            });
+
+            cir.on('mouseout', (e) => {
+                stage.container().style.cursor = 'default';
             });
 
             cir.on('dragmove', (e) => {
@@ -2468,6 +2744,15 @@
                 id: circle.id().replace("Sprinkler", "FillCircle"),
                 draggable: true,
             });
+
+            cirFill.on('mouseover', (e) => {
+                stage.container().style.cursor = 'pointer';
+            });
+
+            cirFill.on('mouseout', (e) => {
+                stage.container().style.cursor = 'default';
+            });
+
 
             cirFill.on('dragmove', (e) => {
 
@@ -2558,8 +2843,17 @@
                 listening: true,
             });
 
+            cirMove.on('mouseover', (e) => {
+                stage.container().style.cursor = 'move';
+            });
+
+            cirMove.on('mouseout', (e) => {
+                stage.container().style.cursor = 'default';
+            });
+
             cirMove.on('dragmove', (e) => {
                 MovCir = layer.findOne('#' + id);
+                stage.container().style.cursor = 'move';
 
                 updateSprinklerMove(e.target.id(), MovCir.x(), MovCir.y());
             });
@@ -2603,6 +2897,9 @@
 
         //$("#Sprinkler").prop('disabled', true);
         $("#BtnEndsprinkler").show();
+
+        cir.moveToTop();
+        cirFill.moveToTop();
         cirMove.moveToTop();
     });
 
@@ -2725,6 +3022,10 @@
         });
         var node = layer.findOne('#' + UniqueId);
         if (node != null) {
+            node.off('mouseover');
+            node.on('mouseover', (e) => {
+                stage.container().style.cursor = 'pointer';
+            });
             node.draggable(false);
         }
         var node = layer.findOne('#' + UniqueId.replace("ValveBox", "TVB"));
@@ -3498,8 +3799,24 @@
                             strokeWidth: 2,
                             draggable: true,
                         });
+
+
+                        rect.on('mouseover', (e) => {
+                            stage.container().style.cursor = 'move';
+                        });
+
+                        rect.on('mouseout', (e) => {
+                            stage.container().style.cursor = 'default';
+                        });
+
                         if (isStartLine == true) {
+                            rect.off('mouseover');
+                            rect.on('mouseover', (e) => {
+                                stage.container().style.cursor = 'pointer';
+                            });
+
                             StartRect.push(rect.id());
+
                             isStartLine = false;
 
 
@@ -3558,6 +3875,7 @@
 
                             layer.add(Srect);
                         }
+
 
                         Name += 1;
                         rect.on('pointerenter', function () {
@@ -3703,8 +4021,17 @@
                         line.closed(true);
                     }
 
+
                     var SRect = layer.findOne('#' + id.replace("Line", "SRect"));
-                    if (SRect!=null) {
+                    if (SRect != null) {
+                        console.log(StartRect);
+                        var srecId = StartRect[Number(Number(id.replace("Line", ""))-1)];
+                        console.log(srecId);
+                        var srec = layer.findOne('#' + srecId);
+                        srec.off('mouseover');
+                        srec.on('mouseover', (e) => {
+                            stage.container().style.cursor = 'move';
+                        });
                         SRect.destroy();
                     }
                     line.listening(true);
@@ -3732,8 +4059,7 @@
 
         }
 
-
-        function updateObjects(id) {
+    function updateObjects(id) {
                     var LineId = 0;
                     var x1 = 0;
                     var y1 = 0;
@@ -5119,6 +5445,10 @@
                 $("#SName").text("");
                 $(".ICPD").hide();
                 node = layer.findOne('#' + CLastId);
+                node.off('mouseover');
+                node.on('mouseover', (e) => {
+                    stage.container().style.cursor = 'pointer';
+                });
                 node.draggable(false);
                 node = layer.findOne('#' + CLastId.replace("System", "TIC"));
                 node.hide();
@@ -5130,6 +5460,10 @@
                 $("#SName").text("");
                 $(".VBPD").hide();
                 node = layer.findOne('#' + CLastId);
+                node.off('mouseover');
+                node.on('mouseover', (e) => {
+                    stage.container().style.cursor = 'pointer';
+                });
                 node.draggable(false);
                 node = layer.findOne('#' + CLastId.replace("ValveBox", "TVB"));
                 node.hide();
@@ -5141,6 +5475,10 @@
                 $("#SName").text("");
                 $(".TapPD").hide();
                 node = layer.findOne('#' + CLastId);
+                node.off('mouseover');
+                node.on('mouseover', (e) => {
+                    stage.container().style.cursor = 'pointer';
+                });
                 node.draggable(false);
                 node = layer.findOne('#' + CLastId.replace("Tap", "TTap"));
                 node.hide();
@@ -5833,6 +6171,10 @@
                 });
                 var node = layer.findOne('#' + UniqueId);
                 if (node != null) {
+                    node.off('mouseover');
+                    node.on('mouseover', (e) => {
+                        stage.container().style.cursor = 'pointer';
+                    });
                     node.draggable(false);
                 }
                 var node = layer.findOne('#' + UniqueId.replace("System", "TIC"));
@@ -5876,6 +6218,10 @@
                 });
                 var node = layer.findOne('#' + UniqueId);
                 if (node != null) {
+                    node.off('mouseover');
+                    node.on('mouseover', (e) => {
+                        stage.container().style.cursor = 'pointer';
+                    });
                     node.draggable(false);
                 }
                 var node = layer.findOne('#' + UniqueId.replace("ValveBox", "TVB"));
@@ -5918,6 +6264,10 @@
 
                 var node = layer.findOne('#' + UniqueId);
                 if (node != null) {
+                    node.off('mouseover');
+                    node.on('mouseover', (e) => {
+                        stage.container().style.cursor = 'pointer';
+                    });
                     node.draggable(false);
                 }
                 var node = layer.findOne('#' + UniqueId.replace("Tap", "TTap"));
@@ -6031,6 +6381,10 @@
                 $("#SName").text("");
                 $(".ICPD").hide();
                 node = layer.findOne('#' + CLastId);
+                node.off('mouseover');
+                node.on('mouseover', (e) => {
+                    stage.container().style.cursor = 'pointer';
+                });
                 node.draggable(false);
                 node = layer.findOne('#' + CLastId.replace("System", "TIC"));
                 node.hide();
@@ -6042,6 +6396,10 @@
                 $("#SName").text("");
                 $(".VBPD").hide();
                 node = layer.findOne('#' + CLastId);
+                node.off('mouseover');
+                node.on('mouseover', (e) => {
+                    stage.container().style.cursor = 'pointer';
+                });
                 node.draggable(false);
                 node = layer.findOne('#' + CLastId.replace("ValveBox", "TVB"));
                 node.hide();
@@ -6053,6 +6411,10 @@
                 $("#SName").text("");
                 $(".TapPD").hide();
                 node = layer.findOne('#' + CLastId);
+                node.off('mouseover');
+                node.on('mouseover', (e) => {
+                    stage.container().style.cursor = 'pointer';
+                });
                 node.draggable(false);
                 node = layer.findOne('#' + CLastId.replace("Tap", "TTap"));
                 node.hide();
@@ -6066,7 +6428,7 @@
             $("#CancleDeleteObj").hide();
             $("#ObjUniqueId").val("");
             $("#SName").text("");
-           
+
             OldCurrentObjId = "";
         }
     }
