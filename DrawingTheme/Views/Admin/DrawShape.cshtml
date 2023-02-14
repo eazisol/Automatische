@@ -15,6 +15,21 @@
     .badge-success:empty {
         display: none !important;
     }
+    .badge-warning:empty {
+        display: none !important;
+    }
+    #Area:hover {
+        color: black !important;
+    }
+    #DryArea:hover {
+        color: black !important;
+    }
+    #Hedge:hover {
+        color: black !important;
+    }
+    #GetWet:hover {
+        color: black !important;
+    }
 </style>
 <div class="row mb-2">
     <div class="container-fluid bd-example">
@@ -25,19 +40,24 @@
             <input type="text" name="VBCircle" id="VBCircle" value="" hidden="">
 
 
-            <button id="Area" class="btn btn-success ml-2 mr-2" onclick="SaveData(4)" data-radius="30" data-width="100" data-height="40" data-angle="180" data-rotation="45">@Resources.Lawn</button>
-            <button id="DryArea" class="btn mr-2" style="background-color: #ffe699;" onclick="SaveData(5)" data-radius="30" data-width="100" data-height="40" data-angle="180" data-rotation="45">@Resources.DryArea</button>
-            <button id="Hedge" class="btn mr-2" style="background-color: #D2BFFF;" onclick="SaveData(6)" data-radius="30" data-width="100" data-height="40" data-angle="180" data-rotation="45">@Resources.Hedge</button>
-            <button id="GetWet" class="btn mr-2" style="background-color: rgba(111, 187, 211, .8);" onclick="SaveData(9)" data-radius="30" data-width="100" data-height="40" data-angle="180" data-rotation="45">@Resources.GetWet </button>
+            <button id="Area" class="btn btn-success ml-2 mr-2 " onclick="SaveData(4)" data-radius="30" data-width="100" data-height="40" data-angle="180" data-rotation="45">@Resources.Lawn</button>
+            <button id="DryArea" class="btn  mr-2 text-white" style="background-color: #998a5c; " onclick="SaveData(5)" data-radius="30" data-width="100" data-height="40" data-angle="180" data-rotation="45">@Resources.DryArea</button>
+            <button id="Hedge" class="btn  mr-2 text-white" style="background-color: #D2BFFF; " onclick="SaveData(6)" data-radius="30" data-width="100" data-height="40" data-angle="180" data-rotation="45">@Resources.Hedge</button>
+            <button id="GetWet" class="btn  mr-2 text-white" style="background-color: rgba(111, 187, 211, .8); " onclick="SaveData(9)" data-radius="30" data-width="100" data-height="40" data-angle="180" data-rotation="45">@Resources.GetWet </button>
 
            
-                <form  style="float:right" role="form" id="payment-form" method="POST" action="@Url.Action("PaymentWithPaypal","PayPal")">
-                    <span class="badge badge-warning  mr-2"> <label id="TotalAmount"> 0</label> €</span>
+            <form style="float:right" role="form" id="payment-form" method="POST" action="@Url.Action("PaymentWithPaypal","PayPal")">
+                <span class="badge badge-warning  mr-2" style="font-size: 100% !important; background-color: #8ec746 !important; ">
+                    <label id="OrderName" style="padding-top: 4% !important;"></label>
+                </span>
+                    <span class="badge badge-warning  mr-2" style="font-size: 100% !important; background-color: #333333 !important; ">
+                         <label id="TotalAmount" style="padding-top: 4% !important;"> 0</label> €
+                    </span>
                     <input type="text" id="TotalAmountInput" name="amount" value="" hidden />
-                    <button class="btn btn-primary " type="button" id="save"><i class="fa fa-save mr-2"></i>@Resources.SaveasPDF</button>
+                    <button class="btn btn-danger " type="button" id="save"><i class="fa fa-save mr-2"></i>@Resources.SaveasPDF</button>
                     <button class="btn btn-secondary " type="button" id="ProceedToAccesoires"><i class="fa fa-forward  mr-2"></i>@Resources.Proceed</button>
                     <button class="btn btn-info mr-2" type="submit" hidden><i class="fa fa-paypal mr-2"></i>@Resources.PlaceOrder</button>
-                </form>
+            </form>
            
         </nav>
     </div>
@@ -54,7 +74,7 @@
                     <button type="button" class="btn btn-outline-secondary " data-toggle="dropdown" title="@item.CategoryName">
                         <img src="@item.Component" style="width:80%" />
                     </button>
-                    <div class="dropdown-menu" style="overflow: scroll; height: 400px; will-change: transform; position: absolute; transform: translate3d(0px, 34px, 0px); top: 0px; left: 0px;" x-placement="bottom-start">
+                    <div class="dropdown-menu" style="overflow: scroll;  will-change: transform; position: absolute; transform: translate3d(0px, 34px, 0px); top: 0px; left: 0px;" x-placement="bottom-start">
 
                         @foreach (DrawingTheme.Models.tblSubCategory item1 in ViewBag.SubCategory)
                         {
@@ -328,7 +348,8 @@
                 contentType: "application/json; charset=utf-8",
                 dataType: "json",
                 success: function (r) {
-                    $("#OrderId").val(r);
+                    $("#OrderId").val(r.ID);
+                    $("#OrderName").text(r.Name);
                     $("#addcontact").modal('toggle');
                 }
             });
@@ -540,10 +561,10 @@
     // also stage will be in focus on its click
     container.focus();
     container.addEventListener('keydown', function (e) {
-            //alert(e.keyCode)
-        if (e.keyCode === 27) {
-            UnSelectObj(CurrentObjId);
+            //alert(e.keyCode);
+        if (e.keyCode === 27 || e.keyCode === 13) {
             if (CurrentObjName[0] == "I") {
+                UnSelectObj(CurrentObjId);
                 var SubCategoryID = $("#SubCatId").text();
                 var SubcategoryName = $("#SName").text();
                 var UniqueId = $("#IWId").val();
@@ -1608,6 +1629,10 @@
 
         poly.on('mouseover', (e) => {
             stage.container().style.cursor = 'pointer';
+        });
+
+        poly.on('mouseout', (e) => {
+            stage.container().style.cursor = 'default';
         });
 
         if (VBCircle == 1) {
@@ -2818,7 +2843,7 @@
                 y: 100,
                 innerRadius: circle.radius(),
                 angle: Angle - Rotation,
-                fill: 'lightblue',
+                fill: 'rgba(173,216,230,0.7)',
                 stroke: 'black',
                 strokeWidth: 0,
                 id: circle.id().replace("Sprinkler", "Arc"),
@@ -3832,6 +3857,7 @@
                                 strokeWidth: 0,
                                 draggable: true,
                             });
+                            Srect.moveToTop();
                             SRName += 1;
                             Srect.on('pointerenter', function () {
                                 var LineId = this.id().replace('SRect', 'Line');
@@ -3846,8 +3872,21 @@
 
                                 }
 
-
+                               
                                 EditLine.closed(true);
+                                if (EditLine.name() == "Area") {
+                                    EditLine.fill("rgba(34, 255, 0, 0.3)");
+
+                                }
+                                else if (EditLine.name() == "DryArea") {
+                                    EditLine.fill("rgba(255,230,153,0.3)");
+                                }
+                                else if (EditLine.name() == "Hedge") {
+                                    EditLine.fill("rgba(210,191,255,0.3)");
+                                }
+                                else if (EditLine.name() == "GetWet") {
+                                    EditLine.fill("rgba(111, 187, 211, 0.3)");
+                                }
 
                             });
                             Srect.on('pointerout', function () {
@@ -3857,19 +3896,7 @@
                                 isOverOnStarting = false;
                                 //EditLine.listening(true);
                                 ////console.log(line.name());
-                                if (EditLine.name() == "Area") {
-                                    EditLine.fill("lightgreen");
-
-                                }
-                                else if (EditLine.name() == "DryArea") {
-                                    EditLine.fill("#ffe699");
-                                }
-                                else if (EditLine.name() == "Hedge") {
-                                    EditLine.fill("#D2BFFF");
-                                }
-                                else if (EditLine.name() == "GetWet") {
-                                    EditLine.fill("rgba(111, 187, 211, .8)");
-                                }
+                                
 
                             });
 
@@ -3898,7 +3925,19 @@
                                 var LineId = "Line" + NewIndex;
                                 var EditLine = layer.findOne('#' + LineId);
                                 EditLine.closed(true);
+                                if (EditLine.name() == "Area") {
+                                    EditLine.fill("rgba(34, 255, 0, 0.3)");
 
+                                }
+                                else if (EditLine.name() == "DryArea") {
+                                    EditLine.fill("rgba(255,230,153,0.3)");
+                                }
+                                else if (EditLine.name() == "Hedge") {
+                                    EditLine.fill("rgba(210,191,255,0.3)");
+                                }
+                                else if (EditLine.name() == "GetWet") {
+                                    EditLine.fill("rgba(111, 187, 211, 0.3)");
+                                }
                             }
 
                         });
@@ -4015,39 +4054,49 @@
                     var line = layer.findOne('#' + id);
                     //line.points().pop();
                     //line.points().pop();
+                    var point1 = 0;
+                    var point2 = 0;
                     if (line.name() != "Irrigation Wiring" && line.name() != "PE Pipeline") {
                         isDraw = false;
-                        isFinished = true;
-                        line.closed(true);
+                        if (isFinished == false) {
+                            console.log(isFinished);
+                            point1=line.points().pop();
+                            point2=line.points().pop();
+                            isFinished = true;
+                            line.closed(true);
+                            var SRect = layer.findOne('#' + id.replace("Line", "SRect"));
+                            if (SRect != null) {
+                                console.log(StartRect);
+                                var srecId = StartRect[Number(Number(id.replace("Line", "")) - 1)];
+                                console.log(srecId);
+                                var srec = layer.findOne('#' + srecId);
+                                srec.off('mouseover');
+                                srec.on('mouseover', (e) => {
+                                    stage.container().style.cursor = 'move';
+                                });
+                                SRect.destroy();
+                            }
+                            line.listening(true);
+                            if (line.name() == "Area") {
+                                line.fill("rgba(34, 255, 0, 0.3)");
+
+                            }
+                            else if (line.name() == "DryArea") {
+                                line.fill("rgba(255,230,153,0.3)");
+                            }
+                            else if (line.name() == "Hedge") {
+                                line.fill("rgba(210,191,255,0.3)");
+                            }
+                            else if (line.name() == "GetWet") {
+                                line.fill("rgba(111, 187, 211, .3)");
+                            }
+                        }
+                       
                     }
 
 
-                    var SRect = layer.findOne('#' + id.replace("Line", "SRect"));
-                    if (SRect != null) {
-                        console.log(StartRect);
-                        var srecId = StartRect[Number(Number(id.replace("Line", ""))-1)];
-                        console.log(srecId);
-                        var srec = layer.findOne('#' + srecId);
-                        srec.off('mouseover');
-                        srec.on('mouseover', (e) => {
-                            stage.container().style.cursor = 'move';
-                        });
-                        SRect.destroy();
-                    }
-                    line.listening(true);
-                    if (line.name() == "Area") {
-                        line.fill("lightgreen");
-
-                    }
-                    else if (line.name() == "DryArea") {
-                        line.fill("#ffe699");
-                    }
-                    else if (line.name() == "Hedge") {
-                        line.fill("#D2BFFF");
-                    }
-                    else if (line.name() == "GetWet") {
-                        line.fill("rgba(111, 187, 211, .8)");
-                    }
+                   
+                   
                 }
 
 
@@ -4071,7 +4120,7 @@
                     LineId = FindIndex(id);
                 }
             var line = layer.findOne('#Line' + LineId);
-            console.log(line);
+            //console.log(line);
             if (line.name() != "Irrigation Wiring" && line.name() != "PE Pipeline") {
                 var points = line.points();
                 //line.destroy();
@@ -4090,8 +4139,8 @@
                     line.closed(false);
                     points[Index] = node.x() + 5;
                     points[Index + 1] = node.y() + 5;
-                    points[points.length - 2] = node.x() + 5;
-                    points[points.length - 1] = node.y() + 5;
+                    //points[points.length - 2] = node.x() + 5;
+                    //points[points.length - 1] = node.y() + 5;
 
 
 
@@ -4102,7 +4151,7 @@
                     y2 = Index + 3
 
                     var TextId = FindDragTextId(id);
-
+                    //console.log(TextId);
                     var EText = layer.findOne('#' + TextId[0]);
                     ////console.log(EText);
 
@@ -4142,10 +4191,12 @@
 
                     var EText = layer.findOne('#' + TextId[1]);
 
-                    x1 = Index
-                    y1 = Index + 1
-                    x2 = Index + 2
-                    y2 = Index + 3
+                    x1 = 0;
+                    y1 =  1;
+                    x2 = Index ;
+                    y2 = Index + 1;
+                    //x2 = Index + 2;
+                    //y2 = Index + 3;
 
                     var S = line.points().slice();
 
@@ -4192,6 +4243,7 @@
                     y2 = Index + 1
 
                     var TextId = FindDragTextId(id);
+                    console.log(TextId);
                     var EText = layer.findOne('#' + TextId[1]);
                     ////console.log(EText);
 
@@ -4237,10 +4289,10 @@
 
 
 
-                    x1 = Index
-                    y1 = Index + 1
-                    x2 = Index + 2
-                    y2 = Index + 3
+                    var x1 = Index;
+                    var y1 = Index + 1;
+                    var x2 = Index + 2;
+                    var y2 = Index + 3;
 
                     var TextId = FindDragTextId(id);
                     var EText = layer.findOne('#' + TextId[0]);
@@ -4269,15 +4321,12 @@
                     EText.y(y);
                     EText.x(x);
 
-
-
-
-                    ////console.log(FindDragTextId(id));
+                   //console.log(FindDragTextId(id));
                 }
                 line.closed(true);
             }
 
-                }
+     }
 
     function updateRSprinklerMove(id, x, y) {
         var x1 = 0;

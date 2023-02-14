@@ -621,7 +621,7 @@ namespace DrawingTheme.Controllers
                         // Add it to the current web response.
                         Response.Cookies.Add(cookieObj);
                         //int OrderId = Int32.Parse(cookieObj["OrderId"]);
-                        return Json(Data.OrderId);
+                        return Json(new {ID= Data.OrderId ,Name=Data.Name});
 
                         //return RedirectToAction("UserList", new { Success = "User has been add successfully." });
                     }
