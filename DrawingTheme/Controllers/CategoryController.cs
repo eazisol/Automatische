@@ -10,7 +10,7 @@ namespace DrawingTheme.Controllers
 {
     [FilterConfig.NoDirectAccess]
     [FilterConfig.AuthorizeActionFilter]
-    public class CategoryController : Controller
+    public class CategoryController : BaseController
     {
         AutomatischeEntities DB = new AutomatischeEntities();
         public ActionResult Index(string Success, string Update, string Delete, string Error)

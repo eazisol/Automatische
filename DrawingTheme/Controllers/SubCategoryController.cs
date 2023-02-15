@@ -8,7 +8,7 @@ using System.Web.Mvc;
 
 namespace DrawingTheme.Controllers
 {
-    public class SubCategoryController : Controller
+    public class SubCategoryController : BaseController
     {
         AutomatischeEntities DB = new AutomatischeEntities();
         public ActionResult Index(string Success, string Update, string Delete, string Error)
