@@ -8,7 +8,7 @@ using System.Web.Mvc;
 namespace DrawingTheme.Controllers
 {
     [FilterConfig.AuthorizeActionFilter]
-    public class PlansController : Controller
+    public class PlansController : BaseController
     {
         AutomatischeEntities DB = new AutomatischeEntities();
         public ActionResult Index(string Success, string Update, string Delete, string Error, string status)
