@@ -67,29 +67,48 @@
 <div class="row">
     <div class="container-fluid   col-md-1">
         <div class="card">
+            @*@foreach (DrawingTheme.Models.tblCategory item in ViewBag.Category)
+            {
+
+            <div class="dropdown " id="btn_@item.Code" style="padding:10px;">
+                @foreach (DrawingTheme.Models.tblSubCategory item1 in ViewBag.SubCategory)
+                {
+                    if (@item1.CategoryID == item.CategoryID)
+                    {
+                        <a  class="btn btn-outline-secondary  @item.Code@item1.IrrigationWiringMaxStation.ToString().Replace(",",".")" data-toggle="dropdown" title="@item.CategoryName" id="@item.Code.ToString().Replace(",",".")" data-SubCatId="@item1.SubcategoryID.ToString().Replace(",",".")" data-Name="@item1.SubcategoryName.ToString().Replace(",",".")" data-radius="@item1.ThrowDistanceMax.ToString().Replace(",",".")" data-width="@item1.ThrowWidth.ToString().Replace(",",".")" data-height="@item1.ThrowHeight.ToString().Replace(",",".")" data-angle="@item1.MaxAngle.ToString().Replace(",",".")" data-rotation="@item1.MinAngle.ToString().Replace(",",".")" data-IrrigationCircles="@item1.valveboxcircle.ToString().Replace(",",".")" data-Filter="@item1.valveboxFilter" data-DrinkingWater="@item1.drinkingwatersource.ToString().Replace(",",".")" data-WellWater="@item1.wellwatersource" data-RainWater="@item1.rainwatersource.ToString().Replace(",",".")" data-Station="@item1.IrrigationComputermaxstation.ToString().Replace(",",".")" data-Indoor="@item1.IrrigationComputerindoor.ToString().Replace(",",".")" data-Outdoor="@item1.IrrigationComputeroutdoor.ToString().Replace(",",".")" data-SP="@item1.IrrigationComputeroutdoor.ToString().Replace(",",".")" href="javascript:void(0)">
+                            <img src="@item.Component" style="width:80%" />
+                        </a>
+                        break;
+                    }
+                }
+
+            </div>
+            }*@
             @foreach (DrawingTheme.Models.tblCategory item in ViewBag.Category)
             {
 
-                <div class="dropdown " id="btn_@item.Code" style="padding:10px;">
-                    <button type="button" class="btn btn-outline-secondary " data-toggle="dropdown" title="@item.CategoryName">
-                        <img src="@item.Component" style="width:80%" />
-                    </button>
-                    <div class="dropdown-menu" style="overflow: scroll;  will-change: transform; position: absolute; transform: translate3d(0px, 34px, 0px); top: 0px; left: 0px;" x-placement="bottom-start">
+            <div class="dropdown " id="btn_@item.Code" style="padding:10px;">
+               
+                <button type="button" class="btn btn-outline-secondary " data-toggle="dropdown" title="@item.CategoryName">
+                    <img src="@item.Component" style="width:80%" />
+                </button>
+                <div class="dropdown-menu" style="overflow: scroll;  will-change: transform; position: absolute; transform: translate3d(0px, 34px, 0px); top: 0px; left: 0px;" x-placement="bottom-start">
 
-                        @foreach (DrawingTheme.Models.tblSubCategory item1 in ViewBag.SubCategory)
+                    @foreach (DrawingTheme.Models.tblSubCategory item1 in ViewBag.SubCategory)
+                    {
+                        if (@item1.CategoryID == item.CategoryID)
                         {
-                            if (@item1.CategoryID == item.CategoryID)
-                            {
-                                <a class="dropdown-item @item.Code@item1.IrrigationWiringMaxStation.ToString().Replace(",",".")" id="@item.Code.ToString().Replace(",",".")" data-SubCatId="@item1.SubcategoryID.ToString().Replace(",",".")" data-Name="@item1.SubcategoryName.ToString().Replace(",",".")" data-radius="@item1.ThrowDistanceMax.ToString().Replace(",",".")" data-width="@item1.ThrowWidth.ToString().Replace(",",".")" data-height="@item1.ThrowHeight.ToString().Replace(",",".")" data-angle="@item1.MaxAngle.ToString().Replace(",",".")" data-rotation="@item1.MinAngle.ToString().Replace(",",".")" data-IrrigationCircles="@item1.valveboxcircle.ToString().Replace(",",".")" data-Filter="@item1.valveboxFilter" data-DrinkingWater="@item1.drinkingwatersource.ToString().Replace(",",".")" data-WellWater="@item1.wellwatersource" data-RainWater="@item1.rainwatersource.ToString().Replace(",",".")" data-Station="@item1.IrrigationComputermaxstation.ToString().Replace(",",".")" data-Indoor="@item1.IrrigationComputerindoor.ToString().Replace(",",".")" data-Outdoor="@item1.IrrigationComputeroutdoor.ToString().Replace(",",".")" data-SP="@item1.IrrigationComputeroutdoor.ToString().Replace(",",".")" href="javascript:void(0)">
-                                    @item1.SubcategoryName
-                                </a>
-                            }
-
-
+                            <a class="dropdown-item @item.Code@item1.IrrigationWiringMaxStation.ToString().Replace(",",".")" id="@item.Code.ToString().Replace(",",".")" data-SubCatId="@item1.SubcategoryID.ToString().Replace(",",".")" data-Name="@item1.SubcategoryName.ToString().Replace(",",".")" data-radius="@item1.ThrowDistanceMax.ToString().Replace(",",".")" data-width="@item1.ThrowWidth.ToString().Replace(",",".")" data-height="@item1.ThrowHeight.ToString().Replace(",",".")" data-angle="@item1.MaxAngle.ToString().Replace(",",".")" data-rotation="@item1.MinAngle.ToString().Replace(",",".")" data-IrrigationCircles="@item1.valveboxcircle.ToString().Replace(",",".")" data-Filter="@item1.valveboxFilter" data-DrinkingWater="@item1.drinkingwatersource.ToString().Replace(",",".")" data-WellWater="@item1.wellwatersource" data-RainWater="@item1.rainwatersource.ToString().Replace(",",".")" data-Station="@item1.IrrigationComputermaxstation.ToString().Replace(",",".")" data-Indoor="@item1.IrrigationComputerindoor.ToString().Replace(",",".")" data-Outdoor="@item1.IrrigationComputeroutdoor.ToString().Replace(",",".")" data-SP="@item1.IrrigationComputeroutdoor.ToString().Replace(",",".")" href="javascript:void(0)">
+                                @item1.SubcategoryName
+                            </a>
                         }
-                    </div>
+
+
+                    }
 
                 </div>
+
+            </div>
             }
             <div class="dropdown " @*id="btn_@item.Code"*@ style="padding:10px;">
                 <button type="button" class="btn btn-outline-secondary " data-toggle="dropdown" title="Image Upload" onclick="open_file()">
@@ -157,6 +176,7 @@
 
                     <img class="mr-2" id='stage2ZoomIn' src="~/assets/images/ecommerce/ZoomIN.png" style="width:2%;float:right" />
                     <img class="mr-2" id="UndoCanvas" src="~/assets/images/ecommerce/undo.png" style="width:2%;float:right" />
+                    <img class="mr-2" onclick="RemoveAll()" src="~/assets/images/ecommerce/DeleteAll.png" style="width:2%;float:right" />
 
                 </div>
             </div>
@@ -679,11 +699,15 @@
         e.preventDefault();
     });
 
+ 
+
      stage.on('click', (e) => {
         //console.log(e.target.id());
          //alert(e.target.id());
-         console.log(OldCurrentObjId);
-         if (CurrentObjId != null && CurrentObjId != "") {
+         console.log("Clicked  " + e.target.id());
+         console.log("Old Current " +OldCurrentObjId);
+         console.log("Current " + CurrentObjId);
+         if (CurrentObjId != null && CurrentObjId != "" && ((e.target.id() != ""||(e.target.id() == "" && CurrentObjId[0]!="L")))) {
              UnSelectObjOnNew(CurrentObjId);
          }
          else {
@@ -805,7 +829,8 @@
                                 node.show();
                             } var node = layer.findOne('#' + r.UniqueId.replace("Sprinkler", "Arc"));
                             if (node != null) {
-                                node.listening(true);
+                                node.strokeWidth(0);
+                                node.listening(false);
                             }
 
 
@@ -966,18 +991,18 @@
 
 
     stage.on('mouseover', (e) => {
-        
-        
+
+
         var UniqueId = e.target.id().replace("Arc", "Sprinkler");
 
-         
+
         //alert(UniqueId);
          if (UniqueId != null && UniqueId != "") {
              console.log(UniqueId);
              if (UniqueId[0] == 'S' && UniqueId[1] == 'y') {
 
                  node = layer.findOne('#' + UniqueId);
-                 
+
                  node.draggable(true);
              }
              else if (UniqueId[0] == 'V') {
@@ -1012,6 +1037,45 @@
         var SubName = element.options[element.selectedIndex].getAttribute("data-Name");
         var SubId = element.options[element.selectedIndex].getAttribute("data-SubCatId");
 
+        if (SubName == "MP 800 90-210") {
+            MovCirColor = "#FF0000";
+        }
+        else if (SubName == "MP 800 360") {
+            MovCirColor = "#8FD65A";
+        }
+        else if (SubName == "MP 1000 90-210") {
+            MovCirColor = "#C55A11";
+        }
+        else if (SubName == "MP 1000 210-270") {
+            MovCirColor = "#00B0F0";
+        }
+        else if (SubName == "MP 1000 360") {
+            MovCirColor = "#5DA329";
+        }
+        else if (SubName == "MP 2000 90-210") {
+            MovCirColor = "#000000";
+        }
+        else if (SubName == "MP 2000 210-270") {
+            MovCirColor = "#51DF5F";
+        }
+        else if (SubName == "MP 2000 360") {
+            MovCirColor = "#ED7D31";
+        }
+        else if (SubName == "MP 3000 90-210") {
+            MovCirColor = "#0070C0";
+        }
+        else if (SubName == "MP 3000 210-270") {
+            MovCirColor = "#FEDA01";
+        }
+        else if (SubName == "MP 3000 360") {
+            MovCirColor = "#858062";
+        }
+        else if (SubName == "MP 3500 90-210") {
+            MovCirColor = "#FFC000";
+        }
+        else if (SubName == "MP Corner") {
+            MovCirColor = "#00B0F0";
+        }
 
         $("#SprinklerTypeDropID").val(SubName);
 
@@ -1251,9 +1315,9 @@
                 x: x,
                 y: y,
                 radius: 5,
-                //fill: 'red',
+                fill: MovCirColor,
                 stroke: 'black',
-                strokeWidth: 1,
+                strokeWidth: 0,
                 id: circle.id().replace("Sprinkler", "MoveCircle"),
                 draggable: true,
                 listening: true,
@@ -2405,6 +2469,57 @@
         var Rotation = Number($(this).attr("data-Rotation"));
         var SubName = $(this).attr("data-Name");
         var SubId = $(this).attr("data-SubCatId");
+        var MovCirColor = "black";
+        alert("RSP");   
+
+        if (SubName == "MP 800 90-210") {
+            MovCirColor = "#FF0000";
+        }
+        else if (SubName == "MP 800 360") {
+            MovCirColor = "#8FD65A";
+        }
+        else if (SubName == "MP 1000 90-210") {
+            MovCirColor = "#C55A11";
+        }
+        else if (SubName == "MP 1000 210-270") {
+            MovCirColor = "#00B0F0";
+        }
+        else if (SubName == "MP 1000 360") {
+            MovCirColor = "#5DA329";
+        }
+        else if (SubName == "MP 2000 90-210") {
+            MovCirColor = "#000000";
+        }
+        else if (SubName == "MP 2000 210-270") {
+            MovCirColor = "#51DF5F";
+        }
+        else if (SubName == "MP 2000 360") {
+            MovCirColor = "#ED7D31";
+        }
+        else if (SubName == "MP 3000 90-210") {
+            MovCirColor = "#0070C0";
+        }
+        else if (SubName == "MP 3000 210-270") {
+            MovCirColor = "#FEDA01";
+        }
+        else if (SubName == "MP 3000 360") {
+            MovCirColor = "#858062";
+        }
+        else if (SubName == "MP 3500 90-210") {
+            MovCirColor = "#FFC000";
+        }
+        else if (SubName == "MP Corner") {
+            MovCirColor = "#00B0F0";
+        }
+        //else if (SubName == "MPLCS 515") {
+        //    MovCirColor = "#7F7F7F";
+        //}
+        //else if (SubName == "MPRCS 515") {
+        //    MovCirColor = "#CC9900";
+        //}
+        //else if (SubName == "MPSS 530") {
+        //    MovCirColor = "#CC9900";
+        //}
 
 
         $("#SprinklerTypeDropID").val(SubName);
@@ -2645,9 +2760,9 @@
                 x: x,
                 y: y,
                 radius: 5,
-                //fill: 'red',
+                fill: MovCirColor,
                 stroke: 'black',
-                strokeWidth: 1,
+                strokeWidth: 0,
                 id: circle.id().replace("Sprinkler", "MoveCircle"),
                 draggable: true,
                 listening: true,
@@ -2860,9 +2975,9 @@
                 x: 100 ,
                 y: 100 ,
                 radius: 5,
-                //fill: 'red',
+                fill: MovCirColor,
                 stroke: 'black',
-                strokeWidth: 1,
+                strokeWidth: 0,
                 id: circle.id().replace("Sprinkler", "MoveCircle"),
                 draggable: true,
                 listening: true,
@@ -2967,9 +3082,11 @@
         }
         var node = layer.findOne('#' + UniqueId.replace("Sprinkler", "MoveCircle"));
         if (node != null) {
-            node.hide();
+            //node.hide();
         } var node = layer.findOne('#' + UniqueId.replace("Sprinkler", "Arc"));
         if (node != null) {
+            node.strokeWidth(0.5);
+            node.stroke("black");
             node.listening(true);
         }
 
@@ -3790,9 +3907,10 @@
                     isFinished = true;
                 }
                 else if (id[0] == 'L') {
+                    //console.log("stage.scaleX(): " + stage.scaleX() + "stage.scaleY(): " + stage.scaleY());
                     //console.log(id);
                     var line = layer.findOne('#' + id);
-                    console.log(isInArea);
+                    //console.log(isInArea);
                     if (isInArea == true || (line.name() != "DryArea" && line.name() != "GetWet")) {
                         //var line = layer.findOne('#' + id);
                         ////console.log(line.id());
@@ -3806,8 +3924,10 @@
                         }
                         isDraw = true;
                         var Position = stage.getPointerPosition();
+                        //console.log("Before " + + Position.x  + " " + Position.y );
+                        //console.log("After " + Position.x / stage.scaleX()+" "+ Position.y / stage.scaleY() );
                         //Points.push(Position.x, Position.y);
-                        points.push(Position.x, Position.y);
+                        points.push(Position.x , Position.y);
                         line.points(points);
                         ////console.log(line.points());
 
@@ -3872,7 +3992,7 @@
 
                                 }
 
-                               
+
                                 EditLine.closed(true);
                                 if (EditLine.name() == "Area") {
                                     EditLine.fill("rgba(34, 255, 0, 0.3)");
@@ -3896,7 +4016,7 @@
                                 isOverOnStarting = false;
                                 //EditLine.listening(true);
                                 ////console.log(line.name());
-                                
+
 
                             });
 
@@ -4091,12 +4211,12 @@
                                 line.fill("rgba(111, 187, 211, .3)");
                             }
                         }
-                       
+
                     }
 
 
-                   
-                   
+
+
                 }
 
 
@@ -4226,6 +4346,7 @@
 
                 }
                 else {
+                    console.log(FindLastId(id));
                     var Index = 0;
                     if (MOD == 0) {
                         Index = ((ID * 2) - 2);
@@ -4287,23 +4408,38 @@
 
 
 
-
-
-                    var x1 = Index;
-                    var y1 = Index + 1;
-                    var x2 = Index + 2;
-                    var y2 = Index + 3;
-
                     var TextId = FindDragTextId(id);
                     var EText = layer.findOne('#' + TextId[0]);
                     ////console.log(EText);
 
                     var S = line.points().slice();
+                    var x1 = 0;
+                    var y1 = 0;
+                    var x2 = 0;
+                    var y2 = 0;
 
-                    x1 = points[x1];
-                    x2 = points[x2];
-                    y1 = points[y1];
-                    y2 = points[y2];
+                    if (FindLastId(id) == id) {
+                         x1 = 0;
+                         y1 = 1;
+                         x2 = Index;
+                         y2 = Index + 1;
+                        x1 = points[x1];
+                        x2 = points[x2];
+                        y1 = points[y1];
+                        y2 = points[y2];
+                    }
+                    else {
+                         x1 = Index;
+                         y1 = Index + 1;
+                         x2 = Index + 2;
+                         y2 = Index + 3;
+                        x1 = points[x1];
+                        x2 = points[x2];
+                        y1 = points[y1];
+                        y2 = points[y2];
+
+                    }
+
                     var x = (x2 + x1) / 2;
                     var y = (y2 + y1) / 2;
                     var dx = x1 - x2;
@@ -4435,13 +4571,16 @@
         var FillCircle = null;
         var Sprinkler = null;
         var ArcCir = null;
+        var MovCir = null;
         if (id[0] == "C") {
             circle = layer.findOne('#' + id);
             FillCircle = layer.findOne('#' + id.replace("Circle", "FillCircle"));
+            MovCir = layer.findOne('#' + id.replace("Circle", "MoveCircle"));
         }
         else {
              FillCircle= layer.findOne('#' + id);
-            circle= layer.findOne('#' + id.replace("FillCircle", "Circle"));
+            circle = layer.findOne('#' + id.replace("FillCircle", "Circle"));
+            MovCir = layer.findOne('#' + id.replace("FillCircle", "MoveCircle"));
         }
 
         if (id[0] == "C") {
@@ -4689,6 +4828,49 @@
                 success: function (r) {
                     $("#SName").text(r);
                     $("#SprinklerTypeDropID").val(r);
+
+                    var MovCirColor = "black";
+                    var SubName = $("#SName").text();
+                    if (SubName == "MP 800 90-210") {
+                        MovCirColor = "#FF0000";
+                    }
+                    else if (SubName == "MP 800 360") {
+                        MovCirColor = "#8FD65A";
+                    }
+                    else if (SubName == "MP 1000 90-210") {
+                        MovCirColor = "#C55A11";
+                    }
+                    else if (SubName == "MP 1000 210-270") {
+                        MovCirColor = "#00B0F0";
+                    }
+                    else if (SubName == "MP 1000 360") {
+                        MovCirColor = "#5DA329";
+                    }
+                    else if (SubName == "MP 2000 90-210") {
+                        MovCirColor = "#000000";
+                    }
+                    else if (SubName == "MP 2000 210-270") {
+                        MovCirColor = "#51DF5F";
+                    }
+                    else if (SubName == "MP 2000 360") {
+                        MovCirColor = "#ED7D31";
+                    }
+                    else if (SubName == "MP 3000 90-210") {
+                        MovCirColor = "#0070C0";
+                    }
+                    else if (SubName == "MP 3000 210-270") {
+                        MovCirColor = "#FEDA01";
+                    }
+                    else if (SubName == "MP 3000 360") {
+                        MovCirColor = "#858062";
+                    }
+                    else if (SubName == "MP 3500 90-210") {
+                        MovCirColor = "#FFC000";
+                    }
+                    else if (SubName == "MP Corner") {
+                        MovCirColor = "#00B0F0";
+                    }
+                    MovCir.fill(MovCirColor);
                 }
             });
 
@@ -5040,6 +5222,25 @@
         return false;
         }
 
+    function MakeCopy() {
+        var myShape = layer.findOne('#' + OldCurrentObjId);
+        if(myShape != null && myShape!="")
+        {
+            var myShapeCopy = myShape.clone();
+            myShapeCopy.x(50);
+            // Add the copy to the stage
+            layer.add(myShapeCopy);
+            //layer.draw();
+        }
+
+    }
+
+
+    function RemoveAll() {
+        while (UndoArray.length!=0) {
+            $("#UndoCanvas").click();
+        }
+    }
 
 
     $("body").on("click", "#UndoCanvas", function () {
@@ -5616,8 +5817,12 @@
 
             }
             else if (Type == 2) {
-                ArcCir.rotation(obj.value);
-                ArcCir.angle(ArcCir.angle() - obj.value);
+                var StartAngle = $("#StartAngle").val();
+                var EndAngle = $("#SAngle").val();
+
+                ArcCir.rotation(StartAngle.replace(",","."));
+                ArcCir.angle(Number((Number(EndAngle) - Number(StartAngle.replace(",", ".")))));
+
 
 
                 //var radius = 60;
@@ -5631,7 +5836,9 @@
 
             }
             else if (Type == 3) {
-                ArcCir.angle(obj.value);
+                var StartAngle = $("#StartAngle").val();
+                var EndAngle = $("#SAngle").val();
+                ArcCir.angle(EndAngle.replace(",", ".") - StartAngle);
             }
         }
         else if (Type<=5)
@@ -6112,9 +6319,11 @@
                 }
                 var node = layer.findOne('#' + UniqueId.replace("Sprinkler", "MoveCircle"));
                 if (node != null) {
-                    node.hide();
+                    //node.hide();
                 } var node = layer.findOne('#' + UniqueId.replace("Sprinkler", "Arc"));
                 if (node != null) {
+                    node.strokeWidth(0.5);
+                    node.stroke("black");
                     node.listening(true);
                 }
 
@@ -6404,9 +6613,12 @@
                 }
                 var node = layer.findOne('#' + CLastId.replace("Sprinkler", "MoveCircle"));
                 if (node != null) {
-                    node.hide();
-                } var node = layer.findOne('#' + CLastId.replace("Sprinkler", "Arc"));
+                    //node.hide();
+                }
+                var node = layer.findOne('#' + CLastId.replace("Sprinkler", "Arc"));
                 if (node != null) {
+                    node.strokeWidth(0.5);
+                    node.stroke("black");
                     node.listening(true);
                 }
 
