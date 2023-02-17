@@ -876,6 +876,32 @@ namespace DrawingTheme.Controllers
         }
 
         [HttpPost]
+        public JsonResult SprinklerCount(tblOrderDetail OrderDetail)
+        {
+            HttpCookie cookieObj = Request.Cookies["User"];
+            int UserId = Int32.Parse(cookieObj["UserId"]);
+            int Data = 0;
+
+            try
+            {
+                Data = DB.tblOrderDetails.Where(x => x.SubCategoryID <17 &&x.OrderId==OrderDetail.OrderId).Count();
+               
+
+                return Json(Data);
+
+
+            }
+            catch (Exception ex)
+            {
+
+                ViewBag.Error = ex.Message;
+                Console.WriteLine("Error" + ex.Message);
+            }
+
+            return Json(0);
+        }
+
+        [HttpPost]
         public JsonResult GetObjOrderDetails(tblOrderDetail OrderDetail)
         {
             HttpCookie cookieObj = Request.Cookies["User"];

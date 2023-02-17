@@ -21,30 +21,30 @@ namespace DrawingTheme.Controllers
             {
                 if (status == "" || status == null)
                 {
-                    Orders = DB.tblOrders.Where(x => x.Status == 0 || x.Status == null).ToList();
+                    Orders = DB.tblOrders.Where(x => (x.Status == 0 || x.Status == null)&& x.isProceed==true).ToList();
                 }
                 if (status == "Pending")
                 {
-                    Orders = DB.tblOrders.Where(x => x.Status == 0 || x.Status == null).ToList();
+                    Orders = DB.tblOrders.Where(x => (x.Status == 0 || x.Status == null) && x.isProceed == true).ToList();
                 }
                 if (status == "Completed")
                 {
-                    Orders = DB.tblOrders.Where(x => x.Status == 1).ToList();
+                    Orders = DB.tblOrders.Where(x => (x.Status == 1 ) && x.isProceed == true).ToList();
                 }
             }
             else
             {
                 if (status == "" || status == null)
                 {
-                    Orders = DB.tblOrders.Where(x => x.CreatedBy == UserId && x.Status == 0 || x.Status == null).ToList();
+                    Orders = DB.tblOrders.Where(x => x.CreatedBy == UserId && (x.Status == 0 || x.Status == null) && x.isProceed == true).ToList();
                 }
                 if (status == "Pending")
                 {
-                    Orders = DB.tblOrders.Where(x => x.CreatedBy == UserId && x.Status == 0 || x.Status == null).ToList();
+                    Orders = DB.tblOrders.Where(x => x.CreatedBy == UserId && (x.Status == 0 || x.Status == null) && x.isProceed == true).ToList();
                 }
                 if (status == "Completed")
                 {
-                    Orders = DB.tblOrders.Where(x => x.CreatedBy == UserId && x.Status == 1).ToList();
+                    Orders = DB.tblOrders.Where(x => x.CreatedBy == UserId && (x.Status ==1 ) && x.isProceed == true).ToList();
                 }
 
             }

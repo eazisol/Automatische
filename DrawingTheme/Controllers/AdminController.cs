@@ -65,6 +65,7 @@ namespace DrawingTheme.Controllers
 
                 tblOrder OrderData= DB.tblOrders.Where(x => x.OrderId == OrderID).FirstOrDefault();
                 OrderData.ImgPath = DBpath;
+                OrderData.isProceed = true;
                 DB.Entry(OrderData);
                 DB.SaveChanges();
 

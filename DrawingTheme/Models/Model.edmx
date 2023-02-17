@@ -87,6 +87,7 @@
           <Property Name="EditDate" Type="datetime" />
           <Property Name="EditBy" Type="int" />
           <Property Name="isActive" Type="bit" />
+          <Property Name="isProceed" Type="bit" />
         </EntityType>
         <EntityType Name="tblOrderDetail">
           <Key>
@@ -640,6 +641,7 @@
           <NavigationProperty Name="tblTransactions" Relationship="AutomatischeModel.FK_tblTransaction_tblOrder" FromRole="tblOrder" ToRole="tblTransaction" />
           <NavigationProperty Name="tblOrderDetails" Relationship="AutomatischeModel.FK_tblOrderDetail_tblOrder" FromRole="tblOrder" ToRole="tblOrderDetail" />
           <Property Name="ImgPath" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="isProceed" Type="Boolean" />
         </EntityType>
         <EntityType Name="tblComponent">
           <Key>
@@ -1026,6 +1028,7 @@
           <EntitySetMapping Name="tblOrders">
             <EntityTypeMapping TypeName="AutomatischeModel.tblOrder">
               <MappingFragment StoreEntitySet="tblOrder">
+                <ScalarProperty Name="isProceed" ColumnName="isProceed" />
                 <ScalarProperty Name="ImgPath" ColumnName="ImgPath" />
                 <ScalarProperty Name="isActive" ColumnName="isActive" />
                 <ScalarProperty Name="EditBy" ColumnName="EditBy" />

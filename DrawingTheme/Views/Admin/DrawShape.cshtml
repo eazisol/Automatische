@@ -38,12 +38,14 @@
             <input type="text" name="OrderId" id="OrderId" value="" hidden="">
             <input type="text" name="ObjUniqueId" id="ObjUniqueId" value="" hidden="">
             <input type="text" name="VBCircle" id="VBCircle" value="" hidden="">
+            <input type="text" name="SprinklerCount" id="SprinklerCount" value="0" hidden>
 
 
             <button id="Area" class="btn btn-success ml-2 mr-2 " onclick="SaveData(4)" data-radius="30" data-width="100" data-height="40" data-angle="180" data-rotation="45">@Resources.Lawn</button>
             <button id="DryArea" class="btn  mr-2 text-white" style="background-color: #998a5c; " onclick="SaveData(5)" data-radius="30" data-width="100" data-height="40" data-angle="180" data-rotation="45">@Resources.DryArea</button>
             <button id="Hedge" class="btn  mr-2 text-white" style="background-color: #D2BFFF; " onclick="SaveData(6)" data-radius="30" data-width="100" data-height="40" data-angle="180" data-rotation="45">@Resources.Hedge</button>
             <button id="GetWet" class="btn  mr-2 text-white" style="background-color: rgba(111, 187, 211, .8); " onclick="SaveData(9)" data-radius="30" data-width="100" data-height="40" data-angle="180" data-rotation="45">@Resources.GetWet </button>
+            @*<button id="" class="btn  mr-2 text-white" style="background-color: rgba(111, 187, 211, .8); " onclick="SprinklerCount()" >SprinklerCount</button>*@
 
            
             <form style="float:right" role="form" id="payment-form" method="POST" action="@Url.Action("PaymentWithPaypal","PayPal")">
@@ -171,12 +173,12 @@
                 </div>
                 <div id="foo" class='buttons mt-2 mb-2'>
 
-                    <img class="mr-2" id='reset' src="~/assets/images/ecommerce/FullScreen.png" style="width:2%;float:right" />
+                    <img class="mr-2" id='reset' src="~/assets/images/ecommerce/ResetZoom.png" style="width:2%;float:right" />
                     <img class="mr-2" id='stage2ZoomOut' src="~/assets/images/ecommerce/ZoomOut.png" style="width:2%;float:right" />
 
                     <img class="mr-2" id='stage2ZoomIn' src="~/assets/images/ecommerce/ZoomIN.png" style="width:2%;float:right" />
                     <img class="mr-2" id="UndoCanvas" src="~/assets/images/ecommerce/undo.png" style="width:2%;float:right" />
-                    <img class="mr-2" onclick="RemoveAll()" src="~/assets/images/ecommerce/DeleteAll.png" style="width:2%;float:right" />
+                    <img class="mr-2" onclick="RemoveAll()" src="~/assets/images/ecommerce/Reset.png" style="width:2%;float:right" />
 
                 </div>
             </div>
@@ -699,7 +701,7 @@
         e.preventDefault();
     });
 
- 
+
 
      stage.on('click', (e) => {
         //console.log(e.target.id());
@@ -707,7 +709,8 @@
          console.log("Clicked  " + e.target.id());
          console.log("Old Current " +OldCurrentObjId);
          console.log("Current " + CurrentObjId);
-         if (CurrentObjId != null && CurrentObjId != "" && ((e.target.id() != ""||(e.target.id() == "" && CurrentObjId[0]!="L")))) {
+         //if (CurrentObjId != null && CurrentObjId != "" && ((e.target.id() != ""||(e.target.id() == "" && CurrentObjId[0]!="L")))) {
+         if (CurrentObjId != null && CurrentObjId != "" && (CurrentObjId[0]!="L")) {
              UnSelectObjOnNew(CurrentObjId);
          }
          else {
@@ -716,8 +719,8 @@
              }
          }
 
-
-        $("#ObjUniqueId").val(e.target.id().replace("Arc","Sprinkler"));
+         if (CurrentObjId == null || CurrentObjId=="") {
+             $("#ObjUniqueId").val(e.target.id().replace("Arc","Sprinkler"));
          var UniqueId = $("#ObjUniqueId").val();
 
          OldCurrentObjId = UniqueId;
@@ -982,6 +985,9 @@
                 }
             });
         }
+
+
+         }
 
 
 
@@ -1379,8 +1385,18 @@
     });
 
     $("body").on("click", "#Area", function () {
+
+
+        $("#Area").css("border", "#8ec746  solid 1px");
+        $("#Area").css("background-color", "rgb(40, 167, 69,0.4)");
         if (CurrentObjId != null && CurrentObjId != "") {
-            UnSelectObjOnNew(CurrentObjId);
+            if (CurrentObjId[0] == "L") {
+                $("#UndoCanvas").click();
+            }
+            else {
+                UnSelectObjOnNew(CurrentObjId);
+            }
+            
         }
         else {
             if (OldCurrentObjId != null && OldCurrentObjId != "") {
@@ -1453,8 +1469,16 @@
 
 
     $("body").on("click", "#DryArea", function () {
+        $("#DryArea").css("border", "#8ec746  solid 1px");
+        $("#DryArea").css("background-color", "rgb(153, 138, 92,0.4)");
         if (CurrentObjId != null && CurrentObjId != "") {
-            UnSelectObjOnNew(CurrentObjId);
+            if (CurrentObjId[0] == "L") {
+                $("#UndoCanvas").click();
+            }
+            else {
+                UnSelectObjOnNew(CurrentObjId);
+            }
+
         }
         else {
             if (OldCurrentObjId != null && OldCurrentObjId != "") {
@@ -1527,8 +1551,16 @@
 
 
     $("body").on("click", "#Hedge", function () {
+        $("#Hedge").css("border", "#8ec746  solid 1px");
+        $("#Hedge").css("background-color", "rgb(210, 191, 255,0.4)");
         if (CurrentObjId != null && CurrentObjId != "") {
-            UnSelectObjOnNew(CurrentObjId);
+            if (CurrentObjId[0] == "L") {
+                $("#UndoCanvas").click();
+            }
+            else {
+                UnSelectObjOnNew(CurrentObjId);
+            }
+
         }
         else {
             if (OldCurrentObjId != null && OldCurrentObjId != "") {
@@ -1589,7 +1621,20 @@
 
 
     $("body").on("click", "#IW", function () {
-        UnSelectObjOnNew(CurrentObjId);
+        if (CurrentObjId != null && CurrentObjId != "") {
+            if (CurrentObjId[0] == "L") {
+                $("#UndoCanvas").click();
+            }
+            else {
+                UnSelectObjOnNew(CurrentObjId);
+            }
+
+        }
+        else {
+            if (OldCurrentObjId != null && OldCurrentObjId != "") {
+                UnSelectObj(OldCurrentObjId);
+            }
+        }
         var SubName = $(this).attr("data-Name");
         var SubId = $(this).attr("data-SubCatId");
         $("#SName").text(SubName);
@@ -1671,7 +1716,20 @@
 
 
     $("body").on("click", "#PE", function () {
-        UnSelectObjOnNew(CurrentObjId);
+        if (CurrentObjId != null && CurrentObjId != "") {
+            if (CurrentObjId[0] == "L") {
+                $("#UndoCanvas").click();
+            }
+            else {
+                UnSelectObjOnNew(CurrentObjId);
+            }
+
+        }
+        else {
+            if (OldCurrentObjId != null && OldCurrentObjId != "") {
+                UnSelectObj(OldCurrentObjId);
+            }
+        }
         var SubName = $(this).attr("data-Name");
         var SubId = $(this).attr("data-SubCatId");
         $("#SName").text(SubName);
@@ -1804,8 +1862,16 @@
 
 
     $("body").on("click", "#GetWet", function () {
+        $("#GetWet").css("border", "#8ec746  solid 1px");
+        $("#GetWet").css("background-color", "rgb(111, 187, 211,0.4)");
         if (CurrentObjId != null && CurrentObjId != "") {
-            UnSelectObjOnNew(CurrentObjId);
+            if (CurrentObjId[0] == "L") {
+                $("#UndoCanvas").click();
+            }
+            else {
+                UnSelectObjOnNew(CurrentObjId);
+            }
+
         }
         else {
             if (OldCurrentObjId != null && OldCurrentObjId != "") {
@@ -1887,7 +1953,20 @@
         //    UndoArray.push(yoda.id());
         //};
         //imageObj.src = '/assets/images/ecommerce/Tap.png';
-        UnSelectObjOnNew(CurrentObjId);
+        if (CurrentObjId != null && CurrentObjId != "") {
+            if (CurrentObjId[0] == "L") {
+                $("#UndoCanvas").click();
+            }
+            else {
+                UnSelectObjOnNew(CurrentObjId);
+            }
+
+        }
+        else {
+            if (OldCurrentObjId != null && OldCurrentObjId != "") {
+                UnSelectObj(OldCurrentObjId);
+            }
+        }
 
         if (CurretTap != "") {
             var SubName = $(this).attr("data-Name");
@@ -2095,6 +2174,9 @@
 
 
     $("body").on("click", "#IC", function () {
+
+        var SprinklerCounr = $("#SprinklerCount").val();
+        //alert(SprinklerCounr);
         //alert(this.id);
         //var imageObj = new Image();
         //imageObj.onload = function () {
@@ -2113,7 +2195,20 @@
         //    UndoArray.push(yoda.id());
         //};
         //imageObj.src = '/assets/images/ecommerce/System.png';
-        UnSelectObjOnNew(CurrentObjId);
+        if (CurrentObjId != null && CurrentObjId != "") {
+            if (CurrentObjId[0] == "L") {
+                $("#UndoCanvas").click();
+            }
+            else {
+                UnSelectObjOnNew(CurrentObjId);
+            }
+
+        }
+        else {
+            if (OldCurrentObjId != null && OldCurrentObjId != "") {
+                UnSelectObj(OldCurrentObjId);
+            }
+        }
         $(".IW2").hide();
         $(".IW4").hide();
         $(".IW6").hide();
@@ -2145,6 +2240,7 @@
             if (SP == "True") {
                 $("#ICSP").show();
             }
+
 
 
             var UniqueId = CurretIC;
@@ -2327,7 +2423,20 @@
         //    UndoArray.push(yoda.id());
         //};
         //imageObj.src = '/assets/images/ecommerce/ValveBox.png';
-        UnSelectObjOnNew(CurrentObjId);
+        if (CurrentObjId != null && CurrentObjId != "") {
+            if (CurrentObjId[0] == "L") {
+                $("#UndoCanvas").click();
+            }
+            else {
+                UnSelectObjOnNew(CurrentObjId);
+            }
+
+        }
+        else {
+            if (OldCurrentObjId != null && OldCurrentObjId != "") {
+                UnSelectObj(OldCurrentObjId);
+            }
+        }
 
         if (CurretVB != "") {
             var Filter = $(this).attr("data-Filter");
@@ -2460,8 +2569,18 @@
 
     $("body").on("click", "#RSP,#Sprinkler1,#Sprinkler2", function () {
         //console.log(CurrentObjId);
+        
+
         if (CurrentObjId != "" && (CurrentObjId[0] != "S" && CurrentObjId[1] != "p")) {
-            UnSelectObjOnNew(CurrentObjId);
+            if (CurrentObjId[0] == "L") {
+                $("#UndoCanvas").click();
+            }
+            else {
+                UnSelectObjOnNew(CurrentObjId);
+            }
+        }
+        if (OldCurrentObjId != "" && (OldCurrentObjId[0] != "S" && OldCurrentObjId[1] != "p")) {
+            UnSelectObj(OldCurrentObjId);
         }
         $(".RSPD").show();
         var Radius = MToPx(Number($(this).attr("data-radius")));
@@ -2470,7 +2589,6 @@
         var SubName = $(this).attr("data-Name");
         var SubId = $(this).attr("data-SubCatId");
         var MovCirColor = "black";
-        alert("RSP");   
 
         if (SubName == "MP 800 90-210") {
             MovCirColor = "#FF0000";
@@ -3117,6 +3235,7 @@
             success: function (r) {
                 $("#TotalAmount").text(r);
                 $("#TotalAmountInput").val(r);
+                SprinklerCount();
             }
         });
         $("#DeleteObj").hide();
@@ -3182,7 +3301,20 @@
 
 
     $("body").on("click", "#SSP", function () {
-        UnSelectObjOnNew(CurrentObjId);
+        if (CurrentObjId != null && CurrentObjId != "") {
+            if (CurrentObjId[0] == "L") {
+                $("#UndoCanvas").click();
+            }
+            else {
+                UnSelectObjOnNew(CurrentObjId);
+            }
+
+        }
+        else {
+            if (OldCurrentObjId != null && OldCurrentObjId != "") {
+                UnSelectObj(OldCurrentObjId);
+            }
+        }
         var RCPX = 0;
         var RCPY = 0;
         $(".SSPD").show();
@@ -3586,6 +3718,7 @@
 
 
         $("#BtnEndRectangularsprinkler").show();
+
     });
 
 
@@ -3609,8 +3742,6 @@
     $("body").on("click", "#BtnEndRectangularsprinkler", function () {
 
         //$("#Sprinkler").prop('disabled', false);
-
-
 
 
         SubCategoryID = $("#SubCatId").text();
@@ -3640,6 +3771,7 @@
             success: function (r) {
                 $("#TotalAmount").text(r);
                 $("#TotalAmountInput").val(r);
+                SprinklerCount();
             }
         });
 
@@ -3910,6 +4042,7 @@
                     //console.log("stage.scaleX(): " + stage.scaleX() + "stage.scaleY(): " + stage.scaleY());
                     //console.log(id);
                     var line = layer.findOne('#' + id);
+                    console.log(line);
                     //console.log(isInArea);
                     if (isInArea == true || (line.name() != "DryArea" && line.name() != "GetWet")) {
                         //var line = layer.findOne('#' + id);
@@ -3980,8 +4113,8 @@
                             Srect.moveToTop();
                             SRName += 1;
                             Srect.on('pointerenter', function () {
-                                var LineId = this.id().replace('SRect', 'Line');
-                                var EditLine = layer.findOne('#' + LineId);
+                                //var LineId = this.id().replace('SRect', 'Line');
+                                var EditLine = layer.findOne('#' + CurrentObjId);
 
                                 var points = EditLine.points();
                                 if ( points.length < 6) {
@@ -4010,8 +4143,8 @@
 
                             });
                             Srect.on('pointerout', function () {
-                                var LineId = this.id().replace('SRect', 'Line');
-                                var EditLine = layer.findOne('#' + LineId);
+                                //var LineId = this.id().replace('SRect', 'Line');
+                                var EditLine = layer.findOne('#' + CurrentObjId);
                                 EditLine.closed(false);
                                 isOverOnStarting = false;
                                 //EditLine.listening(true);
@@ -4027,11 +4160,14 @@
                         Name += 1;
                         rect.on('pointerenter', function () {
                             var id = this.name();
+                            console.log(id);
                             var LineId = 0;
                             if (id[0] == "R") {
                                 LineId = FindIndex(id);
                             }
+                            console.log(LineId);
                             var line = layer.findOne('#Line' + LineId);
+                            //var line = layer.findOne('#' + CurrentObjId);
                             var points = line.points();
                             var pointerPos = stage.getPointerPosition();
                             if (isFinished == true || points.length < 6) {
@@ -4043,7 +4179,9 @@
                                 var index = Number(Number(StartRect.indexOf(this.id())));
                                 var NewIndex = Number(Number(index) + 1);
                                 var LineId = "Line" + NewIndex;
+                                console.log(LineId);
                                 var EditLine = layer.findOne('#' + LineId);
+                                //var EditLine = layer.findOne('#' + CurrentObjId);
                                 EditLine.closed(true);
                                 if (EditLine.name() == "Area") {
                                     EditLine.fill("rgba(34, 255, 0, 0.3)");
@@ -4172,6 +4310,7 @@
                     //    LineId = id[4];
                     //}
                     var line = layer.findOne('#' + id);
+                    //var line = layer.findOne('#' + CurrentObjId);
                     //line.points().pop();
                     //line.points().pop();
                     var point1 = 0;
@@ -4184,12 +4323,15 @@
                             point2=line.points().pop();
                             isFinished = true;
                             line.closed(true);
-                            var SRect = layer.findOne('#' + id.replace("Line", "SRect"));
+                            var RectID = StartRect[Number(Number(id.replace("Line", "")) - 1)];
+                            console.log(RectID);
+                            var SRect = layer.findOne('#' + RectID.replace("Rect", "SRect"));
                             if (SRect != null) {
                                 console.log(StartRect);
-                                var srecId = StartRect[Number(Number(id.replace("Line", "")) - 1)];
-                                console.log(srecId);
-                                var srec = layer.findOne('#' + srecId);
+                                //var srecId = StartRect[Number(Number(id.replace("Line", "")) - 1)];
+                                console.log(RectID);
+                                //var srec = layer.findOne('#' + srecId);
+                                var srec = layer.findOne('#' + RectID);
                                 srec.off('mouseover');
                                 srec.on('mouseover', (e) => {
                                     stage.container().style.cursor = 'move';
@@ -4199,16 +4341,27 @@
                             line.listening(true);
                             if (line.name() == "Area") {
                                 line.fill("rgba(34, 255, 0, 0.3)");
-
+                                $("#Area").css("border", "");
+                                $("#Area").css("background-color", "rgb(40, 167, 69,1)");
+                                CurrentObjId = "";
                             }
                             else if (line.name() == "DryArea") {
                                 line.fill("rgba(255,230,153,0.3)");
+                                $("#DryArea").css("border", "");
+                                $("#DryArea").css("background-color", "rgb(153, 138, 92,1)");
+                                CurrentObjId = "";
                             }
                             else if (line.name() == "Hedge") {
                                 line.fill("rgba(210,191,255,0.3)");
+                                $("#Hedge").css("border", "");
+                                $("#Hedge").css("background-color", "rgb(210, 191, 255,1)");
+                                CurrentObjId = "";
                             }
                             else if (line.name() == "GetWet") {
                                 line.fill("rgba(111, 187, 211, .3)");
+                                $("#GetWet").css("border", "");
+                                $("#GetWet").css("background-color", "rgb(111, 187, 211,0.8)");
+                                CurrentObjId = "";
                             }
                         }
 
@@ -4346,7 +4499,7 @@
 
                 }
                 else {
-                    console.log(FindLastId(id));
+                    //console.log(FindLastId(id));
                     var Index = 0;
                     if (MOD == 0) {
                         Index = ((ID * 2) - 2);
@@ -5046,6 +5199,7 @@
 
                     //    id = this.mouseClickStartShape.attrs.id;
                     //}
+                    console.log(CurrentObjId);
                     var line = layer.findOne('#' + id);
                     if (isOutArea == false || line.name() == "Hedge" || line.name() == "Irrigation Wiring" || line.name() == "PE Pipeline") {
 
@@ -5261,27 +5415,34 @@
             var LastId = "";
 
             if (CLastId[0] == 'L') {
+                isDraw = false;
                 var temp = Number(CLastId.replace("Line", ""));
                 FirstId = StartRect[temp - 1];
-                LastId = FindLastId(FirstId);
-                var CheckId = layer.findOne('#' + CLastId);
-                for (var i = Number(FirstId.replace("Rect", "")); i <= Number(LastId.replace("Rect", "")); i++) {
-                    var node = layer.findOne('#Rect' + i);
-                    node.destroy();
-
-                    if (CheckId.name() == "Irrigation Wiring" && i == Number(LastId.replace("Rect", ""))) {
-                        $("#btn_IW *").prop('disabled', false);
-                    }
-                    else if (CheckId.name() == "PE Pipeline" && i == Number(LastId.replace("Rect", "")))
-                    {
-                        $("#btn_PE *").prop('disabled', false);
-                    }
-                    else {
-                        node = layer.findOne('#Text' + i);
+                console.log(FirstId);
+                if (FirstId != undefined && FirstId != "") {
+                    LastId = FindLastId(FirstId);
+                    var CheckId = layer.findOne('#' + CLastId);
+                    for (var i = Number(FirstId.replace("Rect", "")); i <= Number(LastId.replace("Rect", "")); i++) {
+                        var node = layer.findOne('#Rect' + i);
                         node.destroy();
-                    }
 
+                        if (CheckId.name() == "Irrigation Wiring" && i == Number(LastId.replace("Rect", ""))) {
+                            $("#btn_IW *").prop('disabled', false);
+                        }
+                        else if (CheckId.name() == "PE Pipeline" && i == Number(LastId.replace("Rect", ""))) {
+                            $("#btn_PE *").prop('disabled', false);
+                        }
+                        else {
+                            node = layer.findOne('#Text' + i);
+                            node.destroy();
+                        }
+
+                    }
                 }
+                else {
+                    PolyName -= 1;
+                }
+                
 
                 isOutArea = false;
             }
@@ -5367,6 +5528,27 @@
                 }
             }
             var node = layer.findOne('#' + CLastId);
+
+            if (node.name() == "Area") {
+                $("#Area").css("border", "");
+                $("#Area").css("background-color", "rgb(40, 167, 69,1)");
+                CurrentObjId = "";
+            }
+            else if (node.name() == "DryArea") {
+                $("#DryArea").css("border", "");
+                $("#DryArea").css("background-color", "rgb(153, 138, 92,1)");
+                CurrentObjId = "";
+            }
+            else if (node.name() == "Hedge") {
+                $("#Hedge").css("border", "");
+                $("#Hedge").css("background-color", "rgb(210, 191, 255,1)");
+                CurrentObjId = "";
+            }
+            else if (node.name() == "GetWet") {
+                $("#GetWet").css("border", "");
+                $("#GetWet").css("background-color", "rgb(111, 187, 211,0.8)");
+                CurrentObjId = "";
+            }
             if (node.name() =="Area" ) {
                 $("#Area").prop('disabled', false);
             }
@@ -5394,6 +5576,7 @@
                 success: function (r) {
                     $("#TotalAmount").text(r);
                     $("#TotalAmountInput").val(r);
+                    SprinklerCount();
                 }
             });
             $("#DeleteObj").hide();
@@ -5586,6 +5769,7 @@
                 success: function (r) {
                     $("#TotalAmount").text(r);
                     $("#TotalAmountInput").val(r);
+                    SprinklerCount();
                 }
             });
 
@@ -6354,6 +6538,7 @@
                     success: function (r) {
                         $("#TotalAmount").text(r);
                         $("#TotalAmountInput").val(r);
+                        SprinklerCount();
                     }
                 });
                 $("#DeleteObj").hide();
@@ -6388,6 +6573,7 @@
                     success: function (r) {
                         $("#TotalAmount").text(r);
                         $("#TotalAmountInput").val(r);
+                        SprinklerCount();
                     }
                 });
 
@@ -6694,6 +6880,28 @@
         }
     }
 
+
+    function SprinklerCount() {
+
+        var OrderId = $("#OrderId").val();
+
+            var model = {
+                OrderId: OrderId,
+            };
+
+            $.ajax({
+                type: "POST",
+                url: "@Url.Action("SprinklerCount", "Customer")",
+                data: JSON.stringify(model),
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: function (r) {
+                    console.log(r);
+                    $("#SprinklerCount").val(r);
+                }
+            });
+
+    }
 
     $(document).ready(function () {
 
