@@ -642,16 +642,36 @@ namespace DrawingTheme.Controllers
 
 
         [HttpPost]
-        public JsonResult CheckSpriDis(double? Distance, double? MinAngle, double? MaxAngle)
+        public JsonResult CheckSpriDis(int OrderId,string UniqueId, double? Distance, double? MinAngle, double? CoverAngle)
         {
-            string SubCategory = "";
+            tblSubCategory SubCategory = new tblSubCategory();
+            tblOrderDetail Data = new tblOrderDetail();
+            string SubCatName = "";
             try
             {
                 HttpCookie cookieObj = Request.Cookies["User"];
                 int UserId = Int32.Parse(cookieObj["UserId"]);
                 int RoleId = Int32.Parse(cookieObj["RoleId"]);
                 //int UserId = 1;
-                SubCategory = DB.tblSubCategories.Where(x => x.ThrowDistanceMax>=Distance && x.MaxAngle >= MaxAngle && x.MinAngle <= MinAngle).Select(s=>s.SubcategoryName).FirstOrDefault();
+                
+
+                SubCategory = DB.tblSubCategories.Where(x => x.ThrowDistanceMax>=Distance && x.MaxAngle >= CoverAngle && x.MinAngle <= CoverAngle).FirstOrDefault();
+                SubCatName = SubCategory.SubcategoryName;
+
+                Data = DB.tblOrderDetails.Where(x => x.OrderId == OrderId && x.UniqueId == UniqueId).FirstOrDefault();
+                if (Data != null)
+                {
+                    Data.SubcategoryName = SubCategory.SubcategoryName;
+                    Data.MaxAngle = SubCategory.MaxAngle;
+                    Data.MinAngle = SubCategory.MinAngle;
+                    Data.ThrowDistanceMax = SubCategory.ThrowDistanceMax;
+                    Data.ThrowDistanceMin = SubCategory.ThrowDistanceMin;
+                    Data.CoverAngle = CoverAngle;
+                    Data.CoverDistance = Distance;
+                    DB.Entry(Data);
+                    DB.SaveChanges();
+                }
+
 
             }
             catch (Exception ex)
@@ -661,7 +681,66 @@ namespace DrawingTheme.Controllers
                 Console.WriteLine("Error" + ex.Message);
             }
 
-            return Json(SubCategory);
+            return Json(SubCatName);
+        }
+
+
+        [HttpPost]
+        public JsonResult CheckSpriMH(int OrderId, string UniqueId, string SubName, double? CoverAngle)
+        {
+            tblSubCategory SubCategory = new tblSubCategory();
+            tblOrderDetail Data = new tblOrderDetail();
+            double? SubCatMH = 0.00;
+            try
+            {
+                HttpCookie cookieObj = Request.Cookies["User"];
+                int UserId = Int32.Parse(cookieObj["UserId"]);
+                int RoleId = Int32.Parse(cookieObj["RoleId"]);
+                //int UserId = 1;
+                SubCategory = DB.tblSubCategories.Where(x => x.SubcategoryName == SubName).FirstOrDefault();
+                if(CoverAngle<=45 && SubCategory.mh45!=null)
+                {
+                    SubCatMH = SubCategory.mh45;
+                }
+                else if(CoverAngle <= 90 && SubCategory.mh90 != null)
+                {
+                    SubCatMH = SubCategory.mh90;
+                }
+                else if(CoverAngle <= 105 && SubCategory.mh105 != null)
+                {
+                    SubCatMH = SubCategory.mh105;
+                }
+                else if(CoverAngle <= 180 && SubCategory.mh180 != null)
+                {
+                    SubCatMH = SubCategory.mh180;
+                }
+                else if(CoverAngle <= 210 && SubCategory.mh210 != null)
+                {
+                    SubCatMH = SubCategory.mh210;
+                }
+                else if(CoverAngle <= 270 && SubCategory.mh270 != null)
+                {
+                    SubCatMH = SubCategory.mh270;
+                }
+                else if(CoverAngle <= 360 && SubCategory.mh360 != null)
+                {
+                    SubCatMH = SubCategory.mh360;
+                }
+                Data = DB.tblOrderDetails.Where(x => x.OrderId == OrderId && x.UniqueId == UniqueId).FirstOrDefault();
+                if(Data!=null)
+                {
+                    Data.mh = SubCatMH;
+                    DB.Entry(Data);
+                    DB.SaveChanges();
+                }
+            }
+            catch (Exception ex)
+            {
+                ViewBag.Error = ex.Message;
+                Console.WriteLine("Error" + ex.Message);
+            }
+
+            return Json(SubCatMH);
         }
 
         [HttpPost]
@@ -677,6 +756,7 @@ namespace DrawingTheme.Controllers
             try
             {
                 double? TotalPrice = 0;
+                double? TotalMH = 0;
 
                 SubCategory = DB.tblSubCategories.Where(x => x.SubcategoryID == OrderDetail.SubCategoryID).FirstOrDefault();
                 if (SubCategory != null)
@@ -776,6 +856,9 @@ namespace DrawingTheme.Controllers
                         Data.ThrowDistanceMin = OrderDetail.ThrowDistanceMin;
                         Data.UniqueId = OrderDetail.UniqueId;
                         Data.SubcategoryName = SubCategory.SubcategoryName;
+                        Data.mh = OrderDetail.mh;
+                        Data.CoverDistance = OrderDetail.CoverDistance;
+                        Data.CoverAngle = OrderDetail.CoverAngle;
                         if (OrderDetail.IWLength != null && OrderDetail.IWLength != 0)
                         {
                             Data.Price = SubCategory.Price * (OrderDetail.IWLength + 3);
@@ -807,13 +890,14 @@ namespace DrawingTheme.Controllers
                 OrderDetailData = DB.tblOrderDetails.Where(x => x.OrderId == OrderDetail.OrderId).ToList();
 
                 TotalPrice=OrderDetailData.Sum(S => S.Price);
+                TotalMH = OrderDetailData.Sum(S => S.mh);
 
                 tblOrder OrderData= DB.tblOrders.Where(x => x.OrderId == OrderDetail.OrderId).FirstOrDefault();
                 OrderData.TotalPrice = TotalPrice;
                 DB.Entry(OrderData);
                 DB.SaveChanges();
 
-                return Json(TotalPrice.Value.ToString("0.00"));
+                return Json(new { TotalPrice=TotalPrice.Value.ToString("0.00"),TotalMH= TotalMH });
 
 
             }
@@ -840,6 +924,7 @@ namespace DrawingTheme.Controllers
             {
                 double? TotalPrice = 0;
                 string STotalPrice = "";
+                double? TotalMH = 0;
 
                 Data = DB.tblOrderDetails.Where(x => x.UniqueId == OrderDetail.UniqueId && x.OrderId == OrderDetail.OrderId).FirstOrDefault();
                 DB.Entry(Data).State = EntityState.Deleted;
@@ -855,13 +940,14 @@ namespace DrawingTheme.Controllers
                 OrderDetailData = DB.tblOrderDetails.Where(x => x.OrderId == OrderDetail.OrderId).ToList();
 
                 TotalPrice = OrderDetailData.Sum(S => S.Price);
+                TotalMH = OrderDetailData.Sum(S => S.mh);
 
                 tblOrder OrderData = DB.tblOrders.Where(x => x.OrderId == OrderDetail.OrderId).FirstOrDefault();
                 OrderData.TotalPrice = TotalPrice;
                 DB.Entry(OrderData);
                 DB.SaveChanges();
 
-                return Json(TotalPrice.Value.ToString("0.00"));
+                return Json(new { TotalPrice = TotalPrice.Value.ToString("0.00"), TotalMH = TotalMH });
 
 
             }

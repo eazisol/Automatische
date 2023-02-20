@@ -30,6 +30,9 @@ namespace DrawingTheme.Models
         public Nullable<int> PEFPipe { get; set; }
         public Nullable<int> PETPipe { get; set; }
         public Nullable<int> Qty { get; set; }
+        public Nullable<double> mh { get; set; }
+        public Nullable<double> CoverAngle { get; set; }
+        public Nullable<double> CoverDistance { get; set; }
     
         public virtual tblOrder tblOrder { get; set; }
         public virtual tblSubCategory tblSubCategory { get; set; }

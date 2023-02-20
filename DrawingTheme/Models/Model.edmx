@@ -109,6 +109,9 @@
           <Property Name="PEFPipe" Type="int" />
           <Property Name="PETPipe" Type="int" />
           <Property Name="Qty" Type="int" />
+          <Property Name="mh" Type="float" />
+          <Property Name="CoverAngle" Type="float" />
+          <Property Name="CoverDistance" Type="float" />
         </EntityType>
         <EntityType Name="tblRole">
           <Key>
@@ -899,6 +902,9 @@
           <Property Name="PEFPipe" Type="Int32" />
           <Property Name="PETPipe" Type="Int32" />
           <Property Name="Qty" Type="Int32" />
+          <Property Name="mh" Type="Double" />
+          <Property Name="CoverAngle" Type="Double" />
+          <Property Name="CoverDistance" Type="Double" />
         </EntityType>
         <Association Name="FK_tblOrderDetail_tblOrder">
           <End Type="AutomatischeModel.tblOrder" Role="tblOrder" Multiplicity="0..1" />
@@ -1165,6 +1171,9 @@
           <EntitySetMapping Name="tblOrderDetails">
             <EntityTypeMapping TypeName="AutomatischeModel.tblOrderDetail">
               <MappingFragment StoreEntitySet="tblOrderDetail">
+                <ScalarProperty Name="CoverDistance" ColumnName="CoverDistance" />
+                <ScalarProperty Name="CoverAngle" ColumnName="CoverAngle" />
+                <ScalarProperty Name="mh" ColumnName="mh" />
                 <ScalarProperty Name="Qty" ColumnName="Qty" />
                 <ScalarProperty Name="PETPipe" ColumnName="PETPipe" />
                 <ScalarProperty Name="PEFPipe" ColumnName="PEFPipe" />

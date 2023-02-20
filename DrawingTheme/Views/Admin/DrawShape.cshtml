@@ -39,6 +39,8 @@
             <input type="text" name="ObjUniqueId" id="ObjUniqueId" value="" hidden="">
             <input type="text" name="VBCircle" id="VBCircle" value="" hidden="">
             <input type="text" name="SprinklerCount" id="SprinklerCount" value="0" hidden>
+            <input type="text" name="MHValue" id="MHValue" value="0" hidden>
+            <input type="text" name="CurrentMHValue" id="CurrentMHValue" value="0" hidden>
 
 
             <button id="Area" class="btn btn-success ml-2 mr-2 " onclick="SaveData(4)" data-radius="30" data-width="100" data-height="40" data-angle="180" data-rotation="45">@Resources.Lawn</button>
@@ -341,8 +343,9 @@
             contentType: "application/json; charset=utf-8",
             dataType: "json",
             success: function (r) {
-                $("#TotalAmount").text(r);
-                $("#TotalAmountInput").val(r);
+                $("#TotalAmount").text(r.TotalPrice);
+                $("#TotalAmountInput").val(r.TotalPrice);
+                $("#MHValue").val(r.TotalMH);
             }
         });
 
@@ -614,8 +617,9 @@
                     contentType: "application/json; charset=utf-8",
                     dataType: "json",
                     success: function (r) {
-                        $("#TotalAmount").text(r);
-                        $("#TotalAmountInput").val(r);
+                        $("#TotalAmount").text(r.TotalPrice);
+                        $("#TotalAmountInput").val(r.TotalPrice);
+                        $("#MHValue").val(r.TotalMH);
                     }
                 });
                 $("#DeleteObj").hide();
@@ -670,8 +674,9 @@
                     contentType: "application/json; charset=utf-8",
                     dataType: "json",
                     success: function (r) {
-                        $("#TotalAmount").text(r);
-                        $("#TotalAmountInput").val(r);
+                        $("#TotalAmount").text(r.TotalPrice);
+                        $("#TotalAmountInput").val(r.TotalPrice);
+                        $("#MHValue").val(r.TotalMH);
                     }
                 });
                 $("#DeleteObj").hide();
@@ -1132,8 +1137,9 @@
                 contentType: "application/json; charset=utf-8",
                 dataType: "json",
                 success: function (r) {
-                    $("#TotalAmount").text(r);
-                    $("#TotalAmountInput").val(r);
+                    $("#TotalAmount").text(r.TotalPrice);
+                    $("#TotalAmountInput").val(r.TotalPrice);
+                    $("#MHValue").val(r.TotalMH);
                 }
             });
 
@@ -1304,14 +1310,14 @@
                 x: x,
                 y: y,
                 innerRadius: circle.radius(),
-                angle: Angle - Rotation,
+                angle: Angle,
                 fill: 'lightblue',
                 stroke: 'black',
                 strokeWidth: 0,
                 id: circle.id().replace("Sprinkler", "Arc"),
                 //draggable: true,
                 listening: false,
-                rotation: Rotation,
+                rotation: 0,
             });
 
 
@@ -1362,12 +1368,13 @@
         id = circle.id();
         CurrentObjName = circle.name();
         CurrentObjId = circle.id();
+        OldCurrentObjId = "";
         //$("#Area").prop('disabled', true);
         UndoArray.push(circle.id());
 
         $("#SId").val(circle.id());
         $("#SRadius").val(PxToM(circle.radius()).toFixed(2));
-        $("#StartAngle").val(Rotation.toFixed(2));
+        $("#StartAngle").val(0);
         $("#SAngle").val(Angle.toFixed(2));
         $("#SName").text(SubName);
         $("#SubCatId").text(SubId);
@@ -1378,6 +1385,32 @@
         cirFill.moveToTop();
         cirMove.moveToTop();
 
+
+        var CoverAngle = Angle.toFixed(2) - 0;
+        if (CoverAngle < 0) {
+            CoverAngle = 360 + CoverAngle;
+        }
+        var OrderId = $("#OrderId").val();
+        var UniqueId = $("#ObjUniqueId").val();
+
+        var model1 = {
+            OrderId: OrderId,
+            UniqueId: UniqueId,
+            SubName: SubName,
+            CoverAngle: CoverAngle,
+        };
+
+                    $.ajax({
+                            type: "POST",
+                            url: "@Url.Action("CheckSpriMH", "Customer")",
+                            data: JSON.stringify(model1),
+                            contentType: "application/json; charset=utf-8",
+                            dataType: "json",
+                            success: function (r) {
+                                //$("#MHValue").val($("#MHValue").val()+r);
+                                $("#CurrentMHValue").val(r);
+                            }
+                    });
 
 
 
@@ -1396,7 +1429,7 @@
             else {
                 UnSelectObjOnNew(CurrentObjId);
             }
-            
+
         }
         else {
             if (OldCurrentObjId != null && OldCurrentObjId != "") {
@@ -1835,8 +1868,9 @@
             contentType: "application/json; charset=utf-8",
             dataType: "json",
             success: function (r) {
-                $("#TotalAmount").text(r);
-                $("#TotalAmountInput").val(r);
+                $("#TotalAmount").text(r.TotalPrice);
+                $("#TotalAmountInput").val(r.TotalPrice);
+                $("#MHValue").val(r.TotalMH);
             }
         });
         $("#DeleteObj").hide();
@@ -1997,8 +2031,9 @@
                 contentType: "application/json; charset=utf-8",
                 dataType: "json",
                 success: function (r) {
-                    $("#TotalAmount").text(r);
-                    $("#TotalAmountInput").val(r);
+                    $("#TotalAmount").text(r.TotalPrice);
+                    $("#TotalAmountInput").val(r.TotalPrice);
+                    $("#MHValue").val(r.TotalMH);
                 }
             });
 
@@ -2091,8 +2126,9 @@
             contentType: "application/json; charset=utf-8",
             dataType: "json",
             success: function (r) {
-                $("#TotalAmount").text(r);
-                $("#TotalAmountInput").val(r);
+                $("#TotalAmount").text(r.TotalPrice);
+                $("#TotalAmountInput").val(r.TotalPrice);
+                $("#MHValue").val(r.TotalMH);
             }
         });
 
@@ -2146,8 +2182,9 @@
             contentType: "application/json; charset=utf-8",
             dataType: "json",
             success: function (r) {
-                $("#TotalAmount").text(r);
-                $("#TotalAmountInput").val(r);
+                $("#TotalAmount").text(r.TotalPrice);
+                $("#TotalAmountInput").val(r.TotalPrice);
+                $("#MHValue").val(r.TotalMH);
             }
         });
         $("#DeleteObj").hide();
@@ -2263,8 +2300,9 @@
                 contentType: "application/json; charset=utf-8",
                 dataType: "json",
                 success: function (r) {
-                    $("#TotalAmount").text(r);
-                    $("#TotalAmountInput").val(r);
+                    $("#TotalAmount").text(r.TotalPrice);
+                    $("#TotalAmountInput").val(r.TotalPrice);
+                    $("#MHValue").val(r.TotalMH);
                 }
             });
 
@@ -2382,8 +2420,9 @@
             contentType: "application/json; charset=utf-8",
             dataType: "json",
             success: function (r) {
-                $("#TotalAmount").text(r);
-                $("#TotalAmountInput").val(r);
+                $("#TotalAmount").text(r.TotalPrice);
+                $("#TotalAmountInput").val(r.TotalPrice);
+                $("#MHValue").val(r.TotalMH);
             }
         });
         var node = layer.findOne('#' + UniqueId);
@@ -2484,8 +2523,9 @@
                 contentType: "application/json; charset=utf-8",
                 dataType: "json",
                 success: function (r) {
-                    $("#TotalAmount").text(r);
-                    $("#TotalAmountInput").val(r);
+                    $("#TotalAmount").text(r.TotalPrice);
+                    $("#TotalAmountInput").val(r.TotalPrice);
+                    $("#MHValue").val(r.TotalMH);
                 }
             });
 
@@ -2569,7 +2609,7 @@
 
     $("body").on("click", "#RSP,#Sprinkler1,#Sprinkler2", function () {
         //console.log(CurrentObjId);
-        
+
 
         if (CurrentObjId != "" && (CurrentObjId[0] != "S" && CurrentObjId[1] != "p")) {
             if (CurrentObjId[0] == "L") {
@@ -2641,6 +2681,7 @@
 
 
         $("#SprinklerTypeDropID").val(SubName);
+        $("#CurrentMHValue").val(0.13);
 
         if (CurretSprinkler != "") {
             var node = layer.findOne('#' + CurretSprinkler);
@@ -2690,8 +2731,9 @@
                 contentType: "application/json; charset=utf-8",
                 dataType: "json",
                 success: function (r) {
-                    $("#TotalAmount").text(r);
-                    $("#TotalAmountInput").val(r);
+                    $("#TotalAmount").text(r.TotalPrice);
+                    $("#TotalAmountInput").val(r.TotalPrice);
+                    $("#MHValue").val(r.TotalMH);
                 }
             });
 
@@ -2861,14 +2903,14 @@
                 x: x,
                 y: y,
                 innerRadius: circle.radius(),
-                angle: Angle - Rotation,
+                angle: Angle,
                 fill: 'lightblue',
                 stroke: 'black',
                 strokeWidth: 0,
                 id: circle.id().replace("Sprinkler", "Arc"),
                 //draggable: true,
                 listening: false,
-                rotation: Rotation,
+                rotation: 0,
             });
 
 
@@ -3075,14 +3117,14 @@
                 x: 100,
                 y: 100,
                 innerRadius: circle.radius(),
-                angle: Angle - Rotation,
+                angle: Angle ,
                 fill: 'rgba(173,216,230,0.7)',
                 stroke: 'black',
                 strokeWidth: 0,
                 id: circle.id().replace("Sprinkler", "Arc"),
                 //draggable: true,
                 listening: false,
-                rotation: Rotation,
+                rotation: 0,
             });
 
 
@@ -3148,7 +3190,7 @@
 
         $("#SId").val(circle.id());
         $("#SRadius").val(PxToM(circle.radius()).toFixed(2));
-        $("#StartAngle").val(Rotation.toFixed(2));
+        $("#StartAngle").val(0);
         $("#SAngle").val(Angle.toFixed(2));
         $("#SName").text(SubName);
         $("#SubCatId").text(SubId);
@@ -3185,6 +3227,14 @@
         var MaxAngle = $("#SAngle").val();
         var ThrowDistanceMax = $("#SRadius").val();
         var OrderId = $("#OrderId").val();
+        var mh = $("#CurrentMHValue").val();
+        var StartAngle = $("#StartAngle").val();
+        var SAngle = $("#SAngle").val();
+        var CoverAngle = SAngle - StartAngle;
+        if (CoverAngle<0) {
+            CoverAngle = 360 + CoverAngle;
+        }
+        var CoverDistance = $("#SRadius").val();
 
         var node = layer.findOne('#' + UniqueId);
         if (node != null) {
@@ -3224,6 +3274,9 @@
             MaxAngle: MaxAngle,
             ThrowDistanceMax: ThrowDistanceMax,
             OrderId: OrderId,
+            mh: mh,
+            CoverAngle: CoverAngle,
+            CoverDistance: CoverDistance,
         };
 
         $.ajax({
@@ -3233,13 +3286,17 @@
             contentType: "application/json; charset=utf-8",
             dataType: "json",
             success: function (r) {
-                $("#TotalAmount").text(r);
-                $("#TotalAmountInput").val(r);
+                $("#TotalAmount").text(r.TotalPrice);
+                $("#TotalAmountInput").val(r.TotalPrice);
+                $("#MHValue").val(r.TotalMH);
                 SprinklerCount();
             }
         });
         $("#DeleteObj").hide();
         $("#CancleDeleteObj").hide();
+
+        $("#CurrentMHValue").val("");
+
 
         CurrentObjId = "";
 
@@ -3277,8 +3334,9 @@
             contentType: "application/json; charset=utf-8",
             dataType: "json",
             success: function (r) {
-                $("#TotalAmount").text(r);
-                $("#TotalAmountInput").val(r);
+                $("#TotalAmount").text(r.TotalPrice);
+                $("#TotalAmountInput").val(r.TotalPrice);
+                $("#MHValue").val(r.TotalMH);
             }
         });
         var node = layer.findOne('#' + UniqueId);
@@ -3322,20 +3380,29 @@
         var Width = MToPx(Number($(this).attr("data-Width")));
         var Height = MToPx(Number($(this).attr("data-Height")));
         var SubId = $(this).attr("data-SubCatId");
-
+        var MovCirColor = "black";
 
         if (SubName == "MPLCS 515") {
             RCPY = Height;
             RCPX = 0;
+            MovCirColor = "#7F7F7F";
+            $("#CurrentMHValue").val(0.05);
         }
         else if (SubName == "MPRCS 515") {
             RCPY = Height ;
             RCPX = Width;
+            MovCirColor = "#CC9900";
+            $("#CurrentMHValue").val(0.05);
         }
         else if (SubName == "MPSS 530") {
             RCPY = Height;
             RCPX = (Width / 2);
+            MovCirColor = "#CC9900";
+            $("#CurrentMHValue").val(0.1);
         }
+
+
+
 
         if (CurretRSprinkler != "") {
             var node = layer.findOne('#' + CurretRSprinkler);
@@ -3378,8 +3445,9 @@
                 contentType: "application/json; charset=utf-8",
                 dataType: "json",
                 success: function (r) {
-                    $("#TotalAmount").text(r);
-                    $("#TotalAmountInput").val(r);
+                    $("#TotalAmount").text(r.TotalPrice);
+                    $("#TotalAmountInput").val(r.TotalPrice);
+                    $("#MHValue").val(r.TotalMH);
                 }
             });
 
@@ -3604,7 +3672,7 @@
                 x: 50 + RCPX,
                 y: 50 + RCPY,
                 radius: 5,
-                //fill: 'red',
+                fill: 'red',
                 stroke: 'black',
                 strokeWidth: 1,
                 id: circle.id().replace("RectangularSprinkler", "RSCircle"),
@@ -3684,8 +3752,7 @@
             cir.moveToTop();
             layer.add(group);
             layer.add(transformer);
-
-
+            transformer.anchorFill(MovCirColor);
             //transformer.anchorStrokeWidth(0);
             //transformer.offsetX(0);
 
@@ -3748,6 +3815,8 @@
         SubcategoryName = $("#SName").text();
         UniqueId = $("#SSId").val();
         OrderId = $("#OrderId").val();
+        var mh = $("#CurrentMHValue").val();
+        
 
         $("#BtnEndRectangularsprinkler").hide();
         $(".SSPD").hide();
@@ -3760,6 +3829,7 @@
             SubCategoryID: SubCategoryID,
             SubcategoryName: SubcategoryName,
             OrderId: OrderId,
+            mh: mh,
         };
 
         $.ajax({
@@ -3769,14 +3839,16 @@
             contentType: "application/json; charset=utf-8",
             dataType: "json",
             success: function (r) {
-                $("#TotalAmount").text(r);
-                $("#TotalAmountInput").val(r);
+                $("#TotalAmount").text(r.TotalPrice);
+                $("#TotalAmountInput").val(r.TotalPrice);
+                $("#MHValue").val(r.TotalMH);
                 SprinklerCount();
             }
         });
 
         $("#DeleteObj").hide();
         $("#CancleDeleteObj").hide();
+        $("#CurrentMHValue").val("");
 
         CurrentObjId = "";
     });
@@ -4782,8 +4854,6 @@
             Sprinkler.radius(Distance);
 
 
-
-
             if (id[0] == "C") {
 
                 x1 = FillCircle.x();
@@ -4793,10 +4863,6 @@
                 x1 = circle.x();
                 y1 = circle.y();
             }
-
-
-
-
 
             dx = x1 - x2;
             dy = y1 - y2;
@@ -4960,16 +5026,25 @@
             angleRad1 = Math.atan2(dy, dx);
             angleDeg1 = angleRad1 * 180 / Math.PI;
             angleDeg1 = (360 + (angleDeg1)) % 360;
-            var maxangle = angleDeg1;
+
+            var maxangle = angleDeg1 ;
             angleDeg1 = angleDeg1 - StartangleDeg;
 
             ArcCir.innerRadius(Distance);
             ArcCir.angle(angleDeg1);
 
+            var CoverAngle = maxangle - StartangleDeg;
+            if (CoverAngle<0) {
+                CoverAngle = 360 + CoverAngle;
+            }
+            var OrderId = $("#OrderId").val();
+            var UniqueId = $("#ObjUniqueId").val();
              var model = {
+                 OrderId: OrderId,
+                 UniqueId: UniqueId,
                  Distance: PxToM(Distance),
                  MinAngle: ArcCir.rotation().toFixed(2),
-                 MaxAngle: maxangle,
+                 CoverAngle: CoverAngle,
             };
 
             $.ajax({
@@ -5024,6 +5099,29 @@
                         MovCirColor = "#00B0F0";
                     }
                     MovCir.fill(MovCirColor);
+
+                    var model1 = {
+                        OrderId: OrderId,
+                        UniqueId: UniqueId,
+                        SubName: SubName,
+                        CoverAngle: CoverAngle,
+                    };
+
+                    $.ajax({
+                            type: "POST",
+                            url: "@Url.Action("CheckSpriMH", "Customer")",
+                        data: JSON.stringify(model1),
+                            contentType: "application/json; charset=utf-8",
+                            dataType: "json",
+                        success: function (r) {
+                            //$("#MHValue").val($("#MHValue").val()+r);
+                                $("#CurrentMHValue").val(r);
+
+                            }
+                    });
+
+
+
                 }
             });
 
@@ -5442,7 +5540,7 @@
                 else {
                     PolyName -= 1;
                 }
-                
+
 
                 isOutArea = false;
             }
@@ -5574,8 +5672,9 @@
                 contentType: "application/json; charset=utf-8",
                 dataType: "json",
                 success: function (r) {
-                    $("#TotalAmount").text(r);
-                    $("#TotalAmountInput").val(r);
+                    $("#TotalAmount").text(r.TotalPrice);
+                    $("#TotalAmountInput").val(r.TotalPrice);
+                    $("#MHValue").val(r.TotalMH);
                     SprinklerCount();
                 }
             });
@@ -5600,6 +5699,7 @@
         //    UnSelectObjOnNew(CurrentObjId);
         //}
         var ObjId = $("#ObjUniqueId").val();
+
         if (ObjId != "") {
 
             var index = UndoArray.indexOf(ObjId);
@@ -5767,8 +5867,9 @@
                 contentType: "application/json; charset=utf-8",
                 dataType: "json",
                 success: function (r) {
-                    $("#TotalAmount").text(r);
-                    $("#TotalAmountInput").val(r);
+                    $("#TotalAmount").text(r.TotalPrice);
+                    $("#TotalAmountInput").val(r.TotalPrice);
+                    $("#MHValue").val(r.TotalMH);
                     SprinklerCount();
                 }
             });
@@ -5950,6 +6051,7 @@
             var ArcCir = layer.findOne('#' + SAID);
             var circle = layer.findOne('#' + SCID);
             var FillCircle = layer.findOne('#' + SFCID);
+            var MovCir = layer.findOne('#' + SID.replace("Sprinkler", "MoveCircle"));
             if (Type == 1) {
                 var oldRadius = Sprinkler.radius();
 
@@ -6024,6 +6126,107 @@
                 var EndAngle = $("#SAngle").val();
                 ArcCir.angle(EndAngle.replace(",", ".") - StartAngle);
             }
+
+
+
+
+            var OrderId = $("#OrderId").val();
+            var UniqueId = $("#ObjUniqueId").val();
+            var Distance = $("#SRadius").val().replace(",", ".");
+            var StartAngle = $("#StartAngle").val().replace(",", ".");
+            var EndAngle = $("#SAngle").val().replace(",", ".");
+            var CoverAngle = EndAngle - StartAngle;
+            if (CoverAngle < 0) {
+                CoverAngle = 360 + CoverAngle;
+            }
+
+
+             var model = {
+                 OrderId: OrderId,
+                 UniqueId: UniqueId,
+                 Distance: Distance,
+                 MinAngle: 0,
+                 CoverAngle: CoverAngle,
+            };
+
+            $.ajax({
+                type: "POST",
+                url: "@Url.Action("CheckSpriDis", "Customer")",
+                data: JSON.stringify(model),
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: function (r) {
+                    $("#SName").text(r);
+                    $("#SprinklerTypeDropID").val(r);
+
+                    var MovCirColor = "black";
+                    var SubName = $("#SName").text();
+                    if (SubName == "MP 800 90-210") {
+                        MovCirColor = "#FF0000";
+                    }
+                    else if (SubName == "MP 800 360") {
+                        MovCirColor = "#8FD65A";
+                    }
+                    else if (SubName == "MP 1000 90-210") {
+                        MovCirColor = "#C55A11";
+                    }
+                    else if (SubName == "MP 1000 210-270") {
+                        MovCirColor = "#00B0F0";
+                    }
+                    else if (SubName == "MP 1000 360") {
+                        MovCirColor = "#5DA329";
+                    }
+                    else if (SubName == "MP 2000 90-210") {
+                        MovCirColor = "#000000";
+                    }
+                    else if (SubName == "MP 2000 210-270") {
+                        MovCirColor = "#51DF5F";
+                    }
+                    else if (SubName == "MP 2000 360") {
+                        MovCirColor = "#ED7D31";
+                    }
+                    else if (SubName == "MP 3000 90-210") {
+                        MovCirColor = "#0070C0";
+                    }
+                    else if (SubName == "MP 3000 210-270") {
+                        MovCirColor = "#FEDA01";
+                    }
+                    else if (SubName == "MP 3000 360") {
+                        MovCirColor = "#858062";
+                    }
+                    else if (SubName == "MP 3500 90-210") {
+                        MovCirColor = "#FFC000";
+                    }
+                    else if (SubName == "MP Corner") {
+                        MovCirColor = "#00B0F0";
+                    }
+                    MovCir.fill(MovCirColor);
+
+                    var model1 = {
+                        OrderId: OrderId,
+                        UniqueId: UniqueId,
+                        SubName: SubName,
+                        CoverAngle: CoverAngle,
+                    };
+
+                    $.ajax({
+                            type: "POST",
+                            url: "@Url.Action("CheckSpriMH", "Customer")",
+                        data: JSON.stringify(model1),
+                            contentType: "application/json; charset=utf-8",
+                            dataType: "json",
+                        success: function (r) {
+                                $("#CurrentMHValue").val(r);
+
+                            }
+                    });
+
+
+
+                }
+            });
+
+
         }
         else if (Type<=5)
         {
@@ -6392,8 +6595,9 @@
                             contentType: "application/json; charset=utf-8",
                             dataType: "json",
                             success: function (r) {
-                                $("#TotalAmount").text(r);
-                                $("#TotalAmountInput").val(r);
+                                $("#TotalAmount").text(r.TotalPrice);
+                                $("#TotalAmountInput").val(r.TotalPrice);
+                                $("#MHValue").val(r.TotalMH);
                             }
                         });
                         $("#DeleteObj").hide();
@@ -6446,8 +6650,9 @@
                             contentType: "application/json; charset=utf-8",
                             dataType: "json",
                             success: function (r) {
-                                $("#TotalAmount").text(r);
-                                $("#TotalAmountInput").val(r);
+                                $("#TotalAmount").text(r.TotalPrice);
+                                $("#TotalAmountInput").val(r.TotalPrice);
+                                $("#MHValue").val(r.TotalMH);
                             }
                         });
                         $("#DeleteObj").hide();
@@ -6488,6 +6693,14 @@
                 var MaxAngle = $("#SAngle").val();
                 var ThrowDistanceMax = $("#SRadius").val();
                 var OrderId = $("#OrderId").val();
+                var mh = $("#CurrentMHValue").val();
+                var StartAngle = $("#StartAngle").val();
+                var SAngle = $("#SAngle").val();
+                var CoverAngle = SAngle - StartAngle;
+                if (CoverAngle < 0) {
+                    CoverAngle = 360 + CoverAngle;
+                }
+                var CoverDistance = $("#SRadius").val();
 
                 var node = layer.findOne('#' + UniqueId);
                 if (node != null) {
@@ -6511,8 +6724,6 @@
                     node.listening(true);
                 }
 
-
-
                 $("#BtnEndsprinkler").hide();
                 $(".RSPD").hide();
                 $("#SName").text("");
@@ -6527,6 +6738,9 @@
                     MaxAngle: MaxAngle,
                     ThrowDistanceMax: ThrowDistanceMax,
                     OrderId: OrderId,
+                    mh: mh,
+                    CoverAngle: CoverAngle,
+                    CoverDistance: CoverDistance,
                 };
 
                 $.ajax({
@@ -6536,13 +6750,16 @@
                     contentType: "application/json; charset=utf-8",
                     dataType: "json",
                     success: function (r) {
-                        $("#TotalAmount").text(r);
-                        $("#TotalAmountInput").val(r);
+                        $("#TotalAmount").text(r.TotalPrice);
+                        $("#TotalAmountInput").val(r.TotalPrice);
+                        $("#MHValue").val(r.TotalMH);
                         SprinklerCount();
                     }
                 });
                 $("#DeleteObj").hide();
                 $("#CancleDeleteObj").hide();
+
+                $("#CurrentMHValue").val("");
 
             }
             else if (CLastId[0] == 'R' && CLastId[1] == 'e') {
@@ -6550,6 +6767,7 @@
                 SubcategoryName = $("#SName").text();
                 UniqueId = $("#SSId").val();
                 OrderId = $("#OrderId").val();
+                var mh = $("#CurrentMHValue").val();
 
                 $("#BtnEndRectangularsprinkler").hide();
                 $(".SSPD").hide();
@@ -6562,6 +6780,7 @@
                     SubCategoryID: SubCategoryID,
                     SubcategoryName: SubcategoryName,
                     OrderId: OrderId,
+                    mh: mh,
                 };
 
                 $.ajax({
@@ -6571,14 +6790,16 @@
                     contentType: "application/json; charset=utf-8",
                     dataType: "json",
                     success: function (r) {
-                        $("#TotalAmount").text(r);
-                        $("#TotalAmountInput").val(r);
+                        $("#TotalAmount").text(r.TotalPrice);
+                        $("#TotalAmountInput").val(r.TotalPrice);
+                        $("#MHValue").val(r.TotalMH);
                         SprinklerCount();
                     }
                 });
 
                 $("#DeleteObj").hide();
                 $("#CancleDeleteObj").hide();
+                $("#CurrentMHValue").val("");
 
             }
             else if (CLastId[0] == 'S' && CLastId[1] == 'y') {
@@ -6609,8 +6830,9 @@
                     contentType: "application/json; charset=utf-8",
                     dataType: "json",
                     success: function (r) {
-                        $("#TotalAmount").text(r);
-                        $("#TotalAmountInput").val(r);
+                        $("#TotalAmount").text(r.TotalPrice);
+                        $("#TotalAmountInput").val(r.TotalPrice);
+                        $("#MHValue").val(r.TotalMH);
                     }
                 });
                 var node = layer.findOne('#' + UniqueId);
@@ -6656,8 +6878,9 @@
                     contentType: "application/json; charset=utf-8",
                     dataType: "json",
                     success: function (r) {
-                        $("#TotalAmount").text(r);
-                        $("#TotalAmountInput").val(r);
+                        $("#TotalAmount").text(r.TotalPrice);
+                        $("#TotalAmountInput").val(r.TotalPrice);
+                        $("#MHValue").val(r.TotalMH);
                     }
                 });
                 var node = layer.findOne('#' + UniqueId);
@@ -6701,8 +6924,9 @@
                     contentType: "application/json; charset=utf-8",
                     dataType: "json",
                     success: function (r) {
-                        $("#TotalAmount").text(r);
-                        $("#TotalAmountInput").val(r);
+                        $("#TotalAmount").text(r.TotalPrice);
+                        $("#TotalAmountInput").val(r.TotalPrice);
+                        $("#MHValue").val(r.TotalMH);
                     }
                 });
 
