@@ -25,6 +25,7 @@ namespace DrawingTheme.Models
         public string Code { get; set; }
         public string Component { get; set; }
         public Nullable<bool> IsPlanner { get; set; }
+        public Nullable<int> MenuOrder { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<tblSubCategory> tblSubCategories { get; set; }

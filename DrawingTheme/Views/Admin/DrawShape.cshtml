@@ -39,8 +39,9 @@
             <input type="text" name="ObjUniqueId" id="ObjUniqueId" value="" hidden="">
             <input type="text" name="VBCircle" id="VBCircle" value="" hidden="">
             <input type="text" name="SprinklerCount" id="SprinklerCount" value="0" hidden>
-            <input type="text" name="MHValue" id="MHValue" value="0" hidden>
-            <input type="text" name="CurrentMHValue" id="CurrentMHValue" value="0" hidden>
+            <input type="text" name="MHValue" id="MHValue" value="0" >
+            <input type="text" name="CurrentMHValue" id="CurrentMHValue" value="0" >
+            <input type="text" name="TAPMHVal" id="TAPMHVal" value="2" >
 
 
             <button id="Area" class="btn btn-success ml-2 mr-2 " onclick="SaveData(4)" data-radius="30" data-width="100" data-height="40" data-angle="180" data-rotation="45">@Resources.Lawn</button>
@@ -71,54 +72,70 @@
 <div class="row">
     <div class="container-fluid   col-md-1">
         <div class="card">
-            @*@foreach (DrawingTheme.Models.tblCategory item in ViewBag.Category)
-            {
+            @foreach (DrawingTheme.Models.tblCategory item in ViewBag.Category)
+        {
 
             <div class="dropdown " id="btn_@item.Code" style="padding:10px;">
                 @foreach (DrawingTheme.Models.tblSubCategory item1 in ViewBag.SubCategory)
                 {
                     if (@item1.CategoryID == item.CategoryID)
                     {
-                        <a  class="btn btn-outline-secondary  @item.Code@item1.IrrigationWiringMaxStation.ToString().Replace(",",".")" data-toggle="dropdown" title="@item.CategoryName" id="@item.Code.ToString().Replace(",",".")" data-SubCatId="@item1.SubcategoryID.ToString().Replace(",",".")" data-Name="@item1.SubcategoryName.ToString().Replace(",",".")" data-radius="@item1.ThrowDistanceMax.ToString().Replace(",",".")" data-width="@item1.ThrowWidth.ToString().Replace(",",".")" data-height="@item1.ThrowHeight.ToString().Replace(",",".")" data-angle="@item1.MaxAngle.ToString().Replace(",",".")" data-rotation="@item1.MinAngle.ToString().Replace(",",".")" data-IrrigationCircles="@item1.valveboxcircle.ToString().Replace(",",".")" data-Filter="@item1.valveboxFilter" data-DrinkingWater="@item1.drinkingwatersource.ToString().Replace(",",".")" data-WellWater="@item1.wellwatersource" data-RainWater="@item1.rainwatersource.ToString().Replace(",",".")" data-Station="@item1.IrrigationComputermaxstation.ToString().Replace(",",".")" data-Indoor="@item1.IrrigationComputerindoor.ToString().Replace(",",".")" data-Outdoor="@item1.IrrigationComputeroutdoor.ToString().Replace(",",".")" data-SP="@item1.IrrigationComputeroutdoor.ToString().Replace(",",".")" href="javascript:void(0)">
+                        <button type="button" class="btn btn-outline-secondary @item.Code@item1.IrrigationWiringMaxStation.ToString().Replace(",",".")" id="@item.Code.ToString().Replace(",",".")" data-SubCatId="@item1.SubcategoryID.ToString().Replace(",",".")" data-Name="@item1.SubcategoryName.ToString().Replace(",",".")" data-radius="@item1.ThrowDistanceMax.ToString().Replace(",",".")" data-width="@item1.ThrowWidth.ToString().Replace(",",".")" data-height="@item1.ThrowHeight.ToString().Replace(",",".")" data-angle="@item1.MaxAngle.ToString().Replace(",",".")" data-rotation="@item1.MinAngle.ToString().Replace(",",".")" data-IrrigationCircles="@item1.valveboxcircle.ToString().Replace(",",".")" data-Filter="@item1.valveboxFilter" data-DrinkingWater="@item1.drinkingwatersource.ToString().Replace(",",".")" data-WellWater="@item1.wellwatersource" data-RainWater="@item1.rainwatersource.ToString().Replace(",",".")" data-Station="@item1.IrrigationComputermaxstation.ToString().Replace(",",".")" data-Indoor="@item1.IrrigationComputerindoor.ToString().Replace(",",".")" data-Outdoor="@item1.IrrigationComputeroutdoor.ToString().Replace(",",".")" data-SP="@item1.IrrigationComputeroutdoor.ToString().Replace(",",".")" href="javascript:void(0)" title="@item.CategoryName">
                             <img src="@item.Component" style="width:80%" />
-                        </a>
+                        </button>
                         break;
                     }
                 }
 
             </div>
-            }*@
-            @foreach (DrawingTheme.Models.tblCategory item in ViewBag.Category)
-            {
+        }
 
-            <div class="dropdown " id="btn_@item.Code" style="padding:10px;">
-               
-                <button type="button" class="btn btn-outline-secondary " data-toggle="dropdown" title="@item.CategoryName">
-                    <img src="@item.Component" style="width:80%" />
+            @*<div class="dropdown " id="btn_TAP" style="padding:10px;">
+
+                <button class="btn btn-outline-secondary TAP" id="TAP" data-subcatid="70" data-name="Drinking Water Source" data-radius="" data-width="" data-height="" data-angle="" data-rotation="" data-irrigationcircles="" data-filter="" data-drinkingwater="" data-wellwater="" data-rainwater="" data-station="" data-indoor="" data-outdoor="" data-sp="" href="javascript:void(0)" title="TAP">
+                    <img src="\assets\images\ecommerce\Tap1.png" style="width:80%">
                 </button>
-                <div class="dropdown-menu" style="overflow: scroll;  will-change: transform; position: absolute; transform: translate3d(0px, 34px, 0px); top: 0px; left: 0px;" x-placement="bottom-start">
-
-                    @foreach (DrawingTheme.Models.tblSubCategory item1 in ViewBag.SubCategory)
-                    {
-                        if (@item1.CategoryID == item.CategoryID)
-                        {
-                            <a class="dropdown-item @item.Code@item1.IrrigationWiringMaxStation.ToString().Replace(",",".")" id="@item.Code.ToString().Replace(",",".")" data-SubCatId="@item1.SubcategoryID.ToString().Replace(",",".")" data-Name="@item1.SubcategoryName.ToString().Replace(",",".")" data-radius="@item1.ThrowDistanceMax.ToString().Replace(",",".")" data-width="@item1.ThrowWidth.ToString().Replace(",",".")" data-height="@item1.ThrowHeight.ToString().Replace(",",".")" data-angle="@item1.MaxAngle.ToString().Replace(",",".")" data-rotation="@item1.MinAngle.ToString().Replace(",",".")" data-IrrigationCircles="@item1.valveboxcircle.ToString().Replace(",",".")" data-Filter="@item1.valveboxFilter" data-DrinkingWater="@item1.drinkingwatersource.ToString().Replace(",",".")" data-WellWater="@item1.wellwatersource" data-RainWater="@item1.rainwatersource.ToString().Replace(",",".")" data-Station="@item1.IrrigationComputermaxstation.ToString().Replace(",",".")" data-Indoor="@item1.IrrigationComputerindoor.ToString().Replace(",",".")" data-Outdoor="@item1.IrrigationComputeroutdoor.ToString().Replace(",",".")" data-SP="@item1.IrrigationComputeroutdoor.ToString().Replace(",",".")" href="javascript:void(0)">
-                                @item1.SubcategoryName
-                            </a>
-                        }
-
-
-                    }
-
-                </div>
 
             </div>
-            }
+            <div class="dropdown " id="btn_RSP" style="padding:10px;">
+
+                <button type="button" class="btn btn-outline-secondary RSP" id="RSP" data-subcatid="2" data-name="MP 800 360" data-radius="3" data-width="0" data-height="0" data-angle="360" data-rotation="0" data-irrigationcircles="0" data-filter="" data-drinkingwater="" data-wellwater="" data-rainwater="" data-station="" data-indoor="" data-outdoor="" data-sp="" href="javascript:void(0)" title="Radial Sprinkler">
+                    <img src="\assets\images\ecommerce\RadialSprinkler.png" style="width:80%">
+                </button>
+            </div>*@
+
+
+            @*@foreach (DrawingTheme.Models.tblCategory item in ViewBag.Category)
+            {
+
+                <div class="dropdown " id="btn_@item.Code" style="padding:10px;">
+
+                    <button type="button" class="btn btn-outline-secondary " data-toggle="dropdown" title="@item.CategoryName">
+                        <img src="@item.Component" style="width:80%" />
+                    </button>
+                    <div class="dropdown-menu" style="overflow: scroll;  will-change: transform; position: absolute; transform: translate3d(0px, 34px, 0px); top: 0px; left: 0px;" x-placement="bottom-start">
+
+                        @foreach (DrawingTheme.Models.tblSubCategory item1 in ViewBag.SubCategory)
+                        {
+                            if (@item1.CategoryID == item.CategoryID)
+                            {
+                                <a class="dropdown-item @item.Code@item1.IrrigationWiringMaxStation.ToString().Replace(",",".")" id="@item.Code.ToString().Replace(",",".")" data-SubCatId="@item1.SubcategoryID.ToString().Replace(",",".")" data-Name="@item1.SubcategoryName.ToString().Replace(",",".")" data-radius="@item1.ThrowDistanceMax.ToString().Replace(",",".")" data-width="@item1.ThrowWidth.ToString().Replace(",",".")" data-height="@item1.ThrowHeight.ToString().Replace(",",".")" data-angle="@item1.MaxAngle.ToString().Replace(",",".")" data-rotation="@item1.MinAngle.ToString().Replace(",",".")" data-IrrigationCircles="@item1.valveboxcircle.ToString().Replace(",",".")" data-Filter="@item1.valveboxFilter" data-DrinkingWater="@item1.drinkingwatersource.ToString().Replace(",",".")" data-WellWater="@item1.wellwatersource" data-RainWater="@item1.rainwatersource.ToString().Replace(",",".")" data-Station="@item1.IrrigationComputermaxstation.ToString().Replace(",",".")" data-Indoor="@item1.IrrigationComputerindoor.ToString().Replace(",",".")" data-Outdoor="@item1.IrrigationComputeroutdoor.ToString().Replace(",",".")" data-SP="@item1.IrrigationComputeroutdoor.ToString().Replace(",",".")" href="javascript:void(0)">
+                                    @item1.SubcategoryName
+                                </a>
+                            }
+
+
+                        }
+
+                    </div>
+
+                </div>
+            }*@
             <div class="dropdown " @*id="btn_@item.Code"*@ style="padding:10px;">
                 <button type="button" class="btn btn-outline-secondary " data-toggle="dropdown" title="Image Upload" onclick="open_file()">
                     <img src="~/assets/images/ecommerce/uploadImage.jpg" style="width:80%" />
                 </button>
-                
+
 
             </div>
         </div>
@@ -215,6 +232,13 @@
                 </div>
                 <div id="SSPD" class="SSPD" style="display:none;">
                     <input class="form-control" type="text" id="SSId" hidden name="name" value="" />
+                    <label>@Resources.SprinklerType</label>
+                    <select class="form-control" id="SSprinklerTypeDropID">
+                        @foreach (DrawingTheme.Models.tblSubCategory item in ViewBag.SSprinkler)
+                        {
+                            <option value="@item.SubcategoryName.ToString().Replace(",",".")" data-SubCatId="@item.SubcategoryID.ToString().Replace(",",".")" data-Name="@item.SubcategoryName.ToString().Replace(",",".")" data-radius="@item.ThrowDistanceMax.ToString().Replace(",",".")" data-width="@item.ThrowWidth.ToString().Replace(",",".")" data-height="@item.ThrowHeight.ToString().Replace(",",".")" data-angle="@item.MaxAngle.ToString().Replace(",",".")" data-rotation="@item.MinAngle.ToString().Replace(",",".")" data-IrrigationCircles="@item.valveboxcircle.ToString().Replace(",",".")" data-Filter="@item.valveboxFilter.ToString().Replace(",",".")" data-DrinkingWater="@item.drinkingwatersource.ToString().Replace(",",".")" data-WellWater="@item.wellwatersource.ToString().Replace(",",".")" data-RainWater="@item.rainwatersource.ToString().Replace(",",".")" data-Station="@item.IrrigationComputermaxstation.ToString().Replace(",",".")" data-Indoor="@item.IrrigationComputerindoor.ToString().Replace(",",".")" data-Outdoor="@item.IrrigationComputeroutdoor.ToString().Replace(",",".")" data-SP="@item.IrrigationComputeroutdoor.ToString().Replace(",",".")">@item.SubcategoryName</option>
+                        }
+                    </select>
                     <label>@Resources.Width</label>
                     <input class="form-control" type="number" id="SSWidth" onchange="SetS(this,4)" name="name" value="" disabled />
                     <label>@Resources.Height</label>
@@ -227,14 +251,28 @@
                     <label id="VBDW" style="display:none;">@Resources.fordrinkingwatersource</label>
                     <label id="VBWW" style="display:none;">@Resources.forwellwatersource</label>
                     <label id="VBRW" style="display:none;">@Resources.forrainwatersource</label>
+                    <label>@Resources.Drinkingwaterseparationstation</label>
+                    <input id="Drinkingwaterseparationstation" class="form-control" type="checkbox" name="name" value="1" checked/>
                     @*<button class="btn btn-sm btn-secondary fa fa-lock" id="EndVB" style="display:none;">End Valve box</button>*@
                 </div>
                 <div id="ICPD" class="ICPD" style="display:none;">
                     <input class="form-control" type="text" id="ICId" hidden name="name" value="" />
-                    <label id="ICS">Filter included</label>
+                    <label>@Resources.InstallationLocation</label>
+                    <select class="form-control" id="ICSIO">
+                        <option value="indoor">Indoor</option>
+                        <option value="outdoor">Outdoor</option>
+                    </select>
+                    <label>@Resources.ControlOption</label>
+                    <select class="form-control" id="ICSMW">
+                        <option value="Manual">Manual</option>
+                        <option value="Wifi">Wifi/Wlan</option>
+                    </select>
+                    @*<label>@Resources.Smarphone</label>
+                    <input class="form-control" type="checkbox" id="ICSC" name="name" value="1" />*@
+                    @*<label id="ICS">Filter included</label>
                     <label id="ICID" style="display:none;">@Resources.Indoor</label>
                     <label id="ICOD" style="display:none;">@Resources.outdoor</label>
-                    <label id="ICSP" style="display:none;">@Resources.Smarphone</label>
+                    <label id="ICSP" style="display:none;">@Resources.Smarphone</label>*@
                     @*<button class="btn btn-sm btn-secondary fa fa-lock" id="EndIC" style="display:none;">End Irrigation computer</button>*@
                 </div>
                 <div id="TapPD" class="TapPD" style="display:none;">
@@ -244,6 +282,9 @@
                         <option value="71">@Resources.wellwatersource</option>
                         <option value="72">@Resources.rainwatersource</option>
                     </select>
+
+                    <label>@Resources.AmountOfWater</label>
+                    <input class="form-control" type="text" name="AmountOfWater" id="AmountOfWater" value="2" />
                     @*<button class="btn btn-sm btn-secondary fa fa-lock" id="EndTap" style="display:none;">End Tap</button>*@
                 </div>
                 <div id="IWPD" class="IWPD" style="display:none;">
@@ -352,6 +393,17 @@
     }
 
 
+    function CalNumberOfCircle() {
+
+        var TAPMHVal = $("#TAPMHVal").val();
+        var TotalMH = $("#MHValue").val();
+        var Minus = TAPMHVal * 0.3;
+        var AfterMinus = TAPMHVal - Minus;
+        var NumOfCircle = Math.ceil(TotalMH / AfterMinus);
+        return NumOfCircle;
+    }
+
+
     $(document).on("click", "#SaveOrder", function () {
 
         var Name = $("#ModalName").val();
@@ -392,7 +444,7 @@
         ChangeImage();
         $("#SideBAr").addClass("sidebar-mini");
         $("#addcontact").modal('toggle');
-        console.log($(".IW12"));
+        //console.log($(".IW12"));
         //$(".IW12").prop('disabled', true);
         //$(".IW12").off("click");
 
@@ -437,7 +489,9 @@
         var CurretIC = "";
     var CurretTap = "";
     var CurretVB = "";
-        var CountnueRotate = true;
+    var CountnueRotate = true;
+    var PEColorCounter = 0;
+    var PEArray = [];
     let zoomStep = 0.1;
     let scale2 = 1;
 
@@ -657,7 +711,7 @@
                 $(".PEPD").hide();
                 $("#SName").text("");
                 $("#SubCatId").text("");
-                $("#btn_PE *").prop('disabled', true);
+                //$("#btn_PE *").prop('disabled', true);
 
                 var model = {
                     UniqueId: UniqueId,
@@ -841,7 +895,7 @@
                                 node.listening(false);
                             }
 
-
+                            $("#SprinklerTypeDropID").val(r.Data.SubcategoryName);
                         }
                         else if (r.UniqueId[0] == 'R' && r.UniqueId[1] == 'e') {
 
@@ -853,6 +907,7 @@
                             $("#BtnEndRectangularsprinkler").show();
                             CurretRSprinkler = r.UniqueId;
 
+                            $("#SSprinklerTypeDropID").val(r.Data.SubcategoryName);
                         }
                         else if (r.UniqueId[0] == 'S' && r.UniqueId[1] == 'y') {
 
@@ -871,7 +926,7 @@
                             $(".ICPD").show();
                             $("#EndIC").show();
                             CurretIC = r.UniqueId;
-                            $("#btn_IC *").prop('disabled', false);
+                            $("#btn_IC *").prop('disabled', true);
                             node = layer.findOne('#' + r.UniqueId);
                             node.off('mouseover');
 
@@ -921,7 +976,7 @@
                             $(".TapPD").show();
                             $("#EndTap").show();
                             CurretTap = r.UniqueId;
-                            $("#btn_TAP *").prop('disabled', false);
+                            $("#btn_TAP *").prop('disabled', true);
                             node = layer.findOne('#' + r.UniqueId);
                             node.off('mouseover');
 
@@ -931,6 +986,7 @@
                             node.draggable(true);
                             node = layer.findOne('#' + r.UniqueId.replace("Tap", "TTap"));
                             node.show();
+                            CurrentObjId = UniqueId;
                         }
 
                         $("#DeleteObj").show();
@@ -984,8 +1040,6 @@
                         node = layer.findOne('#' + r.UniqueId.replace("UploadImg", "TUploadImg"));
                         node.show();
                     }
-
-
 
                 }
             });
@@ -1417,6 +1471,304 @@
 
     });
 
+
+
+    $("body").on("change", "#SSprinklerTypeDropID", function () {
+        let element = document.getElementById("SSprinklerTypeDropID");
+        if (CurrentObjId != "" && CurrentObjId[0] != "R" && CurrentObjId[1] != "e") {
+            UnSelectObjOnNew(CurrentObjId);
+        }
+
+        //if (CurrentObjId != null && CurrentObjId != "") {
+        //    if (CurrentObjId[0] == "L") {
+        //        $("#UndoCanvas").click();
+        //    }
+        //    else {
+        //        UnSelectObjOnNew(CurrentObjId);
+        //    }
+
+        //}
+        //else {
+        //    if (OldCurrentObjId != null && OldCurrentObjId != "") {
+        //        UnSelectObj(OldCurrentObjId);
+        //    }
+        //}
+        var RCPX = 0;
+        var RCPY = 0;
+        $(".SSPD").show();
+        var SubName = element.options[element.selectedIndex].getAttribute("data-Name");
+        var Width = MToPx(Number(element.options[element.selectedIndex].getAttribute("data-Width")));
+        var Height = MToPx(Number(element.options[element.selectedIndex].getAttribute("data-Height")));
+        var SubId = element.options[element.selectedIndex].getAttribute("data-SubCatId");
+        var MovCirColor = "black";
+
+        if (SubName == "MPLCS 515") {
+            RCPY = Height;
+            RCPX = 0;
+            MovCirColor = "#7F7F7F";
+            $("#CurrentMHValue").val(0.05);
+        }
+        else if (SubName == "MPRCS 515") {
+            RCPY = Height ;
+            RCPX = Width;
+            MovCirColor = "#CC9900";
+            $("#CurrentMHValue").val(0.05);
+        }
+        else if (SubName == "MPSS 530") {
+            RCPY = Height;
+            RCPX = (Width / 2);
+            MovCirColor = "#CC9900";
+            $("#CurrentMHValue").val(0.1);
+        }
+
+        $("#SSprinklerTypeDropID").val(SubName);
+
+
+        if (CurretRSprinkler != "") {
+            var node = layer.findOne('#' + CurretRSprinkler);
+            var NodeGroup = layer.findOne('#' + CurretRSprinkler.replace("RectangularSprinkler", "RSG"));
+            var x = NodeGroup.x();
+            var y = NodeGroup.y();
+            console.log(NodeGroup);
+            console.log(node);
+            var UniqueId = node.id();
+            node.destroy();
+            var node = layer.findOne('#' + CurretRSprinkler.replace("RectangularSprinkler", "TRS"));
+            if (node != null) {
+                node.destroy();
+            }
+            var node = layer.findOne('#' + CurretRSprinkler.replace("RectangularSprinkler", "RSCircle"));
+            if (node != null) {
+                node.destroy();
+            }
+
+            var OrderId = $("#OrderId").val();
+
+
+            var index = UndoArray.indexOf(UniqueId);
+            if (index >= 0) {
+                UndoArray.splice(index, 1);
+            }
+
+            $("#DeleteObj").hide();
+
+
+            var model = {
+                UniqueId: UniqueId,
+                OrderId: OrderId,
+            };
+
+            $.ajax({
+                type: "POST",
+                url: "@Url.Action("DeleteOrderDetails", "Customer")",
+                data: JSON.stringify(model),
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: function (r) {
+                    console.log(r);
+                    $("#TotalAmount").text(r.TotalPrice);
+                    $("#TotalAmountInput").val(r.TotalPrice);
+                    $("#MHValue").val(r.TotalMH);
+                }
+            });
+
+            var circle = new Konva.Rect({
+                x: 50,
+                y: 50,
+                width: Width,
+                height: Height,
+                //fill: 'green',
+                stroke: 'black',
+                strokeWidth: 1,
+                id: "RectangularSprinkler" + RectangularSprinklerName + "",
+                name: SubName,
+                //draggable: true,
+
+            });
+
+            var group = new Konva.Group({
+                draggable: true,
+                id: circle.id().replace("RectangularSprinkler", "RSG"),
+                x: 50,
+                y: 50,
+            });
+
+
+            layer.add(circle);
+
+
+            var cir = new Konva.Circle({
+                x: 50 + RCPX,
+                y: 50 + RCPY,
+                radius: 5,
+                //fill: 'red',
+                stroke: 'black',
+                strokeWidth: 0,
+                id: circle.id().replace("RectangularSprinkler", "RSCircle"),
+                draggable: true,
+            });
+
+
+
+            cir.on('rotationChange', (e) => {
+                //updateRSSprinkler(e.target.id());
+                var rsid = e.currentTarget.id().replace("RSCircle", "RectangularSprinkler");
+                var rs = layer.findOne('#' + rsid);
+                rotateAroundPoint(rs, 2, { x: e.currentTarget.x(), y: e.currentTarget.y() });
+                //rs.rotation(e.currentTarget.rotation());
+                //console.log(rsid);
+            });
+
+            layer.add(cir);
+
+            var transformer = new Konva.Transformer({
+                nodes: [cir],
+                //rotateAnchorOffset: 0,
+                //enabledAnchors: ['top-left', 'top-right', 'bottom-left', 'bottom-right'],
+                id: circle.id().replace("RectangularSprinkler", "TRS"),
+
+            });
+
+            transformer.anchorCornerRadius(10);
+            transformer.borderEnabled(false);
+            transformer.resizeEnabled(false);
+            transformer.rotateAnchorOffset(-5);
+            transformer.anchorStroke('balck');
+
+
+            group.on('mouseover', function () {
+                stage.container().style.cursor = 'move';
+            });
+            group.on('mouseout', function () {
+                stage.container().style.cursor = 'default';
+            });
+
+            group.add(circle);
+            group.add(cir);
+            cir.moveToTop();
+            layer.add(group);
+            layer.add(transformer);
+            transformer.anchorFill(MovCirColor);
+
+        }
+        else {
+            //alert(Radius);
+
+
+            var circle = new Konva.Rect({
+                x: 50,
+                y: 50,
+                width: Width,
+                height: Height,
+                //fill: 'green',
+                stroke: 'black',
+                strokeWidth: 1,
+                id: "RectangularSprinkler" + RectangularSprinklerName + "",
+                name: SubName,
+                //draggable: true,
+
+            });
+
+            var group = new Konva.Group({
+                draggable: true,
+                id: circle.id().replace("RectangularSprinkler", "RSG"),
+                x: 50,
+               y:50,
+            });
+
+            layer.add(circle);
+
+
+
+
+            var cir = new Konva.Circle({
+                x: 50 + RCPX,
+                y: 50 + RCPY,
+                radius: 5,
+                fill: 'red',
+                stroke: 'black',
+                strokeWidth: 1,
+                id: circle.id().replace("RectangularSprinkler", "RSCircle"),
+                //draggable: true,
+            });
+
+
+
+            cir.on('rotationChange', (e) => {
+                //updateRSSprinkler(e.target.id());
+                var rsid = e.currentTarget.id().replace("RSCircle", "RectangularSprinkler");
+                var rs = layer.findOne('#' + rsid);
+                rotateAroundPoint(rs, 2, { x: e.currentTarget.x(), y: e.currentTarget.y() });
+                //rs.rotation(e.currentTarget.rotation());
+                //console.log(rsid);
+            });
+
+            layer.add(cir);
+
+
+
+
+            var transformer = new Konva.Transformer({
+                nodes: [cir],
+                //rotateAnchorOffset: 0,
+                //enabledAnchors: ['top-left', 'top-right', 'bottom-left', 'bottom-right'],
+                id: circle.id().replace("RectangularSprinkler", "TRS"),
+
+            });
+
+            transformer.anchorCornerRadius(10);
+            transformer.borderEnabled(false);
+            transformer.resizeEnabled(false);
+            transformer.rotateAnchorOffset(-5);
+            transformer.anchorStroke('balck');
+
+
+            group.on('mouseover', function () {
+                stage.container().style.cursor = 'move';
+            });
+            group.on('mouseout', function () {
+                stage.container().style.cursor = 'default';
+            });
+
+
+            group.add(circle);
+            group.add(cir);
+            cir.moveToTop();
+            layer.add(group);
+            layer.add(transformer);
+            transformer.anchorFill(MovCirColor);
+
+        }
+
+
+
+        CurretRSprinkler = circle.id();
+
+        ////console.log(UndoArray);
+        RectangularSprinklerName += 1;
+        //layer.add(circle);
+        isOverOnStarting = false;
+        isStartLine = true;
+        isFinished = false;
+        isFirstMouseMove = true;
+
+        id = circle.id();
+        CurrentObjName = circle.name();
+        CurrentObjId = circle.id();
+        UndoArray.push(circle.id());
+
+        $("#SSId").val(circle.id());
+        $("#SName").text(SubName);
+        $("#SSWidth").val(PxToM(circle.width()).toFixed(2));
+        $("#SSHeight").val(PxToM(circle.height()).toFixed(2));
+        $("#SubCatId").text(SubId);
+
+
+        $("#BtnEndRectangularsprinkler").show();
+
+    });
+
+
     $("body").on("click", "#Area", function () {
 
 
@@ -1668,10 +2020,35 @@
                 UnSelectObj(OldCurrentObjId);
             }
         }
-        var SubName = $(this).attr("data-Name");
-        var SubId = $(this).attr("data-SubCatId");
-        $("#SName").text(SubName);
-        $("#SubCatId").text(SubId);
+        //var SubName = $(this).attr("data-Name");
+        //var SubId = $(this).attr("data-SubCatId");
+        var SubName = "";
+        var SubId = 0;
+
+        var NumberOfCircle = CalNumberOfCircle();
+
+         var model = {
+             NumberOfCircle,
+        };
+
+        $.ajax({
+            type: "POST",
+            url: "@Url.Action("SelectWiring", "Customer")",
+            data: JSON.stringify(model),
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            success: function (r) {
+                $("#SName").text(r.SubName);
+                $("#SubCatId").text(r.SubId);
+            }
+        });
+
+
+        //$("#SName").text(SubName);
+        //$("#SubCatId").text(SubId);
+
+
+
         //alert(this.id);
         poly = new Konva.Line({
             points: [0, 0],
@@ -1769,7 +2146,7 @@
         $("#SubCatId").text(SubId);
 
 
-        var VBCircle = $("#VBCircle").val();
+        //var VBCircle = $("#VBCircle").val();
         //alert(this.id);
         poly = new Konva.Line({
             points: [0, 0],
@@ -1789,35 +2166,40 @@
         poly.on('mouseout', (e) => {
             stage.container().style.cursor = 'default';
         });
+        
 
-        if (VBCircle == 1) {
+
+        if (PEColorCounter == 0) {
+            poly.stroke("#843C0C");
+        }
+        else if (PEColorCounter == 1) {
             poly.stroke("yellow");
         }
-        else if (VBCircle == 2) {
+        else if (PEColorCounter == 2) {
             poly.stroke("red");
         }
-        else if (VBCircle == 3) {
+        else if (PEColorCounter == 3) {
             poly.stroke("purple");
         }
-        else if (VBCircle == 4) {
+        else if (PEColorCounter == 4) {
             poly.stroke("blue");
         }
-        else if (VBCircle == 5) {
+        else if (PEColorCounter == 5) {
             poly.stroke("darkgreen");
         }
-        else if (VBCircle == 6) {
+        else if (PEColorCounter == 6) {
             poly.stroke("grey");
         }
-        else if (VBCircle == 7) {
+        else if (PEColorCounter == 7) {
             poly.stroke("pink");
         }
-        else if (VBCircle == 8) {
+        else if (PEColorCounter == 8) {
             poly.stroke("lightblue");
         }
-        else if (VBCircle == 9) {
+        else if (PEColorCounter == 9) {
             poly.stroke("green");
         }
-        else if (VBCircle == 10) {
+        else if (PEColorCounter == 10) {
             poly.stroke("black");
         }
 
@@ -1836,6 +2218,11 @@
         $("#EndPE").show();
 
         UndoArray.push(poly.id());
+        PEColorCounter = PEColorCounter + 1;
+        PEArray.push(poly.id());
+        if (PEColorCounter==14) {
+            $("#btn_PE *").prop('disabled', true);
+        }
     });
 
     $("body").on("click", "#EndPE", function () {
@@ -1851,7 +2238,7 @@
         $(".PEPD").hide();
         $("#SName").text("");
         $("#SubCatId").text("");
-        $("#btn_PE *").prop('disabled', true);
+        //$("#btn_PE *").prop('disabled', true);
 
         var model = {
             UniqueId: UniqueId,
@@ -1969,6 +2356,7 @@
 
 
     $("body").on("click", "#TAP", function () {
+        $(".TAP").prop("disabled", true);
         //alert(this.id);
         //var imageObj = new Image();
         //imageObj.onload = function () {
@@ -1987,7 +2375,7 @@
         //    UndoArray.push(yoda.id());
         //};
         //imageObj.src = '/assets/images/ecommerce/Tap.png';
-        if (CurrentObjId != null && CurrentObjId != "") {
+        if (CurrentObjId != null && CurrentObjId != ""&& CurrentObjId != "T") {
             if (CurrentObjId[0] == "L") {
                 $("#UndoCanvas").click();
             }
@@ -1997,7 +2385,7 @@
 
         }
         else {
-            if (OldCurrentObjId != null && OldCurrentObjId != "") {
+            if (OldCurrentObjId != null && OldCurrentObjId != "" && OldCurrentObjId != "T") {
                 UnSelectObj(OldCurrentObjId);
             }
         }
@@ -2010,13 +2398,13 @@
             $("#TapSelect").val(SubId);
 
 
+            $("#DeleteObj").hide();
 
-            var UniqueId = CurretTap;
+            @*var UniqueId = CurretTap;
 
              var OrderId = $("#OrderId").val();
 
 
-            $("#DeleteObj").hide();
 
 
             var model = {
@@ -2035,7 +2423,7 @@
                     $("#TotalAmountInput").val(r.TotalPrice);
                     $("#MHValue").val(r.TotalMH);
                 }
-            });
+            });*@
 
         }
         else {
@@ -2110,13 +2498,17 @@
         $(".TapPD").hide();
         $("#SName").text("");
         $("#SubCatId").text("");
-        $("#btn_TAP *").prop('disabled', true);
+        //$("#btn_TAP *").prop('disabled', true);
+        var TAPMH = $("#AmountOfWater").val();
+        $("#TAPMHVal").val(TAPMH);
+
 
         var model = {
             UniqueId: UniqueId,
             SubCategoryID: SubCategoryID,
             SubcategoryName: SubcategoryName,
             OrderId: OrderId,
+            TAPMH: TAPMH,
         };
 
         $.ajax({
@@ -2149,6 +2541,7 @@
         $("#CancleDeleteObj").hide();
 
         CurrentObjId = "";
+        OldCurrentObjId = "";
     });
 
 
@@ -2211,8 +2604,8 @@
 
 
     $("body").on("click", "#IC", function () {
-
-        var SprinklerCounr = $("#SprinklerCount").val();
+        $("#IC").prop("disabled", true);
+        //var SprinklerCounr = $("#SprinklerCount").val();
         //alert(SprinklerCounr);
         //alert(this.id);
         //var imageObj = new Image();
@@ -2246,11 +2639,13 @@
                 UnSelectObj(OldCurrentObjId);
             }
         }
-        $(".IW2").hide();
-        $(".IW4").hide();
-        $(".IW6").hide();
-        $(".IW8").hide();
-        $(".IW12").hide();
+        //$(".IW2").hide();
+        //$(".IW4").hide();
+        //$(".IW6").hide();
+        //$(".IW8").hide();
+        //$(".IW12").hide();
+
+
 
         if (CurretIC != "") {
             var Station = $(this).attr("data-Station");
@@ -2310,29 +2705,29 @@
         }
         else {
 
-            var Station = $(this).attr("data-Station");
-            var InDoor = $(this).attr("data-InDoor");
-            var OutDoor = $(this).attr("data-OutDoor");
-            var SP = $(this).attr("data-SP");
-            var SubName = $(this).attr("data-Name");
-            var SubId = $(this).attr("data-SubCatId");
-            if (Station == "14") {
-                $(".IW" + "12").show();
-            }
-            else {
-                $(".IW" + Station).show();
-            }
+            //var Station = $(this).attr("data-Station");
+            //var InDoor = $(this).attr("data-InDoor");
+            //var OutDoor = $(this).attr("data-OutDoor");
+            //var SP = $(this).attr("data-SP");
+            //var SubName = $(this).attr("data-Name");
+            //var SubId = $(this).attr("data-SubCatId");
+            //if (Station == "14") {
+            //    $(".IW" + "12").show();
+            //}
+            //else {
+            //    $(".IW" + Station).show();
+            //}
 
-            $("#ICS").text(Station);
-            if (InDoor == "True") {
-                $("#ICID").show();
-            }
-            if (OutDoor == "True") {
-                $("#ICOD").show();
-            }
-            if (SP == "True") {
-                $("#ICSP").show();
-            }
+            //$("#ICS").text(Station);
+            //if (InDoor == "True") {
+            //    $("#ICID").show();
+            //}
+            //if (OutDoor == "True") {
+            //    $("#ICOD").show();
+            //}
+            //if (SP == "True") {
+            //    $("#ICSP").show();
+            //}
 
 
 
@@ -2350,8 +2745,9 @@
                     layer.add(img);
                     UndoArray.push(img.id());
 
-                    $("#SName").text(SubName);
-                    $("#SubCatId").text(SubId);
+                    //$("#SName").text(SubName);
+                    $("#SName").text("Irrigation Computer");
+                    //$("#SubCatId").text(SubId);
                     $("#ICId").val(img.id());
                     CurretIC = img.id();
                     CurrentObjId = img.id();
@@ -2393,7 +2789,8 @@
         //$("#Sprinkler").prop('disabled', false);
         //
 
-        SubCategoryID = $("#SubCatId").text();
+        //SubCategoryID = $("#SubCatId").text();
+        SubCategoryID = 0;
         SubcategoryName = $("#SName").text();
         UniqueId = $("#ICId").val();
         OrderId = $("#OrderId").val();
@@ -2405,12 +2802,23 @@
         //$("#btn_IC").prop("disabled", true);
         $("#btn_IC *").prop('disabled', true);
 
+        var NumberOfCircle = CalNumberOfCircle();
+        var InstallationLocation = $("#ICSIO").children("option:selected").val();
+        var ControlOption = $("#ICSMW").children("option:selected").val();
+
+        //const cb = document.querySelector('#ICSC');
+
+        var isSmartPhone = false;
 
         var model = {
             UniqueId: UniqueId,
             SubCategoryID: SubCategoryID,
             SubcategoryName: SubcategoryName,
             OrderId: OrderId,
+            InstallationLocation: InstallationLocation,
+            ControlOption: ControlOption,
+            isSmartPhone: isSmartPhone,
+            NumberOfCircle: NumberOfCircle,
         };
 
         $.ajax({
@@ -2477,6 +2885,9 @@
             }
         }
 
+        var NumberOfCircle = CalNumberOfCircle();
+        var WaterType = $("#TapSelect").children("option:selected").val();
+
         if (CurretVB != "") {
             var Filter = $(this).attr("data-Filter");
             var DrinkingWater = $(this).attr("data-DrinkingWater");
@@ -2533,28 +2944,164 @@
         else {
 
 
-            var Filter = $(this).attr("data-Filter");
-            var DrinkingWater = $(this).attr("data-DrinkingWater");
-            var WellWater = $(this).attr("data-WellWater");
-            var RainWater = $(this).attr("data-RainWater");
-            var VBCircle = $(this).attr("data-IrrigationCircles");
-            $("#VBCircle").val(VBCircle);
-            var SubName = $(this).attr("data-Name");
-            var SubId = $(this).attr("data-SubCatId");
+            //var Filter = $(this).attr("data-Filter");
+            //var DrinkingWater = $(this).attr("data-DrinkingWater");
+            //var WellWater = $(this).attr("data-WellWater");
+            //var RainWater = $(this).attr("data-RainWater");
+            //var VBCircle = $(this).attr("data-IrrigationCircles");
+            //$("#VBCircle").val(VBCircle);
+            //var SubName = $(this).attr("data-Name");
+            //var SubId = $(this).attr("data-SubCatId");
+
+            var Filter = "False";
+            var DrinkingWater = "False";
+            var WellWater = "False";
+            var RainWater = "False";
+            if (WaterType != 70) {
+                Filter = "True";
+                if (WaterType == 71) {
+                    WellWater = "True";
+                }
+                else {
+                    RainWater = "True";
+                }
+            }
+            else {
+                DrinkingWater = "True";
+            }
+
+
+            var VBCircle = "";
+            var SubName = "";
+            var SubId = "";
+
+
             if (Filter == "True") {
                 $("#VBF").show();
+                if (NumberOfCircle == 1) {
+                    VBCircle = "1";
+                    SubName = "Vormontierter Ventilkasten inklusive Hunter Magnetventilen 1 Station mit Siebfilter";
+                    SubId = "27";
+                }
+                else if (NumberOfCircle == 2) {
+                    VBCircle = "2";
+                    SubName = "Vormontierter Ventilkasten inklusive Hunter Magnetventilen 2 Stationen  mit Siebfilter";
+                    SubId = "28";
+                }
+                else if (NumberOfCircle == 3) {
+                    VBCircle = "3";
+                    SubName = "Vormontierter Ventilkasten inklusive Hunter Magnetventilen 3 Stationen  mit Siebfilter";
+                    SubId = "29";
+                }
+                else if (NumberOfCircle == 4) {
+                    VBCircle = "4";
+                    SubName = "Vormontierter Ventilkasten inklusive Hunter Magnetventilen 4 Stationen  mit Siebfilter";
+                    SubId = "30";
+                }
+                else if (NumberOfCircle == 5) {
+                    VBCircle = "5";
+                    SubName = "Vormontierter Ventilkasten inklusive Hunter Magnetventilen 5 Stationen  mit Siebfilter";
+                    SubId = "31";
+                }
+                else if (NumberOfCircle == 6) {
+                    VBCircle = "6";
+                    SubName = "Vormontierter Ventilkasten inklusive Hunter Magnetventilen 6 Stationen  mit Siebfilter";
+                    SubId = "32";
+                }
+                else if (NumberOfCircle == 7) {
+                    VBCircle = "7";
+                    SubName = "Vormontierter Ventilkasten inklusive Hunter Magnetventilen 7 Stationen  mit Siebfilter";
+                    SubId = "33";
+                }
+                else if (NumberOfCircle == 8) {
+                    VBCircle = "8";
+                    SubName = "Vormontierter Ventilkasten inklusive Hunter Magnetventilen 8 Stationen  mit Siebfilter";
+                    SubId = "34";
+                }
+                else if (NumberOfCircle == 9) {
+                    VBCircle = "9";
+                    SubName = "Vormontierter Ventilkasten inklusive Hunter Magnetventilen 9 Stationen  mit Siebfilter";
+                    SubId = "35";
+                }
+                else if (NumberOfCircle == 10) {
+                    VBCircle = "10";
+                    SubName = "Vormontierter Ventilkasten inklusive Hunter Magnetventilen 10 Stationen  mit Siebfilter";
+                    SubId = "36";
+                }
+            }
+            else {
+                $("#VBF").hide();
+                if (NumberOfCircle == 1) {
+                    VBCircle = "1";
+                    SubName = "Vormontierter Ventilkasten inklusive Hunter Magnetventilen 1 Station";
+                    SubId = "17";
+                }
+                else if (NumberOfCircle == 2) {
+                    VBCircle = "2";
+                    SubName = "Vormontierter Ventilkasten inklusive Hunter Magnetventilen 2 Stationen";
+                    SubId = "18";
+                }
+                else if (NumberOfCircle == 3) {
+                    VBCircle = "3";
+                    SubName = "Vormontierter Ventilkasten inklusive Hunter Magnetventilen 3 Stationen";
+                    SubId = "19";
+                }
+                else if (NumberOfCircle == 4) {
+                    VBCircle = "4";
+                    SubName = "Vormontierter Ventilkasten inklusive Hunter Magnetventilen 4 Stationen";
+                    SubId = "20";
+                }
+                else if (NumberOfCircle == 5) {
+                    VBCircle = "5";
+                    SubName = "Vormontierter Ventilkasten inklusive Hunter Magnetventilen 5 Stationen";
+                    SubId = "21";
+                }
+                else if (NumberOfCircle == 6) {
+                    VBCircle = "6";
+                    SubName = "Vormontierter Ventilkasten inklusive Hunter Magnetventilen 6 Stationen";
+                    SubId = "22";
+                }
+                else if (NumberOfCircle == 7) {
+                    VBCircle = "7";
+                    SubName = "Vormontierter Ventilkasten inklusive Hunter Magnetventilen 7 Stationen";
+                    SubId = "23";
+                }
+                else if (NumberOfCircle == 8) {
+                    VBCircle = "8";
+                    SubName = "Vormontierter Ventilkasten inklusive Hunter Magnetventilen 8 Stationen";
+                    SubId = "24";
+                }
+                else if (NumberOfCircle == 9) {
+                    VBCircle = "9";
+                    SubName = "Vormontierter Ventilkasten inklusive Hunter Magnetventilen 9 Stationen";
+                    SubId = "25";
+                }
+                else if (NumberOfCircle == 10) {
+                    VBCircle = "10";
+                    SubName = "Vormontierter Ventilkasten inklusive Hunter Magnetventilen 10 Stationen";
+                    SubId = "26";
+                }
             }
             if (DrinkingWater == "True") {
                 $("#VBDW").show();
             }
+            else {
+                $("#VBDW").hide();
+            }
             if (WellWater == "True") {
                 $("#VBWW").show();
+            }
+            else {
+                $("#VBWW").hide();
             }
             if (RainWater == "True") {
                 $("#VBRW").show();
             }
+            else {
+                $("#VBRW").hide();
+            }
 
-
+            $("#VBCircle").val(VBCircle);
 
 
 
@@ -3311,6 +3858,9 @@
         SubcategoryName = $("#SName").text();
         UniqueId = $("#VBId").val();
         OrderId = $("#OrderId").val();
+        const cb = document.querySelector('#Drinkingwaterseparationstation');
+
+        var Drinkingwaterseparationstation = cb.checked;
 
         $("#EndVB").hide();
         $(".VBPD").hide();
@@ -3325,6 +3875,7 @@
             SubCategoryID: SubCategoryID,
             SubcategoryName: SubcategoryName,
             OrderId: OrderId,
+            Drinkingwaterseparationstation: Drinkingwaterseparationstation,
         };
 
         $.ajax({
@@ -3402,7 +3953,7 @@
         }
 
 
-
+        $("#SSprinklerTypeDropID").val(SubName);
 
         if (CurretRSprinkler != "") {
             var node = layer.findOne('#' + CurretRSprinkler);
@@ -3816,7 +4367,7 @@
         UniqueId = $("#SSId").val();
         OrderId = $("#OrderId").val();
         var mh = $("#CurrentMHValue").val();
-        
+
 
         $("#BtnEndRectangularsprinkler").hide();
         $(".SSPD").hide();
@@ -3851,6 +4402,7 @@
         $("#CurrentMHValue").val("");
 
         CurrentObjId = "";
+        OldCurrentObjId = "";
     });
 
 
@@ -5529,6 +6081,10 @@
                         }
                         else if (CheckId.name() == "PE Pipeline" && i == Number(LastId.replace("Rect", ""))) {
                             $("#btn_PE *").prop('disabled', false);
+                            PEArray.pop();
+                            
+                            PEColorCounter = PEColorCounter - 1;
+                            
                         }
                         else {
                             node = layer.findOne('#Text' + i);
@@ -5621,7 +6177,8 @@
                     if (CurretTap != "") {
                         CurretTap = "";
                     }
-                    $("#btn_TAP *").prop('disabled', false);
+                    $(".TAP").prop("disabled", false);
+                    //$("#btn_TAP *").prop('disabled', false);
                     node.destroy();
                 }
             }
@@ -5749,6 +6306,50 @@
                     else if (CheckId.name() == "PE Pipeline" && i == Number(LastId.replace("Rect", ""))) {
                         $("#btn_PE *").prop('disabled', false);
                         $(".PEPD").hide();
+                        
+                        var PEAindex = PEArray.indexOf(ObjId);
+                        if (PEAindex >= 0) {
+                            PEArray.splice(PEAindex, 1);
+                        }
+                        PEColorCounter = PEColorCounter - 1;
+                        $.each(PEArray, function (index, value) {
+                            var PEL = layer.findOne('#' + value + '');
+                            if (index == 0) {
+                                PEL.stroke("#843C0C");
+                            }
+                            else if (index == 1) {
+                                PEL.stroke("yellow");
+                            }
+                            else if (index == 2) {
+                                PEL.stroke("red");
+                            }
+                            else if (index == 3) {
+                                PEL.stroke("purple");
+                            }
+                            else if (index == 4) {
+                                PEL.stroke("blue");
+                            }
+                            else if (index == 5) {
+                                PEL.stroke("darkgreen");
+                            }
+                            else if (index == 6) {
+                                PEL.stroke("grey");
+                            }
+                            else if (index == 7) {
+                                PEL.stroke("pink");
+                            }
+                            else if (index == 8) {
+                                PEL.stroke("lightblue");
+                            }
+                            else if (index == 9) {
+                                PEL.stroke("green");
+                            }
+                            else if (index == 10) {
+                                PEL.stroke("black");
+                            }
+                            
+                        });
+
                     }
                     else {
                         node = layer.findOne('#Text' + i);
@@ -5837,7 +6438,8 @@
                     if (CurretTap != "") {
                         CurretTap = "";
                     }
-                    $("#btn_TAP *").prop('disabled', false);
+                    $(".TAP").prop("disabled", false);
+                    //$("#btn_TAP *").prop('disabled', false);
                     node.destroy();
                 }
             }
@@ -6803,7 +7405,8 @@
 
             }
             else if (CLastId[0] == 'S' && CLastId[1] == 'y') {
-                SubCategoryID = $("#SubCatId").text();
+                //SubCategoryID = $("#SubCatId").text();
+                SubCategoryID = 0;
                 SubcategoryName = $("#SName").text();
                 UniqueId = $("#ICId").val();
                 OrderId = $("#OrderId").val();
@@ -6815,12 +7418,24 @@
                 //$("#btn_IC").prop("disabled", true);
                 $("#btn_IC *").prop('disabled', true);
 
+                var NumberOfCircle = CalNumberOfCircle();
+                var InstallationLocation = $("#ICSIO").children("option:selected").val();
+                var ControlOption = $("#ICSMW").children("option:selected").val();
+
+                //const cb = document.querySelector('#ICSC');
+
+                var isSmartPhone = false;
+
 
                 var model = {
                     UniqueId: UniqueId,
                     SubCategoryID: SubCategoryID,
                     SubcategoryName: SubcategoryName,
                     OrderId: OrderId,
+                    InstallationLocation: InstallationLocation,
+                    ControlOption: ControlOption,
+                    isSmartPhone: isSmartPhone,
+                    NumberOfCircle: NumberOfCircle,
                 };
 
                 $.ajax({
@@ -6908,13 +7523,17 @@
                 $(".TapPD").hide();
                 $("#SName").text("");
                 $("#SubCatId").text("");
-                $("#btn_TAP *").prop('disabled', true);
+                //$("#btn_TAP *").prop('disabled', true);
+                var TAPMH = $("#AmountOfWater").val();
+                $("#TAPMHVal").val(TAPMH);
+
 
                 var model = {
                     UniqueId: UniqueId,
                     SubCategoryID: SubCategoryID,
                     SubcategoryName: SubcategoryName,
                     OrderId: OrderId,
+                    TAPMH: TAPMH,
                 };
 
                 $.ajax({

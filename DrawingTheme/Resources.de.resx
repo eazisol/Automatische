@@ -168,6 +168,9 @@
   <data name="AddUser" xml:space="preserve">
     <value>Benutzer hinzufügen</value>
   </data>
+  <data name="AmountOfWater" xml:space="preserve">
+    <value>Wassermenge</value>
+  </data>
   <data name="Angle" xml:space="preserve">
     <value>Winkel</value>
   </data>
@@ -219,6 +222,9 @@
   <data name="ConfirmPassword" xml:space="preserve">
     <value>Bestätige das Passwort</value>
   </data>
+  <data name="ControlOption" xml:space="preserve">
+    <value>Steuerungsoption</value>
+  </data>
   <data name="CurrentPassword" xml:space="preserve">
     <value>Aktuelles Passwort</value>
   </data>
@@ -248,6 +254,9 @@
   </data>
   <data name="DrawNewPlan" xml:space="preserve">
     <value>Zeichnen Sie einen neuen Plan</value>
+  </data>
+  <data name="Drinkingwaterseparationstation" xml:space="preserve">
+    <value>Trinkwasser Trennstation</value>
   </data>
   <data name="drinkingwatersource" xml:space="preserve">
     <value>Trinkwasser Quelle</value>
@@ -314,6 +323,9 @@
   </data>
   <data name="Indoor" xml:space="preserve">
     <value>Innen</value>
+  </data>
+  <data name="InstallationLocation" xml:space="preserve">
+    <value>Installationsort</value>
   </data>
   <data name="IrrigationComputerindoor" xml:space="preserve">
     <value>Bewässerungscomputer Indoor</value>

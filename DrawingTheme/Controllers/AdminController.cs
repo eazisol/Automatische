@@ -170,9 +170,10 @@ namespace DrawingTheme.Controllers
             List<tblComponent> Data = new List<tblComponent>();
             try
             {
-                ViewBag.Category = DB.tblCategories.Where(x=>x.IsPlanner==true).ToList();
+                ViewBag.Category = DB.tblCategories.Where(x=>x.IsPlanner==true).OrderBy(o=>o.MenuOrder).ToList();
                 ViewBag.SubCategory = DB.tblSubCategories.Where(x=>x.Plannercomponent==true).ToList();
                 ViewBag.Sprinkler = DB.tblSubCategories.Where(x=>x.Plannercomponent==true &&x.CategoryID==1).ToList();
+                ViewBag.SSprinkler = DB.tblSubCategories.Where(x=>x.Plannercomponent==true &&x.CategoryID==2).ToList();
                 Data = DB.tblComponents.Select(r => r).Where(x => x.isActive == true).ToList();
                 
 

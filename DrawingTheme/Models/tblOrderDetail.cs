@@ -33,6 +33,11 @@ namespace DrawingTheme.Models
         public Nullable<double> mh { get; set; }
         public Nullable<double> CoverAngle { get; set; }
         public Nullable<double> CoverDistance { get; set; }
+        public Nullable<double> TAPMH { get; set; }
+        public Nullable<bool> Drinkingwaterseparationstation { get; set; }
+        public string InstallationLocation { get; set; }
+        public string ControlOption { get; set; }
+        public Nullable<bool> isSmartPhone { get; set; }
     
         public virtual tblOrder tblOrder { get; set; }
         public virtual tblSubCategory tblSubCategory { get; set; }

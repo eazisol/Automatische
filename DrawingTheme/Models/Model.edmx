@@ -30,6 +30,7 @@
           <Property Name="Code" Type="nvarchar" MaxLength="500" />
           <Property Name="Component" Type="varchar" MaxLength="500" />
           <Property Name="IsPlanner" Type="bit" />
+          <Property Name="MenuOrder" Type="int" />
         </EntityType>
         <EntityType Name="tblComponent">
           <Key>
@@ -112,6 +113,11 @@
           <Property Name="mh" Type="float" />
           <Property Name="CoverAngle" Type="float" />
           <Property Name="CoverDistance" Type="float" />
+          <Property Name="TAPMH" Type="float" />
+          <Property Name="Drinkingwaterseparationstation" Type="bit" />
+          <Property Name="InstallationLocation" Type="nvarchar" MaxLength="50" />
+          <Property Name="ControlOption" Type="nvarchar" MaxLength="50" />
+          <Property Name="isSmartPhone" Type="bit" />
         </EntityType>
         <EntityType Name="tblRole">
           <Key>
@@ -826,6 +832,7 @@
           <Property Name="Code" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
           <Property Name="Component" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
           <Property Name="IsPlanner" Type="Boolean" />
+          <Property Name="MenuOrder" Type="Int32" />
         </EntityType>
         <EntityType Name="tblSubCategory">
           <Key>
@@ -905,6 +912,11 @@
           <Property Name="mh" Type="Double" />
           <Property Name="CoverAngle" Type="Double" />
           <Property Name="CoverDistance" Type="Double" />
+          <Property Name="TAPMH" Type="Double" />
+          <Property Name="Drinkingwaterseparationstation" Type="Boolean" />
+          <Property Name="InstallationLocation" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="ControlOption" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="isSmartPhone" Type="Boolean" />
         </EntityType>
         <Association Name="FK_tblOrderDetail_tblOrder">
           <End Type="AutomatischeModel.tblOrder" Role="tblOrder" Multiplicity="0..1" />
@@ -1120,6 +1132,7 @@
           <EntitySetMapping Name="tblCategories">
             <EntityTypeMapping TypeName="AutomatischeModel.tblCategory">
               <MappingFragment StoreEntitySet="tblCategory">
+                <ScalarProperty Name="MenuOrder" ColumnName="MenuOrder" />
                 <ScalarProperty Name="IsPlanner" ColumnName="IsPlanner" />
                 <ScalarProperty Name="Component" ColumnName="Component" />
                 <ScalarProperty Name="Code" ColumnName="Code" />
@@ -1171,6 +1184,11 @@
           <EntitySetMapping Name="tblOrderDetails">
             <EntityTypeMapping TypeName="AutomatischeModel.tblOrderDetail">
               <MappingFragment StoreEntitySet="tblOrderDetail">
+                <ScalarProperty Name="isSmartPhone" ColumnName="isSmartPhone" />
+                <ScalarProperty Name="ControlOption" ColumnName="ControlOption" />
+                <ScalarProperty Name="InstallationLocation" ColumnName="InstallationLocation" />
+                <ScalarProperty Name="Drinkingwaterseparationstation" ColumnName="Drinkingwaterseparationstation" />
+                <ScalarProperty Name="TAPMH" ColumnName="TAPMH" />
                 <ScalarProperty Name="CoverDistance" ColumnName="CoverDistance" />
                 <ScalarProperty Name="CoverAngle" ColumnName="CoverAngle" />
                 <ScalarProperty Name="mh" ColumnName="mh" />

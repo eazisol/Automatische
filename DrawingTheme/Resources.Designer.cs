@@ -214,6 +214,15 @@ namespace DrawingTheme {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Amount Of Water.
+        /// </summary>
+        public static string AmountOfWater {
+            get {
+                return ResourceManager.GetString("AmountOfWater", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Angle.
         /// </summary>
         public static string Angle {
@@ -367,6 +376,15 @@ namespace DrawingTheme {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Control Option.
+        /// </summary>
+        public static string ControlOption {
+            get {
+                return ResourceManager.GetString("ControlOption", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Current Password.
         /// </summary>
         public static string CurrentPassword {
@@ -453,6 +471,15 @@ namespace DrawingTheme {
         public static string DrawNewPlan {
             get {
                 return ResourceManager.GetString("DrawNewPlan", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Drinking water separation station.
+        /// </summary>
+        public static string Drinkingwaterseparationstation {
+            get {
+                return ResourceManager.GetString("Drinkingwaterseparationstation", resourceCulture);
             }
         }
         
@@ -652,6 +679,15 @@ namespace DrawingTheme {
         public static string Indoor {
             get {
                 return ResourceManager.GetString("Indoor", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Installation Location.
+        /// </summary>
+        public static string InstallationLocation {
+            get {
+                return ResourceManager.GetString("InstallationLocation", resourceCulture);
             }
         }
         

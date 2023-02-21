@@ -744,7 +744,7 @@ namespace DrawingTheme.Controllers
         }
 
         [HttpPost]
-        public JsonResult AddOrderDetails(tblOrderDetail OrderDetail)
+        public JsonResult AddOrderDetails(tblOrderDetail OrderDetail,int NumberOfCircle=0)
         {
             HttpCookie cookieObj = Request.Cookies["User"];
             int UserId = Int32.Parse(cookieObj["UserId"]);
@@ -757,8 +757,29 @@ namespace DrawingTheme.Controllers
             {
                 double? TotalPrice = 0;
                 double? TotalMH = 0;
-
-                SubCategory = DB.tblSubCategories.Where(x => x.SubcategoryID == OrderDetail.SubCategoryID).FirstOrDefault();
+                if(OrderDetail.SubCategoryID!=null&& OrderDetail.SubCategoryID!=0)
+                {
+                    SubCategory = DB.tblSubCategories.Where(x => x.SubcategoryID == OrderDetail.SubCategoryID).FirstOrDefault();
+                }
+                else{
+                    if(OrderDetail.InstallationLocation=="indoor"&& OrderDetail.ControlOption== "Manual")
+                    {
+                        SubCategory = DB.tblSubCategories.Where(x =>x.CategoryID== 4 && x.SubcategoryName.Contains("1iE") && x.IrrigationComputermaxstation>=NumberOfCircle).OrderBy(o=>o.IrrigationComputermaxstation).FirstOrDefault();
+                    }
+                    else if(OrderDetail.InstallationLocation == "outdoor" && OrderDetail.ControlOption == "Manual")
+                    {
+                        SubCategory = DB.tblSubCategories.Where(x => x.CategoryID == 4 && x.SubcategoryName.Contains("1E") && x.IrrigationComputermaxstation >= NumberOfCircle).OrderBy(o => o.IrrigationComputermaxstation).FirstOrDefault();
+                    }
+                    else if(OrderDetail.InstallationLocation == "indoor" && OrderDetail.ControlOption == "Wifi")
+                    {
+                        SubCategory = DB.tblSubCategories.Where(x => x.CategoryID == 4 && x.SubcategoryName.Contains("HC") && x.IrrigationComputermaxstation >= NumberOfCircle).OrderBy(o => o.IrrigationComputermaxstation).FirstOrDefault();
+                    }
+                    else if(OrderDetail.InstallationLocation == "outdoor" && OrderDetail.ControlOption == "Wifi")
+                    {
+                        SubCategory = DB.tblSubCategories.Where(x => x.CategoryID == 4 && x.SubcategoryName.Contains("1E +") && x.IrrigationComputermaxstation >= NumberOfCircle).OrderBy(o => o.IrrigationComputermaxstation).FirstOrDefault();
+                    }
+                }
+                
                 if (SubCategory != null)
                 {
 
@@ -767,6 +788,7 @@ namespace DrawingTheme.Controllers
                     {
                         Data = OrderDetail;
                         Data.SubcategoryName = SubCategory.SubcategoryName;
+                        Data.SubCategoryID = SubCategory.SubcategoryID;
                         if(OrderDetail.IWLength!=null&& OrderDetail.IWLength != 0)
                         {
                             Data.Price = SubCategory.Price*(OrderDetail.IWLength+3);
@@ -847,30 +869,33 @@ namespace DrawingTheme.Controllers
                     }
                     else
                     {
-                        Data = OrderDetail;
-                        Data.OrderId = OrderDetail.OrderId;
-                        Data.SubCategoryID = OrderDetail.SubCategoryID;
-                        Data.MinAngle = OrderDetail.MinAngle;
-                        Data.MaxAngle = OrderDetail.MaxAngle;
-                        Data.ThrowDistanceMax = OrderDetail.ThrowDistanceMax;
-                        Data.ThrowDistanceMin = OrderDetail.ThrowDistanceMin;
-                        Data.UniqueId = OrderDetail.UniqueId;
-                        Data.SubcategoryName = SubCategory.SubcategoryName;
-                        Data.mh = OrderDetail.mh;
-                        Data.CoverDistance = OrderDetail.CoverDistance;
-                        Data.CoverAngle = OrderDetail.CoverAngle;
+                        tblOrderDetail Data1 = DB.tblOrderDetails.Where(x => x.UniqueId == OrderDetail.UniqueId && x.OrderId == OrderDetail.OrderId).FirstOrDefault(); 
+                        //Data1 = OrderDetail;
+                        Data1.OrderId = OrderDetail.OrderId;
+                        Data1.SubCategoryID = SubCategory.SubcategoryID;
+                        Data1.MinAngle = OrderDetail.MinAngle;
+                        Data1.MaxAngle = OrderDetail.MaxAngle;
+                        Data1.ThrowDistanceMax = OrderDetail.ThrowDistanceMax;
+                        Data1.ThrowDistanceMin = OrderDetail.ThrowDistanceMin;
+                        Data1.UniqueId = OrderDetail.UniqueId;
+                        Data1.SubcategoryName = SubCategory.SubcategoryName;
+                        Data1.mh = OrderDetail.mh;
+                        Data1.CoverDistance = OrderDetail.CoverDistance;
+                        Data1.CoverAngle = OrderDetail.CoverAngle;
+                        Data1.TAPMH = OrderDetail.TAPMH;
+                        Data1.Drinkingwaterseparationstation = OrderDetail.Drinkingwaterseparationstation;
                         if (OrderDetail.IWLength != null && OrderDetail.IWLength != 0)
                         {
-                            Data.Price = SubCategory.Price * (OrderDetail.IWLength + 3);
+                            Data1.Price = SubCategory.Price * (OrderDetail.IWLength + 3);
                         }
                         else
                         {
-                            Data.Price = SubCategory.Price;
+                            Data1.Price = SubCategory.Price;
                         }
-                        Data.IWLength = OrderDetail.IWLength+3;
-                        Data.PELength = OrderDetail.PELength+3;
-                        Data.Qty = 1;
-                        DB.Entry(Data);
+                        Data1.IWLength = OrderDetail.IWLength+3;
+                        Data1.PELength = OrderDetail.PELength+3;
+                        Data1.Qty = 1;
+                        DB.Entry(Data1);
                         DB.SaveChanges();
 
                         tblLog LogData = new tblLog();
@@ -880,11 +905,6 @@ namespace DrawingTheme.Controllers
                         DB.tblLogs.Add(LogData);
                         DB.SaveChanges();
                     }
-                    
-
-
-
-
                     
                 }
                 OrderDetailData = DB.tblOrderDetails.Where(x => x.OrderId == OrderDetail.OrderId).ToList();
@@ -927,9 +947,12 @@ namespace DrawingTheme.Controllers
                 double? TotalMH = 0;
 
                 Data = DB.tblOrderDetails.Where(x => x.UniqueId == OrderDetail.UniqueId && x.OrderId == OrderDetail.OrderId).FirstOrDefault();
-                DB.Entry(Data).State = EntityState.Deleted;
-                DB.SaveChanges();
-
+                if(Data!=null)
+                {
+                    DB.Entry(Data).State = EntityState.Deleted;
+                    DB.SaveChanges();
+                }
+               
                 tblLog LogData = new tblLog();
                 LogData.UserId = UserId;
                 LogData.Action = "Delete Order Details";
@@ -960,6 +983,35 @@ namespace DrawingTheme.Controllers
 
             return Json(0);
         }
+
+        [HttpPost]
+        public JsonResult SelectWiring(int NumberOfCircle)
+        {
+            HttpCookie cookieObj = Request.Cookies["User"];
+            int UserId = Int32.Parse(cookieObj["UserId"]);
+            tblSubCategory Data =null;
+            int SubId = 0;
+            string SubName ="";
+            try
+            {
+                Data = DB.tblSubCategories.Where(x => x.CategoryID ==5 &&x.IrrigationWiringMaxStation== NumberOfCircle).FirstOrDefault();
+                SubId = Data.SubcategoryID;
+                SubName = Data.SubcategoryName;
+
+                return Json(new { SubId = SubId, SubName = SubName });
+
+
+            }
+            catch (Exception ex)
+            {
+
+                ViewBag.Error = ex.Message;
+                Console.WriteLine("Error" + ex.Message);
+            }
+
+            return Json(0);
+        }
+        
 
         [HttpPost]
         public JsonResult SprinklerCount(tblOrderDetail OrderDetail)
