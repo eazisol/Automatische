@@ -39,9 +39,9 @@
             <input type="text" name="ObjUniqueId" id="ObjUniqueId" value="" hidden="">
             <input type="text" name="VBCircle" id="VBCircle" value="" hidden="">
             <input type="text" name="SprinklerCount" id="SprinklerCount" value="0" hidden>
-            <input type="text" name="MHValue" id="MHValue" value="0" >
-            <input type="text" name="CurrentMHValue" id="CurrentMHValue" value="0" >
-            <input type="text" name="TAPMHVal" id="TAPMHVal" value="2" >
+            <input type="text" name="MHValue" id="MHValue" value="0" hidden>
+            <input type="text" name="CurrentMHValue" id="CurrentMHValue" value="0" hidden>
+            <input type="text" name="TAPMHVal" id="TAPMHVal" value="2" hidden>
 
 
             <button id="Area" class="btn btn-success ml-2 mr-2 " onclick="SaveData(4)" data-radius="30" data-width="100" data-height="40" data-angle="180" data-rotation="45">@Resources.Lawn</button>
@@ -493,8 +493,10 @@
     var PEColorCounter = 0;
     var PEArray = [];
     let zoomStep = 0.1;
+    let OldPosition = 1;
+    let Oldscale2 = 1;
     let scale2 = 1;
-
+    let lastPos = null;
 
         const Group = new Konva.Group();
         var stage = new Konva.Stage({
@@ -546,9 +548,17 @@
 
 
     $("#stage2ZoomIn").on("click", function () {
+        //$(document).trigger(jQuery.Event('keydown', { keyCode: 109, ctrlKey: true }));
+        //var event = new KeyboardEvent('keydown', { keyCode: 109, ctrlKey: true });
+        //document.dispatchEvent(event);
+        //$('body').css('zoom', '90%');
+        OldPosition = stage.position();
+        Oldscale2 = scale2;
         scale2 = zoomStage2(stage, circle2.position(), scale2, zoomStep);
     });
     $("#stage2ZoomOut").on("click", function () {
+        //$(document).trigger(jQuery.Event('keydown', { keyCode: 109, ctrlKey: true }));
+        Oldscale2 = scale2;
         scale2 = zoomStage2(stage, circle2.position(), scale2, -zoomStep);
     });
 
@@ -560,12 +570,11 @@
         var pointer = stage.getPointerPosition();
 
         zoomInc = e.evt.deltaY > 0 ? -zoomStep : zoomStep;
-
+        Oldscale2 = scale2;
         scale2 = zoomStage2(stage, pointer, scale2, zoomInc);
     });
 
     $("#reset").on("click", function () {
-
         scale2 = 1;
         stage.scale({ x: scale2, y: scale2 });
         stage.position({ x: 0, y: 0 });
@@ -573,7 +582,6 @@
 
 
     function zoomStage2(stage, zoomPoint, zoomBefore, inc) {
-
         let oldScale = stage.scaleX();
         var mousePointTo = {
             x: (zoomPoint.x - stage.x()) / oldScale,
@@ -587,6 +595,16 @@
         };
         stage.position(newPos);
         return zoomAfter;
+    }
+
+
+    function getAdjustedPointerPosition(stage, pointerPosition, oldScale, newScale, oldPosition, newPosition) {
+        const pointerPositionRelativeToStage = stage.getPointerPosition(pointerPosition);
+        const x = (pointerPositionRelativeToStage.x / oldScale) - (oldPosition.x / oldScale);
+        const y = (pointerPositionRelativeToStage.y / oldScale) - (oldPosition.y / oldScale);
+        const newX = x * newScale + newPosition.x;
+        const newY = y * newScale + newPosition.y;
+        return { x: newX, y: newY };
     }
 
     $("#reset").on("click", function () {
@@ -1365,7 +1383,7 @@
                 y: y,
                 innerRadius: circle.radius(),
                 angle: Angle,
-                fill: 'lightblue',
+                fill: 'rgba(173,216,230,0.7)',
                 stroke: 'black',
                 strokeWidth: 0,
                 id: circle.id().replace("Sprinkler", "Arc"),
@@ -1577,7 +1595,7 @@
                 y: 50,
                 width: Width,
                 height: Height,
-                //fill: 'green',
+                fill: 'rgba(173,216,230,0.7)',
                 stroke: 'black',
                 strokeWidth: 1,
                 id: "RectangularSprinkler" + RectangularSprinklerName + "",
@@ -1614,7 +1632,15 @@
                 //updateRSSprinkler(e.target.id());
                 var rsid = e.currentTarget.id().replace("RSCircle", "RectangularSprinkler");
                 var rs = layer.findOne('#' + rsid);
-                rotateAroundPoint(rs, 2, { x: e.currentTarget.x(), y: e.currentTarget.y() });
+                var Direction = 1;
+                if (e.oldVal < e.newVal) {
+                    Direction = 1;
+                } else if (e.oldVal > e.newVal) {
+                    Direction = -1;
+                } else {
+                    Direction = null;
+                }
+                rotateAroundPoint(rs, 1.5, { x: e.currentTarget.x(), y: e.currentTarget.y() }, Direction);
                 //rs.rotation(e.currentTarget.rotation());
                 //console.log(rsid);
             });
@@ -1660,7 +1686,7 @@
                 y: 50,
                 width: Width,
                 height: Height,
-                //fill: 'green',
+                fill: 'rgba(173,216,230,0.7)',
                 stroke: 'black',
                 strokeWidth: 1,
                 id: "RectangularSprinkler" + RectangularSprinklerName + "",
@@ -1698,7 +1724,15 @@
                 //updateRSSprinkler(e.target.id());
                 var rsid = e.currentTarget.id().replace("RSCircle", "RectangularSprinkler");
                 var rs = layer.findOne('#' + rsid);
-                rotateAroundPoint(rs, 2, { x: e.currentTarget.x(), y: e.currentTarget.y() });
+                var Direction = 1;
+                if (e.oldVal < e.newVal) {
+                    Direction = 1;
+                } else if (e.oldVal > e.newVal) {
+                    Direction = -1;
+                } else {
+                    Direction = null;
+                }
+                rotateAroundPoint(rs, 1.5, { x: e.currentTarget.x(), y: e.currentTarget.y() }, Direction);
                 //rs.rotation(e.currentTarget.rotation());
                 //console.log(rsid);
             });
@@ -2173,34 +2207,34 @@
             poly.stroke("#843C0C");
         }
         else if (PEColorCounter == 1) {
-            poly.stroke("yellow");
+            poly.stroke("#FFD966");
         }
         else if (PEColorCounter == 2) {
-            poly.stroke("red");
+            poly.stroke("#FF0000");
         }
         else if (PEColorCounter == 3) {
-            poly.stroke("purple");
+            poly.stroke("#7030A0");
         }
         else if (PEColorCounter == 4) {
-            poly.stroke("blue");
+            poly.stroke("#5B9BD5");
         }
         else if (PEColorCounter == 5) {
-            poly.stroke("darkgreen");
+            poly.stroke("#00B050");
         }
         else if (PEColorCounter == 6) {
-            poly.stroke("grey");
+            poly.stroke("#7C7C7C");
         }
         else if (PEColorCounter == 7) {
-            poly.stroke("pink");
+            poly.stroke("#D22EB3");
         }
         else if (PEColorCounter == 8) {
-            poly.stroke("lightblue");
+            poly.stroke("#37C2C9");
         }
         else if (PEColorCounter == 9) {
-            poly.stroke("green");
+            poly.stroke("#1EF20E");
         }
         else if (PEColorCounter == 10) {
-            poly.stroke("black");
+            poly.stroke("#3F3B3D");
         }
 
         PolyName += 1;
@@ -3451,7 +3485,7 @@
                 y: y,
                 innerRadius: circle.radius(),
                 angle: Angle,
-                fill: 'lightblue',
+                fill: 'rgba(173,216,230,0.7)',
                 stroke: 'black',
                 strokeWidth: 0,
                 id: circle.id().replace("Sprinkler", "Arc"),
@@ -4007,7 +4041,7 @@
                 y: 50,
                 width: Width,
                 height: Height,
-                //fill: 'green',
+                fill: 'rgba(173,216,230,0.7)',
                 stroke: 'black',
                 strokeWidth: 1,
                 id: "RectangularSprinkler" + RectangularSprinklerName + "",
@@ -4071,7 +4105,7 @@
                 x: 50 + RCPX,
                 y: 50 + RCPY,
                 radius: 5,
-                //fill: 'red',
+                //fill: 'lightblue',
                 stroke: 'black',
                 strokeWidth: 0,
                 id: circle.id().replace("RectangularSprinkler", "RSCircle"),
@@ -4107,7 +4141,15 @@
                 //updateRSSprinkler(e.target.id());
                 var rsid = e.currentTarget.id().replace("RSCircle", "RectangularSprinkler");
                 var rs = layer.findOne('#' + rsid);
-                rotateAroundPoint(rs, 2, { x: e.currentTarget.x(), y: e.currentTarget.y() });
+                var Direction = 1;
+                if (e.oldVal < e.newVal) {
+                    Direction = 1;
+                } else if (e.oldVal > e.newVal) {
+                    Direction = -1;
+                } else {
+                    Direction = null;
+                }
+                rotateAroundPoint(rs, 1.5, { x: e.currentTarget.x(), y: e.currentTarget.y() }, Direction);
                 //rs.rotation(e.currentTarget.rotation());
                 //console.log(rsid);
             });
@@ -4152,7 +4194,7 @@
                 y: 50,
                 width: Width,
                 height: Height,
-                //fill: 'green',
+                fill: 'rgba(173,216,230,0.7)',
                 stroke: 'black',
                 strokeWidth: 1,
                 id: "RectangularSprinkler" + RectangularSprinklerName + "",
@@ -4223,7 +4265,7 @@
                 x: 50 + RCPX,
                 y: 50 + RCPY,
                 radius: 5,
-                fill: 'red',
+                //fill: 'red',
                 stroke: 'black',
                 strokeWidth: 1,
                 id: circle.id().replace("RectangularSprinkler", "RSCircle"),
@@ -4259,15 +4301,20 @@
                 //updateRSSprinkler(e.target.id());
                 var rsid = e.currentTarget.id().replace("RSCircle", "RectangularSprinkler");
                 var rs = layer.findOne('#' + rsid);
-                rotateAroundPoint(rs, 2, { x: e.currentTarget.x(), y: e.currentTarget.y() });
+                var Direction = 1;
+                if (e.oldVal < e.newVal) {
+                        Direction = 1;
+                } else if (e.oldVal > e.newVal) {
+                        Direction = -1;
+                } else {
+                     Direction = null; 
+                }
+                rotateAroundPoint(rs, 1.5, { x: e.currentTarget.x(), y: e.currentTarget.y() }, Direction);
                 //rs.rotation(e.currentTarget.rotation());
                 //console.log(rsid);
             });
 
             layer.add(cir);
-
-
-
 
             var transformer = new Konva.Transformer({
                 nodes: [cir],
@@ -4282,7 +4329,6 @@
             transformer.resizeEnabled(false);
             transformer.rotateAnchorOffset(-5);
             transformer.anchorStroke('balck');
-
 
             group.on('mouseover', function () {
                 stage.container().style.cursor = 'move';
@@ -4340,8 +4386,12 @@
     });
 
 
-    function rotateAroundPoint(shape, angleDegrees, point) {
+    function rotateAroundPoint(shape, angleDegrees, point, direction) {
         let angleRadians = angleDegrees * Math.PI / 180; // sin + cos require radians
+
+        if (direction === -1) {
+            angleRadians = -angleRadians; // reverse the sign of the angle for counterclockwise rotation
+        }
 
         const x =
             point.x +
@@ -4353,7 +4403,7 @@
             (shape.y() - point.y) * Math.cos(angleRadians);
 
         shape.position({ x: x, y: y });  // move the rotated shape in relation to the rotation point.
-        shape.rotation(shape.rotation() + angleDegrees); // rotate the shape in place around its natural rotation point
+        shape.rotation(shape.rotation() + angleDegrees * direction); // rotate the shape in place around its natural rotation point
 
     }
 
@@ -4681,6 +4731,9 @@
                         }
                         isDraw = true;
                         var Position = stage.getPointerPosition();
+                        console.log(stage.getPointerPosition());
+                        //var Position = getAdjustedPointerPosition(stage, stage.getPointerPosition(), Oldscale2, scale2, OldPosition, stage.position());
+                        console.log(Position);
                         //console.log("Before " + + Position.x  + " " + Position.y );
                         //console.log("After " + Position.x / stage.scaleX()+" "+ Position.y / stage.scaleY() );
                         //Points.push(Position.x, Position.y);
@@ -6318,36 +6371,36 @@
                                 PEL.stroke("#843C0C");
                             }
                             else if (index == 1) {
-                                PEL.stroke("yellow");
+                                PEL.stroke("#FFD966");
                             }
                             else if (index == 2) {
-                                PEL.stroke("red");
+                                PEL.stroke("#FF0000");
                             }
                             else if (index == 3) {
-                                PEL.stroke("purple");
+                                PEL.stroke("#7030A0");
                             }
                             else if (index == 4) {
-                                PEL.stroke("blue");
+                                PEL.stroke("#5B9BD5");
                             }
                             else if (index == 5) {
-                                PEL.stroke("darkgreen");
+                                PEL.stroke("#00B050");
                             }
                             else if (index == 6) {
-                                PEL.stroke("grey");
+                                PEL.stroke("#7C7C7C");
                             }
                             else if (index == 7) {
-                                PEL.stroke("pink");
+                                PEL.stroke("#D22EB3");
                             }
                             else if (index == 8) {
-                                PEL.stroke("lightblue");
+                                PEL.stroke("#37C2C9");
                             }
                             else if (index == 9) {
-                                PEL.stroke("green");
+                                PEL.stroke("#1EF20E");
                             }
                             else if (index == 10) {
-                                PEL.stroke("black");
+                                PEL.stroke("#3F3B3D");
                             }
-                            
+
                         });
 
                     }
