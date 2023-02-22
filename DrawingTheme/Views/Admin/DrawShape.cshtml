@@ -607,12 +607,12 @@
         return { x: newX, y: newY };
     }
 
-    $("#reset").on("click", function () {
-        scale1 = 1;
-        stage.scale({ x: scale1, y: scale1 });
+    //$("#reset").on("click", function () {
+    //    scale1 = 1;
+    //    stage.scale({ x: scale1, y: scale1 });
 
 
-    });
+    //});
 
 
     function zoomStage2(stage, zoomPoint, zoomBefore, inc) {
@@ -2200,7 +2200,7 @@
         poly.on('mouseout', (e) => {
             stage.container().style.cursor = 'default';
         });
-        
+
 
 
         if (PEColorCounter == 0) {
@@ -4307,7 +4307,7 @@
                 } else if (e.oldVal > e.newVal) {
                         Direction = -1;
                 } else {
-                     Direction = null; 
+                     Direction = null;
                 }
                 rotateAroundPoint(rs, 1.5, { x: e.currentTarget.x(), y: e.currentTarget.y() }, Direction);
                 //rs.rotation(e.currentTarget.rotation());
@@ -6135,9 +6135,9 @@
                         else if (CheckId.name() == "PE Pipeline" && i == Number(LastId.replace("Rect", ""))) {
                             $("#btn_PE *").prop('disabled', false);
                             PEArray.pop();
-                            
+
                             PEColorCounter = PEColorCounter - 1;
-                            
+
                         }
                         else {
                             node = layer.findOne('#Text' + i);
@@ -6359,7 +6359,7 @@
                     else if (CheckId.name() == "PE Pipeline" && i == Number(LastId.replace("Rect", ""))) {
                         $("#btn_PE *").prop('disabled', false);
                         $(".PEPD").hide();
-                        
+
                         var PEAindex = PEArray.indexOf(ObjId);
                         if (PEAindex >= 0) {
                             PEArray.splice(PEAindex, 1);
@@ -6953,7 +6953,13 @@
 
 
     document.getElementById('save').addEventListener('click', function () {
-        var pdf = new jsPDF('l', 'px', [stage.width(), stage.height()+300]);
+        scale2 = 1;
+        stage.scale({ x: scale2, y: scale2 });
+        stage.position({ x: 0, y: 0 });
+
+        window.setTimeout(
+            function () {
+               var pdf = new jsPDF('l', 'px', [stage.width(), stage.height()+300]);
         pdf.setTextColor('#000000');
         // first add texts
         stage.find('Text').forEach((text) => {
@@ -6970,8 +6976,8 @@
             stage.toDataURL({ pixelRatio: 2 }),
             0,
             0,
-            stage.width(),
-            stage.height()
+            stage.width() - 280,
+            stage.height() +100
         );
 
         var dataURL = stage.toDataURL();
@@ -6996,6 +7002,10 @@
         //console.log(pdf.addImage());
         pdf.save('canvas.pdf');
         //pdf.save('D:\Test.pdf');
+            },
+            5
+        );
+
     });
 
     function getBase64Image(img) {
@@ -7139,7 +7149,9 @@
     });
 
     $("body").on("click", "#ProceedToAccesoires", function () {
-
+        scale2 = 1;
+        stage.scale({ x: scale2, y: scale2 });
+        stage.position({ x: 0, y: 0 });
         var pdf = new jsPDF('l', 'px', [stage.width(), stage.height()+300]);
         pdf.setTextColor('#000000');
         // first add texts
@@ -7157,8 +7169,8 @@
             stage.toDataURL({ pixelRatio: 2 }),
             0,
             0,
-            stage.width(),
-            stage.height()
+            stage.width() + 300,
+            stage.height() + 300
         );
 
         var dataURL = stage.toDataURL();
