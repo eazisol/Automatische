@@ -435,6 +435,9 @@
   <data name="PaypalSettings" xml:space="preserve">
     <value>Paypal-Einstellungen</value>
   </data>
+  <data name="PEexceedmaxwatersourcenowdrawnewone!" xml:space="preserve">
+    <value>PE überschreitet max. Wasserquelle m³/h jetzt neu beziehen!</value>
+  </data>
   <data name="PendingAmount" xml:space="preserve">
     <value>Ausstehende Summe</value>
   </data>
@@ -602,6 +605,9 @@
   </data>
   <data name="Totallength" xml:space="preserve">
     <value>Gesamtlänge</value>
+  </data>
+  <data name="Totaloutput" xml:space="preserve">
+    <value>Gesamtleistung</value>
   </data>
   <data name="TOTALPRICE" xml:space="preserve">
     <value>GESAMTPREIS</value>

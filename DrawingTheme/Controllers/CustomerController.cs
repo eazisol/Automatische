@@ -853,6 +853,66 @@ namespace DrawingTheme.Controllers
 
                             Data.Price = (H * 99) + (F * 59) + (T * 39);
                         }
+                        else if(OrderDetail.DLLength != null && OrderDetail.DLLength != 0)
+                        {
+                            double? Length = OrderDetail.DLLength + 3;
+                            int H = 0;
+                            int F = 0;
+                            int T = 0;
+                            int D = 0;
+                            int M = 0;
+                            while (Length>0)
+                            {
+                                if (Length>50)
+                                {
+                                    D = Convert.ToInt32(Decimal.Truncate(Convert.ToDecimal(Length) / 100));
+                                    if(D>0)
+                                    {
+                                        H = H + D;
+                                    }
+                                    else
+                                    {
+                                        H = H + 1;
+                                        break;
+                                    }
+                                    Length = Length % 100;
+                                }
+                                else if(Length > 25)
+                                {
+                                    D = Convert.ToInt32(Decimal.Truncate(Convert.ToDecimal(Length) / 50));
+                                    if (D > 0)
+                                    {
+                                        F = F + D;
+                                    }
+                                    else
+                                    {
+                                        F = F + 1;
+                                        break;
+                                    }
+                                    Length = Length % 50;
+                                }
+                                else if(Length > 0)
+                                {
+                                    D = Convert.ToInt32(Decimal.Truncate(Convert.ToDecimal(Length) / 25));
+                                    if (D > 0)
+                                    {
+                                        T = T + D;
+                                    }
+                                    else
+                                    {
+                                        T = T + 1;
+                                        break;
+                                    }
+                                    Length = Length % 25;
+                                }
+                            }
+
+                            Data.DLHPipe = H;
+                            Data.DLFPipe = F;
+                            Data.DLTPipe = T;
+
+                            Data.Price = (H * 99) + (F * 59) + (T * 39);
+                        }
                         else
                         {
                             Data.Price = SubCategory.Price;
@@ -894,6 +954,7 @@ namespace DrawingTheme.Controllers
                         }
                         Data1.IWLength = OrderDetail.IWLength+3;
                         Data1.PELength = OrderDetail.PELength+3;
+                        Data1.DLLength = OrderDetail.DLLength + 3;
                         Data1.Qty = 1;
                         DB.Entry(Data1);
                         DB.SaveChanges();
@@ -937,6 +998,7 @@ namespace DrawingTheme.Controllers
             HttpCookie cookieObj = Request.Cookies["User"];
             int UserId = Int32.Parse(cookieObj["UserId"]);
             tblOrderDetail Data = new tblOrderDetail();
+            List<tblOrderDetail> Data1 = new List<tblOrderDetail>();
             List<tblOrderDetail> OrderDetailData = new List<tblOrderDetail>();
             tblSubCategory SubCategory = new tblSubCategory();
 
@@ -947,12 +1009,31 @@ namespace DrawingTheme.Controllers
                 double? TotalMH = 0;
 
                 Data = DB.tblOrderDetails.Where(x => x.UniqueId == OrderDetail.UniqueId && x.OrderId == OrderDetail.OrderId).FirstOrDefault();
+
+                
+
+
                 if(Data!=null)
                 {
                     DB.Entry(Data).State = EntityState.Deleted;
                     DB.SaveChanges();
                 }
-               
+
+                if (Data != null&&Data.CircleNo != null)
+                {
+                    int Count = 1;
+
+                    Data1 = DB.tblOrderDetails.Where(x => x.OrderId == OrderDetail.OrderId && x.CircleNo!=null).ToList();
+                    foreach (tblOrderDetail item in Data1)
+                    {
+                        item.CircleNo = Count;
+                        Count++;
+                        DB.Entry(item);
+                        DB.SaveChanges();
+                    }
+                   
+                }
+
                 tblLog LogData = new tblLog();
                 LogData.UserId = UserId;
                 LogData.Action = "Delete Order Details";
@@ -977,6 +1058,28 @@ namespace DrawingTheme.Controllers
             catch (Exception ex)
             {
 
+                ViewBag.Error = ex.Message;
+                Console.WriteLine("Error" + ex.Message);
+            }
+
+            return Json(0);
+        }
+        
+
+        [HttpPost]
+        public JsonResult GetSprinklerMH(tblOrderDetail OrderDetail)
+        {
+            HttpCookie cookieObj = Request.Cookies["User"];
+            int UserId = Int32.Parse(cookieObj["UserId"]);
+
+            try
+            {
+                double? MH = 0;
+                MH = DB.tblOrderDetails.Where(x => x.UniqueId == OrderDetail.UniqueId && x.OrderId == OrderDetail.OrderId).Select(s=>s.mh).FirstOrDefault();
+                return Json(MH);
+            }
+            catch (Exception ex)
+            {
                 ViewBag.Error = ex.Message;
                 Console.WriteLine("Error" + ex.Message);
             }

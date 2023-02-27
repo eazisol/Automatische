@@ -1025,6 +1025,15 @@ namespace DrawingTheme {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to PE exceed max water source m³/h now draw new one!.
+        /// </summary>
+        public static string PEexceedmaxwatersourcenowdrawnewone_ {
+            get {
+                return ResourceManager.GetString("PEexceedmaxwatersourcenowdrawnewone!", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Pending Amount.
         /// </summary>
         public static string PendingAmount {
@@ -1525,6 +1534,15 @@ namespace DrawingTheme {
         public static string Totallength {
             get {
                 return ResourceManager.GetString("Totallength", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Total output.
+        /// </summary>
+        public static string Totaloutput {
+            get {
+                return ResourceManager.GetString("Totaloutput", resourceCulture);
             }
         }
         

@@ -106,9 +106,14 @@
           <Property Name="UniqueId" Type="nvarchar" MaxLength="500" />
           <Property Name="IWLength" Type="float" />
           <Property Name="PELength" Type="float" />
+          <Property Name="PEMH" Type="float" />
           <Property Name="PEHPipe" Type="int" />
           <Property Name="PEFPipe" Type="int" />
           <Property Name="PETPipe" Type="int" />
+          <Property Name="DLLength" Type="float" />
+          <Property Name="DLHPipe" Type="int" />
+          <Property Name="DLFPipe" Type="int" />
+          <Property Name="DLTPipe" Type="int" />
           <Property Name="Qty" Type="int" />
           <Property Name="mh" Type="float" />
           <Property Name="CoverAngle" Type="float" />
@@ -118,6 +123,7 @@
           <Property Name="InstallationLocation" Type="nvarchar" MaxLength="50" />
           <Property Name="ControlOption" Type="nvarchar" MaxLength="50" />
           <Property Name="isSmartPhone" Type="bit" />
+          <Property Name="CircleNo" Type="int" />
         </EntityType>
         <EntityType Name="tblRole">
           <Key>
@@ -917,6 +923,12 @@
           <Property Name="InstallationLocation" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="ControlOption" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="isSmartPhone" Type="Boolean" />
+          <Property Name="CircleNo" Type="Int32" />
+          <Property Name="PEMH" Type="Double" />
+          <Property Name="DLLength" Type="Double" />
+          <Property Name="DLHPipe" Type="Int32" />
+          <Property Name="DLFPipe" Type="Int32" />
+          <Property Name="DLTPipe" Type="Int32" />
         </EntityType>
         <Association Name="FK_tblOrderDetail_tblOrder">
           <End Type="AutomatischeModel.tblOrder" Role="tblOrder" Multiplicity="0..1" />
@@ -1184,6 +1196,12 @@
           <EntitySetMapping Name="tblOrderDetails">
             <EntityTypeMapping TypeName="AutomatischeModel.tblOrderDetail">
               <MappingFragment StoreEntitySet="tblOrderDetail">
+                <ScalarProperty Name="DLTPipe" ColumnName="DLTPipe" />
+                <ScalarProperty Name="DLFPipe" ColumnName="DLFPipe" />
+                <ScalarProperty Name="DLHPipe" ColumnName="DLHPipe" />
+                <ScalarProperty Name="DLLength" ColumnName="DLLength" />
+                <ScalarProperty Name="PEMH" ColumnName="PEMH" />
+                <ScalarProperty Name="CircleNo" ColumnName="CircleNo" />
                 <ScalarProperty Name="isSmartPhone" ColumnName="isSmartPhone" />
                 <ScalarProperty Name="ControlOption" ColumnName="ControlOption" />
                 <ScalarProperty Name="InstallationLocation" ColumnName="InstallationLocation" />

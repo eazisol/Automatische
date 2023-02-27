@@ -38,6 +38,12 @@ namespace DrawingTheme.Models
         public string InstallationLocation { get; set; }
         public string ControlOption { get; set; }
         public Nullable<bool> isSmartPhone { get; set; }
+        public Nullable<int> CircleNo { get; set; }
+        public Nullable<double> PEMH { get; set; }
+        public Nullable<double> DLLength { get; set; }
+        public Nullable<int> DLHPipe { get; set; }
+        public Nullable<int> DLFPipe { get; set; }
+        public Nullable<int> DLTPipe { get; set; }
     
         public virtual tblOrder tblOrder { get; set; }
         public virtual tblSubCategory tblSubCategory { get; set; }
