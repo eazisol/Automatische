@@ -19,16 +19,25 @@
         display: none !important;
     }
     #Area:hover {
-        color: black !important;
+        /*color: black !important;*/
+        border-color: #6c757d;
+        background-color: #6c757d !important;
+        border: 1px solid #4CAF50 !important;
     }
     #DryArea:hover {
-        color: black !important;
+        /*color: black !important;*/
+        background-color: #6c757d !important;
+        border: 1px solid #998a5c !important;
     }
     #Hedge:hover {
-        color: black !important;
+        /*color: black !important;*/
+        background-color: #6c757d !important;
+        border: 1px solid #9b71ff !important;
     }
     #GetWet:hover {
-        color: black !important;
+        /*color: black !important;*/
+        background-color: #6c757d;
+        border: 1px solid #4CAF50;
     }
     .MouserChangeToPointer {
         cursor: pointer;
@@ -49,7 +58,7 @@
 
             <button id="Area" class="btn btn-success ml-2 mr-2 " onclick="SaveData(4)" data-radius="30" data-width="100" data-height="40" data-angle="180" data-rotation="45">@Resources.Lawn</button>
             <button id="DryArea" class="btn  mr-2 text-white" style="background-color: #998a5c; " onclick="SaveData(5)" data-radius="30" data-width="100" data-height="40" data-angle="180" data-rotation="45">@Resources.DryArea</button>
-            <button id="Hedge" class="btn  mr-2 text-white" style="background-color: #D2BFFF; " onclick="SaveData(6)" data-radius="30" data-width="100" data-height="40" data-angle="180" data-rotation="45">@Resources.Hedge</button>
+            <button id="Hedge" class="btn  mr-2 text-white" style="background-color: #9b71ff; " onclick="SaveData(6)" data-radius="30" data-width="100" data-height="40" data-angle="180" data-rotation="45">@Resources.Hedge</button>
             @*<button id="GetWet" class="btn  mr-2 text-white" style="background-color: rgba(111, 187, 211, .8); " onclick="SaveData(9)" data-radius="30" data-width="100" data-height="40" data-angle="180" data-rotation="45">@Resources.GetWet </button>*@
             @*<button id="" class="btn  mr-2 text-white" style="background-color: rgba(111, 187, 211, .8); " onclick="SprinklerCount()" >SprinklerCount</button>*@
 
@@ -1173,7 +1182,7 @@
 
     stage.on('mouseover', (e) => {
 
-
+        
         var UniqueId = e.target.id().replace("Arc", "Sprinkler");
 
 
@@ -2411,6 +2420,8 @@
         isFinished = true;
         var node = layer.findOne('#' + Ltext);
         node.destroy();
+        var node = layer.findOne('#SRect' + SI);
+        node.destroy();
         $("#EndPE").hide();
 
         CurrentObjId = "";
@@ -2784,7 +2795,7 @@
             node.on('mouseover', (e) => {
                 stage.container().style.cursor = 'pointer';
             });
-            node.draggable(false);
+            //node.draggable(false);
         }
         var node = layer.findOne('#' + UniqueId.replace("Tap", "TTap"));
         if (node != null) {
@@ -5056,12 +5067,15 @@
                                                 return;
                                             }
                                             else {
-                                                isOverOnStarting = true;
-
+                                                if (EditLine.name() != "PE Pipeline" && EditLine.name() != "Irrigation Wiring" && EditLine.name() != "Dripline") {
+                                                    isOverOnStarting = true;
+                                                }
+                                            }
+                                            if (EditLine.name() != "PE Pipeline" && EditLine.name() != "Irrigation Wiring" && EditLine.name() != "Dripline") {
+                                                EditLine.closed(true);
                                             }
 
-
-                                            EditLine.closed(true);
+                                           
                                             if (EditLine.name() == "Area") {
                                                 EditLine.fill("rgba(34, 255, 0, 0.3)");
 
@@ -5116,7 +5130,10 @@
                                             //console.log(LineId);
                                             var EditLine = layer.findOne('#' + LineId);
                                             //var EditLine = layer.findOne('#' + CurrentObjId);
-                                            EditLine.closed(true);
+                                           
+                                            if (EditLine.name() != "PE Pipeline" && EditLine.name() != "Irrigation Wiring" && EditLine.name() != "Dripline") {
+                                                EditLine.closed(true);
+                                            }
                                             if (EditLine.name() == "Area") {
                                                 EditLine.fill("rgba(34, 255, 0, 0.3)");
 
@@ -5296,12 +5313,13 @@
                                         return;
                                     }
                                     else {
-                                        isOverOnStarting = true;
-
+                                        if (EditLine.name() != "PE Pipeline" && EditLine.name() != "Irrigation Wiring" && EditLine.name() != "Dripline") {
+                                            isOverOnStarting = true;
+                                        }
                                     }
-
-
-                                    EditLine.closed(true);
+                                    if (EditLine.name() != "PE Pipeline" && EditLine.name() != "Irrigation Wiring" && EditLine.name() != "Dripline") {
+                                        EditLine.closed(true);
+                                    }
                                     if (EditLine.name() == "Area") {
                                         EditLine.fill("rgba(34, 255, 0, 0.3)");
 
@@ -5357,7 +5375,10 @@
                                     //console.log(LineId);
                                     var EditLine = layer.findOne('#' + LineId);
                                     //var EditLine = layer.findOne('#' + CurrentObjId);
-                                    EditLine.closed(true);
+                                    
+                                    if (EditLine.name() != "PE Pipeline" && EditLine.name() != "Irrigation Wiring" && EditLine.name() != "Dripline") {
+                                        EditLine.closed(true);
+                                    }
                                     if (EditLine.name() == "Area") {
                                         EditLine.fill("rgba(34, 255, 0, 0.3)");
 
@@ -5536,12 +5557,13 @@
                                         return;
                                     }
                                     else {
-                                        isOverOnStarting = true;
-
+                                        if (EditLine.name() != "PE Pipeline" && EditLine.name() != "Irrigation Wiring" && EditLine.name() != "Dripline") {
+                                            isOverOnStarting = true;
+                                        }
                                     }
-
-
-                                    EditLine.closed(true);
+                                    if (EditLine.name() != "PE Pipeline" && EditLine.name() != "Irrigation Wiring" && EditLine.name() != "Dripline") {
+                                        EditLine.closed(true);
+                                    }
                                     if (EditLine.name() == "Area") {
                                         EditLine.fill("rgba(34, 255, 0, 0.3)");
 
@@ -5597,7 +5619,10 @@
                                     //console.log(LineId);
                                     var EditLine = layer.findOne('#' + LineId);
                                     //var EditLine = layer.findOne('#' + CurrentObjId);
-                                    EditLine.closed(true);
+                                    
+                                    if (EditLine.name() != "PE Pipeline" && EditLine.name() != "Irrigation Wiring" && EditLine.name() != "Dripline") {
+                                        EditLine.closed(true);
+                                    }
                                     if (EditLine.name() == "Area") {
                                         EditLine.fill("rgba(34, 255, 0, 0.3)");
 
@@ -5722,7 +5747,7 @@
 
                 }
                 else {
-                    UnSelectObj(CurrentObjId);
+                   
                     var LineId = 0;
                     //if (id[0] == "R") {
                     //    LineId = FindIndex(id);
@@ -5739,22 +5764,23 @@
                     if (line.name() != "Irrigation Wiring" && line.name() != "PE Pipeline" && line.name() != "Dripline") {
                         isDraw = false;
                         if (isFinished == false) {
+                            UnSelectObj(CurrentObjId);
                             //console.log(isFinished);
                             point1=line.points().pop();
                             point2=line.points().pop();
                             isFinished = true;
                             line.closed(true);
-                            var RectID = StartRect[Number(Number(id.replace("Line", "")) - 1)];
-                            //console.log(RectID);
-                            var SRect = layer.findOne('#' + RectID.replace("Rect", "SRect"));
+                            //var RectID = StartRect[Number(Number(id.replace("Line", "")) - 1)];
+
+                            var SRect = layer.findOne('#' + id.replace("Line", "SRect"));
                             if (SRect != null) {
                                 //console.log(StartRect);
                                 //var srecId = StartRect[Number(Number(id.replace("Line", "")) - 1)];
                                 //console.log(RectID);
                                 //var srec = layer.findOne('#' + srecId);
-                                var srec = layer.findOne('#' + RectID);
-                                srec.off('mouseover');
-                                srec.on('mouseover', (e) => {
+                                //var srec = layer.findOne('#' + RectID);
+                                SRect.off('mouseover');
+                                SRect.on('mouseover', (e) => {
                                     stage.container().style.cursor = 'move';
                                 });
                                 SRect.destroy();
@@ -5775,7 +5801,7 @@
                             else if (line.name() == "Hedge") {
                                 line.fill("rgba(210,191,255,0.3)");
                                 $("#Hedge").css("border", "");
-                                $("#Hedge").css("background-color", "rgb(210, 191, 255,1)");
+                                $("#Hedge").css("background-color", "#9b71ff");
                                 CurrentObjId = "";
                             }
                             else if (line.name() == "GetWet") {
@@ -5784,6 +5810,7 @@
                                 $("#GetWet").css("background-color", "rgb(111, 187, 211,0.8)");
                                 CurrentObjId = "";
                             }
+                            
                         }
 
                     }
@@ -6637,6 +6664,7 @@
 
             function MouseMoveHandler() {
                 //  //var id = 0;
+               
                 if (!isDraw) {
                     //poly.closed = true;
                     return false;
@@ -6648,8 +6676,7 @@
                     //}
                     //console.log(CurrentObjId);
                     var line = layer.findOne('#' + id);
-                    if (isOutArea == false || line.name() == "Hedge" || line.name() == "Irrigation Wiring" || line.name() == "PE Pipeline") {
-
+                    if (isOutArea == false || line.name() == "Hedge" || line.name() == "Irrigation Wiring" || line.name() == "PE Pipeline" || line.name() == "Dripline") {
                         var points = line.points();
                         if (isFirstMouseMove == false) {
                             points.pop();
@@ -6869,6 +6896,10 @@
                 if (FirstId != undefined && FirstId != "") {
                     LastId = FindLastId(FirstId);
                     var CheckId = layer.findOne('#' + CLastId);
+                    var Srec = layer.findOne('#' + CLastId.replace("Line", "SRect"));
+                    if (Srec != null) {
+                        Srec.destroy();
+                    }
                    
                     for (var i = Number(FirstId.replace("Rect", "")); i <= Number(LastId.replace("Rect", "")); i++) {
                         var node = layer.findOne('#Rect' + i);
@@ -7017,7 +7048,7 @@
             }
             else if (node.name() == "Hedge") {
                 $("#Hedge").css("border", "");
-                $("#Hedge").css("background-color", "rgb(210, 191, 255,1)");
+                $("#Hedge").css("background-color", "#9b71ff");
                 CurrentObjId = "";
             }
             else if (node.name() == "GetWet") {
@@ -8117,6 +8148,8 @@
                         isFinished = true;
                         var node = layer.findOne('#' + Ltext);
                         node.destroy();
+                        var node = layer.findOne('#SRect' + SI);
+                        node.destroy();
                         $("#EndPE").hide();
 
 
@@ -8439,11 +8472,9 @@
 
 
             if (CLastId[0] == 'L') {
-
-
                 var temp = Number(CLastId.replace("Line", ""));
-                FirstId = StartRect[temp - 1];
-                LastId = FindLastId(FirstId);
+                var FirstId = StartRect[temp - 1];
+                var LastId = FindLastId(FirstId);
 
 
                 var CheckId = layer.findOne('#' + CLastId);
