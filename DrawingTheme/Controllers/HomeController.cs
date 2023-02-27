@@ -48,7 +48,7 @@ namespace DrawingTheme.Controllers
                 ViewBag.TotalSuccessfull = DB.tblOrders.Where(x => x.Status == 1).ToList().Count();
                 ViewBag.TotalPending = DB.tblOrders.Where(x => x.Status == 0  || x.Status == null).ToList().Count();
                 ViewBag.TotalCustomer = DB.tblUsers.Where(x => x.RoleId == 2).ToList().Count();
-                ViewBag.TotalComponent = DB.tblComponents.Where(x => x.isActive == true).ToList().Count();
+                ViewBag.TotalComponent = DB.tblSubCategories.ToList().Count();
                 ViewBag.TotalSuccessfullAmount = DB.tblOrders.Where(x => x.Status == 1).Sum(s => s.TotalPrice) ?? 0;
                 ViewBag.TotalPendingAmount = DB.tblOrders.Where(x => x.Status == 1 || x.Status == null).Sum(s => s.TotalPrice) ?? 0;
             }
@@ -58,7 +58,7 @@ namespace DrawingTheme.Controllers
                 ViewBag.TotalSuccessfull = DB.tblOrders.Where(x => x.Status == 1 && x.CreatedBy == UserId).ToList().Count();
                 ViewBag.TotalPending = DB.tblOrders.Where(x => (x.Status == 0 || x.Status == null) && x.CreatedBy == UserId).ToList().Count();
                 ViewBag.TotalCustomer = DB.tblUsers.Where(x => x.RoleId == 2).ToList().Count();
-                ViewBag.TotalComponent = DB.tblComponents.Where(x => x.isActive == true).ToList().Count();
+                ViewBag.TotalComponent = DB.tblSubCategories.ToList().Count();
                 ViewBag.TotalSuccessfullAmount = DB.tblOrders.Where(x => x.Status == 1 && x.CreatedBy == UserId).Sum(s => s.TotalPrice) ?? 0;
                 ViewBag.TotalPendingAmount = DB.tblOrders.Where(x => (x.Status == 0 || x.Status == null) && x.CreatedBy == UserId).Sum(s => s.TotalPrice) ?? 0;
 
