@@ -43,6 +43,7 @@
         cursor: pointer;
     }
 </style>
+
 <div class="row mb-2">
     <div class="container-fluid bd-example">
         <nav class="col-md-12  navbar navbar-expand-lg navbar-light light-primary-bg" style="display:block !important">
@@ -61,8 +62,10 @@
             <button id="Hedge" class="btn  mr-2 text-white" style="background-color: #9b71ff; " onclick="SaveData(6)" data-radius="30" data-width="100" data-height="40" data-angle="180" data-rotation="45">@Resources.Hedge</button>
             @*<button id="GetWet" class="btn  mr-2 text-white" style="background-color: rgba(111, 187, 211, .8); " onclick="SaveData(9)" data-radius="30" data-width="100" data-height="40" data-angle="180" data-rotation="45">@Resources.GetWet </button>*@
             @*<button id="" class="btn  mr-2 text-white" style="background-color: rgba(111, 187, 211, .8); " onclick="SprinklerCount()" >SprinklerCount</button>*@
-       
-           
+        <label class="alert  alert-dark" id="InfoAlert" style="display:initial !important;">
+            Push "lawn" or "hedge" to start sketch
+        </label>
+        
             <form style="float:right" role="form" id="payment-form" method="POST" action="@Url.Action("PaymentWithPaypal","PayPal")">
                 <span class="badge badge-warning  mr-2" style="font-size: 100% !important; background-color: #8ec746 !important; ">
                     <label id="OrderName" style="padding-top: 4% !important;"></label>
@@ -222,7 +225,7 @@
                 <h4>@Resources.Property </h4>
 
             </div>
-            <div class="alert alert-danger" id="message"" role="alert" style="display:none;">
+            <div class="alert alert-danger" id="message" role="alert" style="display:none;">
                 @Resources.PEexceedmaxwatersourcenowdrawnewone_
             </div>
             <div class="alert alert-danger" id="MaxPEMHError" role="alert" style="display:none;">
@@ -304,6 +307,15 @@
 
                     <label>@Resources.AmountOfWater <small>m³/h</small></label>
                     <input class="form-control" type="text" name="AmountOfWater" id="AmountOfWater" value="2" />
+                    <label class="alert  alert-info" id="InfoAlertForDW">
+                        Drinking water: 0.8m³/h - 2m³/h
+                    </label>
+                    <label class="alert  alert-info" id="InfoAlertForWW" style="display:none;">
+                        Well Water and Rain Water: 1.5m³/h – 3.0m³/h
+                    </label>
+                    <label class="alert  alert-warning" id="AAlertForDW" >
+                        <b>Attention!</b> water source requires a drinking water separation station acc. to DIN EN1717
+                    </label>
                     @*<button class="btn btn-sm btn-secondary fa fa-lock" id="EndTap" style="display:none;">End Tap</button>*@
                 </div>
                 <div id="IWPD" class="IWPD" style="display:none;">
@@ -2253,7 +2265,8 @@
 
 
 
-    $("body").on("click", "#IW", function () {
+        $("body").on("click", "#IW", function () {
+            $("#InfoAlert").text('Push "Drip line", "Proceed" to go to bill of material and order or "Save plan as PDF"');
         if (CurrentObjId != null && CurrentObjId != "") {
             if (CurrentObjId[0] == "L") {
                 $("#UndoCanvas").click();
@@ -2373,7 +2386,16 @@
 
 
 
-    $("body").on("click", "#PE", function () {
+        $("body").on("click", "#PE", function () {
+            console.log(PEColorCounter);
+            if (PEColorCounter == 0) {
+                $("#InfoAlert").text('Sketch connection of water source to valve box first and then push again PE Pipeline');
+                
+            }
+            else {
+                $("#InfoAlert").text('Push "PE Pipeline" to sketch the irrigation circles connect from valve box to sprinkler mid point or push "Computer"');
+            }
+            
         if (CurrentObjId != null && CurrentObjId != "") {
             if (CurrentObjId[0] == "L") {
                 $("#UndoCanvas").click();
@@ -2536,7 +2558,8 @@
     });
 
 
-    $("body").on("click", "#DL", function () {
+        $("body").on("click", "#DL", function () {
+            $("#InfoAlert").text('Push "Proceed" to go to bill of material and order or "Save plan as PDF"');
         if (CurrentObjId != null && CurrentObjId != "") {
             if (CurrentObjId[0] == "L") {
                 $("#UndoCanvas").click();
@@ -2747,6 +2770,9 @@
         //    UndoArray.push(yoda.id());
         //};
         //imageObj.src = '/assets/images/ecommerce/Tap.png';
+
+        $("#InfoAlert").text('Push "Sprinkler" to position the sprinklers');
+
         if (CurrentObjId != null && CurrentObjId != ""&& CurrentObjId != "T") {
             if (CurrentObjId[0] == "L") {
                 $("#UndoCanvas").click();
@@ -2975,7 +3001,9 @@
 
 
 
-    $("body").on("click", "#IC", function () {
+        $("body").on("click", "#IC", function () {
+            $("#InfoAlert").text('Push "irrigation wiring" to sketch the irrigation wires');
+            
         $("#IC").prop("disabled", true);
         //var SprinklerCounr = $("#SprinklerCount").val();
         //alert(SprinklerCounr);
@@ -3224,7 +3252,8 @@
     });
 
 
-    $("body").on("click", "#VB", function () {
+        $("body").on("click", "#VB", function () {
+            $("#InfoAlert").text('Push "PE Pipeline" to sketch the irrigation circles');
         //var imageObj = new Image();
         //imageObj.onload = function () {
         //    var yoda = new Konva.Image({
@@ -3528,7 +3557,7 @@
 
     $("body").on("click", "#RSP,#Sprinkler1,#Sprinkler2", function () {
         ////console.log(CurrentObjId);
-
+        $("#InfoAlert").text('Push "Sprinkler" to position the sprinklers or push "valve box"');
 
         if (CurrentObjId != "" && (CurrentObjId[0] != "S" && CurrentObjId[1] != "p")) {
             if (CurrentObjId[0] == "L") {
@@ -4284,7 +4313,8 @@
     });
 
 
-    $("body").on("click", "#SSP", function () {
+        $("body").on("click", "#SSP", function () {
+            $("#InfoAlert").text('Push "Sprinkler" to position the sprinklers or push "valve box"');
         if (CurrentObjId != null && CurrentObjId != "") {
             if (CurrentObjId[0] == "L") {
                 $("#UndoCanvas").click();
@@ -4801,1138 +4831,1149 @@
         e.evt.preventDefault();
     });
 
-    function MouseDownHandler(e) {
-        ////console.log(e.target.offsetX(50));
-            //////console.log(this);
-            //if (this.pointerClickStartShape != undefined) {
-            //    id = this.pointerClickStartShape.attrs.id;
-            //    ////console.log(id);
-            //    //if (id[0]=="R") {
-            //    //    id = FindIndex(id);
-            //    //}
-            //}
-            if (isOverOnStarting == false && isFinished == false) {
-                if (CurrentObjName == "Sprinkler") {
-                    var circle = layer.findOne('#' + id);
+        function MouseDownHandler(e) {
+           /* try {*/
+                ////console.log(e.target.offsetX(50));
+                //////console.log(this);
+                //if (this.pointerClickStartShape != undefined) {
+                //    id = this.pointerClickStartShape.attrs.id;
+                //    ////console.log(id);
+                //    //if (id[0]=="R") {
+                //    //    id = FindIndex(id);
+                //    //}
+                //}
+                if (isOverOnStarting == false && isFinished == false) {
+                    if (CurrentObjName == "Sprinkler") {
+                        var circle = layer.findOne('#' + id);
 
-                    var Position = stage.getPointerPosition();
-                    circle.x(Position.x);
-                    circle.y(Position.y);
+                        var Position = stage.getPointerPosition();
+                        circle.x(Position.x);
+                        circle.y(Position.y);
 
 
 
-                    var cir = new Konva.Circle({
-                        x: Position.x - circle.radius(),
-                        y: Position.y ,
-                        radius: 5,
-                        //fill: 'red',
-                        stroke: 'black',
-                        strokeWidth: 1,
-                        id: id.replace("Sprinkler","Circle"),
-                        draggable: true,
-                    });
-
-                    cir.on('dragmove', (e) => {
-
-
-                        //var sprinkler = layer.findOne('#' + e.target.id().replace("Circle", "Sprinkler"));
-                        //// update nodes from the new state
-                        ////////console.log(e);
-                        //e.target.y(sprinkler.y());
-                        updateSprinkler(e.target.id());
-
-                    });
-
-                    layer.add(cir);
-
-                    var cirFill = new Konva.Circle({
-                        x: Position.x + circle.radius(),
-                        y: Position.y ,
-                        radius: 5,
-                        //fill: 'red',
-                        stroke: 'black',
-                        strokeWidth: 1,
-                        id: id.replace("Sprinkler", "FillCircle"),
-                        draggable: true,
-                    });
-
-                    cirFill.on('dragmove', (e) => {
-
-                        // update nodes from the new state
-
-                        //var sprinkler = layer.findOne('#' + e.target.id().replace("FillCircle", "Sprinkler"));
-                        //var x1 = e.target.x();
-                        //var y1 = e.target.y();
-                        //var x2 = sprinkler.x();
-                        //var y2 = sprinkler.y();
-
-                        //var dx = x1 - x2;
-                        //var dy = y1 - y2;
-                        //var Sumsqr = Math.pow(dx, 2);
-                        //Sumsqr += Math.pow(dy, 2);
-                        //var Distance = Math.sqrt(Sumsqr);
-                        //var Radius = sprinkler.radius();
-
-
-                        //////console.log(Distance + " " + Radius);
-                        //if (Distance > Radius+3 || Distance < Radius-3) {
-                        //    e.target.draggable(false);
-                        //    e.target.x(x2 + Radius);
-                        //    e.target.y(y2);
-                        //}
-
-                        /*////console.log(e);*/
-                        //updateSprinkler(e.target.id());
-
-
-
-                        //var x1 = 0;
-                        //var y1 = 0;
-                        //var x2 = 0;
-                        //var y2 = 0;
-                        //var Sprinkler = layer.findOne('#' + e.target.id().replace("FillCircle", "Sprinkler"));
-                        //x1 = e.target.x();
-                        //y1 = e.target.y();
-                        //x2 = Sprinkler.x();
-                        //y2 = Sprinkler.y();
-                        //dx = x1 - x2;
-                        //dy = y1 - y2;
-                        //var angleRad1 = Math.atan2(dy, dx);
-                        //var angleDeg1 = angleRad1 * 180 / Math.PI;
-                        //angleDeg1 = (360 + (angleDeg1)) % 360;
-
-                        //////console.log("Drag Angle " + angleDeg1);
+                        var cir = new Konva.Circle({
+                            x: Position.x - circle.radius(),
+                            y: Position.y ,
+                            radius: 5,
+                            //fill: 'red',
+                            stroke: 'black',
+                            strokeWidth: 1,
+                            id: id.replace("Sprinkler","Circle"),
+                            draggable: true,
+                        });
+
+                        cir.on('dragmove', (e) => {
+
+
+                            //var sprinkler = layer.findOne('#' + e.target.id().replace("Circle", "Sprinkler"));
+                            //// update nodes from the new state
+                            ////////console.log(e);
+                            //e.target.y(sprinkler.y());
+                            updateSprinkler(e.target.id());
+
+                        });
+
+                        layer.add(cir);
+
+                        var cirFill = new Konva.Circle({
+                            x: Position.x + circle.radius(),
+                            y: Position.y ,
+                            radius: 5,
+                            //fill: 'red',
+                            stroke: 'black',
+                            strokeWidth: 1,
+                            id: id.replace("Sprinkler", "FillCircle"),
+                            draggable: true,
+                        });
+
+                        cirFill.on('dragmove', (e) => {
+
+                            // update nodes from the new state
+
+                            //var sprinkler = layer.findOne('#' + e.target.id().replace("FillCircle", "Sprinkler"));
+                            //var x1 = e.target.x();
+                            //var y1 = e.target.y();
+                            //var x2 = sprinkler.x();
+                            //var y2 = sprinkler.y();
+
+                            //var dx = x1 - x2;
+                            //var dy = y1 - y2;
+                            //var Sumsqr = Math.pow(dx, 2);
+                            //Sumsqr += Math.pow(dy, 2);
+                            //var Distance = Math.sqrt(Sumsqr);
+                            //var Radius = sprinkler.radius();
+
+
+                            //////console.log(Distance + " " + Radius);
+                            //if (Distance > Radius+3 || Distance < Radius-3) {
+                            //    e.target.draggable(false);
+                            //    e.target.x(x2 + Radius);
+                            //    e.target.y(y2);
+                            //}
+
+                            /*////console.log(e);*/
+                            //updateSprinkler(e.target.id());
+
+
+
+                            //var x1 = 0;
+                            //var y1 = 0;
+                            //var x2 = 0;
+                            //var y2 = 0;
+                            //var Sprinkler = layer.findOne('#' + e.target.id().replace("FillCircle", "Sprinkler"));
+                            //x1 = e.target.x();
+                            //y1 = e.target.y();
+                            //x2 = Sprinkler.x();
+                            //y2 = Sprinkler.y();
+                            //dx = x1 - x2;
+                            //dy = y1 - y2;
+                            //var angleRad1 = Math.atan2(dy, dx);
+                            //var angleDeg1 = angleRad1 * 180 / Math.PI;
+                            //angleDeg1 = (360 + (angleDeg1)) % 360;
+
+                            //////console.log("Drag Angle " + angleDeg1);
 
 
 
-                        updateSprinkler(e.target.id());
+                            updateSprinkler(e.target.id());
 
 
-                    });
+                        });
 
-                    layer.add(cirFill);
+                        layer.add(cirFill);
 
 
 
 
-                    var ArcCir = new Konva.Arc({
-                        x: Position.x,
-                        y: Position.y,
-                        innerRadius: circle.radius(),
-                        angle: 180,
-                        fill: 'lightblue',
-                        stroke: 'black',
-                        strokeWidth: 0,
-                        id: id.replace("Sprinkler", "Arc"),
-                        //draggable: true,
-                        listening: false,
-                        rotation: 0,
-                    });
+                        var ArcCir = new Konva.Arc({
+                            x: Position.x,
+                            y: Position.y,
+                            innerRadius: circle.radius(),
+                            angle: 180,
+                            fill: 'lightblue',
+                            stroke: 'black',
+                            strokeWidth: 0,
+                            id: id.replace("Sprinkler", "Arc"),
+                            //draggable: true,
+                            listening: false,
+                            rotation: 0,
+                        });
 
-                    //var arc = new Konva.Arc({
-                    //    x: Position.x,
-                    //    y: Position.y - 20,
-                    //    innerRadius: circle.radius(),
-                    //    angle: 60,
-                    //    fill: 'yellow',
-                    //    stroke: 'black',
-                    //    strokeWidth: 4,
-                    //    id: id.replace("Sprinkler", "arc"),
-                    //    draggable: true,
-                    //});
-
-
-                    layer.add(ArcCir);
-
-
-                    isFinished = true;
-                }
-                else if (CurrentObjName == "RectangularSprinkler")
-                {
-                    //var circle = layer.findOne('#' + id);
-
-                    //var Position = stage.getPointerPosition();
-                    //circle.x(Position.x);
-                    //circle.y(Position.y);
-
-                    //var cir = new Konva.Circle({
-                    //    x: Position.x ,
-                    //    y: Position.y,
-                    //    radius: 5,
-                    //    //fill: 'red',
-                    //    stroke: 'black',
-                    //    strokeWidth: 1,
-                    //    id: id.replace("RectangularSprinkler", "RSCircle"),
-                    //    draggable: true,
-                    //});
+                        //var arc = new Konva.Arc({
+                        //    x: Position.x,
+                        //    y: Position.y - 20,
+                        //    innerRadius: circle.radius(),
+                        //    angle: 60,
+                        //    fill: 'yellow',
+                        //    stroke: 'black',
+                        //    strokeWidth: 4,
+                        //    id: id.replace("Sprinkler", "arc"),
+                        //    draggable: true,
+                        //});
 
-                    //cir.on('pointerclick', (e) => {
+
+                        layer.add(ArcCir);
+
+
+                        isFinished = true;
+                    }
+                    else if (CurrentObjName == "RectangularSprinkler")
+                    {
+                        //var circle = layer.findOne('#' + id);
 
-                    //    //////console.log(e.evt.button);
+                        //var Position = stage.getPointerPosition();
+                        //circle.x(Position.x);
+                        //circle.y(Position.y);
 
-                    //    if (e.evt.button === 0) {
-                    //            var Sprinkler = layer.findOne('#' + e.target.id().replace("RSCircle", "RectangularSprinkler"));
-                    //            Sprinkler.rotation(Sprinkler.rotation() + 1);
+                        //var cir = new Konva.Circle({
+                        //    x: Position.x ,
+                        //    y: Position.y,
+                        //    radius: 5,
+                        //    //fill: 'red',
+                        //    stroke: 'black',
+                        //    strokeWidth: 1,
+                        //    id: id.replace("RectangularSprinkler", "RSCircle"),
+                        //    draggable: true,
+                        //});
 
-                    //    }
-                    //    else if (e.evt.button === 2) {
+                        //cir.on('pointerclick', (e) => {
 
-                    //        var Sprinkler = layer.findOne('#' + e.target.id().replace("RSCircle", "RectangularSprinkler"));
-                    //        Sprinkler.rotation(Sprinkler.rotation() - 1);
-                    //    }
-
-                    //});
-
-                    //cir.on('dragmove', (e) => {
-                    //    //updateRSSprinkler(e.target.id());
+                        //    //////console.log(e.evt.button);
 
-                    //    var Sprinkler = layer.findOne('#' + e.target.id().replace("RSCircle", "RectangularSprinkler"));
-                    //    Sprinkler.x(e.target.x());
-                    //    Sprinkler.y(e.target.y());
-                    //});
-
-                    //layer.add(cir);
-                    //    var Sprinkler = layer.findOne('#' + id);
+                        //    if (e.evt.button === 0) {
+                        //            var Sprinkler = layer.findOne('#' + e.target.id().replace("RSCircle", "RectangularSprinkler"));
+                        //            Sprinkler.rotation(Sprinkler.rotation() + 1);
 
-                    //var transformer = new Konva.Transformer({
-                    //    nodes: [Sprinkler, cir],
-                    //    rotateAnchorOffset: 60,
-                    //    enabledAnchors: ['top-left', 'top-right', 'bottom-left', 'bottom-right'],
-                    //    id: id.replace("RectangularSprinkler", "TRS")
-                    //});
-                    //layer.add(transformer);
+                        //    }
+                        //    else if (e.evt.button === 2) {
 
-                    //transformer.anchorCornerRadius(10);
-                    //transformer.borderEnabled(false);
-                    //transformer.resizeEnabled(false);
-                    //transformer.rotateAnchorOffset(0);
+                        //        var Sprinkler = layer.findOne('#' + e.target.id().replace("RSCircle", "RectangularSprinkler"));
+                        //        Sprinkler.rotation(Sprinkler.rotation() - 1);
+                        //    }
 
-                    //transformer.stopTransform(true);
-                    //var cirFill = new Konva.Circle({
-                    //    x: Position.x ,
-                    //    y: Position.y,
-                    //    radius: 5,
-                    //    //fill: 'red',
-                    //    stroke: 'black',
-                    //    strokeWidth: 1,
-                    //    id: id.replace("Sprinkler", "FillRSCircle"),
-                    //    draggable: true,
-                    //});
-
-                    //cirFill.on('pointerclick', (e) => {
-                    //    e.target.rotation(e.target.rotation + 1);
-                    //});
+                        //});
 
-                    //cirFill.on('pointerdblclick', (e) => {
-                    //    e.target.rotation(e.target.rotation + 1);
-                    //});
-
-                    //cirFill.on('dragmove', (e) => {
-                    //    //updateRSSprinkler(e.target.id());
-                    //});
-
-                    //layer.add(cirFill);
-
-                    //var ArcCir = new Konva.Arc({
-                    //    x: Position.x,
-                    //    y: Position.y,
-                    //    innerRadius: circle.radius(),
-                    //    angle: 180,
-                    //    fill: 'lightblue',
-                    //    stroke: 'black',
-                    //    strokeWidth: 0,
-                    //    id: id.replace("Sprinkler", "Arc"),
-                    //    //draggable: true,
-                    //    listening: false,
-                    //    rotation: 0,
-                    //});
-
-
-                    //layer.add(ArcCir);
-
-
-                    isFinished = true;
-                }
-                else if (id[0] == 'L') {
+                        //cir.on('dragmove', (e) => {
+                        //    //updateRSSprinkler(e.target.id());
 
-                    ////console.log("stage.scaleX(): " + stage.scaleX() + "stage.scaleY(): " + stage.scaleY());
-                    ////console.log(id);
-                    var line = layer.findOne('#' + id);
-                    //console.log(line);
-                    ////console.log(isInArea);
-                    if (isInArea == true || (line.name() != "DryArea" && line.name() != "GetWet")) {
-
-                        if (line.name() == "PE Pipeline" && e.target.id().indexOf("MoveCircle") != -1) {
-
-
-                            var UniqueId = e.target.id().replace("MoveCircle", "Sprinkler");
-                            var OrderId = $("#OrderId").val();
-
-                            var model = {
-                                UniqueId: UniqueId,
-                                OrderId: OrderId,
-                            };
-
-                            $.ajax({
-                                type: "POST",
-                                url: "@Url.Action("GetSprinklerMH", "Customer")",
-                                data: JSON.stringify(model),
-                                contentType: "application/json; charset=utf-8",
-                                dataType: "json",
-                                success: function (r) {
-                                    $("#PEMH").text(Number(Number($("#PEMH").text()) + r));
-
-
-                                    var TAPMHVal = $("#TAPMHVal").val();
-                                    var Minus = TAPMHVal * 0.3;
-                                    var AfterMinus = TAPMHVal - Minus;
-
-                                    if (Number($("#PEMH").text()) > Number(AfterMinus)) {
-                                        $("#MaxPEMHError").fadeIn();
-                                        $("#MaxPEMHError").fadeOut(10000);
-                                        $("#PEMH").text(Number(Number($("#PEMH").text()) - r));
-
-
-                                        $("#EndPE").click();
-
-                                        return;
-                                    }
-
-
-
-                                    var points = line.points();
-                                    if (isStartLine == true) {
-
-                                        points.pop();
-                                        points.pop();
-                                        //points.pop();
-                                        //points.pop();
-                                    }
-                                    isDraw = true;
-                                    var Position = stage.getPointerPosition();
-                                    //console.log(stage.getPointerPosition());
-                                    //var Position = getAdjustedPointerPosition(stage, stage.getPointerPosition(), Oldscale2, scale2, OldPosition, stage.position());
-                                    //console.log(Position);
-                                    ////console.log("Before " + + Position.x  + " " + Position.y );
-                                    ////console.log("After " + Position.x / stage.scaleX()+" "+ Position.y / stage.scaleY() );
-                                    //Points.push(Position.x, Position.y);
-                                    points.push(Position.x, Position.y);
-                                    line.points(points);
-                                    //////console.log(line.points());
-
-
-                                    rect = new Konva.Rect({
-                                        x: Position.x - 5,
-                                        y: Position.y - 5,
-                                        width: 10,
-                                        height: 10,
-                                        name: "Rect" + Name + "",
-                                        id: "Rect" + Name + "",
-                                        //fill: 'green',
-                                        stroke: 'red',
-                                        strokeWidth: 2,
-                                        draggable: true,
-                                    });
-
-
-                                    rect.on('mouseover', (e) => {
-                                        stage.container().style.cursor = 'move';
-                                    });
-
-                                    rect.on('mouseout', (e) => {
-                                        stage.container().style.cursor = 'default';
-                                    });
-
-                                    if (isStartLine == true) {
-                                        rect.off('mouseover');
-                                        rect.on('mouseover', (e) => {
-                                            stage.container().style.cursor = 'pointer';
-                                        });
-
-                                        StartRect.push(rect.id());
-
-                                        isStartLine = false;
-
-
-                                        Srect = new Konva.Rect({
-                                            x: Position.x - 10,
-                                            y: Position.y - 10,
-                                            width: 20,
-                                            height: 20,
-                                            name: "SRect" + SRName + "",
-                                            id: "SRect" + SRName + "",
-                                            //fill: 'green',
-                                            stroke: 'red',
-                                            strokeWidth: 0,
-                                            draggable: true,
-                                        });
-                                        Srect.moveToTop();
-                                        SRName += 1;
-                                        Srect.on('pointerenter', function () {
-                                            //var LineId = this.id().replace('SRect', 'Line');
-                                            var EditLine = layer.findOne('#' + CurrentObjId);
-
-                                            var points = EditLine.points();
-                                            if (points.length < 6) {
-                                                return;
-                                            }
-                                            else {
-                                                if (EditLine.name() != "PE Pipeline" && EditLine.name() != "Irrigation Wiring" && EditLine.name() != "Dripline") {
-                                                    isOverOnStarting = true;
-                                                }
-                                            }
-                                            if (EditLine.name() != "PE Pipeline" && EditLine.name() != "Irrigation Wiring" && EditLine.name() != "Dripline") {
-                                                EditLine.closed(true);
-                                            }
-
-
-                                            if (EditLine.name() == "Area") {
-                                                EditLine.fill("rgba(34, 255, 0, 0.3)");
-
-                                            }
-                                            else if (EditLine.name() == "DryArea") {
-                                                EditLine.fill("rgba(255,230,153,0.3)");
-                                            }
-                                            else if (EditLine.name() == "Hedge") {
-                                                EditLine.fill("rgba(210,191,255,0.3)");
-                                            }
-                                            else if (EditLine.name() == "GetWet") {
-                                                EditLine.fill("rgba(111, 187, 211, 0.3)");
-                                            }
-
-                                        });
-                                        Srect.on('pointerout', function () {
-                                            //var LineId = this.id().replace('SRect', 'Line');
-                                            var EditLine = layer.findOne('#' + CurrentObjId);
-                                            EditLine.closed(false);
-                                            isOverOnStarting = false;
-                                            //EditLine.listening(true);
-                                            //////console.log(line.name());
-
-                                        });
-
-                                        layer.add(Srect);
-                                    }
-
-
-                                    Name += 1;
-                                    rect.on('pointerenter', function () {
-                                        var id = this.name();
-                                        //console.log(id);
-                                        var LineId = 0;
-                                        if (id[0] == "R") {
-                                            LineId = FindIndex(id);
-                                        }
-                                        //console.log(LineId);
-                                        var line = layer.findOne('#Line' + LineId);
-                                        //var line = layer.findOne('#' + CurrentObjId);
-                                        var points = line.points();
-                                        var pointerPos = stage.getPointerPosition();
-                                        if (isFinished == true || points.length < 6) {
+                        //    var Sprinkler = layer.findOne('#' + e.target.id().replace("RSCircle", "RectangularSprinkler"));
+                        //    Sprinkler.x(e.target.x());
+                        //    Sprinkler.y(e.target.y());
+                        //});
+
+                        //layer.add(cir);
+                        //    var Sprinkler = layer.findOne('#' + id);
+
+                        //var transformer = new Konva.Transformer({
+                        //    nodes: [Sprinkler, cir],
+                        //    rotateAnchorOffset: 60,
+                        //    enabledAnchors: ['top-left', 'top-right', 'bottom-left', 'bottom-right'],
+                        //    id: id.replace("RectangularSprinkler", "TRS")
+                        //});
+                        //layer.add(transformer);
+
+                        //transformer.anchorCornerRadius(10);
+                        //transformer.borderEnabled(false);
+                        //transformer.resizeEnabled(false);
+                        //transformer.rotateAnchorOffset(0);
+
+                        //transformer.stopTransform(true);
+                        //var cirFill = new Konva.Circle({
+                        //    x: Position.x ,
+                        //    y: Position.y,
+                        //    radius: 5,
+                        //    //fill: 'red',
+                        //    stroke: 'black',
+                        //    strokeWidth: 1,
+                        //    id: id.replace("Sprinkler", "FillRSCircle"),
+                        //    draggable: true,
+                        //});
+
+                        //cirFill.on('pointerclick', (e) => {
+                        //    e.target.rotation(e.target.rotation + 1);
+                        //});
+
+                        //cirFill.on('pointerdblclick', (e) => {
+                        //    e.target.rotation(e.target.rotation + 1);
+                        //});
+
+                        //cirFill.on('dragmove', (e) => {
+                        //    //updateRSSprinkler(e.target.id());
+                        //});
+
+                        //layer.add(cirFill);
+
+                        //var ArcCir = new Konva.Arc({
+                        //    x: Position.x,
+                        //    y: Position.y,
+                        //    innerRadius: circle.radius(),
+                        //    angle: 180,
+                        //    fill: 'lightblue',
+                        //    stroke: 'black',
+                        //    strokeWidth: 0,
+                        //    id: id.replace("Sprinkler", "Arc"),
+                        //    //draggable: true,
+                        //    listening: false,
+                        //    rotation: 0,
+                        //});
+
+
+                        //layer.add(ArcCir);
+
+
+                        isFinished = true;
+                    }
+                    else if (id[0] == 'L') {
+
+                        ////console.log("stage.scaleX(): " + stage.scaleX() + "stage.scaleY(): " + stage.scaleY());
+                        ////console.log(id);
+                        var line = layer.findOne('#' + id);
+                        //console.log(line);
+                        ////console.log(isInArea);
+                        if (isInArea == true || (line.name() != "DryArea" && line.name() != "GetWet")) {
+
+                            if (line.name() == "PE Pipeline" && e.target.id().indexOf("MoveCircle") != -1) {
+
+
+                                var UniqueId = e.target.id().replace("MoveCircle", "Sprinkler");
+                                var OrderId = $("#OrderId").val();
+
+                                var model = {
+                                    UniqueId: UniqueId,
+                                    OrderId: OrderId,
+                                };
+
+                                $.ajax({
+                                    type: "POST",
+                                    url: "@Url.Action("GetSprinklerMH", "Customer")",
+                                    data: JSON.stringify(model),
+                                    contentType: "application/json; charset=utf-8",
+                                    dataType: "json",
+                                    success: function (r) {
+                                        $("#PEMH").text(Number(Number($("#PEMH").text()) + r));
+
+
+                                        var TAPMHVal = $("#TAPMHVal").val();
+                                        var Minus = TAPMHVal * 0.3;
+                                        var AfterMinus = TAPMHVal - Minus;
+
+                                        if (Number($("#PEMH").text()) > Number(AfterMinus)) {
+                                            $("#MaxPEMHError").fadeIn();
+                                            $("#MaxPEMHError").fadeOut(10000);
+                                            $("#PEMH").text(Number(Number($("#PEMH").text()) - r));
+
+
+                                            $("#EndPE").click();
+
                                             return;
                                         }
-                                        else if (CheckFirstIndex(id)) {
-                                            //var Rect1 = stage.find('.' + id);
-                                            isOverOnStarting = true;
-                                            var index = Number(Number(StartRect.indexOf(this.id())));
-                                            var NewIndex = Number(Number(index) + 1);
-                                            var LineId = "Line" + NewIndex;
+
+
+
+                                        var points = line.points();
+                                        if (isStartLine == true) {
+
+                                            points.pop();
+                                            points.pop();
+                                            //points.pop();
+                                            //points.pop();
+                                        }
+                                        isDraw = true;
+                                        var Position = stage.getPointerPosition();
+                                        //console.log(stage.getPointerPosition());
+                                        //var Position = getAdjustedPointerPosition(stage, stage.getPointerPosition(), Oldscale2, scale2, OldPosition, stage.position());
+                                        //console.log(Position);
+                                        ////console.log("Before " + + Position.x  + " " + Position.y );
+                                        ////console.log("After " + Position.x / stage.scaleX()+" "+ Position.y / stage.scaleY() );
+                                        //Points.push(Position.x, Position.y);
+                                        points.push(Position.x, Position.y);
+                                        line.points(points);
+                                        //////console.log(line.points());
+
+
+                                        rect = new Konva.Rect({
+                                            x: Position.x - 5,
+                                            y: Position.y - 5,
+                                            width: 10,
+                                            height: 10,
+                                            name: "Rect" + Name + "",
+                                            id: "Rect" + Name + "",
+                                            //fill: 'green',
+                                            stroke: 'red',
+                                            strokeWidth: 2,
+                                            draggable: true,
+                                        });
+
+
+                                        rect.on('mouseover', (e) => {
+                                            stage.container().style.cursor = 'move';
+                                        });
+
+                                        rect.on('mouseout', (e) => {
+                                            stage.container().style.cursor = 'default';
+                                        });
+
+                                        if (isStartLine == true) {
+                                            rect.off('mouseover');
+                                            rect.on('mouseover', (e) => {
+                                                stage.container().style.cursor = 'pointer';
+                                            });
+
+                                            StartRect.push(rect.id());
+
+                                            isStartLine = false;
+
+
+                                            Srect = new Konva.Rect({
+                                                x: Position.x - 10,
+                                                y: Position.y - 10,
+                                                width: 20,
+                                                height: 20,
+                                                name: "SRect" + SRName + "",
+                                                id: "SRect" + SRName + "",
+                                                //fill: 'green',
+                                                stroke: 'red',
+                                                strokeWidth: 0,
+                                                draggable: true,
+                                            });
+                                            Srect.moveToTop();
+                                            SRName += 1;
+                                            Srect.on('pointerenter', function () {
+                                                //var LineId = this.id().replace('SRect', 'Line');
+                                                var EditLine = layer.findOne('#' + CurrentObjId);
+
+                                                var points = EditLine.points();
+                                                if (points.length < 6) {
+                                                    return;
+                                                }
+                                                else {
+                                                    if (EditLine.name() != "PE Pipeline" && EditLine.name() != "Irrigation Wiring" && EditLine.name() != "Dripline") {
+                                                        isOverOnStarting = true;
+                                                    }
+                                                }
+                                                if (EditLine.name() != "PE Pipeline" && EditLine.name() != "Irrigation Wiring" && EditLine.name() != "Dripline") {
+                                                    EditLine.closed(true);
+                                                }
+
+
+                                                if (EditLine.name() == "Area") {
+                                                    EditLine.fill("rgba(34, 255, 0, 0.3)");
+
+                                                }
+                                                else if (EditLine.name() == "DryArea") {
+                                                    EditLine.fill("rgba(255,230,153,0.3)");
+                                                }
+                                                else if (EditLine.name() == "Hedge") {
+                                                    EditLine.fill("rgba(210,191,255,0.3)");
+                                                }
+                                                else if (EditLine.name() == "GetWet") {
+                                                    EditLine.fill("rgba(111, 187, 211, 0.3)");
+                                                }
+
+                                            });
+                                            Srect.on('pointerout', function () {
+                                                //var LineId = this.id().replace('SRect', 'Line');
+                                                var EditLine = layer.findOne('#' + CurrentObjId);
+                                                EditLine.closed(false);
+                                                isOverOnStarting = false;
+                                                //EditLine.listening(true);
+                                                //////console.log(line.name());
+
+                                            });
+
+                                            layer.add(Srect);
+                                        }
+
+
+                                        Name += 1;
+                                        rect.on('pointerenter', function () {
+                                            var id = this.name();
+                                            //console.log(id);
+                                            var LineId = 0;
+                                            if (id[0] == "R") {
+                                                LineId = FindIndex(id);
+                                            }
                                             //console.log(LineId);
-                                            var EditLine = layer.findOne('#' + LineId);
-                                            //var EditLine = layer.findOne('#' + CurrentObjId);
+                                            var line = layer.findOne('#Line' + LineId);
+                                            //var line = layer.findOne('#' + CurrentObjId);
+                                            var points = line.points();
+                                            var pointerPos = stage.getPointerPosition();
+                                            if (isFinished == true || points.length < 6) {
+                                                return;
+                                            }
+                                            else if (CheckFirstIndex(id)) {
+                                                //var Rect1 = stage.find('.' + id);
+                                                isOverOnStarting = true;
+                                                var index = Number(Number(StartRect.indexOf(this.id())));
+                                                var NewIndex = Number(Number(index) + 1);
+                                                var LineId = "Line" + NewIndex;
+                                                //console.log(LineId);
+                                                var EditLine = layer.findOne('#' + LineId);
+                                                //var EditLine = layer.findOne('#' + CurrentObjId);
 
+                                                if (EditLine.name() != "PE Pipeline" && EditLine.name() != "Irrigation Wiring" && EditLine.name() != "Dripline") {
+                                                    EditLine.closed(true);
+                                                }
+                                                if (EditLine.name() == "Area") {
+                                                    EditLine.fill("rgba(34, 255, 0, 0.3)");
+
+                                                }
+                                                else if (EditLine.name() == "DryArea") {
+                                                    EditLine.fill("rgba(255,230,153,0.3)");
+                                                }
+                                                else if (EditLine.name() == "Hedge") {
+                                                    EditLine.fill("rgba(210,191,255,0.3)");
+                                                }
+                                                else if (EditLine.name() == "GetWet") {
+                                                    EditLine.fill("rgba(111, 187, 211, 0.3)");
+                                                }
+                                            }
+
+                                        });
+
+
+                                        rect.on("pointerout", function () {
+
+                                            if (CheckFirstIndex(this.name())) {
+                                                isOverOnStarting = false;
+                                                var LineId = this.id().replace('Rect', 'Line');
+                                                var EditLine = layer.findOne('#' + LineId);
+                                                //EditLine.closed(false);
+                                                //layer.batchDraw();
+                                            }
+                                        });
+
+
+
+                                        rect.on('dragmove', (e) => {
+
+                                            // update nodes from the new state
+                                            //////console.log(e);
+                                            updateObjects(e.target.id());
+
+                                        });
+
+                                        /*rect.moveToTop();*/
+
+                                        layer.add(rect);
+
+
+                                        //var S = line.points();
+                                        var S = line.points().slice();
+                                        //if (rect.name()=="Rect2") {
+                                        //    S.pop();
+                                        //    S.pop();
+                                        //}
+                                        S.pop();
+                                        S.pop();
+
+                                        var x = (S[S.length - 4] + S[S.length - 2]) / 2;
+                                        var y = (S[S.length - 3] + S[S.length - 1]) / 2;
+                                        var dx = S[S.length - 2] - S[S.length - 4];
+                                        var dy = S[S.length - 1] - S[S.length - 3];
+                                        var Sumsqr = Math.pow(dx, 2);
+                                        Sumsqr += Math.pow(dy, 2);
+                                        var Distance = Math.sqrt(Sumsqr);
+                                        Distance /= 12;
+                                        Distance = Distance.toFixed(2);
+                                        var angleRad = Math.atan(dy / dx);
+                                        var angleDeg = angleRad * 180 / Math.PI;
+                                        var Text = new Konva.Text({
+                                            text: Distance + " m",
+                                            fontSize: 10,
+                                            fontFamily: 'Calibri',
+                                            fill: '#000',
+                                            //width: poly.width(),
+                                            rotation: angleDeg,
+                                            padding: -20,
+                                            y: y,
+                                            x: x,
+                                            id: "Text" + TextId + "",
+                                            listening: false,
+                                        });
+
+                                        TextId += 1;
+                                        layer.add(Text);
+                                        ////console.log(e);
+
+
+
+                                        if (line.name() == "PE Pipeline") {
+                                            $("#PEL").val((Number($("#PEL").val()) + Number(Distance)).toFixed(2));
+                                            rect.draggable(false);
+                                        }
+                                        //poly.moveToBottom();
+                                        if (CheckFirstIndex(rect.name())) {
+                                            Rect1 = layer.findOne('.' + rect.name());
+                                            //rect.moveToTop();
+                                            Rect1.moveToTop();
+                                        }
+                                        isInArea = false;
+                                    }
+                                });
+
+
+
+                            }
+                            else if (line.name() == "PE Pipeline") {
+                                var points = line.points();
+                                if (isStartLine == true) {
+
+                                    points.pop();
+                                    points.pop();
+                                    //points.pop();
+                                    //points.pop();
+                                }
+                                isDraw = true;
+                                var Position = stage.getPointerPosition();
+                                //console.log(stage.getPointerPosition());
+                                //var Position = getAdjustedPointerPosition(stage, stage.getPointerPosition(), Oldscale2, scale2, OldPosition, stage.position());
+                                //console.log(Position);
+                                ////console.log("Before " + + Position.x  + " " + Position.y );
+                                ////console.log("After " + Position.x / stage.scaleX()+" "+ Position.y / stage.scaleY() );
+                                //Points.push(Position.x, Position.y);
+                                points.push(Position.x, Position.y);
+                                line.points(points);
+                                //////console.log(line.points());
+
+
+                                rect = new Konva.Rect({
+                                    x: Position.x - 5,
+                                    y: Position.y - 5,
+                                    width: 10,
+                                    height: 10,
+                                    name: "Rect" + Name + "",
+                                    id: "Rect" + Name + "",
+                                    //fill: 'green',
+                                    stroke: 'red',
+                                    strokeWidth: 2,
+                                    draggable: true,
+                                });
+
+
+                                rect.on('mouseover', (e) => {
+                                    stage.container().style.cursor = 'move';
+                                });
+
+                                rect.on('mouseout', (e) => {
+                                    stage.container().style.cursor = 'default';
+                                });
+
+                                if (isStartLine == true) {
+                                    rect.off('mouseover');
+                                    rect.on('mouseover', (e) => {
+                                        stage.container().style.cursor = 'pointer';
+                                    });
+
+                                    StartRect.push(rect.id());
+
+                                    isStartLine = false;
+
+
+                                    Srect = new Konva.Rect({
+                                        x: Position.x - 10,
+                                        y: Position.y - 10,
+                                        width: 20,
+                                        height: 20,
+                                        name: "SRect" + SRName + "",
+                                        id: "SRect" + SRName + "",
+                                        //fill: 'green',
+                                        stroke: 'red',
+                                        strokeWidth: 0,
+                                        draggable: true,
+                                    });
+                                    Srect.moveToTop();
+                                    SRName += 1;
+                                    Srect.on('pointerenter', function () {
+                                        //var LineId = this.id().replace('SRect', 'Line');
+                                        var EditLine = layer.findOne('#' + CurrentObjId);
+
+                                        var points = EditLine.points();
+                                        if (points.length < 6) {
+                                            return;
+                                        }
+                                        else {
                                             if (EditLine.name() != "PE Pipeline" && EditLine.name() != "Irrigation Wiring" && EditLine.name() != "Dripline") {
-                                                EditLine.closed(true);
+                                                isOverOnStarting = true;
                                             }
-                                            if (EditLine.name() == "Area") {
-                                                EditLine.fill("rgba(34, 255, 0, 0.3)");
+                                        }
+                                        if (EditLine.name() != "PE Pipeline" && EditLine.name() != "Irrigation Wiring" && EditLine.name() != "Dripline") {
+                                            EditLine.closed(true);
+                                        }
+                                        if (EditLine.name() == "Area") {
+                                            EditLine.fill("rgba(34, 255, 0, 0.3)");
 
-                                            }
-                                            else if (EditLine.name() == "DryArea") {
-                                                EditLine.fill("rgba(255,230,153,0.3)");
-                                            }
-                                            else if (EditLine.name() == "Hedge") {
-                                                EditLine.fill("rgba(210,191,255,0.3)");
-                                            }
-                                            else if (EditLine.name() == "GetWet") {
-                                                EditLine.fill("rgba(111, 187, 211, 0.3)");
-                                            }
+                                        }
+                                        else if (EditLine.name() == "DryArea") {
+                                            EditLine.fill("rgba(255,230,153,0.3)");
+                                        }
+                                        else if (EditLine.name() == "Hedge") {
+                                            EditLine.fill("rgba(210,191,255,0.3)");
+                                        }
+                                        else if (EditLine.name() == "GetWet") {
+                                            EditLine.fill("rgba(111, 187, 211, 0.3)");
                                         }
 
                                     });
+                                    Srect.on('pointerout', function () {
+                                        //var LineId = this.id().replace('SRect', 'Line');
+                                        var EditLine = layer.findOne('#' + CurrentObjId);
+                                        EditLine.closed(false);
+                                        isOverOnStarting = false;
+                                        //EditLine.listening(true);
+                                        //////console.log(line.name());
 
-
-                                    rect.on("pointerout", function () {
-
-                                        if (CheckFirstIndex(this.name())) {
-                                            isOverOnStarting = false;
-                                            var LineId = this.id().replace('Rect', 'Line');
-                                            var EditLine = layer.findOne('#' + LineId);
-                                            //EditLine.closed(false);
-                                            //layer.batchDraw();
-                                        }
-                                    });
-
-
-
-                                    rect.on('dragmove', (e) => {
-
-                                        // update nodes from the new state
-                                        //////console.log(e);
-                                        updateObjects(e.target.id());
 
                                     });
 
-                                    /*rect.moveToTop();*/
-
-                                    layer.add(rect);
-
-
-                                    //var S = line.points();
-                                    var S = line.points().slice();
-                                    //if (rect.name()=="Rect2") {
-                                    //    S.pop();
-                                    //    S.pop();
-                                    //}
-                                    S.pop();
-                                    S.pop();
-
-                                    var x = (S[S.length - 4] + S[S.length - 2]) / 2;
-                                    var y = (S[S.length - 3] + S[S.length - 1]) / 2;
-                                    var dx = S[S.length - 2] - S[S.length - 4];
-                                    var dy = S[S.length - 1] - S[S.length - 3];
-                                    var Sumsqr = Math.pow(dx, 2);
-                                    Sumsqr += Math.pow(dy, 2);
-                                    var Distance = Math.sqrt(Sumsqr);
-                                    Distance /= 12;
-                                    Distance = Distance.toFixed(2);
-                                    var angleRad = Math.atan(dy / dx);
-                                    var angleDeg = angleRad * 180 / Math.PI;
-                                    var Text = new Konva.Text({
-                                        text: Distance + " m",
-                                        fontSize: 10,
-                                        fontFamily: 'Calibri',
-                                        fill: '#000',
-                                        //width: poly.width(),
-                                        rotation: angleDeg,
-                                        padding: -20,
-                                        y: y,
-                                        x: x,
-                                        id: "Text" + TextId + "",
-                                        listening: false,
-                                    });
-
-                                    TextId += 1;
-                                    layer.add(Text);
-                                    ////console.log(e);
-
-
-
-                                    if (line.name() == "PE Pipeline") {
-                                        $("#PEL").val((Number($("#PEL").val()) + Number(Distance)).toFixed(2));
-                                        rect.draggable(false);
-                                    }
-                                    //poly.moveToBottom();
-                                    if (CheckFirstIndex(rect.name())) {
-                                        Rect1 = layer.findOne('.' + rect.name());
-                                        //rect.moveToTop();
-                                        Rect1.moveToTop();
-                                    }
-                                    isInArea = false;
+                                    layer.add(Srect);
                                 }
-                            });
 
 
-
-                        }
-                        else if (line.name() == "PE Pipeline") {
-                            var points = line.points();
-                            if (isStartLine == true) {
-
-                                points.pop();
-                                points.pop();
-                                //points.pop();
-                                //points.pop();
-                            }
-                            isDraw = true;
-                            var Position = stage.getPointerPosition();
-                            //console.log(stage.getPointerPosition());
-                            //var Position = getAdjustedPointerPosition(stage, stage.getPointerPosition(), Oldscale2, scale2, OldPosition, stage.position());
-                            //console.log(Position);
-                            ////console.log("Before " + + Position.x  + " " + Position.y );
-                            ////console.log("After " + Position.x / stage.scaleX()+" "+ Position.y / stage.scaleY() );
-                            //Points.push(Position.x, Position.y);
-                            points.push(Position.x, Position.y);
-                            line.points(points);
-                            //////console.log(line.points());
-
-
-                            rect = new Konva.Rect({
-                                x: Position.x - 5,
-                                y: Position.y - 5,
-                                width: 10,
-                                height: 10,
-                                name: "Rect" + Name + "",
-                                id: "Rect" + Name + "",
-                                //fill: 'green',
-                                stroke: 'red',
-                                strokeWidth: 2,
-                                draggable: true,
-                            });
-
-
-                            rect.on('mouseover', (e) => {
-                                stage.container().style.cursor = 'move';
-                            });
-
-                            rect.on('mouseout', (e) => {
-                                stage.container().style.cursor = 'default';
-                            });
-
-                            if (isStartLine == true) {
-                                rect.off('mouseover');
-                                rect.on('mouseover', (e) => {
-                                    stage.container().style.cursor = 'pointer';
-                                });
-
-                                StartRect.push(rect.id());
-
-                                isStartLine = false;
-
-
-                                Srect = new Konva.Rect({
-                                    x: Position.x - 10,
-                                    y: Position.y - 10,
-                                    width: 20,
-                                    height: 20,
-                                    name: "SRect" + SRName + "",
-                                    id: "SRect" + SRName + "",
-                                    //fill: 'green',
-                                    stroke: 'red',
-                                    strokeWidth: 0,
-                                    draggable: true,
-                                });
-                                Srect.moveToTop();
-                                SRName += 1;
-                                Srect.on('pointerenter', function () {
-                                    //var LineId = this.id().replace('SRect', 'Line');
-                                    var EditLine = layer.findOne('#' + CurrentObjId);
-
-                                    var points = EditLine.points();
-                                    if (points.length < 6) {
+                                Name += 1;
+                                rect.on('pointerenter', function () {
+                                    var id = this.name();
+                                    //console.log(id);
+                                    var LineId = 0;
+                                    if (id[0] == "R") {
+                                        LineId = FindIndex(id);
+                                    }
+                                    //console.log(LineId);
+                                    var line = layer.findOne('#Line' + LineId);
+                                    //var line = layer.findOne('#' + CurrentObjId);
+                                    var points = line.points();
+                                    var pointerPos = stage.getPointerPosition();
+                                    if (isFinished == true || points.length < 6) {
                                         return;
                                     }
-                                    else {
+                                    else if (CheckFirstIndex(id)) {
+                                        //var Rect1 = stage.find('.' + id);
+                                        isOverOnStarting = true;
+                                        var index = Number(Number(StartRect.indexOf(this.id())));
+                                        var NewIndex = Number(Number(index) + 1);
+                                        var LineId = "Line" + NewIndex;
+                                        //console.log(LineId);
+                                        var EditLine = layer.findOne('#' + LineId);
+                                        //var EditLine = layer.findOne('#' + CurrentObjId);
+
                                         if (EditLine.name() != "PE Pipeline" && EditLine.name() != "Irrigation Wiring" && EditLine.name() != "Dripline") {
-                                            isOverOnStarting = true;
+                                            EditLine.closed(true);
+                                        }
+                                        if (EditLine.name() == "Area") {
+                                            EditLine.fill("rgba(34, 255, 0, 0.3)");
+
+                                        }
+                                        else if (EditLine.name() == "DryArea") {
+                                            EditLine.fill("rgba(255,230,153,0.3)");
+                                        }
+                                        else if (EditLine.name() == "Hedge") {
+                                            EditLine.fill("rgba(210,191,255,0.3)");
+                                        }
+                                        else if (EditLine.name() == "GetWet") {
+                                            EditLine.fill("rgba(111, 187, 211, 0.3)");
                                         }
                                     }
-                                    if (EditLine.name() != "PE Pipeline" && EditLine.name() != "Irrigation Wiring" && EditLine.name() != "Dripline") {
-                                        EditLine.closed(true);
-                                    }
-                                    if (EditLine.name() == "Area") {
-                                        EditLine.fill("rgba(34, 255, 0, 0.3)");
-
-                                    }
-                                    else if (EditLine.name() == "DryArea") {
-                                        EditLine.fill("rgba(255,230,153,0.3)");
-                                    }
-                                    else if (EditLine.name() == "Hedge") {
-                                        EditLine.fill("rgba(210,191,255,0.3)");
-                                    }
-                                    else if (EditLine.name() == "GetWet") {
-                                        EditLine.fill("rgba(111, 187, 211, 0.3)");
-                                    }
-
-                                });
-                                Srect.on('pointerout', function () {
-                                    //var LineId = this.id().replace('SRect', 'Line');
-                                    var EditLine = layer.findOne('#' + CurrentObjId);
-                                    EditLine.closed(false);
-                                    isOverOnStarting = false;
-                                    //EditLine.listening(true);
-                                    //////console.log(line.name());
-
 
                                 });
 
-                                layer.add(Srect);
-                            }
+
+                                rect.on("pointerout", function () {
+
+                                    if (CheckFirstIndex(this.name())) {
+                                        isOverOnStarting = false;
+                                        var LineId = this.id().replace('Rect', 'Line');
+                                        var EditLine = layer.findOne('#' + LineId);
+                                        //EditLine.closed(false);
+                                        //layer.batchDraw();
+                                    }
+                                });
 
 
-                            Name += 1;
-                            rect.on('pointerenter', function () {
-                                var id = this.name();
-                                //console.log(id);
-                                var LineId = 0;
-                                if (id[0] == "R") {
-                                    LineId = FindIndex(id);
+
+                                rect.on('dragmove', (e) => {
+
+                                    // update nodes from the new state
+                                    //////console.log(e);
+                                    updateObjects(e.target.id());
+
+                                });
+
+                                /*rect.moveToTop();*/
+
+                                layer.add(rect);
+
+
+                                //var S = line.points();
+                                var S = line.points().slice();
+                                //if (rect.name()=="Rect2") {
+                                //    S.pop();
+                                //    S.pop();
+                                //}
+                                S.pop();
+                                S.pop();
+
+                                var x = (S[S.length - 4] + S[S.length - 2]) / 2;
+                                var y = (S[S.length - 3] + S[S.length - 1]) / 2;
+                                var dx = S[S.length - 2] - S[S.length - 4];
+                                var dy = S[S.length - 1] - S[S.length - 3];
+                                var Sumsqr = Math.pow(dx, 2);
+                                Sumsqr += Math.pow(dy, 2);
+                                var Distance = Math.sqrt(Sumsqr);
+                                Distance /= 12;
+                                Distance = Distance.toFixed(2);
+                                var angleRad = Math.atan(dy / dx);
+                                var angleDeg = angleRad * 180 / Math.PI;
+                                var Text = new Konva.Text({
+                                    text: Distance + " m",
+                                    fontSize: 10,
+                                    fontFamily: 'Calibri',
+                                    fill: '#000',
+                                    //width: poly.width(),
+                                    rotation: angleDeg,
+                                    padding: -20,
+                                    y: y,
+                                    x: x,
+                                    id: "Text" + TextId + "",
+                                    listening: false,
+                                });
+
+                                TextId += 1;
+                                layer.add(Text);
+                                ////console.log(e);
+
+
+
+                                if (line.name() == "PE Pipeline") {
+                                    $("#PEL").val((Number($("#PEL").val()) + Number(Distance)).toFixed(2));
+                                    rect.draggable(false);
                                 }
-                                //console.log(LineId);
-                                var line = layer.findOne('#Line' + LineId);
-                                //var line = layer.findOne('#' + CurrentObjId);
+
+
+                                //poly.moveToBottom();
+                                if (CheckFirstIndex(rect.name())) {
+                                    Rect1 = layer.findOne('.' + rect.name());
+                                    //rect.moveToTop();
+                                    Rect1.moveToTop();
+                                }
+                                isInArea = false;
+                            }
+                            if (line.name() != "PE Pipeline") {
+                                //var line = layer.findOne('#' + id);
+                                //////console.log(line.id());
                                 var points = line.points();
-                                var pointerPos = stage.getPointerPosition();
-                                if (isFinished == true || points.length < 6) {
-                                    return;
+                                if (isStartLine == true) {
+
+                                    points.pop();
+                                    points.pop();
+                                    //points.pop();
+                                    //points.pop();
                                 }
-                                else if (CheckFirstIndex(id)) {
-                                    //var Rect1 = stage.find('.' + id);
-                                    isOverOnStarting = true;
-                                    var index = Number(Number(StartRect.indexOf(this.id())));
-                                    var NewIndex = Number(Number(index) + 1);
-                                    var LineId = "Line" + NewIndex;
-                                    //console.log(LineId);
-                                    var EditLine = layer.findOne('#' + LineId);
-                                    //var EditLine = layer.findOne('#' + CurrentObjId);
-
-                                    if (EditLine.name() != "PE Pipeline" && EditLine.name() != "Irrigation Wiring" && EditLine.name() != "Dripline") {
-                                        EditLine.closed(true);
-                                    }
-                                    if (EditLine.name() == "Area") {
-                                        EditLine.fill("rgba(34, 255, 0, 0.3)");
-
-                                    }
-                                    else if (EditLine.name() == "DryArea") {
-                                        EditLine.fill("rgba(255,230,153,0.3)");
-                                    }
-                                    else if (EditLine.name() == "Hedge") {
-                                        EditLine.fill("rgba(210,191,255,0.3)");
-                                    }
-                                    else if (EditLine.name() == "GetWet") {
-                                        EditLine.fill("rgba(111, 187, 211, 0.3)");
-                                    }
-                                }
-
-                            });
+                                isDraw = true;
+                                var Position = stage.getPointerPosition();
+                                //console.log(stage.getPointerPosition());
+                                //var Position = getAdjustedPointerPosition(stage, stage.getPointerPosition(), Oldscale2, scale2, OldPosition, stage.position());
+                                //console.log(Position);
+                                ////console.log("Before " + + Position.x  + " " + Position.y );
+                                ////console.log("After " + Position.x / stage.scaleX()+" "+ Position.y / stage.scaleY() );
+                                //Points.push(Position.x, Position.y);
+                                points.push(Position.x, Position.y);
+                                line.points(points);
+                                //////console.log(line.points());
 
 
-                            rect.on("pointerout", function () {
-
-                                if (CheckFirstIndex(this.name())) {
-                                    isOverOnStarting = false;
-                                    var LineId = this.id().replace('Rect', 'Line');
-                                    var EditLine = layer.findOne('#' + LineId);
-                                    //EditLine.closed(false);
-                                    //layer.batchDraw();
-                                }
-                            });
-
-
-
-                            rect.on('dragmove', (e) => {
-
-                                // update nodes from the new state
-                                //////console.log(e);
-                                updateObjects(e.target.id());
-
-                            });
-
-                            /*rect.moveToTop();*/
-
-                            layer.add(rect);
-
-
-                            //var S = line.points();
-                            var S = line.points().slice();
-                            //if (rect.name()=="Rect2") {
-                            //    S.pop();
-                            //    S.pop();
-                            //}
-                            S.pop();
-                            S.pop();
-
-                            var x = (S[S.length - 4] + S[S.length - 2]) / 2;
-                            var y = (S[S.length - 3] + S[S.length - 1]) / 2;
-                            var dx = S[S.length - 2] - S[S.length - 4];
-                            var dy = S[S.length - 1] - S[S.length - 3];
-                            var Sumsqr = Math.pow(dx, 2);
-                            Sumsqr += Math.pow(dy, 2);
-                            var Distance = Math.sqrt(Sumsqr);
-                            Distance /= 12;
-                            Distance = Distance.toFixed(2);
-                            var angleRad = Math.atan(dy / dx);
-                            var angleDeg = angleRad * 180 / Math.PI;
-                            var Text = new Konva.Text({
-                                text: Distance + " m",
-                                fontSize: 10,
-                                fontFamily: 'Calibri',
-                                fill: '#000',
-                                //width: poly.width(),
-                                rotation: angleDeg,
-                                padding: -20,
-                                y: y,
-                                x: x,
-                                id: "Text" + TextId + "",
-                                listening: false,
-                            });
-
-                            TextId += 1;
-                            layer.add(Text);
-                            ////console.log(e);
-
-
-
-                            if (line.name() == "PE Pipeline") {
-                                $("#PEL").val((Number($("#PEL").val()) + Number(Distance)).toFixed(2));
-                                rect.draggable(false);
-                            }
-
-
-                            //poly.moveToBottom();
-                            if (CheckFirstIndex(rect.name())) {
-                                Rect1 = layer.findOne('.' + rect.name());
-                                //rect.moveToTop();
-                                Rect1.moveToTop();
-                            }
-                            isInArea = false;
-                        }
-                        if (line.name() != "PE Pipeline") {
-                            //var line = layer.findOne('#' + id);
-                            //////console.log(line.id());
-                            var points = line.points();
-                            if (isStartLine == true) {
-
-                                points.pop();
-                                points.pop();
-                                //points.pop();
-                                //points.pop();
-                            }
-                            isDraw = true;
-                            var Position = stage.getPointerPosition();
-                            //console.log(stage.getPointerPosition());
-                            //var Position = getAdjustedPointerPosition(stage, stage.getPointerPosition(), Oldscale2, scale2, OldPosition, stage.position());
-                            //console.log(Position);
-                            ////console.log("Before " + + Position.x  + " " + Position.y );
-                            ////console.log("After " + Position.x / stage.scaleX()+" "+ Position.y / stage.scaleY() );
-                            //Points.push(Position.x, Position.y);
-                            points.push(Position.x, Position.y);
-                            line.points(points);
-                            //////console.log(line.points());
-
-
-                            rect = new Konva.Rect({
-                                x: Position.x - 5,
-                                y: Position.y - 5,
-                                width: 10,
-                                height: 10,
-                                name: "Rect" + Name + "",
-                                id: "Rect" + Name + "",
-                                //fill: 'green',
-                                stroke: 'red',
-                                strokeWidth: 2,
-                                draggable: true,
-                            });
-
-
-                            rect.on('mouseover', (e) => {
-                                stage.container().style.cursor = 'move';
-                            });
-
-                            rect.on('mouseout', (e) => {
-                                stage.container().style.cursor = 'default';
-                            });
-
-                            if (isStartLine == true) {
-                                rect.off('mouseover');
-                                rect.on('mouseover', (e) => {
-                                    stage.container().style.cursor = 'pointer';
-                                });
-
-                                StartRect.push(rect.id());
-
-                                isStartLine = false;
-
-
-                                Srect = new Konva.Rect({
-                                    x: Position.x - 10,
-                                    y: Position.y - 10,
-                                    width: 20,
-                                    height: 20,
-                                    name: "SRect" + SRName + "",
-                                    id: "SRect" + SRName + "",
+                                rect = new Konva.Rect({
+                                    x: Position.x - 5,
+                                    y: Position.y - 5,
+                                    width: 10,
+                                    height: 10,
+                                    name: "Rect" + Name + "",
+                                    id: "Rect" + Name + "",
                                     //fill: 'green',
                                     stroke: 'red',
-                                    strokeWidth: 0,
+                                    strokeWidth: 2,
                                     draggable: true,
                                 });
-                                Srect.moveToTop();
-                                SRName += 1;
-                                Srect.on('pointerenter', function () {
-                                    //var LineId = this.id().replace('SRect', 'Line');
-                                    var EditLine = layer.findOne('#' + CurrentObjId);
 
-                                    var points = EditLine.points();
-                                    if (points.length < 6) {
+
+                                rect.on('mouseover', (e) => {
+                                    stage.container().style.cursor = 'move';
+                                });
+
+                                rect.on('mouseout', (e) => {
+                                    stage.container().style.cursor = 'default';
+                                });
+
+                                if (isStartLine == true) {
+                                    rect.off('mouseover');
+                                    rect.on('mouseover', (e) => {
+                                        stage.container().style.cursor = 'pointer';
+                                    });
+
+                                    StartRect.push(rect.id());
+
+                                    isStartLine = false;
+
+
+                                    Srect = new Konva.Rect({
+                                        x: Position.x - 10,
+                                        y: Position.y - 10,
+                                        width: 20,
+                                        height: 20,
+                                        name: "SRect" + SRName + "",
+                                        id: "SRect" + SRName + "",
+                                        //fill: 'green',
+                                        stroke: 'red',
+                                        strokeWidth: 0,
+                                        draggable: true,
+                                    });
+                                    Srect.moveToTop();
+                                    SRName += 1;
+                                    Srect.on('pointerenter', function () {
+                                        //var LineId = this.id().replace('SRect', 'Line');
+                                        var EditLine = layer.findOne('#' + CurrentObjId);
+
+                                        var points = EditLine.points();
+                                        if (points.length < 6) {
+                                            return;
+                                        }
+                                        else {
+                                            if (EditLine.name() != "PE Pipeline" && EditLine.name() != "Irrigation Wiring" && EditLine.name() != "Dripline") {
+                                                isOverOnStarting = true;
+                                            }
+                                        }
+                                        if (EditLine.name() != "PE Pipeline" && EditLine.name() != "Irrigation Wiring" && EditLine.name() != "Dripline") {
+                                            EditLine.closed(true);
+                                        }
+                                        if (EditLine.name() == "Area") {
+                                            EditLine.fill("rgba(34, 255, 0, 0.3)");
+
+                                        }
+                                        else if (EditLine.name() == "DryArea") {
+                                            EditLine.fill("rgba(255,230,153,0.3)");
+                                        }
+                                        else if (EditLine.name() == "Hedge") {
+                                            EditLine.fill("rgba(210,191,255,0.3)");
+                                        }
+                                        else if (EditLine.name() == "GetWet") {
+                                            EditLine.fill("rgba(111, 187, 211, 0.3)");
+                                        }
+
+                                    });
+                                    Srect.on('pointerout', function () {
+                                        //var LineId = this.id().replace('SRect', 'Line');
+                                        var EditLine = layer.findOne('#' + CurrentObjId);
+                                        EditLine.closed(false);
+                                        isOverOnStarting = false;
+                                        //EditLine.listening(true);
+                                        //////console.log(line.name());
+
+
+                                    });
+
+                                    layer.add(Srect);
+                                }
+
+
+                                Name += 1;
+                                rect.on('pointerenter', function () {
+                                    var id = this.name();
+                                    //console.log(id);
+                                    var LineId = 0;
+                                    if (id[0] == "R") {
+                                        LineId = FindIndex(id);
+                                    }
+                                    //console.log(LineId);
+                                    var line = layer.findOne('#Line' + LineId);
+                                    //var line = layer.findOne('#' + CurrentObjId);
+                                    var points = line.points();
+                                    var pointerPos = stage.getPointerPosition();
+                                    if (isFinished == true || points.length < 6) {
                                         return;
                                     }
-                                    else {
+                                    else if (CheckFirstIndex(id)) {
+                                        //var Rect1 = stage.find('.' + id);
+                                        isOverOnStarting = true;
+                                        var index = Number(Number(StartRect.indexOf(this.id())));
+                                        var NewIndex = Number(Number(index) + 1);
+                                        var LineId = "Line" + NewIndex;
+                                        //console.log(LineId);
+                                        var EditLine = layer.findOne('#' + LineId);
+                                        //var EditLine = layer.findOne('#' + CurrentObjId);
+
                                         if (EditLine.name() != "PE Pipeline" && EditLine.name() != "Irrigation Wiring" && EditLine.name() != "Dripline") {
-                                            isOverOnStarting = true;
+                                            EditLine.closed(true);
+                                        }
+                                        if (EditLine.name() == "Area") {
+                                            EditLine.fill("rgba(34, 255, 0, 0.3)");
+
+                                        }
+                                        else if (EditLine.name() == "DryArea") {
+                                            EditLine.fill("rgba(255,230,153,0.3)");
+                                        }
+                                        else if (EditLine.name() == "Hedge") {
+                                            EditLine.fill("rgba(210,191,255,0.3)");
+                                        }
+                                        else if (EditLine.name() == "GetWet") {
+                                            EditLine.fill("rgba(111, 187, 211, 0.3)");
                                         }
                                     }
-                                    if (EditLine.name() != "PE Pipeline" && EditLine.name() != "Irrigation Wiring" && EditLine.name() != "Dripline") {
-                                        EditLine.closed(true);
-                                    }
-                                    if (EditLine.name() == "Area") {
-                                        EditLine.fill("rgba(34, 255, 0, 0.3)");
-
-                                    }
-                                    else if (EditLine.name() == "DryArea") {
-                                        EditLine.fill("rgba(255,230,153,0.3)");
-                                    }
-                                    else if (EditLine.name() == "Hedge") {
-                                        EditLine.fill("rgba(210,191,255,0.3)");
-                                    }
-                                    else if (EditLine.name() == "GetWet") {
-                                        EditLine.fill("rgba(111, 187, 211, 0.3)");
-                                    }
-
-                                });
-                                Srect.on('pointerout', function () {
-                                    //var LineId = this.id().replace('SRect', 'Line');
-                                    var EditLine = layer.findOne('#' + CurrentObjId);
-                                    EditLine.closed(false);
-                                    isOverOnStarting = false;
-                                    //EditLine.listening(true);
-                                    //////console.log(line.name());
-
 
                                 });
 
-                                layer.add(Srect);
-                            }
+
+                                rect.on("pointerout", function () {
+
+                                    if (CheckFirstIndex(this.name())) {
+                                        isOverOnStarting = false;
+                                        var LineId = this.id().replace('Rect', 'Line');
+                                        var EditLine = layer.findOne('#' + LineId);
+                                        //EditLine.closed(false);
+                                        //layer.batchDraw();
+                                    }
+                                });
 
 
-                            Name += 1;
-                            rect.on('pointerenter', function () {
-                                var id = this.name();
-                                //console.log(id);
-                                var LineId = 0;
-                                if (id[0] == "R") {
-                                    LineId = FindIndex(id);
+
+                                rect.on('dragmove', (e) => {
+
+                                    // update nodes from the new state
+                                    //////console.log(e);
+                                    updateObjects(e.target.id());
+
+                                });
+
+                                /*rect.moveToTop();*/
+
+                                layer.add(rect);
+
+
+                                //var S = line.points();
+                                var S = line.points().slice();
+                                //if (rect.name()=="Rect2") {
+                                //    S.pop();
+                                //    S.pop();
+                                //}
+                                S.pop();
+                                S.pop();
+
+                                var x = (S[S.length - 4] + S[S.length - 2]) / 2;
+                                var y = (S[S.length - 3] + S[S.length - 1]) / 2;
+                                var dx = S[S.length - 2] - S[S.length - 4];
+                                var dy = S[S.length - 1] - S[S.length - 3];
+                                var Sumsqr = Math.pow(dx, 2);
+                                Sumsqr += Math.pow(dy, 2);
+                                var Distance = Math.sqrt(Sumsqr);
+                                Distance /= 12;
+                                Distance = Distance.toFixed(2);
+                                var angleRad = Math.atan(dy / dx);
+                                var angleDeg = angleRad * 180 / Math.PI;
+                                var Text = new Konva.Text({
+                                    text: Distance + " m",
+                                    fontSize: 10,
+                                    fontFamily: 'Calibri',
+                                    fill: '#000',
+                                    //width: poly.width(),
+                                    rotation: angleDeg,
+                                    padding: -20,
+                                    y: y,
+                                    x: x,
+                                    id: "Text" + TextId + "",
+                                    listening: false,
+                                });
+
+                                TextId += 1;
+                                layer.add(Text);
+                                ////console.log(e);
+                                if (line.name() == "Irrigation Wiring") {
+                                    $("#IWL").val((Number($("#IWL").val()) + Number(Distance)).toFixed(2));
+                                    rect.draggable(false);
                                 }
-                                //console.log(LineId);
-                                var line = layer.findOne('#Line' + LineId);
-                                //var line = layer.findOne('#' + CurrentObjId);
-                                var points = line.points();
-                                var pointerPos = stage.getPointerPosition();
-                                if (isFinished == true || points.length < 6) {
-                                    return;
-                                }
-                                else if (CheckFirstIndex(id)) {
-                                    //var Rect1 = stage.find('.' + id);
-                                    isOverOnStarting = true;
-                                    var index = Number(Number(StartRect.indexOf(this.id())));
-                                    var NewIndex = Number(Number(index) + 1);
-                                    var LineId = "Line" + NewIndex;
-                                    //console.log(LineId);
-                                    var EditLine = layer.findOne('#' + LineId);
-                                    //var EditLine = layer.findOne('#' + CurrentObjId);
-
-                                    if (EditLine.name() != "PE Pipeline" && EditLine.name() != "Irrigation Wiring" && EditLine.name() != "Dripline") {
-                                        EditLine.closed(true);
-                                    }
-                                    if (EditLine.name() == "Area") {
-                                        EditLine.fill("rgba(34, 255, 0, 0.3)");
-
-                                    }
-                                    else if (EditLine.name() == "DryArea") {
-                                        EditLine.fill("rgba(255,230,153,0.3)");
-                                    }
-                                    else if (EditLine.name() == "Hedge") {
-                                        EditLine.fill("rgba(210,191,255,0.3)");
-                                    }
-                                    else if (EditLine.name() == "GetWet") {
-                                        EditLine.fill("rgba(111, 187, 211, 0.3)");
-                                    }
+                                if (line.name() == "Dripline") {
+                                    $("#DLL").val((Number($("#DLL").val()) + Number(Distance)).toFixed(2));
+                                    rect.draggable(false);
                                 }
 
-                            });
 
-
-                            rect.on("pointerout", function () {
-
-                                if (CheckFirstIndex(this.name())) {
-                                    isOverOnStarting = false;
-                                    var LineId = this.id().replace('Rect', 'Line');
-                                    var EditLine = layer.findOne('#' + LineId);
-                                    //EditLine.closed(false);
-                                    //layer.batchDraw();
+                                if (line.name() == "PE Pipeline") {
+                                    $("#PEL").val((Number($("#PEL").val()) + Number(Distance)).toFixed(2));
+                                    rect.draggable(false);
                                 }
-                            });
 
 
-
-                            rect.on('dragmove', (e) => {
-
-                                // update nodes from the new state
-                                //////console.log(e);
-                                updateObjects(e.target.id());
-
-                            });
-
-                            /*rect.moveToTop();*/
-
-                            layer.add(rect);
-
-
-                            //var S = line.points();
-                            var S = line.points().slice();
-                            //if (rect.name()=="Rect2") {
-                            //    S.pop();
-                            //    S.pop();
-                            //}
-                            S.pop();
-                            S.pop();
-
-                            var x = (S[S.length - 4] + S[S.length - 2]) / 2;
-                            var y = (S[S.length - 3] + S[S.length - 1]) / 2;
-                            var dx = S[S.length - 2] - S[S.length - 4];
-                            var dy = S[S.length - 1] - S[S.length - 3];
-                            var Sumsqr = Math.pow(dx, 2);
-                            Sumsqr += Math.pow(dy, 2);
-                            var Distance = Math.sqrt(Sumsqr);
-                            Distance /= 12;
-                            Distance = Distance.toFixed(2);
-                            var angleRad = Math.atan(dy / dx);
-                            var angleDeg = angleRad * 180 / Math.PI;
-                            var Text = new Konva.Text({
-                                text: Distance + " m",
-                                fontSize: 10,
-                                fontFamily: 'Calibri',
-                                fill: '#000',
-                                //width: poly.width(),
-                                rotation: angleDeg,
-                                padding: -20,
-                                y: y,
-                                x: x,
-                                id: "Text" + TextId + "",
-                                listening: false,
-                            });
-
-                            TextId += 1;
-                            layer.add(Text);
-                            ////console.log(e);
-                            if (line.name() == "Irrigation Wiring") {
-                                $("#IWL").val((Number($("#IWL").val()) + Number(Distance)).toFixed(2));
-                                rect.draggable(false);
-                            }
-                            if (line.name() == "Dripline") {
-                                $("#DLL").val((Number($("#DLL").val()) + Number(Distance)).toFixed(2));
-                                rect.draggable(false);
+                                //poly.moveToBottom();
+                                if (CheckFirstIndex(rect.name())) {
+                                    Rect1 = layer.findOne('.' + rect.name());
+                                    //rect.moveToTop();
+                                    Rect1.moveToTop();
+                                }
+                                isInArea = false;
                             }
 
 
-                            if (line.name() == "PE Pipeline") {
-                                $("#PEL").val((Number($("#PEL").val()) + Number(Distance)).toFixed(2));
-                                rect.draggable(false);
-                            }
 
-
-                            //poly.moveToBottom();
-                            if (CheckFirstIndex(rect.name())) {
-                                Rect1 = layer.findOne('.' + rect.name());
-                                //rect.moveToTop();
-                                Rect1.moveToTop();
-                            }
-                            isInArea = false;
                         }
-
-
 
                     }
-
-                }
-
-
-            }
-            else {
-                if (CurrentObjName == "Sprinkler" || CurrentObjName == "RectangularSprinkler") {
-                    //var circle = layer.findOne('#' + id);
-                    //var Position = stage.getPointerPosition();
-                    //circle.x(Position.x);
-                    //circle.y(Position.y);
 
 
                 }
                 else {
+                    if (CurrentObjName == "Sprinkler" || CurrentObjName == "RectangularSprinkler") {
+                        //var circle = layer.findOne('#' + id);
+                        //var Position = stage.getPointerPosition();
+                        //circle.x(Position.x);
+                        //circle.y(Position.y);
 
-                    var LineId = 0;
-                    //if (id[0] == "R") {
-                    //    LineId = FindIndex(id);
-                    //}
-                    //else {
-                    //    LineId = id[4];
-                    //}
-                    var line = layer.findOne('#' + id);
-                    //var line = layer.findOne('#' + CurrentObjId);
-                    //line.points().pop();
-                    //line.points().pop();
-                    var point1 = 0;
-                    var point2 = 0;
-                    if (line.name() != "Irrigation Wiring" && line.name() != "PE Pipeline" && line.name() != "Dripline") {
-                        isDraw = false;
-                        if (isFinished == false) {
-                            UnSelectObj(CurrentObjId);
-                            //console.log(isFinished);
-                            point1=line.points().pop();
-                            point2=line.points().pop();
-                            isFinished = true;
-                            line.closed(true);
-                            //var RectID = StartRect[Number(Number(id.replace("Line", "")) - 1)];
 
-                            var SRect = layer.findOne('#' + id.replace("Line", "SRect"));
-                            if (SRect != null) {
-                                //console.log(StartRect);
-                                //var srecId = StartRect[Number(Number(id.replace("Line", "")) - 1)];
-                                //console.log(RectID);
-                                //var srec = layer.findOne('#' + srecId);
-                                //var srec = layer.findOne('#' + RectID);
-                                SRect.off('mouseover');
-                                SRect.on('mouseover', (e) => {
-                                    stage.container().style.cursor = 'move';
-                                });
-                                SRect.destroy();
-                            }
-                            line.listening(true);
-                            if (line.name() == "Area") {
-                                line.fill("rgba(34, 255, 0, 0.3)");
-                                $("#Area").css("border", "");
-                                $("#Area").css("background-color", "rgb(40, 167, 69,1)");
-                                CurrentObjId = "";
-                            }
-                            else if (line.name() == "DryArea") {
-                                line.fill("rgba(255,230,153,0.3)");
-                                $("#DryArea").css("border", "");
-                                $("#DryArea").css("background-color", "rgb(153, 138, 92,1)");
-                                CurrentObjId = "";
-                            }
-                            else if (line.name() == "Hedge") {
-                                line.fill("rgba(210,191,255,0.3)");
-                                $("#Hedge").css("border", "");
-                                $("#Hedge").css("background-color", "#9b71ff");
-                                CurrentObjId = "";
-                            }
-                            else if (line.name() == "GetWet") {
-                                line.fill("rgba(111, 187, 211, .3)");
-                                $("#GetWet").css("border", "");
-                                $("#GetWet").css("background-color", "rgb(111, 187, 211,0.8)");
-                                CurrentObjId = "";
+                    }
+                    else if (CurrentObjId[0] == "L") {
+
+                        var LineId = 0;
+                        //if (id[0] == "R") {
+                        //    LineId = FindIndex(id);
+                        //}
+                        //else {
+                        //    LineId = id[4];
+                        //}
+                        //console.log(CurrentObjId);
+                        var line = layer.findOne('#' + id);
+                        //var line = layer.findOne('#' + CurrentObjId);
+                        //line.points().pop();
+                        //line.points().pop();
+                        var point1 = 0;
+                        var point2 = 0;
+                        if (line.name() != "Irrigation Wiring" && line.name() != "PE Pipeline" && line.name() != "Dripline") {
+                            isDraw = false;
+                            if (isFinished == false) {
+                                UnSelectObj(CurrentObjId);
+                                //console.log(isFinished);
+                                point1=line.points().pop();
+                                point2=line.points().pop();
+                                isFinished = true;
+                                line.closed(true);
+                                //var RectID = StartRect[Number(Number(id.replace("Line", "")) - 1)];
+
+                                var SRect = layer.findOne('#' + id.replace("Line", "SRect"));
+                                if (SRect != null) {
+                                    //console.log(StartRect);
+                                    //var srecId = StartRect[Number(Number(id.replace("Line", "")) - 1)];
+                                    //console.log(RectID);
+                                    //var srec = layer.findOne('#' + srecId);
+                                    //var srec = layer.findOne('#' + RectID);
+                                    SRect.off('mouseover');
+                                    SRect.on('mouseover', (e) => {
+                                        stage.container().style.cursor = 'move';
+                                    });
+                                    SRect.destroy();
+                                }
+                                line.listening(true);
+                                if (line.name() == "Area") {
+                                    line.fill("rgba(34, 255, 0, 0.3)");
+                                    $("#Area").css("border", "");
+                                    $("#Area").css("background-color", "rgb(40, 167, 69,1)");
+                                    CurrentObjId = "";
+                                    $("#InfoAlert").text('Push "dry area"  on lawn or "hedge" to add to sketch or add "water source"');
+                                }
+                                else if (line.name() == "DryArea") {
+                                    line.fill("rgba(255,230,153,0.3)");
+                                    $("#DryArea").css("border", "");
+                                    $("#DryArea").css("background-color", "rgb(153, 138, 92,1)");
+                                    CurrentObjId = "";
+                                   
+                                }
+                                else if (line.name() == "Hedge") {
+                                    line.fill("rgba(210,191,255,0.3)");
+                                    $("#Hedge").css("border", "");
+                                    $("#Hedge").css("background-color", "#9b71ff");
+                                    CurrentObjId = "";
+                                }
+                                else if (line.name() == "GetWet") {
+                                    line.fill("rgba(111, 187, 211, .3)");
+                                    $("#GetWet").css("border", "");
+                                    $("#GetWet").css("background-color", "rgb(111, 187, 211,0.8)");
+                                    CurrentObjId = "";
+                                }
+
                             }
 
                         }
 
                     }
+                    //var CheckPoint = [709.6000366210938, 232.80003356933594];
+                    //inside(CheckPoint, line.points());
+                    return;
+               }
+            //}
+            //catch (err) {
+            //    //console.log(err);
+            //    var message = $("#message");
+            //    //message.text(err);
+            //    message.text("Error!!! Please Undo current Object.");
+            //    message.fadeIn();
+            //    message.fadeOut(10000);
 
-                }
-
-                //var CheckPoint = [709.6000366210938, 232.80003356933594];
-                //inside(CheckPoint, line.points());
-
-                return;
-            }
-
+            //}
         }
 
     function updateObjects(id) {
@@ -7974,6 +8015,17 @@
         {
             $("#SubCatId").text(obj.value);
             $("#SName").text(obj.options[obj.selectedIndex].text);
+
+            if (obj.value == 70) {
+                $("#InfoAlertForDW").show();
+                $("#AAlertForDW").show();
+                $("#InfoAlertForWW").hide();
+            }
+            else {
+                $("#InfoAlertForDW").hide();
+                $("#AAlertForDW").hide();
+                $("#InfoAlertForWW").show();
+            }
 
         }
     }
