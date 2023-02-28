@@ -1098,8 +1098,17 @@ namespace DrawingTheme.Controllers
             try
             {
                 Data = DB.tblSubCategories.Where(x => x.CategoryID ==5 &&x.IrrigationWiringMaxStation== NumberOfCircle).FirstOrDefault();
-                SubId = Data.SubcategoryID;
-                SubName = Data.SubcategoryName;
+                if(Data==null)
+                {
+                    SubId = 54;
+                    SubName = "Steuerkabel Irricable Rain-Bird 3-adrig";
+                }
+                else
+                {
+                    SubId = Data.SubcategoryID;
+                    SubName = Data.SubcategoryName;
+                }
+                
 
                 return Json(new { SubId = SubId, SubName = SubName });
 
@@ -1152,7 +1161,7 @@ namespace DrawingTheme.Controllers
             try
             {
                 DB.Configuration.ProxyCreationEnabled = false;
-                if((OrderDetail.UniqueId[0]=='S'&& OrderDetail.UniqueId[1] == 'p')|| OrderDetail.UniqueId[0] == 'L')
+                if((OrderDetail.UniqueId[0]=='S'&& OrderDetail.UniqueId[1] == 'p')|| (OrderDetail.UniqueId[0] == 'R' && OrderDetail.UniqueId[1] == 'e') || OrderDetail.UniqueId[0] == 'L')
                 {
                     tblOrderDetail Data = new tblOrderDetail();
                     Data = DB.tblOrderDetails.Where(x => x.UniqueId == OrderDetail.UniqueId && x.OrderId == OrderDetail.OrderId).FirstOrDefault();

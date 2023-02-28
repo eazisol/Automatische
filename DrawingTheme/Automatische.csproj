@@ -170,6 +170,12 @@
     <Compile Include="Models\Sp_GetBOMData_Result.cs">
       <DependentUpon>Model.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\Sp_GetRecSprinkler_Result.cs">
+      <DependentUpon>Model.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Sp_GetRSprinkler_Result.cs">
+      <DependentUpon>Model.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\tblAccessLevel.cs">
       <DependentUpon>Model.tt</DependentUpon>
     </Compile>

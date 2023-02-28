@@ -395,6 +395,8 @@
         <Function Name="Sp_GetBOMData" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="ID" Type="int" Mode="In" />
         </Function>
+        <Function Name="Sp_GetRecSprinkler" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+        <Function Name="Sp_GetRSprinkler" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
         <Function Name="SpOrderNumber" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
         <EntityContainer Name="AutomatischeModelStoreContainer">
           <EntitySet Name="tblAccessLevel" EntityType="Self.tblAccessLevel" Schema="dbo" store:Type="Tables" />
@@ -618,6 +620,8 @@
           <FunctionImport Name="Sp_GetBOMData" ReturnType="Collection(AutomatischeModel.Sp_GetBOMData_Result)">
           <Parameter Name="ID" Mode="In" Type="Int32" />
           </FunctionImport>
+          <FunctionImport Name="Sp_GetRSprinkler" ReturnType="Collection(AutomatischeModel.Sp_GetRSprinkler_Result)" />
+          <FunctionImport Name="Sp_GetRecSprinkler" ReturnType="Collection(AutomatischeModel.Sp_GetRecSprinkler_Result)" />
           </EntityContainer>
         <EntityType Name="tblSetting">
           <Key>
@@ -982,6 +986,78 @@
           <Property Type="Double" Name="Price" Nullable="true" />
           <Property Type="Double" Name="TotalPrice" Nullable="true" />
         </ComplexType>
+        <ComplexType Name="Sp_GetRSprinkler_Result">
+          <Property Type="Int32" Name="SubcategoryID" Nullable="false" />
+          <Property Type="Int32" Name="CategoryID" Nullable="true" />
+          <Property Type="String" Name="SubcategoryName" Nullable="true" MaxLength="500" />
+          <Property Type="String" Name="ComponentPiktogramm" Nullable="true" MaxLength="500" />
+          <Property Type="String" Name="Unit" Nullable="true" MaxLength="50" />
+          <Property Type="Double" Name="Price" Nullable="true" />
+          <Property Type="String" Name="SprinklerType" Nullable="true" MaxLength="50" />
+          <Property Type="Double" Name="MinAngle" Nullable="true" />
+          <Property Type="Double" Name="MaxAngle" Nullable="true" />
+          <Property Type="Double" Name="ThrowDistanceMax" Nullable="true" />
+          <Property Type="Double" Name="ThrowDistanceMin" Nullable="true" />
+          <Property Type="Double" Name="ThrowWidth" Nullable="true" />
+          <Property Type="Double" Name="ThrowHeight" Nullable="true" />
+          <Property Type="Double" Name="mhgeneral" Nullable="true" />
+          <Property Type="Double" Name="PipelineMaxLength" Nullable="true" />
+          <Property Type="Double" Name="IrrigationWiringMaxStation" Nullable="true" />
+          <Property Type="Int32" Name="IrrigationComputermaxstation" Nullable="true" />
+          <Property Type="Boolean" Name="IrrigationComputerindoor" Nullable="true" />
+          <Property Type="Boolean" Name="IrrigationComputeroutdoor" Nullable="true" />
+          <Property Type="Boolean" Name="IrrigationComputersmarphone" Nullable="true" />
+          <Property Type="Int32" Name="valveboxcircle" Nullable="true" />
+          <Property Type="Boolean" Name="valveboxFilter" Nullable="true" />
+          <Property Type="Boolean" Name="drinkingwatersource" Nullable="true" />
+          <Property Type="Boolean" Name="wellwatersource" Nullable="true" />
+          <Property Type="Boolean" Name="rainwatersource" Nullable="true" />
+          <Property Type="Double" Name="mh45" Nullable="true" />
+          <Property Type="Double" Name="mh90" Nullable="true" />
+          <Property Type="Double" Name="mh105" Nullable="true" />
+          <Property Type="Double" Name="mh180" Nullable="true" />
+          <Property Type="Double" Name="mh210" Nullable="true" />
+          <Property Type="Double" Name="mh270" Nullable="true" />
+          <Property Type="Double" Name="mh360" Nullable="true" />
+          <Property Type="Boolean" Name="Plannercomponent" Nullable="true" />
+          <Property Type="Boolean" Name="BOMRelevant" Nullable="true" />
+        </ComplexType>
+        <ComplexType Name="Sp_GetRecSprinkler_Result">
+          <Property Type="Int32" Name="SubcategoryID" Nullable="false" />
+          <Property Type="Int32" Name="CategoryID" Nullable="true" />
+          <Property Type="String" Name="SubcategoryName" Nullable="true" MaxLength="500" />
+          <Property Type="String" Name="ComponentPiktogramm" Nullable="true" MaxLength="500" />
+          <Property Type="String" Name="Unit" Nullable="true" MaxLength="50" />
+          <Property Type="Double" Name="Price" Nullable="true" />
+          <Property Type="String" Name="SprinklerType" Nullable="true" MaxLength="50" />
+          <Property Type="Double" Name="MinAngle" Nullable="true" />
+          <Property Type="Double" Name="MaxAngle" Nullable="true" />
+          <Property Type="Double" Name="ThrowDistanceMax" Nullable="true" />
+          <Property Type="Double" Name="ThrowDistanceMin" Nullable="true" />
+          <Property Type="Double" Name="ThrowWidth" Nullable="true" />
+          <Property Type="Double" Name="ThrowHeight" Nullable="true" />
+          <Property Type="Double" Name="mhgeneral" Nullable="true" />
+          <Property Type="Double" Name="PipelineMaxLength" Nullable="true" />
+          <Property Type="Double" Name="IrrigationWiringMaxStation" Nullable="true" />
+          <Property Type="Int32" Name="IrrigationComputermaxstation" Nullable="true" />
+          <Property Type="Boolean" Name="IrrigationComputerindoor" Nullable="true" />
+          <Property Type="Boolean" Name="IrrigationComputeroutdoor" Nullable="true" />
+          <Property Type="Boolean" Name="IrrigationComputersmarphone" Nullable="true" />
+          <Property Type="Int32" Name="valveboxcircle" Nullable="true" />
+          <Property Type="Boolean" Name="valveboxFilter" Nullable="true" />
+          <Property Type="Boolean" Name="drinkingwatersource" Nullable="true" />
+          <Property Type="Boolean" Name="wellwatersource" Nullable="true" />
+          <Property Type="Boolean" Name="rainwatersource" Nullable="true" />
+          <Property Type="Double" Name="mh45" Nullable="true" />
+          <Property Type="Double" Name="mh90" Nullable="true" />
+          <Property Type="Double" Name="mh105" Nullable="true" />
+          <Property Type="Double" Name="mh180" Nullable="true" />
+          <Property Type="Double" Name="mh210" Nullable="true" />
+          <Property Type="Double" Name="mh270" Nullable="true" />
+          <Property Type="Double" Name="mh360" Nullable="true" />
+          <Property Type="Boolean" Name="Plannercomponent" Nullable="true" />
+          <Property Type="Boolean" Name="BOMRelevant" Nullable="true" />
+        </ComplexType>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -1262,6 +1338,86 @@
                 <ScalarProperty Name="Qty" ColumnName="Qty" />
                 <ScalarProperty Name="Price" ColumnName="Price" />
                 <ScalarProperty Name="TotalPrice" ColumnName="TotalPrice" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="Sp_GetRSprinkler" FunctionName="AutomatischeModel.Store.Sp_GetRSprinkler">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="AutomatischeModel.Sp_GetRSprinkler_Result">
+                <ScalarProperty Name="SubcategoryID" ColumnName="SubcategoryID" />
+                <ScalarProperty Name="CategoryID" ColumnName="CategoryID" />
+                <ScalarProperty Name="SubcategoryName" ColumnName="SubcategoryName" />
+                <ScalarProperty Name="ComponentPiktogramm" ColumnName="ComponentPiktogramm" />
+                <ScalarProperty Name="Unit" ColumnName="Unit" />
+                <ScalarProperty Name="Price" ColumnName="Price" />
+                <ScalarProperty Name="SprinklerType" ColumnName="SprinklerType" />
+                <ScalarProperty Name="MinAngle" ColumnName="MinAngle" />
+                <ScalarProperty Name="MaxAngle" ColumnName="MaxAngle" />
+                <ScalarProperty Name="ThrowDistanceMax" ColumnName="ThrowDistanceMax" />
+                <ScalarProperty Name="ThrowDistanceMin" ColumnName="ThrowDistanceMin" />
+                <ScalarProperty Name="ThrowWidth" ColumnName="ThrowWidth" />
+                <ScalarProperty Name="ThrowHeight" ColumnName="ThrowHeight" />
+                <ScalarProperty Name="mhgeneral" ColumnName="mhgeneral" />
+                <ScalarProperty Name="PipelineMaxLength" ColumnName="PipelineMaxLength" />
+                <ScalarProperty Name="IrrigationWiringMaxStation" ColumnName="IrrigationWiringMaxStation" />
+                <ScalarProperty Name="IrrigationComputermaxstation" ColumnName="IrrigationComputermaxstation" />
+                <ScalarProperty Name="IrrigationComputerindoor" ColumnName="IrrigationComputerindoor" />
+                <ScalarProperty Name="IrrigationComputeroutdoor" ColumnName="IrrigationComputeroutdoor" />
+                <ScalarProperty Name="IrrigationComputersmarphone" ColumnName="IrrigationComputersmarphone" />
+                <ScalarProperty Name="valveboxcircle" ColumnName="valveboxcircle" />
+                <ScalarProperty Name="valveboxFilter" ColumnName="valveboxFilter" />
+                <ScalarProperty Name="drinkingwatersource" ColumnName="drinkingwatersource" />
+                <ScalarProperty Name="wellwatersource" ColumnName="wellwatersource" />
+                <ScalarProperty Name="rainwatersource" ColumnName="rainwatersource" />
+                <ScalarProperty Name="mh45" ColumnName="mh45" />
+                <ScalarProperty Name="mh90" ColumnName="mh90" />
+                <ScalarProperty Name="mh105" ColumnName="mh105" />
+                <ScalarProperty Name="mh180" ColumnName="mh180" />
+                <ScalarProperty Name="mh210" ColumnName="mh210" />
+                <ScalarProperty Name="mh270" ColumnName="mh270" />
+                <ScalarProperty Name="mh360" ColumnName="mh360" />
+                <ScalarProperty Name="Plannercomponent" ColumnName="Plannercomponent" />
+                <ScalarProperty Name="BOMRelevant" ColumnName="BOMRelevant" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="Sp_GetRecSprinkler" FunctionName="AutomatischeModel.Store.Sp_GetRecSprinkler">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="AutomatischeModel.Sp_GetRecSprinkler_Result">
+                <ScalarProperty Name="SubcategoryID" ColumnName="SubcategoryID" />
+                <ScalarProperty Name="CategoryID" ColumnName="CategoryID" />
+                <ScalarProperty Name="SubcategoryName" ColumnName="SubcategoryName" />
+                <ScalarProperty Name="ComponentPiktogramm" ColumnName="ComponentPiktogramm" />
+                <ScalarProperty Name="Unit" ColumnName="Unit" />
+                <ScalarProperty Name="Price" ColumnName="Price" />
+                <ScalarProperty Name="SprinklerType" ColumnName="SprinklerType" />
+                <ScalarProperty Name="MinAngle" ColumnName="MinAngle" />
+                <ScalarProperty Name="MaxAngle" ColumnName="MaxAngle" />
+                <ScalarProperty Name="ThrowDistanceMax" ColumnName="ThrowDistanceMax" />
+                <ScalarProperty Name="ThrowDistanceMin" ColumnName="ThrowDistanceMin" />
+                <ScalarProperty Name="ThrowWidth" ColumnName="ThrowWidth" />
+                <ScalarProperty Name="ThrowHeight" ColumnName="ThrowHeight" />
+                <ScalarProperty Name="mhgeneral" ColumnName="mhgeneral" />
+                <ScalarProperty Name="PipelineMaxLength" ColumnName="PipelineMaxLength" />
+                <ScalarProperty Name="IrrigationWiringMaxStation" ColumnName="IrrigationWiringMaxStation" />
+                <ScalarProperty Name="IrrigationComputermaxstation" ColumnName="IrrigationComputermaxstation" />
+                <ScalarProperty Name="IrrigationComputerindoor" ColumnName="IrrigationComputerindoor" />
+                <ScalarProperty Name="IrrigationComputeroutdoor" ColumnName="IrrigationComputeroutdoor" />
+                <ScalarProperty Name="IrrigationComputersmarphone" ColumnName="IrrigationComputersmarphone" />
+                <ScalarProperty Name="valveboxcircle" ColumnName="valveboxcircle" />
+                <ScalarProperty Name="valveboxFilter" ColumnName="valveboxFilter" />
+                <ScalarProperty Name="drinkingwatersource" ColumnName="drinkingwatersource" />
+                <ScalarProperty Name="wellwatersource" ColumnName="wellwatersource" />
+                <ScalarProperty Name="rainwatersource" ColumnName="rainwatersource" />
+                <ScalarProperty Name="mh45" ColumnName="mh45" />
+                <ScalarProperty Name="mh90" ColumnName="mh90" />
+                <ScalarProperty Name="mh105" ColumnName="mh105" />
+                <ScalarProperty Name="mh180" ColumnName="mh180" />
+                <ScalarProperty Name="mh210" ColumnName="mh210" />
+                <ScalarProperty Name="mh270" ColumnName="mh270" />
+                <ScalarProperty Name="mh360" ColumnName="mh360" />
+                <ScalarProperty Name="Plannercomponent" ColumnName="Plannercomponent" />
+                <ScalarProperty Name="BOMRelevant" ColumnName="BOMRelevant" />
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>

@@ -62,5 +62,15 @@ namespace DrawingTheme.Models
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<Sp_GetBOMData_Result>("Sp_GetBOMData", iDParameter);
         }
+    
+        public virtual ObjectResult<Sp_GetRSprinkler_Result> Sp_GetRSprinkler()
+        {
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<Sp_GetRSprinkler_Result>("Sp_GetRSprinkler");
+        }
+    
+        public virtual ObjectResult<Sp_GetRecSprinkler_Result> Sp_GetRecSprinkler()
+        {
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<Sp_GetRecSprinkler_Result>("Sp_GetRecSprinkler");
+        }
     }
 }

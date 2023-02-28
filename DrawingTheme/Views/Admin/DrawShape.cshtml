@@ -61,7 +61,7 @@
             <button id="Hedge" class="btn  mr-2 text-white" style="background-color: #9b71ff; " onclick="SaveData(6)" data-radius="30" data-width="100" data-height="40" data-angle="180" data-rotation="45">@Resources.Hedge</button>
             @*<button id="GetWet" class="btn  mr-2 text-white" style="background-color: rgba(111, 187, 211, .8); " onclick="SaveData(9)" data-radius="30" data-width="100" data-height="40" data-angle="180" data-rotation="45">@Resources.GetWet </button>*@
             @*<button id="" class="btn  mr-2 text-white" style="background-color: rgba(111, 187, 211, .8); " onclick="SprinklerCount()" >SprinklerCount</button>*@
-
+       
            
             <form style="float:right" role="form" id="payment-form" method="POST" action="@Url.Action("PaymentWithPaypal","PayPal")">
                 <span class="badge badge-warning  mr-2" style="font-size: 100% !important; background-color: #8ec746 !important; ">
@@ -222,6 +222,9 @@
                 <h4>@Resources.Property </h4>
 
             </div>
+            <div class="alert alert-danger" id="message"" role="alert" style="display:none;">
+                @Resources.PEexceedmaxwatersourcenowdrawnewone_
+            </div>
             <div class="alert alert-danger" id="MaxPEMHError" role="alert" style="display:none;">
                 @Resources.PEexceedmaxwatersourcenowdrawnewone_
             </div>
@@ -232,7 +235,7 @@
                     <input class="form-control" type="text" id="SId" hidden name="name" value="" />
                     <label>@Resources.SprinklerType</label>
                     <select class="form-control" id="SprinklerTypeDropID">
-                        @foreach (DrawingTheme.Models.tblSubCategory item in ViewBag.Sprinkler)
+                        @foreach (DrawingTheme.Models.Sp_GetRSprinkler_Result item in ViewBag.Sprinkler)
                         {
                             <option value="@item.SubcategoryName.ToString().Replace(",",".")" data-SubCatId="@item.SubcategoryID.ToString().Replace(",",".")" data-Name="@item.SubcategoryName.ToString().Replace(",",".")" data-radius="@item.ThrowDistanceMax.ToString().Replace(",",".")" data-width="@item.ThrowWidth.ToString().Replace(",",".")" data-height="@item.ThrowHeight.ToString().Replace(",",".")" data-angle="@item.MaxAngle.ToString().Replace(",",".")" data-rotation="@item.MinAngle.ToString().Replace(",",".")" data-IrrigationCircles="@item.valveboxcircle.ToString().Replace(",",".")" data-Filter="@item.valveboxFilter.ToString().Replace(",",".")" data-DrinkingWater="@item.drinkingwatersource.ToString().Replace(",",".")" data-WellWater="@item.wellwatersource.ToString().Replace(",",".")" data-RainWater="@item.rainwatersource.ToString().Replace(",",".")" data-Station="@item.IrrigationComputermaxstation.ToString().Replace(",",".")" data-Indoor="@item.IrrigationComputerindoor.ToString().Replace(",",".")" data-Outdoor="@item.IrrigationComputeroutdoor.ToString().Replace(",",".")" data-SP="@item.IrrigationComputeroutdoor.ToString().Replace(",",".")">@item.SubcategoryName</option>
                         }
@@ -250,7 +253,7 @@
                     <input class="form-control" type="text" id="SSId" hidden name="name" value="" />
                     <label>@Resources.SprinklerType</label>
                     <select class="form-control" id="SSprinklerTypeDropID">
-                        @foreach (DrawingTheme.Models.tblSubCategory item in ViewBag.SSprinkler)
+                        @foreach (DrawingTheme.Models.Sp_GetRecSprinkler_Result item in ViewBag.SSprinkler)
                         {
                             <option value="@item.SubcategoryName.ToString().Replace(",",".")" data-SubCatId="@item.SubcategoryID.ToString().Replace(",",".")" data-Name="@item.SubcategoryName.ToString().Replace(",",".")" data-radius="@item.ThrowDistanceMax.ToString().Replace(",",".")" data-width="@item.ThrowWidth.ToString().Replace(",",".")" data-height="@item.ThrowHeight.ToString().Replace(",",".")" data-angle="@item.MaxAngle.ToString().Replace(",",".")" data-rotation="@item.MinAngle.ToString().Replace(",",".")" data-IrrigationCircles="@item.valveboxcircle.ToString().Replace(",",".")" data-Filter="@item.valveboxFilter.ToString().Replace(",",".")" data-DrinkingWater="@item.drinkingwatersource.ToString().Replace(",",".")" data-WellWater="@item.wellwatersource.ToString().Replace(",",".")" data-RainWater="@item.rainwatersource.ToString().Replace(",",".")" data-Station="@item.IrrigationComputermaxstation.ToString().Replace(",",".")" data-Indoor="@item.IrrigationComputerindoor.ToString().Replace(",",".")" data-Outdoor="@item.IrrigationComputeroutdoor.ToString().Replace(",",".")" data-SP="@item.IrrigationComputeroutdoor.ToString().Replace(",",".")">@item.SubcategoryName</option>
                         }
@@ -389,6 +392,98 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.5.3/jspdf.debug.js" integrity="sha384-NaWTHo/8YCBYJ59830LTz/P4aQZK1sS0SneOgAvhsIl3zBu8r9RevNg5lHCHAuQ/" crossorigin="anonymous"></script>
 <script src="~/assets/js/jquery-3.2.1.min.js"></script>
 <script>
+
+    try {
+
+         var model = @Html.Raw(System.Web.Helpers.Json.Encode(ViewBag.Sprinkler));
+
+        var RSprinklersData = [];
+        model.forEach(function (val) {
+            var RSprinklerData = {
+                BOMRelevant: val.BOMRelevant,
+                CategoryID: val.CategoryID,
+                ComponentPiktogramm: val.ComponentPiktogramm,
+                IrrigationComputerindoor: val.IrrigationComputerindoor,
+                IrrigationComputermaxstation: val.IrrigationComputermaxstation,
+                IrrigationComputeroutdoor: val.IrrigationComputeroutdoor,
+                IrrigationComputersmarphone: val.IrrigationComputersmarphone,
+                IrrigationWiringMaxStation: val.IrrigationWiringMaxStation,
+                MaxAngle: val.MaxAngle,
+                MinAngle: val.MinAngle,
+                PipelineMaxLength: val.PipelineMaxLength,
+                Plannercomponent: val.Plannercomponent,
+                Price: val.Price,
+                SprinklerType: val.SprinklerType,
+                SubcategoryID: val.SubcategoryID,
+                SubcategoryName: val.SubcategoryName,
+                ThrowDistanceMax: val.ThrowDistanceMax,
+                ThrowDistanceMin: val.ThrowDistanceMin,
+                ThrowHeight: val.ThrowHeight,
+                ThrowWidth: val.ThrowWidth,
+                Unit: val.Unit,
+                drinkingwatersource: val.drinkingwatersource,
+                mh45: val.mh45,
+                mh90: val.mh90,
+                mh105: val.mh105,
+                mh180: val.mh180,
+                mh210: val.mh210,
+                mh270: val.mh270,
+                mh360: val.mh360,
+                mhgeneral: val.mhgeneral,
+                rainwatersource: val.rainwatersource,
+                valveboxFilter: val.valveboxFilter,
+                valveboxcircle: val.valveboxcircle,
+                wellwatersource: val.wellwatersource,
+            }
+
+            RSprinklersData.push(RSprinklerData);
+        });
+
+
+    var model1 = @Html.Raw(System.Web.Helpers.Json.Encode(ViewBag.SSprinkler));
+
+        var RecSprinklersData = [];
+        model1.forEach(function (val) {
+            var RecSprinklerData = {
+                BOMRelevant: val.BOMRelevant,
+                CategoryID: val.CategoryID,
+                ComponentPiktogramm: val.ComponentPiktogramm,
+                IrrigationComputerindoor: val.IrrigationComputerindoor,
+                IrrigationComputermaxstation: val.IrrigationComputermaxstation,
+                IrrigationComputeroutdoor: val.IrrigationComputeroutdoor,
+                IrrigationComputersmarphone: val.IrrigationComputersmarphone,
+                IrrigationWiringMaxStation: val.IrrigationWiringMaxStation,
+                MaxAngle: val.MaxAngle,
+                MinAngle: val.MinAngle,
+                PipelineMaxLength: val.PipelineMaxLength,
+                Plannercomponent: val.Plannercomponent,
+                Price: val.Price,
+                SprinklerType: val.SprinklerType,
+                SubcategoryID: val.SubcategoryID,
+                SubcategoryName: val.SubcategoryName,
+                ThrowDistanceMax: val.ThrowDistanceMax,
+                ThrowDistanceMin: val.ThrowDistanceMin,
+                ThrowHeight: val.ThrowHeight,
+                ThrowWidth: val.ThrowWidth,
+                Unit: val.Unit,
+                drinkingwatersource: val.drinkingwatersource,
+                mh45: val.mh45,
+                mh90: val.mh90,
+                mh105: val.mh105,
+                mh180: val.mh180,
+                mh210: val.mh210,
+                mh270: val.mh270,
+                mh360: val.mh360,
+                mhgeneral: val.mhgeneral,
+                rainwatersource: val.rainwatersource,
+                valveboxFilter: val.valveboxFilter,
+                valveboxcircle: val.valveboxcircle,
+                wellwatersource: val.wellwatersource,
+            }
+
+            RecSprinklersData.push(RecSprinklerData);
+        });
+
     function open_file() {
         document.getElementById('file_input').click();
     }
@@ -987,6 +1082,7 @@
                         }
                         else if (r.UniqueId[0] == 'S' && r.UniqueId[1] == 'p') {
                             $("#SId").val(r.Data.UniqueId);
+                            $("#CurrentMHValue").val(r.Data.mh);
                             $("#SRadius").val(r.Data.ThrowDistanceMax);
                             $("#StartAngle").val(r.Data.MinAngle);
                             $("#SAngle").val(r.Data.MaxAngle);
@@ -1020,14 +1116,21 @@
                         else if (r.UniqueId[0] == 'R' && r.UniqueId[1] == 'e') {
 
                             $("#SSId").val(r.UniqueId);
-                            $("#SSWidth").val(r.Data.ThrowWidth);
-                            $("#SSHeight").val(r.Data.ThrowHeight);
+                            $("#CurrentMHValue").val(r.Data.mh);
+                            $
 
                             $(".SSPD").show();
                             $("#BtnEndRectangularsprinkler").show();
                             CurretRSprinkler = r.UniqueId;
 
                             $("#SSprinklerTypeDropID").val(r.Data.SubcategoryName);
+
+                            var filteredRecSprinklers = RecSprinklersData.filter(function (Sprinklers) {
+                                return Sprinklers.SubcategoryName == r.Data.SubcategoryName;
+                            });
+
+                            $("#SSWidth").val(filteredRecSprinklers[0].ThrowWidth);
+                            $("#SSHeight").val(filteredRecSprinklers[0].ThrowHeight);
                         }
                         else if (r.UniqueId[0] == 'S' && r.UniqueId[1] == 'y') {
 
@@ -1182,7 +1285,7 @@
 
     stage.on('mouseover', (e) => {
 
-        
+
         var UniqueId = e.target.id().replace("Arc", "Sprinkler");
 
 
@@ -1604,6 +1707,10 @@
             UnSelectObjOnNew(CurrentObjId);
         }
 
+        if (OldCurrentObjId[0] == "R" && OldCurrentObjId[1] == "e") {
+            OldCurrentObjId="";
+        }
+
         //if (CurrentObjId != null && CurrentObjId != "") {
         //    if (CurrentObjId[0] == "L") {
         //        $("#UndoCanvas").click();
@@ -1976,7 +2083,7 @@
             isStartLine = true;
             isFinished = false;
             isFirstMouseMove = true;
-
+        isOutArea = false;
             CurrentObjName = poly.name();
             CurrentObjId = poly.id();
 
@@ -2166,7 +2273,7 @@
         var SubName = "";
         var SubId = 0;
 
-        var NumberOfCircle = CalNumberOfCircle();
+        var NumberOfCircle = CalNumberOfCircle()+1;
 
          var model = {
              NumberOfCircle,
@@ -4031,6 +4138,9 @@
 
         //$("#Sprinkler").prop('disabled', false);
         //
+        //if (OldCurrentObjId[0] == "S" && OldCurrentObjId[1] == "p") {
+        //    $("#DeleteObj").click();
+        //}
 
         var SubCategoryID = $("#SubCatId").text();
         var SubcategoryName = $("#SName").text();
@@ -4981,7 +5091,7 @@
                                         $("#MaxPEMHError").fadeIn();
                                         $("#MaxPEMHError").fadeOut(10000);
                                         $("#PEMH").text(Number(Number($("#PEMH").text()) - r));
-                                        
+
 
                                         $("#EndPE").click();
 
@@ -5075,7 +5185,7 @@
                                                 EditLine.closed(true);
                                             }
 
-                                           
+
                                             if (EditLine.name() == "Area") {
                                                 EditLine.fill("rgba(34, 255, 0, 0.3)");
 
@@ -5130,7 +5240,7 @@
                                             //console.log(LineId);
                                             var EditLine = layer.findOne('#' + LineId);
                                             //var EditLine = layer.findOne('#' + CurrentObjId);
-                                           
+
                                             if (EditLine.name() != "PE Pipeline" && EditLine.name() != "Irrigation Wiring" && EditLine.name() != "Dripline") {
                                                 EditLine.closed(true);
                                             }
@@ -5375,7 +5485,7 @@
                                     //console.log(LineId);
                                     var EditLine = layer.findOne('#' + LineId);
                                     //var EditLine = layer.findOne('#' + CurrentObjId);
-                                    
+
                                     if (EditLine.name() != "PE Pipeline" && EditLine.name() != "Irrigation Wiring" && EditLine.name() != "Dripline") {
                                         EditLine.closed(true);
                                     }
@@ -5619,7 +5729,7 @@
                                     //console.log(LineId);
                                     var EditLine = layer.findOne('#' + LineId);
                                     //var EditLine = layer.findOne('#' + CurrentObjId);
-                                    
+
                                     if (EditLine.name() != "PE Pipeline" && EditLine.name() != "Irrigation Wiring" && EditLine.name() != "Dripline") {
                                         EditLine.closed(true);
                                     }
@@ -5747,7 +5857,7 @@
 
                 }
                 else {
-                   
+
                     var LineId = 0;
                     //if (id[0] == "R") {
                     //    LineId = FindIndex(id);
@@ -5810,16 +5920,12 @@
                                 $("#GetWet").css("background-color", "rgb(111, 187, 211,0.8)");
                                 CurrentObjId = "";
                             }
-                            
+
                         }
 
                     }
 
-
-
-
                 }
-
 
                 //var CheckPoint = [709.6000366210938, 232.80003356933594];
                 //inside(CheckPoint, line.points());
@@ -6413,7 +6519,88 @@
             if (CoverAngle<0) {
                 CoverAngle = 360 + CoverAngle;
             }
-            var OrderId = $("#OrderId").val();
+
+            var filteredSprinklers = RSprinklersData.filter(function (Sprinklers) {
+                return Sprinklers.ThrowDistanceMax >= PxToM(Distance) && Sprinklers.MaxAngle >= CoverAngle && Sprinklers.MinAngle <= CoverAngle;
+            });
+
+            if (filteredSprinklers[0] != undefined) {
+                $("#SName").text(filteredSprinklers[0].SubcategoryName);
+                $("#SprinklerTypeDropID").val(filteredSprinklers[0].SubcategoryName);
+
+                var MovCirColor = "black";
+                var SubName = $("#SName").text();
+                if (SubName == "MP 800 90-210") {
+                    MovCirColor = "#FF0000";
+                }
+                else if (SubName == "MP 800 360") {
+                    MovCirColor = "#8FD65A";
+                }
+                else if (SubName == "MP 1000 90-210") {
+                    MovCirColor = "#C55A11";
+                }
+                else if (SubName == "MP 1000 210-270") {
+                    MovCirColor = "#00B0F0";
+                }
+                else if (SubName == "MP 1000 360") {
+                    MovCirColor = "#5DA329";
+                }
+                else if (SubName == "MP 2000 90-210") {
+                    MovCirColor = "#000000";
+                }
+                else if (SubName == "MP 2000 210-270") {
+                    MovCirColor = "#51DF5F";
+                }
+                else if (SubName == "MP 2000 360") {
+                    MovCirColor = "#ED7D31";
+                }
+                else if (SubName == "MP 3000 90-210") {
+                    MovCirColor = "#0070C0";
+                }
+                else if (SubName == "MP 3000 210-270") {
+                    MovCirColor = "#FEDA01";
+                }
+                else if (SubName == "MP 3000 360") {
+                    MovCirColor = "#858062";
+                }
+                else if (SubName == "MP 3500 90-210") {
+                    MovCirColor = "#FFC000";
+                }
+                else if (SubName == "MP Corner") {
+                    MovCirColor = "#00B0F0";
+                }
+                MovCir.fill(MovCirColor);
+
+                var SubCatMH = 0.0;
+
+                if (CoverAngle <= 45 && filteredSprinklers[0].mh45 != null) {
+                    SubCatMH = filteredSprinklers[0].mh45;
+                }
+                else if (CoverAngle <= 90 && filteredSprinklers[0].mh90 != null) {
+                    SubCatMH = filteredSprinklers[0].mh90;
+                }
+                else if (CoverAngle <= 105 && filteredSprinklers[0].mh105 != null) {
+                    SubCatMH = filteredSprinklers[0].mh105;
+                }
+                else if (CoverAngle <= 180 && filteredSprinklers[0].mh180 != null) {
+                    SubCatMH = filteredSprinklers[0].mh180;
+                }
+                else if (CoverAngle <= 210 && filteredSprinklers[0].mh210 != null) {
+                    SubCatMH = filteredSprinklers[0].mh210;
+                }
+                else if (CoverAngle <= 270 && filteredSprinklers[0].mh270 != null) {
+                    SubCatMH = filteredSprinklers[0].mh270;
+                }
+                else if (CoverAngle <= 360 && filteredSprinklers[0].mh360 != null) {
+                    SubCatMH = filteredSprinklers[0].mh360;
+                }
+
+                $("#CurrentMHValue").val(SubCatMH);
+            }
+
+
+
+            @*var OrderId = $("#OrderId").val();
             var UniqueId = $("#ObjUniqueId").val();
              var model = {
                  OrderId: OrderId,
@@ -6499,7 +6686,8 @@
 
 
                 }
-            });
+            });*@
+
 
 
 
@@ -6664,7 +6852,7 @@
 
             function MouseMoveHandler() {
                 //  //var id = 0;
-               
+                
                 if (!isDraw) {
                     //poly.closed = true;
                     return false;
@@ -6675,6 +6863,7 @@
                     //    id = this.mouseClickStartShape.attrs.id;
                     //}
                     //console.log(CurrentObjId);
+                    //console.log(isOutArea);
                     var line = layer.findOne('#' + id);
                     if (isOutArea == false || line.name() == "Hedge" || line.name() == "Irrigation Wiring" || line.name() == "PE Pipeline" || line.name() == "Dripline") {
                         var points = line.points();
@@ -6900,7 +7089,7 @@
                     if (Srec != null) {
                         Srec.destroy();
                     }
-                   
+
                     for (var i = Number(FirstId.replace("Rect", "")); i <= Number(LastId.replace("Rect", "")); i++) {
                         var node = layer.findOne('#Rect' + i);
                         node.destroy();
@@ -7603,7 +7792,87 @@
             }
 
 
-             var model = {
+            var filteredSprinklers = RSprinklersData.filter(function (Sprinklers) {
+                return Sprinklers.ThrowDistanceMax >= PxToM(Distance) && Sprinklers.MaxAngle >= CoverAngle && Sprinklers.MinAngle <= CoverAngle;
+            });
+
+            if (filteredSprinklers[0] != undefined) {
+                $("#SName").text(filteredSprinklers[0].SubcategoryName);
+                $("#SprinklerTypeDropID").val(filteredSprinklers[0].SubcategoryName);
+
+                var MovCirColor = "black";
+                var SubName = $("#SName").text();
+                if (SubName == "MP 800 90-210") {
+                    MovCirColor = "#FF0000";
+                }
+                else if (SubName == "MP 800 360") {
+                    MovCirColor = "#8FD65A";
+                }
+                else if (SubName == "MP 1000 90-210") {
+                    MovCirColor = "#C55A11";
+                }
+                else if (SubName == "MP 1000 210-270") {
+                    MovCirColor = "#00B0F0";
+                }
+                else if (SubName == "MP 1000 360") {
+                    MovCirColor = "#5DA329";
+                }
+                else if (SubName == "MP 2000 90-210") {
+                    MovCirColor = "#000000";
+                }
+                else if (SubName == "MP 2000 210-270") {
+                    MovCirColor = "#51DF5F";
+                }
+                else if (SubName == "MP 2000 360") {
+                    MovCirColor = "#ED7D31";
+                }
+                else if (SubName == "MP 3000 90-210") {
+                    MovCirColor = "#0070C0";
+                }
+                else if (SubName == "MP 3000 210-270") {
+                    MovCirColor = "#FEDA01";
+                }
+                else if (SubName == "MP 3000 360") {
+                    MovCirColor = "#858062";
+                }
+                else if (SubName == "MP 3500 90-210") {
+                    MovCirColor = "#FFC000";
+                }
+                else if (SubName == "MP Corner") {
+                    MovCirColor = "#00B0F0";
+                }
+                MovCir.fill(MovCirColor);
+
+                var SubCatMH = 0.0;
+
+                if (CoverAngle <= 45 && filteredSprinklers[0].mh45 != null) {
+                    SubCatMH = filteredSprinklers[0].mh45;
+                }
+                else if (CoverAngle <= 90 && filteredSprinklers[0].mh90 != null) {
+                    SubCatMH = filteredSprinklers[0].mh90;
+                }
+                else if (CoverAngle <= 105 && filteredSprinklers[0].mh105 != null) {
+                    SubCatMH = filteredSprinklers[0].mh105;
+                }
+                else if (CoverAngle <= 180 && filteredSprinklers[0].mh180 != null) {
+                    SubCatMH = filteredSprinklers[0].mh180;
+                }
+                else if (CoverAngle <= 210 && filteredSprinklers[0].mh210 != null) {
+                    SubCatMH = filteredSprinklers[0].mh210;
+                }
+                else if (CoverAngle <= 270 && filteredSprinklers[0].mh270 != null) {
+                    SubCatMH = filteredSprinklers[0].mh270;
+                }
+                else if (CoverAngle <= 360 && filteredSprinklers[0].mh360 != null) {
+                    SubCatMH = filteredSprinklers[0].mh360;
+                }
+
+                $("#CurrentMHValue").val(SubCatMH);
+            }
+
+
+
+             @*var model = {
                  OrderId: OrderId,
                  UniqueId: UniqueId,
                  Distance: Distance,
@@ -7686,7 +7955,7 @@
 
 
                 }
-            });
+            });*@
 
 
         }
@@ -8010,6 +8279,8 @@
 
 
     function UnSelectObjOnNew(ObjID) {
+
+
         if (OldCurrentObjId != null && OldCurrentObjId != "") {
             UnSelectObj(OldCurrentObjId);
         }
@@ -8459,7 +8730,6 @@
     function UnSelectObj(ObjID) {
         if (ObjID != "") {
 
-
             var CLastId = ObjID;
             if (CLastId == "UploadImg") {
                 $("#SName").text("");
@@ -8628,4 +8898,18 @@
         $('#DrawShape').addClass('active');
 
     });
+
+    }
+    catch (err) {
+        console.log(err);
+        var message = $("#message")
+        message.innerHTML = "Input is " + err;
+        message.fadeIn();
+        message.fadeOut(10000);
+
+    }
+
+
+
+
 </script>

@@ -172,8 +172,8 @@ namespace DrawingTheme.Controllers
             {
                 ViewBag.Category = DB.tblCategories.Where(x=>x.IsPlanner==true).OrderBy(o=>o.MenuOrder).ToList();
                 ViewBag.SubCategory = DB.tblSubCategories.Where(x=>x.Plannercomponent==true).ToList();
-                ViewBag.Sprinkler = DB.tblSubCategories.Where(x=>x.Plannercomponent==true &&x.CategoryID==1).ToList();
-                ViewBag.SSprinkler = DB.tblSubCategories.Where(x=>x.Plannercomponent==true &&x.CategoryID==2).ToList();
+                ViewBag.Sprinkler = DB.Sp_GetRSprinkler().ToList();
+                ViewBag.SSprinkler = DB.Sp_GetRecSprinkler().ToList();
                 Data = DB.tblComponents.Select(r => r).Where(x => x.isActive == true).ToList();
                 
 
