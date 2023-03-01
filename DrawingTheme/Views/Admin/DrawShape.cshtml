@@ -915,6 +915,7 @@
                 CurrentObjName = "";
             }
             else if (CurrentObjName[0] == "D") {
+                $("#InfoAlert").text('Connection of drip line to valve box first then Push "Proceed" to go to bill of material and order or "Save plan as PDF"');
                 UnSelectObj(CurrentObjId);
                 var SubCategoryID = $("#SubCatId").text();
                 var SubcategoryName = $("#SName").text();
@@ -2560,6 +2561,7 @@
 
         $("body").on("click", "#DL", function () {
             $("#InfoAlert").text('Push "Proceed" to go to bill of material and order or "Save plan as PDF"');
+            
         if (CurrentObjId != null && CurrentObjId != "") {
             if (CurrentObjId[0] == "L") {
                 $("#UndoCanvas").click();
@@ -2620,7 +2622,7 @@
     });
 
     $("body").on("click", "#EndDL", function () {
-
+        $("#InfoAlert").text('Connection of drip line to valve box first then Push "Proceed" to go to bill of material and order or "Save plan as PDF"');
         UnSelectObj(CurrentObjId);
 
         var SubCategoryID = $("#SubCatId").text();
