@@ -39,6 +39,7 @@ namespace DrawingTheme.Models
         public virtual DbSet<tblCategory> tblCategories { get; set; }
         public virtual DbSet<tblSubCategory> tblSubCategories { get; set; }
         public virtual DbSet<tblOrderDetail> tblOrderDetails { get; set; }
+        public virtual DbSet<tblErrorLog> tblErrorLogs { get; set; }
     
         public virtual ObjectResult<string> SpOrderNumber()
         {

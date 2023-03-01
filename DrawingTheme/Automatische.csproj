@@ -185,6 +185,9 @@
     <Compile Include="Models\tblComponent.cs">
       <DependentUpon>Model.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\tblErrorLog.cs">
+      <DependentUpon>Model.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\tblLog.cs">
       <DependentUpon>Model.tt</DependentUpon>
     </Compile>

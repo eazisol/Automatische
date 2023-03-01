@@ -46,6 +46,17 @@
           <Property Name="EditDate" Type="datetime" />
           <Property Name="isActive" Type="bit" />
         </EntityType>
+        <EntityType Name="tblErrorLog">
+          <Key>
+            <PropertyRef Name="ErrorLogId" />
+          </Key>
+          <Property Name="ErrorLogId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="FunctionName" Type="nvarchar(max)" />
+          <Property Name="Error" Type="nvarchar(max)" />
+          <Property Name="UniqueId" Type="nvarchar(max)" />
+          <Property Name="CreatedDate" Type="datetime" />
+          <Property Name="UserId" Type="int" />
+        </EntityType>
         <EntityType Name="tblLog">
           <Key>
             <PropertyRef Name="LogId" />
@@ -281,6 +292,18 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_tblErrorLog_tblUser">
+          <End Role="tblUser" Type="Self.tblUser" Multiplicity="0..1" />
+          <End Role="tblErrorLog" Type="Self.tblErrorLog" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tblUser">
+              <PropertyRef Name="UserId" />
+            </Principal>
+            <Dependent Role="tblErrorLog">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_tblOrder_tblUser">
           <End Role="tblUser" Type="Self.tblUser" Multiplicity="0..1" />
           <End Role="tblOrder" Type="Self.tblOrder" Multiplicity="*" />
@@ -402,6 +425,7 @@
           <EntitySet Name="tblAccessLevel" EntityType="Self.tblAccessLevel" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tblCategory" EntityType="Self.tblCategory" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tblComponent" EntityType="Self.tblComponent" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tblErrorLog" EntityType="Self.tblErrorLog" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tblLog" EntityType="Self.tblLog" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tblMenu" EntityType="Self.tblMenu" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tblOrder" EntityType="Self.tblOrder" Schema="dbo" store:Type="Tables" />
@@ -426,6 +450,10 @@
           <AssociationSet Name="FK_tblComponent_tblUser1" Association="Self.FK_tblComponent_tblUser1">
             <End Role="tblUser" EntitySet="tblUser" />
             <End Role="tblComponent" EntitySet="tblComponent" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tblErrorLog_tblUser" Association="Self.FK_tblErrorLog_tblUser">
+            <End Role="tblUser" EntitySet="tblUser" />
+            <End Role="tblErrorLog" EntitySet="tblErrorLog" />
           </AssociationSet>
           <AssociationSet Name="FK_tblOrder_tblUser" Association="Self.FK_tblOrder_tblUser">
             <End Role="tblUser" EntitySet="tblUser" />
@@ -622,6 +650,11 @@
           </FunctionImport>
           <FunctionImport Name="Sp_GetRSprinkler" ReturnType="Collection(AutomatischeModel.Sp_GetRSprinkler_Result)" />
           <FunctionImport Name="Sp_GetRecSprinkler" ReturnType="Collection(AutomatischeModel.Sp_GetRecSprinkler_Result)" />
+          <EntitySet Name="tblErrorLogs" EntityType="AutomatischeModel.tblErrorLog" />
+          <AssociationSet Name="FK_tblErrorLog_tblUser" Association="AutomatischeModel.FK_tblErrorLog_tblUser">
+            <End Role="tblUser" EntitySet="tblUsers" />
+            <End Role="tblErrorLog" EntitySet="tblErrorLogs" />
+          </AssociationSet>
           </EntityContainer>
         <EntityType Name="tblSetting">
           <Key>
@@ -705,6 +738,7 @@
           <NavigationProperty Name="tblRole" Relationship="AutomatischeModel.FK_tblUser_tblRole" FromRole="tblUser" ToRole="tblRole" />
           <NavigationProperty Name="tblSettings" Relationship="AutomatischeModel.FK_tblSetting_tblUser" FromRole="tblUser" ToRole="tblSetting" />
           <NavigationProperty Name="tblTransactions" Relationship="AutomatischeModel.FK_tblTransaction_tblUser" FromRole="tblUser" ToRole="tblTransaction" />
+          <NavigationProperty Name="tblErrorLogs" Relationship="AutomatischeModel.FK_tblErrorLog_tblUser" FromRole="tblUser" ToRole="tblErrorLog" />
         </EntityType>
         <Association Name="FK_tblComponent_tblUser">
           <End Type="AutomatischeModel.tblUser" Role="tblUser" Multiplicity="0..1" />
@@ -1058,6 +1092,30 @@
           <Property Type="Boolean" Name="Plannercomponent" Nullable="true" />
           <Property Type="Boolean" Name="BOMRelevant" Nullable="true" />
         </ComplexType>
+        <EntityType Name="tblErrorLog">
+          <Key>
+            <PropertyRef Name="ErrorLogId" />
+          </Key>
+          <Property Name="ErrorLogId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="FunctionName" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Error" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="UniqueId" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="CreatedDate" Type="DateTime" Precision="3" />
+          <Property Name="UserId" Type="Int32" />
+          <NavigationProperty Name="tblUser" Relationship="AutomatischeModel.FK_tblErrorLog_tblUser" FromRole="tblErrorLog" ToRole="tblUser" />
+        </EntityType>
+        <Association Name="FK_tblErrorLog_tblUser">
+          <End Type="AutomatischeModel.tblUser" Role="tblUser" Multiplicity="0..1" />
+          <End Type="AutomatischeModel.tblErrorLog" Role="tblErrorLog" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tblUser">
+              <PropertyRef Name="UserId" />
+            </Principal>
+            <Dependent Role="tblErrorLog">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -1421,6 +1479,18 @@
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
+          <EntitySetMapping Name="tblErrorLogs">
+            <EntityTypeMapping TypeName="AutomatischeModel.tblErrorLog">
+              <MappingFragment StoreEntitySet="tblErrorLog">
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
+                <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+                <ScalarProperty Name="UniqueId" ColumnName="UniqueId" />
+                <ScalarProperty Name="Error" ColumnName="Error" />
+                <ScalarProperty Name="FunctionName" ColumnName="FunctionName" />
+                <ScalarProperty Name="ErrorLogId" ColumnName="ErrorLogId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

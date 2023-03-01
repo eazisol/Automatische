@@ -993,6 +993,34 @@ namespace DrawingTheme.Controllers
         }
 
         [HttpPost]
+        public JsonResult SetErrorLog(tblErrorLog ErrorLog)
+        {
+            HttpCookie cookieObj = Request.Cookies["User"];
+            int UserId = Int32.Parse(cookieObj["UserId"]);
+            tblErrorLog Data = new tblErrorLog();
+
+            try
+            {
+                Data = ErrorLog;
+                Data.CreatedDate = DateTime.Now;
+                Data.UserId = UserId;
+
+                DB.tblErrorLogs.Add(Data);
+                DB.SaveChanges();
+
+                return Json(1);
+            }
+            catch (Exception ex)
+            {
+
+                ViewBag.Error = ex.Message;
+                Console.WriteLine("Error" + ex.Message);
+            }
+
+            return Json(0);
+        }
+
+        [HttpPost]
         public JsonResult DeleteOrderDetails(tblOrderDetail OrderDetail)
         {
             HttpCookie cookieObj = Request.Cookies["User"];
