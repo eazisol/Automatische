@@ -690,6 +690,7 @@
             illLinearGradientStartPoint: { x: 0, y: 0 },
             fillLinearGradientEndPoint: { x: stage.width(), y: stage.height() },
             fillPatternImage: img,
+            id:"BGIMG"
         });
 
 
@@ -738,15 +739,23 @@
 
 
 
-    //stage.on("wheel", function (e) {
-    //    e.evt.preventDefault();
+    stage.on("wheel", function (e) {
+        e.evt.preventDefault();
 
-    //    var pointer = stage.getPointerPosition();
+        var pointer = stage.getRelativePointerPosition();
 
-    //    zoomInc = e.evt.deltaY > 0 ? -zoomStep : zoomStep;
-    //    Oldscale2 = scale2;
-    //    scale2 = zoomStage2(stage, pointer, scale2, zoomInc);
-    //});
+        zoomInc = e.evt.deltaY > 0 ? -zoomStep : zoomStep;
+        Oldscale2 = scale2;
+        scale2 = zoomStage2(stage, pointer, scale2, zoomInc);
+        var node = layer.findOne('#BGIMG');
+        console.log(node);
+        if (node != null) {
+            //scale2 = zoomStage2(node, pointer, scale2, zoomInc);
+        }
+    });
+
+   
+
 
     $("#reset").on("click", function () {
         scale2 = 1;
@@ -755,29 +764,45 @@
     });
 
 
-    function zoomStage2(stage, zoomPoint, zoomBefore, inc) {
-        let oldScale = stage.scaleX();
-        var mousePointTo = {
-            x: (zoomPoint.x - stage.x()) / oldScale,
-            y: (zoomPoint.y - stage.y()) / oldScale
-        };
-        let zoomAfter = zoomBefore + inc;
-        stage.scale({ x: zoomAfter, y: zoomAfter });
-        var newPos = {
-            x: zoomPoint.x - mousePointTo.x * zoomAfter,
-            y: zoomPoint.y - mousePointTo.y * zoomAfter
-        };
-        stage.position(newPos);
-        return zoomAfter;
-    }
+
+
+
+    //function zoomStage2(stage, zoomPoint, zoomBefore, inc) {
+    //    let oldScale = stage.scaleX();
+    //    var mousePointTo = {
+    //        x: (zoomPoint.x - stage.x()) / oldScale,
+    //        y: (zoomPoint.y - stage.y()) / oldScale
+    //    };
+    //    let zoomAfter = zoomBefore + inc;
+    //    stage.scale({ x: zoomAfter, y: zoomAfter });
+    //    var newPos = {
+    //        x: zoomPoint.x - mousePointTo.x * zoomAfter,
+    //        y: zoomPoint.y - mousePointTo.y * zoomAfter
+    //    };
+    //    stage.position(newPos);
+
+    //    var node = layer.findOne('#BGIMG');
+    //    console.log(node);
+    //    if (node!=null) {
+    //        node.scale({ x: zoomAfter, y: zoomAfter });
+    //        node.position(newPos);
+    //    }
+
+    //    return zoomAfter;
+    //}
 
 
     function getAdjustedPointerPosition(stage, pointerPosition, oldScale, newScale, oldPosition, newPosition) {
-        const pointerPositionRelativeToStage = stage.getPointerPosition(pointerPosition);
-        const x = (pointerPositionRelativeToStage.x / oldScale) - (oldPosition.x / oldScale);
-        const y = (pointerPositionRelativeToStage.y / oldScale) - (oldPosition.y / oldScale);
+        console.log("pointerPosition: " + pointerPosition + " oldScale: " + oldScale + " newScale: " + newScale + " oldPosition: " + oldPosition + " newPosition: " + newPosition );
+        const pointerPositionRelativeToStage = stage.getRelativePointerPosition(pointerPosition);
+        console.log(newPosition);
+        //const x = (pointerPositionRelativeToStage.x / oldScale) - (oldPosition.x / oldScale);
+        //const y = (pointerPositionRelativeToStage.y / oldScale) - (oldPosition.y / oldScale);
+        const x = pointerPositionRelativeToStage.x;
+        const y = pointerPositionRelativeToStage.y;
         const newX = x * newScale + newPosition.x;
         const newY = y * newScale + newPosition.y;
+       
         return { x: newX, y: newY };
     }
 
@@ -811,6 +836,8 @@
         };
 
         stage.position(newPos);
+
+       
 
         return zoomAfter;
     }
@@ -1146,8 +1173,8 @@
                                             $("#EndDL").hide();
                                         }
                                         else {
-                                            node = layer.findOne('#Text' + i);
-                                            node.show();
+                                            //node = layer.findOne('#Text' + i);
+                                            //node.show();
                                         }
                                     }
                                     $("#SName").text("");
@@ -1320,8 +1347,8 @@
                                         $("#EndDL").hide();
                                     }
                                     else {
-                                        node = layer.findOne('#Text' + i);
-                                        node.show();
+                                        //node = layer.findOne('#Text' + i);
+                                        //node.show();
                                     }
                                 }
                                 isOutArea = false;
@@ -1563,6 +1590,7 @@
                     strokeWidth: 1,
                     id: circle.id().replace("Sprinkler", "Circle"),
                     draggable: true,
+
                 });
 
 
@@ -2576,6 +2604,7 @@
     $("body").on("click", "#PE", function () {
         console.log("PE");
         try {
+            console.log(PEColorCounter);
             if (PEColorCounter == 0) {
                 $("#InfoAlert").text('Sketch connection of water source to valve box first and then push again PE Pipeline');
 
@@ -5336,7 +5365,7 @@
                     if (CurrentObjName == "Sprinkler") {
                         var circle = layer.findOne('#' + id);
 
-                        var Position = stage.getPointerPosition();
+                        var Position = stage.getRelativePointerPosition();
                         circle.x(Position.x);
                         circle.y(Position.y);
 
@@ -5472,7 +5501,7 @@
                     {
                         //var circle = layer.findOne('#' + id);
 
-                        //var Position = stage.getPointerPosition();
+                        //var Position = stage.getRelativePointerPosition();
                         //circle.x(Position.x);
                         //circle.y(Position.y);
 
@@ -5581,12 +5610,19 @@
                         var line = layer.findOne('#' + id);
                         //console.log(line);
                         ////console.log(isInArea);
-                        if (isInArea == true || (line.name() != "DryArea" && line.name() != "GetWet")) {
-
-                            if (line.name() == "PE Pipeline" && e.target.id().indexOf("MoveCircle") != -1) {
-
-
-                                var UniqueId = e.target.id().replace("MoveCircle", "Sprinkler");
+                        //if (isInArea == true || (line.name() != "DryArea" && line.name() != "GetWet")) {
+                        if (isInArea == true || (line.name() != "GetWet")) {
+                            if (line.name() == "PE Pipeline" && (e.target.id().indexOf("MoveCircle") != -1 || e.target.parent.id().indexOf("TRS") != -1)) {
+                                //console.log(e.target.parent.id().indexOf("TRS"));
+                                var UniqueId = "";
+                                if (e.target.parent.id().indexOf("TRS") != -1) {
+                                    UniqueId = e.target.parent.id().replace("TRS", "RectangularSprinkler");
+                                    
+                                }
+                                else {
+                                    UniqueId = e.target.id().replace("MoveCircle", "Sprinkler");
+                                }
+                                
                                 var OrderId = $("#OrderId").val();
 
                                 var model = {
@@ -5630,9 +5666,9 @@
                                             //points.pop();
                                         }
                                         isDraw = true;
-                                        var Position = stage.getPointerPosition();
-                                        //console.log(stage.getPointerPosition());
-                                        //var Position = getAdjustedPointerPosition(stage, stage.getPointerPosition(), Oldscale2, scale2, OldPosition, stage.position());
+                                        var Position = stage.getRelativePointerPosition();
+                                        //console.log(stage.getRelativePointerPosition());
+                                        //var Position = getAdjustedPointerPosition(stage, stage.getRelativePointerPosition(), Oldscale2, scale2, OldPosition, stage.position());
                                         //console.log(Position);
                                         ////console.log("Before " + + Position.x  + " " + Position.y );
                                         ////console.log("After " + Position.x / stage.scaleX()+" "+ Position.y / stage.scaleY() );
@@ -5748,7 +5784,7 @@
                                             var line = layer.findOne('#Line' + LineId);
                                             //var line = layer.findOne('#' + CurrentObjId);
                                             var points = line.points();
-                                            var pointerPos = stage.getPointerPosition();
+                                            var pointerPos = stage.getRelativePointerPosition();
                                             if (isFinished == true || points.length < 6) {
                                                 return;
                                             }
@@ -5876,9 +5912,9 @@
                                     //points.pop();
                                 }
                                 isDraw = true;
-                                var Position = stage.getPointerPosition();
-                                //console.log(stage.getPointerPosition());
-                                //var Position = getAdjustedPointerPosition(stage, stage.getPointerPosition(), Oldscale2, scale2, OldPosition, stage.position());
+                                var Position = stage.getRelativePointerPosition();
+                                //console.log(stage.getRelativePointerPosition());
+                                //var Position = getAdjustedPointerPosition(stage, stage.getRelativePointerPosition(), Oldscale2, scale2, OldPosition, stage.position());
                                 //console.log(Position);
                                 ////console.log("Before " + + Position.x  + " " + Position.y );
                                 ////console.log("After " + Position.x / stage.scaleX()+" "+ Position.y / stage.scaleY() );
@@ -5993,7 +6029,7 @@
                                     var line = layer.findOne('#Line' + LineId);
                                     //var line = layer.findOne('#' + CurrentObjId);
                                     var points = line.points();
-                                    var pointerPos = stage.getPointerPosition();
+                                    var pointerPos = stage.getRelativePointerPosition();
                                     if (isFinished == true || points.length < 6) {
                                         return;
                                     }
@@ -6120,9 +6156,13 @@
                                     //points.pop();
                                 }
                                 isDraw = true;
-                                var Position = stage.getPointerPosition();
-                                //console.log(stage.getPointerPosition());
-                                //var Position = getAdjustedPointerPosition(stage, stage.getPointerPosition(), Oldscale2, scale2, OldPosition, stage.position());
+                                //var Position = stage.getRelativePointerPosition();
+                                //console.log(e);
+                                //console.log("x: " + e.evt.offsetX + " y: " + e.evt.offsetY);
+                                //console.log(Position);
+                                //console.log(stage.getRelativePointerPosition());
+                                //var Position = getAdjustedPointerPosition(stage, stage.getRelativePointerPosition(), 1, scale2, { x: 0, y: 0 }, stage.position());
+                                var Position = stage.getRelativePointerPosition();
                                 //console.log(Position);
                                 ////console.log("Before " + + Position.x  + " " + Position.y );
                                 ////console.log("After " + Position.x / stage.scaleX()+" "+ Position.y / stage.scaleY() );
@@ -6143,6 +6183,11 @@
                                     stroke: 'red',
                                     strokeWidth: 2,
                                     draggable: true,
+                                    dragBoundFunc: function (pos, evt) {
+                                        var newX = pos.x < 0 ? 0 : pos.x > stage.width() - rect.width() ? stage.width() - rect.width() : pos.x;
+                                        var newY = pos.y < 0 ? 0 : pos.y > stage.height() - rect.height() ? stage.height() - rect.height() : pos.y;
+                                        return { x: newX, y: newY };
+                                    }
                                 });
 
 
@@ -6237,7 +6282,7 @@
                                     var line = layer.findOne('#Line' + LineId);
                                     //var line = layer.findOne('#' + CurrentObjId);
                                     var points = line.points();
-                                    var pointerPos = stage.getPointerPosition();
+                                    var pointerPos = stage.getRelativePointerPosition();
                                     if (isFinished == true || points.length < 6) {
                                         return;
                                     }
@@ -6371,7 +6416,7 @@
                 else {
                     if (CurrentObjName == "Sprinkler" || CurrentObjName == "RectangularSprinkler") {
                         //var circle = layer.findOne('#' + id);
-                        //var Position = stage.getPointerPosition();
+                        //var Position = stage.getRelativePointerPosition();
                         //circle.x(Position.x);
                         //circle.y(Position.y);
 
@@ -6844,7 +6889,7 @@
 
 
     function updateSprinkler(id) {
-        console.log("SprinklerTypeDropID");
+        console.log("updateSprinkler");
         try {
             var LineId = 0;
             var x1 = 0;
@@ -7473,7 +7518,7 @@
                     //console.log(CurrentObjId);
                     //console.log(isOutArea);
                     var line = layer.findOne('#' + id);
-                    if (isOutArea == false || line.name() == "Hedge" || line.name() == "Irrigation Wiring" || line.name() == "PE Pipeline" || line.name() == "Dripline") {
+                    if (isOutArea == false || line.name() == "DryArea"|| line.name() == "Hedge" || line.name() == "Irrigation Wiring" || line.name() == "PE Pipeline" || line.name() == "Dripline") {
                         var points = line.points();
                         if (isFirstMouseMove == false) {
                             points.pop();
@@ -7490,7 +7535,7 @@
                         var CPoints = [];
                         //var line = layer.findOne('#Line');
                         //var points = line.points();
-                        Position = stage.getPointerPosition();
+                        Position = stage.getRelativePointerPosition();
 
 
                         var S = line.points().slice();
@@ -7845,9 +7890,6 @@
                             else if (CheckId.name() == "PE Pipeline" && i == Number(LastId.replace("Rect", ""))) {
                                 $("#btn_PE *").prop('disabled', false);
                                 $("#PEMH").text(0);
-                                PEArray.pop();
-
-                                PEColorCounter = PEColorCounter - 1;
 
                             }
                             else {
@@ -8858,49 +8900,66 @@
 
             window.setTimeout(
                 function () {
-                   var pdf = new jsPDF('l', 'px', [stage.width(), stage.height()+300]);
-            pdf.setTextColor('#000000');
-            // first add texts
-            stage.find('Text').forEach((text) => {
-                const size = text.fontSize() / 0.75; // convert pixels to points
-                pdf.setFontSize(size);
-                pdf.text(text.text(), text.x(), text.y(), {
-                    baseline: 'top',
-                    angle: -text.getAbsoluteRotation(),
-                });
-            });
-            //return;
-            // then put image on top of texts (so texts are not visible)
-            pdf.addImage(
-                stage.toDataURL({ pixelRatio: 2 }),
-                0,
-                0,
-                stage.width() - 280,
-                stage.height() +100
-            );
-
-            var dataURL = stage.toDataURL();
-            var dataURL = dataURL.replace(/^data:image\/(png|jpeg|jpg);base64,/, "");
-
-            // Get the PDF data as a base64-encoded string
-
-            var OrderID = $("#OrderId").val();
-                $.ajax({
-                    type: "POST",
-                    url: "@Url.Action("SavePdf", "Admin")",
-                    data: { pdfFile: dataURL, OrderID: OrderID },
-                    dataType: "json",
-                    success: function (r) {
-
+                    var node = layer.findOne('#BGIMG');
+                    if (node != null) {
+                        node.hide();
                     }
-                });
+                    var dataURL = stage.toDataURL({ pixelRatio: 3 });
+                    //var pdf = new jsPDF('l', 'px', [stage.width(), stage.height()/*+300*/]);
+                    var pdf = new jsPDF('l', 'px', [stage.width()+350, stage.height()+200]);
+
+
+                    //pdf.setTextColor('#000000');
+
+                    // first add texts
+                    //stage.find('Text').forEach((text) => {
+                    //    const size = text.fontSize() / 0.75; // convert pixels to points
+                    //    pdf.setFontSize(size);
+                    //    pdf.text(text.text(), text.x(), text.y(), {
+                    //        baseline: 'top',
+                    //        angle: -text.getAbsoluteRotation(),
+                    //    });
+                    //});
+
+                    //return;
+                    // then put image on top of texts (so texts are not visible)
+
+                    pdf.addImage(dataURL, 'JPEG', 0, 0, stage.width(), stage.height());
+                    //pdf.addImage(
+                    //    stage.toDataURL({ pixelRatio: 2 }),
+                    //    0,
+                    //    0,
+                    //    stage.width() ,
+                    //    stage.height()
+                    //    //stage.width() - 280,
+                    //    //stage.height() +100
+                    //);
+
+                    var dataURL = stage.toDataURL();
+                    var dataURL = dataURL.replace(/^data:image\/(png|jpeg|jpg);base64,/, "");
+
+                    // Get the PDF data as a base64-encoded string
+
+                    var OrderID = $("#OrderId").val();
+                        $.ajax({
+                            type: "POST",
+                            url: "@Url.Action("SavePdf", "Admin")",
+                            data: { pdfFile: dataURL, OrderID: OrderID },
+                            dataType: "json",
+                            success: function (r) {
+
+                            }
+                        });
 
 
 
 
-            ////console.log(pdf.addImage());
-            pdf.save('canvas.pdf');
-            //pdf.save('D:\Test.pdf');
+                    ////console.log(pdf.addImage());
+                    pdf.save('canvas.pdf');
+                    //pdf.save('D:\Test.pdf');
+                    if (node != null) {
+                        node.show();
+                    }
                 },
                 5
             );
@@ -9139,26 +9198,41 @@
             scale2 = 1;
             stage.scale({ x: scale2, y: scale2 });
             stage.position({ x: 0, y: 0 });
-            var pdf = new jsPDF('l', 'px', [stage.width(), stage.height()+300]);
-            pdf.setTextColor('#000000');
+
+            var node = layer.findOne('#BGIMG');
+            if (node != null) {
+                node.hide();
+            }
+            var dataURL = stage.toDataURL({ pixelRatio: 3 });
+
+
+
+            //var pdf = new jsPDF('l', 'px', [stage.width(), stage.height()+300]);
+            var pdf = new jsPDF('l', 'px', [stage.width() + 350, stage.height() + 200]);
+
+
+            //pdf.setTextColor('#000000');
             // first add texts
-            stage.find('Text').forEach((text) => {
-                const size = text.fontSize() / 0.75; // convert pixels to points
-                pdf.setFontSize(size);
-                pdf.text(text.text(), text.x(), text.y(), {
-                    baseline: 'top',
-                    angle: -text.getAbsoluteRotation(),
-                });
-            });
+
+            //stage.find('Text').forEach((text) => {
+            //    const size = text.fontSize() / 0.75; // convert pixels to points
+            //    pdf.setFontSize(size);
+            //    pdf.text(text.text(), text.x(), text.y(), {
+            //        baseline: 'top',
+            //        angle: -text.getAbsoluteRotation(),
+            //    });
+            //});
+
             //return;
             // then put image on top of texts (so texts are not visible)
-            pdf.addImage(
-                stage.toDataURL({ pixelRatio: 2 }),
-                0,
-                0,
-                stage.width() + 300,
-                stage.height() + 300
-            );
+            pdf.addImage(dataURL, 'JPEG', 0, 0, stage.width(), stage.height());
+            //pdf.addImage(
+            //    stage.toDataURL({ pixelRatio: 2 }),
+            //    0,
+            //    0,
+            //    stage.width() + 300,
+            //    stage.height() + 300
+            //);
 
             var dataURL = stage.toDataURL();
             var dataURL = dataURL.replace(/^data:image\/(png|jpeg|jpg);base64,/, "");
@@ -9176,7 +9250,9 @@
                     }
                 });
 
-
+            if (node != null) {
+                node.show();
+            }
             //var OrderID = $("#OrderId").val();
             var Url = '@Url.Action("AddAccesoires", "Admin")?OrderId=' + OrderID + '';
             //alert(Url);
@@ -9353,8 +9429,8 @@
                             //OldCurrentObjId = "";
                         }
                         else {
-                            node = layer.findOne('#Text' + i);
-                            node.hide();
+                            //node = layer.findOne('#Text' + i);
+                            //node.hide();
                         }
                     }
                     $("#SName").text("");
@@ -9708,8 +9784,8 @@
                             $(".PEPD").hide();
                         }
                         else {
-                            node = layer.findOne('#Text' + i);
-                            node.hide();
+                            //node = layer.findOne('#Text' + i);
+                            //node.hide();
                         }
                     }
                     $("#SName").text("");
@@ -9868,10 +9944,8 @@
     }
 
     $(document).ready(function () {
-
         $(".nav1 li").removeClass("active");
         $('#DrawShape').addClass('active');
-
     });
 
     //}
