@@ -213,6 +213,13 @@
                     <img class="mr-2 MouserChangeToPointer" id='stage2ZoomIn' src="~/assets/images/ecommerce/ZoomIN.png" style="width:2%;float:right" title="Zoom In" />
                     <img class="mr-2 MouserChangeToPointer" id="UndoCanvas" src="~/assets/images/ecommerce/undo.png" style="width:2%;float:right" title="Undo" />
                     <img class="mr-2 MouserChangeToPointer" onclick="RemoveAll()" src="~/assets/images/ecommerce/Reset.png" style="width:2%;float:right" title="Reset" />
+                    <div style="margin-left: 80%;">
+                        <div class="mr-2 MouserChangeToPointer fa fa-arrow-up" onclick="MoveUp()" style="margin-left: 8%;" title="Up"><i class=""></i></div><br />
+                        <div class="mr-2 MouserChangeToPointer fa fa-arrow-left" onclick="MoveLeft()" style="width:2%;" title="Left"><i class=""></i></div>
+                        <div class="mr-2 MouserChangeToPointer fa fa-arrow-right" onclick="MoveRight()" style="margin-left: 10%; " title="Right"><i class=""></i></div><br />
+                        <div class="mr-2 MouserChangeToPointer fa fa-arrow-down" onclick="MoveDown()" style="margin-left: 8%;" title="Down"><i class=""></i></div><br />
+                    </div>
+                    
 
                 </div>
             </div>
@@ -685,8 +692,10 @@
         var background = new Konva.Rect({
             x: 0,
             y: 0,
-            width: stage.width(),
-            height: stage.height(),
+            //width: stage.width(),
+            //height: stage.height(),
+            width: 10000,
+            height: 10000,
             illLinearGradientStartPoint: { x: 0, y: 0 },
             fillLinearGradientEndPoint: { x: stage.width(), y: stage.height() },
             fillPatternImage: img,
@@ -728,39 +737,105 @@
         //document.dispatchEvent(event);
         //$('body').css('zoom', '90%');
         OldPosition = stage.position();
-        Oldscale2 = scale2;
+        Oldscale2 = stage.scaleX();
         scale2 = zoomStage2(stage, circle2.position(), scale2, zoomStep);
+
+        var background = layer.findOne('#BGIMG');
+        console.log(background);
+        if (background != null) {
+            var oldWidth = background.width();
+            var oldHeight = background.height();
+            var newWidth = oldWidth * scale2 / Oldscale2;
+            var newHeight = oldHeight * scale2 / Oldscale2;
+            background.width(newWidth);
+            background.height(newHeight);
+            background.position({
+                x: (stage.width() - newWidth) / 2,
+                y: (stage.height() - newHeight) / 2
+            });
+            //scale2 = zoomStage2(node, pointer, scale2, zoomInc);
+        }
     });
     $("#stage2ZoomOut").on("click", function () {
         //$(document).trigger(jQuery.Event('keydown', { keyCode: 109, ctrlKey: true }));
-        Oldscale2 = scale2;
-        scale2 = zoomStage2(stage, circle2.position(), scale2, -zoomStep);
+        console.log(scale2);
+        if (scale2>=0.5) {
+            Oldscale2 = stage.scaleX();
+            scale2 = zoomStage2(stage, circle2.position(), scale2, -zoomStep);
+
+            var background = layer.findOne('#BGIMG');
+            if (background != null) {
+                var oldWidth = background.width();
+                var oldHeight = background.height();
+                var newWidth = oldWidth * scale2 / Oldscale2;
+                var newHeight = oldHeight * scale2 / Oldscale2;
+                background.width(newWidth);
+                background.height(newHeight);
+                background.position({
+                    x: (stage.width() - newWidth) / 2,
+                    y: (stage.height() - newHeight) / 2
+                });
+                //scale2 = zoomStage2(node, pointer, scale2, zoomInc);
+            }
+        }
+        
     });
 
 
 
     stage.on("wheel", function (e) {
-        e.evt.preventDefault();
+        if (scale2 >= 0.5 || e.evt.deltaY < 0) {
 
-        var pointer = stage.getRelativePointerPosition();
+            e.evt.preventDefault();
 
-        zoomInc = e.evt.deltaY > 0 ? -zoomStep : zoomStep;
-        Oldscale2 = scale2;
-        scale2 = zoomStage2(stage, pointer, scale2, zoomInc);
-        var node = layer.findOne('#BGIMG');
-        console.log(node);
-        if (node != null) {
-            //scale2 = zoomStage2(node, pointer, scale2, zoomInc);
+            var pointer = stage.getRelativePointerPosition();
+
+            zoomInc = e.evt.deltaY > 0 ? -zoomStep : zoomStep;
+            //Oldscale2 = scale2;
+            Oldscale2 = stage.scaleX();
+            scale2 = zoomStage2(stage, pointer, scale2, zoomInc);
+            var background = layer.findOne('#BGIMG');
+            if (background != null) {
+                var oldWidth = background.width();
+                var oldHeight = background.height();
+                var newWidth = oldWidth * scale2 / Oldscale2;
+                var newHeight = oldHeight * scale2 / Oldscale2;
+                background.width(newWidth);
+                background.height(newHeight);
+                background.position({
+                    x: (stage.width() - newWidth) / 2,
+                    y: (stage.height() - newHeight) / 2
+                });
+                //scale2 = zoomStage2(node, pointer, scale2, zoomInc);
+            }
         }
+        
     });
 
    
 
 
     $("#reset").on("click", function () {
+        Oldscale2 = stage.scaleX();
         scale2 = 1;
         stage.scale({ x: scale2, y: scale2 });
         stage.position({ x: 0, y: 0 });
+
+        var background = layer.findOne('#BGIMG');
+        console.log(background);
+        if (background != null) {
+            var oldWidth = background.width();
+            var oldHeight = background.height();
+            var newWidth = oldWidth * scale2 / Oldscale2;
+            var newHeight = oldHeight * scale2 / Oldscale2;
+            background.width(newWidth);
+            background.height(newHeight);
+            background.position({
+                x: (stage.width() - newWidth) / 2,
+                y: (stage.height() - newHeight) / 2
+            });
+            //scale2 = zoomStage2(node, pointer, scale2, zoomInc);
+        }
     });
 
 
@@ -7831,6 +7906,94 @@
         }
         catch (err) {
             var message = $("#message");message.text(err);var FunctionName = "RemoveAll function";
+            var Error = message.text();
+            var UniqueId = $("#ObjUniqueId").val();
+
+            SetErrorLog(FunctionName, Error, UniqueId);
+            var message = $("#message");
+            message.text("Error!!! Something went wrong please contact administrator or refresh the page.");
+            message.fadeIn();
+            message.fadeOut(10000);
+
+        }
+    }
+
+
+    function MoveUp() {
+        console.log("MoveUp");
+        try {
+            // Navigate right
+            stage.y(stage.y() + 50);
+            stage.batchDraw();
+        }
+        catch (err) {
+            var message = $("#message"); message.text(err); var FunctionName = "MoveUp function";
+            var Error = message.text();
+            var UniqueId = $("#ObjUniqueId").val();
+
+            SetErrorLog(FunctionName, Error, UniqueId);
+            var message = $("#message");
+            message.text("Error!!! Something went wrong please contact administrator or refresh the page.");
+            message.fadeIn();
+            message.fadeOut(10000);
+
+        }
+    }
+
+
+    function MoveLeft() {
+        console.log("MoveLeft");
+        try {
+            // Navigate right
+            stage.x(stage.x() + 50);
+            stage.batchDraw();
+        }
+        catch (err) {
+            var message = $("#message"); message.text(err); var FunctionName = "MoveLeft function";
+            var Error = message.text();
+            var UniqueId = $("#ObjUniqueId").val();
+
+            SetErrorLog(FunctionName, Error, UniqueId);
+            var message = $("#message");
+            message.text("Error!!! Something went wrong please contact administrator or refresh the page.");
+            message.fadeIn();
+            message.fadeOut(10000);
+
+        }
+    }
+
+
+    function MoveRight() {
+        console.log("MoveRight");
+        try {
+            // Navigate right
+            stage.x(stage.x() - 50);
+            stage.batchDraw();
+        }
+        catch (err) {
+            var message = $("#message"); message.text(err); var FunctionName = "MoveRight function";
+            var Error = message.text();
+            var UniqueId = $("#ObjUniqueId").val();
+
+            SetErrorLog(FunctionName, Error, UniqueId);
+            var message = $("#message");
+            message.text("Error!!! Something went wrong please contact administrator or refresh the page.");
+            message.fadeIn();
+            message.fadeOut(10000);
+
+        }
+    }
+
+
+    function MoveDown() {
+        console.log("MoveDown");
+        try {
+            // Navigate right
+            stage.y(stage.y() - 50);
+            stage.batchDraw();
+        }
+        catch (err) {
+            var message = $("#message"); message.text(err); var FunctionName = "MoveDown function";
             var Error = message.text();
             var UniqueId = $("#ObjUniqueId").val();
 
